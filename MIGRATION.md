@@ -105,7 +105,12 @@ the accepted World genesis roster and exact initial checkpoint bytes, stages
 cloned owner candidates, and durably writes candidate Environment,
 Embodiment, and Lab intervention-evidence checkpoints before World publishes
 the next causal cut through `DurableWorldRuntime`. The evidence checkpoint is
-a step-scoped Lab participant and records `intervention_id`, distinct
+a staged candidate until World publishes the committed cut; an orphaned file
+after a failed preparation is not accepted state or evidence. World invokes
+each registered owner codec on the exact digest-checked bytes and issues its
+own recovery receipt only after successful validation; Lab does not validate
+or certify Embodiment/Environment checkpoints. The evidence checkpoint is a
+step-scoped Lab participant and records `intervention_id`, distinct
 `transition_id`, World/tick, source/body owner identities, applicability/run
 context, and requested/offered/accepted/debited amounts. World requires the
 prepared participant set and owner recoverability receipts before commit.
@@ -116,7 +121,8 @@ the returned candidates after success. A failure while persisting any
 checkpoint leaves the previous committed tick intact and the World manifest
 `RECOVERY_REQUIRED`; callers must not continue ordinary causal execution.
 The local checkpoint store uses immutable content-addressed files and syncs
-file/directory writes, but this slice is not a general crash/power-loss
+file/directory writes, but staged files alone are not a committed cut and this
+slice is not a general crash/power-loss
 recovery implementation, distributed transaction, or multi-writer protocol.
 
 The transfer is deliberately an unspecified scalar. Current Embodiment intake
@@ -182,11 +188,11 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-Git commit references: Embodiment `047bc4fdb2d3348237295032777b3d6e499c7c89`
-(merged PR #11), Environment `c1667f994e18915179d117c8c3caa82e2e440def`
-(identified resource checkpoint PR #16; pending merge), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
-(current `main`), and World `8413e263ffa0a7887901a0bb875e24abd2a5e600`
-(merged World #10). World main provides durable owner-closed cuts and
+Git commit references: Embodiment `5a549c09807508812c47825c51ddb6cbe01a5202`
+(owner checkpoint validation PR #15; pending review), Environment `145e5c293ed599ecfac3c66a0c2dff3bb3832795`
+(owner checkpoint validation PR #17; pending review), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
+(current `main`), and World `186c46812911a69089e610067900a098bfc0d297`
+(owner validation PR #11; pending review). World main provides durable owner-closed cuts and
 step-participant checkpoints; the intervention payload is preserved by its
 Lab evidence reference, not by a generic World record extension. Lab CI
 therefore uses Python 3.12,

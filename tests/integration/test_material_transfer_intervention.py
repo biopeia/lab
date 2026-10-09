@@ -13,7 +13,8 @@ from environment.identified_resource import IdentifiedFiniteResource
 from environment.resource import FiniteResourceState
 from world.durable_runtime import DurableJournalSnapshotStore, DurableWorldRuntime, WorldGenesisSpec
 from world.manifest import CheckpointReference, WorldCausalManifestStore
-from world.runtime import WorldId
+from world.runtime import PresenceId, WorldId
+from world.durable_runtime import PresenceOwnerLink
 
 from lab.interventions import (
     InterventionKind,
@@ -60,8 +61,8 @@ def _owners(tmp_path, *, remaining: float = 3.0, energy: float = 0.5, maximum: f
         encoded=body.to_bytes(),
     )
     contracts = {
-        environment_key: store.environment_contract(resource.resource_id),
-        embodiment_key: store.embodiment_contract(body.body_id),
+        environment_key: IdentifiedFiniteResource,
+        embodiment_key: EmbodimentCheckpoint,
     }
     owner_references = (environment_ref, embodiment_ref)
 
@@ -76,18 +77,22 @@ def _owners(tmp_path, *, remaining: float = 3.0, energy: float = 0.5, maximum: f
             return False
 
     world_id = WorldId("lab-operator-world")
+    presence_id = PresenceId("presence-1")
     manifest_store = WorldCausalManifestStore(tmp_path / "world" / "manifest.json")
     journal_store = DurableJournalSnapshotStore(tmp_path / "world" / "journal", world_id)
     genesis = WorldGenesisSpec(
         world_id=world_id,
-        initial_presence_ids=(body.body_id,),
+        initial_presence_ids=(presence_id.value,),
         registered_owner_ids=tuple(sorted((environment_key, embodiment_key))),
         initial_owner_references=owner_references,
         owner_checkpoint_contracts=contracts,
+        presence_owner_links=(
+            PresenceOwnerLink(presence_id, EMBODIMENT_OWNER, body.body_id),
+        ),
     )
     world = DurableWorldRuntime.initialize(
         genesis,
-        body.body_id,
+        presence_id.value,
         manifest_store,
         journal_store,
         owner_checkpoint_verifier=verify_files,
@@ -263,3 +268,10 @@ def test_owner_checkpoint_failure_leaves_no_committed_next_cut(tmp_path, monkeyp
     assert world.manifest.status.value == "RECOVERY_REQUIRED"
     assert resource.checkpoint_bytes() == initial_resource
     assert body.to_bytes() == initial_body
+    # Owner candidate files may already exist, but only manifest references in
+    # a committed World cut make them part of accepted causal state.
+    assert all(
+        ref.checkpoint_id != "tick-1"
+        for ref in world.manifest.checkpoint_references
+        if ref.owner != "world-journal"
+    )

@@ -15,7 +15,7 @@ import tempfile
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
-from typing import Any, Callable, Mapping
+from typing import Any, Mapping
 
 from embodiment.checkpoint import EmbodimentCheckpoint
 from embodiment.intake import MaterialTransfer, absorb_material_transfer
@@ -23,7 +23,9 @@ from environment.identified_resource import IdentifiedFiniteResource
 from observation.projection import runtime_tick_events
 from world.durable_runtime import DurableWorldRuntime
 from world.journal import CausalRecord
-from world.manifest import CheckpointReference, OwnerRecoveryReceipt, ManifestError
+from world.manifest import CheckpointReference, ManifestError
+from world.runtime import PresenceId
+from world.durable_runtime import PresenceOwnerLink
 
 
 ENVIRONMENT_OWNER = "environment"
@@ -80,48 +82,26 @@ class InterventionRequest:
                 raise ValueError(f"{name} must be non-empty when supplied")
 
 
-class FileOwnerCheckpointContract:
-    """Owner-side verifier for one identity and schema in the local checkpoint store."""
+class LabInterventionEvidenceCodec:
+    """Lab-owned validation of its evidence checkpoint, without World receipts."""
 
-    def __init__(
-        self,
-        *,
-        owner: str,
-        owner_identity: str,
-        schema_version: str,
-        decode: Callable[[bytes], str],
-    ) -> None:
-        self.owner = owner
-        self.owner_identity = owner_identity
-        self.schema_version = schema_version
-        self._decode = decode
-
-    def _receipt(self, reference: CheckpointReference) -> OwnerRecoveryReceipt:
-        if (
-            reference.owner != self.owner
-            or reference.owner_identity != self.owner_identity
-            or reference.schema_version != self.schema_version
-        ):
-            raise ManifestError("checkpoint reference does not match its Lab owner contract")
-        encoded = Path(reference.locator).read_bytes()
-        digest = hashlib.sha256(encoded).hexdigest()
-        if digest != reference.sha256 or self._decode(encoded) != self.owner_identity:
-            raise ManifestError("checkpoint bytes do not match their owner identity or digest")
-        return OwnerRecoveryReceipt(
-            owner=reference.owner,
-            owner_identity=reference.owner_identity,
-            checkpoint_id=reference.checkpoint_id,
-            schema_version=reference.schema_version,
-            locator=reference.locator,
-            sha256=digest,
-            recoverable=True,
+    @classmethod
+    def validate_checkpoint(cls, encoded: bytes, owner_identity: str, schema_version: str) -> bool:
+        if schema_version != EVIDENCE_SCHEMA:
+            return False
+        try:
+            payload: Any = json.loads(encoded)
+        except (TypeError, UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        return (
+            isinstance(payload, dict)
+            and payload.get("schema_version") == 1
+            and payload.get("intervention_id") == owner_identity
         )
 
-    def validate_recoverability(self, reference: CheckpointReference) -> OwnerRecoveryReceipt:
-        return self._receipt(reference)
-
-    def verify_restoration(self, reference: CheckpointReference) -> OwnerRecoveryReceipt:
-        return self._receipt(reference)
+    @classmethod
+    def verify_restoration(cls, encoded: bytes, owner_identity: str, schema_version: str) -> bool:
+        return cls.validate_checkpoint(encoded, owner_identity, schema_version)
 
 
 class MaterialTransferCheckpointStore:
@@ -178,44 +158,9 @@ class MaterialTransferCheckpointStore:
             sha256=digest,
         )
 
-    def environment_contract(self, resource_id: str) -> FileOwnerCheckpointContract:
-        def decode(encoded: bytes) -> str:
-            return IdentifiedFiniteResource.from_checkpoint_bytes(encoded).resource_id
-
-        return FileOwnerCheckpointContract(
-            owner=ENVIRONMENT_OWNER,
-            owner_identity=resource_id,
-            schema_version=ENVIRONMENT_SCHEMA,
-            decode=decode,
-        )
-
-    def embodiment_contract(self, body_id: str) -> FileOwnerCheckpointContract:
-        def decode(encoded: bytes) -> str:
-            return EmbodimentCheckpoint.from_bytes(encoded).body_id
-
-        return FileOwnerCheckpointContract(
-            owner=EMBODIMENT_OWNER,
-            owner_identity=body_id,
-            schema_version=EMBODIMENT_SCHEMA,
-            decode=decode,
-        )
-
-    def evidence_contract(self, intervention_id: str) -> FileOwnerCheckpointContract:
-        def decode(encoded: bytes) -> str:
-            payload: Any = json.loads(encoded)
-            if not isinstance(payload, dict) or payload.get("schema_version") != 1:
-                raise ValueError("invalid intervention evidence checkpoint")
-            value = payload.get("intervention_id")
-            if not isinstance(value, str):
-                raise ValueError("invalid intervention evidence identity")
-            return value
-
-        return FileOwnerCheckpointContract(
-            owner=LAB_EVIDENCE_OWNER,
-            owner_identity=intervention_id,
-            schema_version=EVIDENCE_SCHEMA,
-            decode=decode,
-        )
+    @staticmethod
+    def evidence_contract() -> type[LabInterventionEvidenceCodec]:
+        return LabInterventionEvidenceCodec
 
 
 @dataclass(frozen=True, slots=True)
@@ -362,7 +307,7 @@ def apply_material_transfer(
         staged["evidence_ref"] = refs[2]
         return refs
 
-    evidence_contract = checkpoint_store.evidence_contract(request.intervention_id)
+    evidence_contract = checkpoint_store.evidence_contract()
     record = world.tick(
         transition_id,
         write_owner_checkpoints,
