@@ -345,16 +345,38 @@ history or automatically admit test code, assertions, fixtures or outputs as
 scientific evidence. Lab, as designated scientific custodian, may separately
 identify and admit evidence with its own provenance and admissibility record.
 
-All 364 files under `lab/experiments/` and all 112 files under `lab/research/`
-remain `DEFER`, as does the historical replay example. Lab is designated the
-scientific custodian; that designation assigns responsibility but does not
-itself decide which individual/group artifacts to preserve, their target
-archive/path, access controls, integrity scheme, retention policy, scientific
-admissibility, or linkage to future Biopeia runs. No target location is
-authorized by this designation. These files therefore remain only in the
-untouched source repository; this update does not copy, regenerate, republish,
-relabel, or delete them. Item/group-specific custody decisions remain a
-material blocker to declaring Lab migration complete.
+The machine-readable custody register is
+[`migration/scientific-custody-80d372a.tsv`](migration/scientific-custody-80d372a.tsv).
+It accounts for all 364 tracked files under `lab/experiments/`, all 112 under
+`lab/research/`, and the historical replay example. Each row pins the source
+repository revision, path, Git blob, byte count, and SHA-256 of the bytes at the
+pinned revision. `DEFER` means the artifact remains preserved at source and has
+not received a custody class; it does not mean discard. No artifact bytes were
+copied, regenerated, republished, or deleted by this update.
+
+This bounded slice classifies only the historical v0.24 audit packet at
+`lab/research/audits/historical/v024/`:
+
+| Source item(s) | Custody classification | Basis and limits |
+| --- | --- | --- |
+| `PROTOCOL.md` | `PROTOCOL` | Dated protocol identifies Symbiont v0.24.0 and frozen engine commit `a352c93d889aa901e53903bae844b894d78adeb6`, specifies seeds/configuration and reproduction steps, and records interpretation limits. It is historical, not a Biopeia TARGET protocol. |
+| `baseline.json`, `causal.json`, `causal_validation.json` | `SCIENTIFIC_EVIDENCE` | Immutable source-pinned data artifacts linked to the adjacent protocol; the JSON content exposes per-seed results or explicit seeds/configuration. This is custody classification only, not scientific validation, reproduction, acceptance of a conclusion, or TARGET applicability. |
+| `ANALYSIS.md` | `HISTORICAL_RECORD` | Preserves the contemporaneous report and caveats; does not independently validate or endorse its conclusions. |
+| `diagnostics.json`, `tests.txt` | `HISTORICAL_RECORD` | Preserves historical diagnostic/test output. These are not standalone scientific results; `tests.txt` is software-test evidence only. |
+
+For the classified data records, no unique structured `run_id` is asserted;
+linkage is to the adjacent historical protocol and the seed/configuration
+information actually present. The protocol/report state the important limits,
+including exploratory scope and known methodological/implementation caveats.
+No scientific claim is made here. Lab is the designated custodian and the
+source files remain the immutable originals; any later storage relocation must
+preserve their identity, provenance, and hashes. The other 470 entries,
+including all `lab/experiments/**`, the other 105 research artifacts and the
+replay example, remain explicitly `DEFER` because this slice did not establish
+their item-specific evidence/protocol provenance sufficiently for a defensible
+classification. Their preservation at source continues; no deletion is
+authorized. Every deferred item must be revisited before Lab migration can be
+declared complete.
 
 ### Remaining closure work
 
