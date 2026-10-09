@@ -54,3 +54,22 @@ runtime caller. The extracted helper contains no runtime dependency and is Lab-o
 as experiment/evidence apparatus; it does not acquire World state ownership or assert
 causal equivalence beyond the supplied event representation. The source package and
 all scientific artifacts remain untouched. No historical results were regenerated.
+
+### Deterministic event-shape hardening
+
+The copied source helper's fallback to `str(event)` was narrowed in Biopeia: the
+target accepts the documented event-field shape and plain strings, and raises
+`TypeError` for other objects rather than hashing a default representation that may
+contain a process-specific address. A regression test uses two otherwise identical
+instances with distinct default representations. This is a target-side rewrite, not
+a source change; the source provenance above remains unchanged.
+
+Source caller review at the recorded source SHA found `ExperimentRunner.run` as the
+only tracked caller. It collects events only for `protocol == "simulate"`. That
+protocol is not present in the pinned `PROTOCOLS` registry, so no concrete runtime
+producer/event class is reachable in the tracked registry to further narrow the
+accepted event contract. The source tests define the expected event shape (`step`,
+`host_index`, `truth_label`, `is_threat`, optional `phase`/`drift_state`, and optional
+observation vector); this is test-fixture evidence, not proof of a production event
+class. CLI progress handling also reads `ev.step`. No source implementation was
+changed.

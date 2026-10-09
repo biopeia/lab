@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+import pytest
+
 from lab.studies.common.digests import compute_world_digest
 
 
@@ -72,7 +74,21 @@ def test_digest_is_stable_for_identical_event_streams():
     assert compute_world_digest(events_a) == compute_world_digest(events_b)
 
 
-def test_digest_falls_back_to_str_for_objects_without_the_expected_shape():
+def test_digest_accepts_deterministic_plain_string_events():
     assert compute_world_digest(["plain-string-event"]) == compute_world_digest(
         ["plain-string-event"]
     )
+
+
+def test_digest_rejects_objects_with_process_specific_default_repr():
+    class UnsupportedEvent:
+        pass
+
+    first = UnsupportedEvent()
+    second = UnsupportedEvent()
+
+    # The default repr embeds each instance's address, so str() is not a
+    # deterministic event encoding even for otherwise identical objects.
+    assert repr(first) != repr(second)
+    with pytest.raises(TypeError, match="unsupported event type"):
+        compute_world_digest([first])
