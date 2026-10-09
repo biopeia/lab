@@ -140,15 +140,20 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-Git commit references: Embodiment `396c71a`, Environment `b22c88f`, Observation
-`8261dda`, and World `f672404` (the opaque World tick-payload candidate). The
-World reference is an open PR commit, not a merged release; Lab CI therefore
-uses Python 3.12, matching World/Environment. This intentionally couples this
-Lab feature to a candidate World contract until a governed release exists; it
-does not imply the PR is merged or that the dependency is independently
-released. The operator id is caller-supplied provenance, not authenticated
-identity or cryptographic authorization. No experiments or scientific assets
-were moved or run.
+Git commit references: Embodiment `396c71a4262befaa88ff225bfb6aa6b85ff0f29b`
+(current `main`), Environment `05087c6debe5e02734128b23d4ce8887a26b91ad`
+(current `main`), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
+(current `main`), and World `821bd07b50e100a5bfe2c7d4ac932b15838d4965`
+(current head of open World PR #10). Lab requires World callback payload
+support; current World `main` does not provide it. Therefore this is a
+compatible candidate pin, not a released dependency, and Lab #4 is not
+release-ready until the World contract is reviewed and integrated. The World
+reference is not a merged release; this PR depends on it and should not merge
+before that contract is integrated. Lab CI therefore uses Python 3.12,
+matching World/Environment. The operator id is caller-supplied provenance, not
+authenticated authorization. Quantity remains a scalar with no established
+physical material-energy equivalence. No experiments or scientific assets were
+moved or run.
 
 ### CI boundary for private domain dependencies
 
