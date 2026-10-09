@@ -22,12 +22,12 @@ SHA and paths above. Source repository remains unchanged.
 
 | Source area | Disposition | Reason |
 | --- | --- | --- |
-| `lab/studies/**` beyond the two common utilities | DEFER | Individual studies have runtime dependencies, experimental conditions and protocols requiring their own transfer review. No study protocol or output is copied here. |
+| `lab/studies/**` beyond the three extracted common utilities | DEFER pending study/protocol-level disposition | Lab is the designated scientific custodian. No blanket transfer or discard follows from that designation; the source modules remain deferred until their study/protocol disposition is recorded. No source implementation is retained for compatibility. |
 | `lab/experiments/**` | DEFER | Runner, registry, manifests and workspace interact with source layout, runtime composition and persistence/provenance. |
 | `lab/physics3d/**`, `lab/integration/**`, `lab/world/**` | DEFER | Mixed physical substrate, semantic authorities and runtime orchestration; not safe for bulk transfer. |
 | `lab/observation/**`, `lab/observatory/**`, `lab/server/**`, `lab/app/**` | DEFER | Observation, transport, evidence custody and UI boundaries require separate extraction. |
 | CLI and reproduction code | DEFER | Entrypoints and reproduction callers are mixed with CURRENT runtime authorities/interventions. |
-| Scientific assets, manifests and run/checkpoint payloads | DROP from this repo scope | No scientific artifacts are copied or relocated. This does not determine their preservation disposition. |
+| Scientific assets, manifests and run/checkpoint payloads | Excluded from runtime-package transfer; custody disposition remains DEFER | Lab is the designated scientific custodian. This scope exclusion does not mean disposal: source artifacts remain untouched until a group/item-specific preservation and target-location decision is recorded. |
 
 ## Known rewrites
 
@@ -266,7 +266,7 @@ at the same pin; target paths are present consumers, not proposed destinations.
 | Source path(s), symbols / module responsibility | Source tests or consumers observed | Candidate disposition | Evidence, reason, caveat |
 | --- | --- | --- | --- |
 | `lab/src/lab/studies/common/{statistics,pairing,digests}.py`; `conditions.py`, `rng.py`, `summaries.py`, `causal_selection.py`, `actuator_probing_calendar.py` | `lab/tests/unit/lab/test_common_stats.py`, `test_pairing.py`, `test_digests.py`; `ExperimentRunner` is the tracked digest caller. Biopeia directly consumes only the three already-extracted utilities. | Existing three: `MOVE` (bounded extraction, see prior records). Remaining common modules: `DEFER` | Statistical helpers and deterministic pairing/digests are independently useful apparatus, but each remaining utility needs caller, API and provenance review. Do not infer target demand from a source test or study. |
-| `lab/src/lab/studies/**` (132 source files across ablations, continuity, embodiment, genetics, learning, observability, perception, physics3d, world and root-level studies); symbols include `run_*_study`, study/result dataclasses, condition and metric helpers | `lab/tests/integration/studies/**` (50), protocol/runner tests, and `lab/experiments/**` manifests/README files; source `lab/experiments/registry.py::get_protocol` dispatches selected runners. No target study imports. | `DEFER` per study, then `SPLIT` or `REWRITE` where a portable measurement/protocol utility is justified | Studies are scientific apparatus, not automatically reusable product modules. Each requires design, conditions, estimand, outcome, source/runtime dependencies, evidence custody and any human approval to be separately reviewed. Preserve historical protocols/results as evidence; do not port them as runtime compatibility. |
+| `lab/src/lab/studies/**` (132 source files across ablations, continuity, embodiment, genetics, learning, observability, perception, physics3d, world and root-level studies); symbols include `run_*_study`, study/result dataclasses, condition and metric helpers | `lab/tests/integration/studies/**` (50), protocol/runner tests, and `lab/experiments/**` manifests/README files; source `lab/experiments/registry.py::get_protocol` dispatches selected runners. No target study imports. | `DEFER` pending study/protocol-level disposition; `SPLIT` or `REWRITE` only when separately justified | Lab is designated scientific custodian. The source-module count is not a count of independently resolved studies. Keep these rows deferred until their study/protocol dispositions are recorded; any successor must be newly justified Biopeia code, never a source-compatibility layer. |
 | `lab/src/lab/experiments/{execution_workspace,generations,loader,manifest,registry,resource_guard,runner,snapshot_archive,spec,verified_child}.py`; symbols include `ExperimentRunner`, `ExperimentSpec`, `RunManifest`, `GenerationStore`, `pinned_worktree`, `run_verified`, `get_protocol` | Source `lab/experiments/**`, `lab/tests/experiments/{protocols,runners}/**`, CLI study/experiment entry points; no Biopeia target caller. | `SPLIT` / `REWRITE` candidate; `DEFER` pending Lab experiment/run contract | Study orchestration, run identity, manifests, resource controls, provenance and controlled execution belong in Lab, but source registry/runtime is monorepo- and protocol-coupled. Do not carry implicit source defaults, process-global registry or runner semantics forward. |
 | `lab/src/lab/observation/{semantic,contracts,projection,plane,bus,wire,delta,provenance_journal,world_scene,environment_resource,body_pose,body_physiology,joint_kinematics,physics3d,atlas,development_history,symbiont_affordance,subsystem_status,cadence,observatory}.py` | Source observation unit/smoke/integration suites; referenced by `observatory`, `physics3d`, `workbench`, `server` and source runtime adapters. Current Biopeia Observation repository owns its own semantic-model work; Lab has no implementation consumer. | `SPLIT` / `REWRITE` candidate; transport/UI-specific pieces `DROP` or `DEFER` after consumer audit | Ratified architecture keeps Observation a passive projection, distinct from scientific evidence custody. Its approved conceptual model does not authorize copying this source schema/API/transport. Lab may admit claims into evidence but must not become primary authority for Embodiment, Environment, Organism or World claims. |
 | `lab/src/lab/observatory/{adapter,config,history_summary,journal,manifest,provenance,publisher,registry,schema_validate,server}.py`, schemas, `world.html`, and nested tests | 48 source package files including schemas/tests; source `lab/tests/smoke/test_observatory_source_adapter.py`, server/runtime projection tests, source Workbench/app. No target consumers. | `SPLIT` candidate for Lab evidence/provenance custody; `DROP` candidate for domain-state adapters/schemas/UI that duplicate domain or Observation contracts; otherwise `DEFER` | Distinguish experiment evidence records from passive Observation claims, source state and delivery. Existing JSON shapes (`instance`, `snapshot`, `topology`) are not approved Biopeia records. Determine custody, retention, replay and integrity requirements before implementing any successor. |
@@ -300,8 +300,9 @@ custody decisions, or approval of scientific protocol successors.
 
 ## Pinned source file-level accounting
 
-**Status: complete path/blob accounting snapshot; semantic disposition and
-scientific custody remain open.** This is not migration completion, cut-over,
+**Status: complete path/blob accounting snapshot; Lab is designated scientific
+custodian, while item-level evidence disposition and most semantic dispositions
+remain open.** This is not migration completion, cut-over,
 authorization to transfer assets, or a claim that each historical behavior has
 been independently reviewed. It replaces grouped-path accounting as the index
 for all files in `lab/` at the pinned source commit.
@@ -322,8 +323,8 @@ manifest disposition counts are:
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
 | `SPLIT` | 149 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 322 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 693 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 398 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 617 | Open disposition, not final. Must be revisited before migration completion. |
 
 The file-level classifications are intentionally conservative. A `SPLIT` row
 does not assert that a particular source symbol is worth preserving. A `DROP`
@@ -333,24 +334,27 @@ debt and cannot be counted as completed inventory.
 
 ### Lab tests and scientific assets
 
-All 297 pinned source test files have a row. The current target test coverage is
-selective: three focused utility test files are already present as `MOVE`, one
-mixed physics contract test file is `SPLIT` because only selected interoception
-assertions were rewritten, 76 science/protocol/integrity-oriented test files
-remain `DEFER`, and 217 source-coupled tests/fixtures are `DROP` from the target
-test plan. These are migration dispositions only: source tests remain in the
-historical repository, and `DROP` does not erase historical results or evidence.
+All 297 pinned source test-tree files have a row. The current target test
+coverage is selective: three focused utility test files are `MOVE`, one mixed
+physics contract test file is `SPLIT` because only selected interoception
+assertions were rewritten, and 293 files are `DROP` from the Biopeia TARGET
+test/code plan (217 previously classified source-coupled files plus 76
+science/protocol/integrity-oriented source test files). The 76 are not carried
+forward as compatibility tests. This code disposition does not delete source
+history or automatically admit test code, assertions, fixtures or outputs as
+scientific evidence. Lab, as designated scientific custodian, may separately
+identify and admit evidence with its own provenance and admissibility record.
 
 All 364 files under `lab/experiments/` and all 112 files under `lab/research/`
-remain `DEFER`. This includes executable protocol/run definitions, study
-descriptions, manifests, result records, receipts, snapshots, seeds, audit
-reports, and compressed traces. No custodial owner has approved which artifacts
-must be retained, their target archive/path, access controls, integrity scheme,
-retention policy, scientific admissibility, or linkage to future Biopeia runs.
-They therefore remain only in the untouched source repository; this change
-does not copy, regenerate, republish, relabel, or delete any of them. The
-historical replay example is also deferred for custody review. This is a
-material unresolved blocker to declaring Lab migration complete.
+remain `DEFER`, as does the historical replay example. Lab is designated the
+scientific custodian; that designation assigns responsibility but does not
+itself decide which individual/group artifacts to preserve, their target
+archive/path, access controls, integrity scheme, retention policy, scientific
+admissibility, or linkage to future Biopeia runs. No target location is
+authorized by this designation. These files therefore remain only in the
+untouched source repository; this update does not copy, regenerate, republish,
+relabel, or delete them. Item/group-specific custody decisions remain a
+material blocker to declaring Lab migration complete.
 
 ### Remaining closure work
 
