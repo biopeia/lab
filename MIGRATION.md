@@ -40,3 +40,36 @@ SHA and paths above. Source repository remains unchanged.
 
 Build/install/test results are recorded in the migration PR and checks. No
 experiments were executed and no scientific assets were moved.
+
+## Additional evidence-handling slice
+
+| Source path | Disposition | Target path | Provenance |
+| --- | --- | --- | --- |
+| `lab/src/lab/studies/common/digests.py` | MOVE (copy-first extraction) | `src/lab/studies/common/digests.py` | Source repository `alessbarb/symbiont-lab`, source SHA `80d372a186513035f85a769db886e505cabba52d`; source-path commit `13720935595fedabec2c376dc933629b0deae5aa`; blob `64ba8a0d417ef64c0d7429c0ad6289007f673290`; byte-identical copy SHA-256 `544b0a8ec525bc5589692dd2692d4af05eff36806463484c96fba6d7a2e5b588`. Also present at audit baseline `cef998a55aae32ed8b2f7373079c11667b01e915`. |
+| `lab/tests/unit/lab/test_digests.py` | MOVE (test path adaptation only) | `tests/test_digests.py` | Same source repository/SHA; source-path commit `282c44eea894faedb57763c3545a1401cf032a86`; source blob `065d75478b633c469b715fa2a4d1c4b9093ec374`. Import remains `lab.studies.common.digests`; assertions and fixtures are unchanged. |
+
+This bounded utility computes deterministic digests for experiment event streams and
+configuration records. The pinned source `ExperimentRunner` is its only tracked
+runtime caller. The extracted helper contains no runtime dependency and is Lab-owned
+as experiment/evidence apparatus; it does not acquire World state ownership or assert
+causal equivalence beyond the supplied event representation. The source package and
+all scientific artifacts remain untouched. No historical results were regenerated.
+
+### Deterministic event-shape hardening
+
+The copied source helper's fallback to `str(event)` was narrowed in Biopeia: the
+target accepts the documented event-field shape and plain strings, and raises
+`TypeError` for other objects rather than hashing a default representation that may
+contain a process-specific address. A regression test uses two otherwise identical
+instances with distinct default representations. This is a target-side rewrite, not
+a source change; the source provenance above remains unchanged.
+
+Source caller review at the recorded source SHA found `ExperimentRunner.run` as the
+only tracked caller. It collects events only for `protocol == "simulate"`. That
+protocol is not present in the pinned `PROTOCOLS` registry, so no concrete runtime
+producer/event class is reachable in the tracked registry to further narrow the
+accepted event contract. The source tests define the expected event shape (`step`,
+`host_index`, `truth_label`, `is_threat`, optional `phase`/`drift_state`, and optional
+observation vector); this is test-fixture evidence, not proof of a production event
+class. CLI progress handling also reads `ev.step`. No source implementation was
+changed.
