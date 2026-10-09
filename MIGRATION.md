@@ -90,3 +90,39 @@ also keeps isolated Lab package CI from requiring private-repository credentials
 the workspace still composes the actual Embodiment package. The runtime adapter
 and the rest of `lab/integration/physics3d/apparatus.py` remain deferred. No
 experiment, study protocol, scientific asset, or result was copied or run.
+
+### Explicit operator material-transfer application entry point
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `symbiont/src/symbiont/core/orchestration/runtime.py::OrganismRuntime.request_resource_intake` | SPLIT + REWRITE | `src/lab/interventions/material_transfer.py::apply_material_transfer` plus Environment/Embodiment owner APIs | Source baseline SHA `80d372a186513035f85a769db886e505cabba52d`, source blob `c436087ec1d1f4bfab6bfa7c4e4d801514c69708`; the source method conflates resource acquisition and metabolism. The target Lab function is a new application-side composition, not a byte migration. Environment owns available quantity; Embodiment owns somatic acceptance; World commits an opaque record; the caller supplies explicit operator authorization. |
+| `lab/integration/**` operator/resource exchange paths | DEFER except this bounded slice | `src/lab/interventions/material_transfer.py` | No legacy adapter, physical contact model, action inference, or autonomous Organism authority was carried over. |
+
+The application entry point clones Environment and Embodiment state through
+their own checkpoint APIs, requires authorization bound to the operator label,
+intervention id, exact source id and exact target body id, caps the request by
+that authorization and the Environment offer, debits only the amount Embodiment accepts, and returns the
+candidate owner states only after `WorldRuntime.tick` returns a committed
+record. Observation projection occurs after that return. A World callback or
+journal failure yields no result/projection and leaves input owner objects
+unchanged; the existing World runtime enters `RECOVERY_REQUIRED`. This is not
+a distributed transaction, durable commit, or recovery protocol: callers must
+not continue ordinary causal execution after that World state. Callers must
+explicitly adopt returned candidate state; this API does not silently mutate
+owners. Tests verify this local contract.
+
+The transfer is deliberately an unspecified scalar. Current Embodiment intake
+maps accepted material amount into its energy-reserve scalar, but no conversion
+unit, physical energy equivalence, contact condition, or efficacy is claimed.
+No Organism intention/readout authorizes this intervention.
+
+Reproducible package coupling is declared in `pyproject.toml` using immutable
+Git commit references: Embodiment `396c71a`, Environment `b22c88f`, Observation
+`8261dda`, and World `f672404` (the opaque World tick-payload candidate). The
+World reference is an open PR commit, not a merged release; Lab CI therefore
+uses Python 3.12, matching World/Environment. This intentionally couples this
+Lab feature to a candidate World contract until a governed release exists; it
+does not imply the PR is merged or that the dependency is independently
+released. The operator id is caller-supplied provenance, not authenticated
+identity or cryptographic authorization. No experiments or scientific assets
+were moved or run.
