@@ -95,13 +95,14 @@ experiment, study protocol, scientific asset, or result was copied or run.
 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
-| `symbiont/src/symbiont/core/orchestration/runtime.py::OrganismRuntime.request_resource_intake` | SPLIT + REWRITE | `src/lab/interventions/material_transfer.py::apply_material_transfer` plus Environment/Embodiment owner APIs | Source baseline SHA `80d372a186513035f85a769db886e505cabba52d`, source blob `c436087ec1d1f4bfab6bfa7c4e4d801514c69708`; the source method conflates resource acquisition and metabolism. The target Lab function is a new application-side composition, not a byte migration. Environment owns available quantity; Embodiment owns somatic acceptance; World commits an opaque record; the caller supplies explicit operator authorization. |
+| `symbiont/src/symbiont/core/orchestration/runtime.py::OrganismRuntime.request_resource_intake` | SPLIT + REWRITE | `src/lab/interventions/material_transfer.py::apply_material_transfer` plus Environment/Embodiment owner APIs | Source baseline SHA `80d372a186513035f85a769db886e505cabba52d`, source blob `c436087ec1d1f4bfab6bfa7c4e4d801514c69708`; the source method conflates resource acquisition and metabolism. The target Lab function is a new application-side composition, not a byte migration. Environment owns available quantity; Embodiment owns somatic acceptance; World commits an opaque record; the caller supplies a requested intervention envelope. |
 | `lab/integration/**` operator/resource exchange paths | DEFER except this bounded slice | `src/lab/interventions/material_transfer.py` | No legacy adapter, physical contact model, action inference, or autonomous Organism authority was carried over. |
 
 The application entry point clones Environment and Embodiment state through
-their own checkpoint APIs, requires authorization bound to the operator label,
-intervention id, exact source id and exact target body id, caps the request by
-that authorization and the Environment offer, debits only the amount Embodiment accepts, and returns the
+their own checkpoint APIs, checks the caller-provided intervention envelope is
+bound to its operator label, intervention id, exact source id and exact target
+body id, caps the request by that envelope and the Environment offer, debits
+only the amount Embodiment accepts, and returns the
 candidate owner states only after `WorldRuntime.tick` returns a committed
 record. Observation projection occurs after that return. A World callback or
 journal failure yields no result/projection and leaves input owner objects
@@ -115,6 +116,34 @@ The transfer is deliberately an unspecified scalar. Current Embodiment intake
 maps accepted material amount into its energy-reserve scalar, but no conversion
 unit, physical energy equivalence, contact condition, or efficacy is claimed.
 No Organism intention/readout authorizes this intervention.
+
+#### Scientific-apparatus and intervention-identity boundary
+
+Lab remains the scientific apparatus/application layer for this operation. It
+composes owner APIs and stages an explicit requested intervention; it does not
+own resource quantity, somatic acceptance, causal commit, identity management,
+or scientific interpretation. The present bounded API carries
+`intervention_id` (also emitted as the observation `run_id`), caller-provided
+`operator_id`, `source_id`, `target_body_id`, and requested/offered/accepted/
+debited scalar values. These support local intervention provenance and a
+World-recorded causal event. They do not constitute an authenticated principal
+reference, experiment identity, approved protocol, or scientific result. No
+separate `experiment_id` or principal-reference contract is currently defined;
+where an experiment/run context exists, its governing application must retain
+that association rather than infer it from `intervention_id`.
+
+`operator_id` and `InterventionAuthorization` are caller-supplied assertions,
+not authentication, authorization enforcement, or proof of operator authority.
+Authentication, permission checks, and principal-reference semantics belong
+to the control plane/application security boundary and are outside this API.
+The `requested_material` field records the requested action; the Environment
+and Embodiment APIs retain authority over offered quantity and accepted amount,
+and World records the causal event. The causal record applies to this one
+committed transfer invocation only; it does not establish experimental
+causality, efficacy, repeatability, or physical interaction. This API is
+bounded to controlled experimental transfer under caller-supplied conditions;
+it makes no claim of physical material equivalence, energy equivalence, or
+general resource-exchange equivalence.
 
 #### Bounded CURRENT-oracle comparison
 
