@@ -217,3 +217,85 @@ and use the sibling local checkouts through `requirements-integration.txt`.
 The pinned Git dependencies remain available as an explicit `integration`
 extra for authorized consumers. Green package CI alone is not evidence that
 the cross-package intervention tests ran.
+
+## Candidate source inventory — Lab runtime, studies, observation, and apparatus
+
+**Status: CANDIDATE INVENTORY ONLY — NOT FINAL DISPOSITIONS.** This section
+records a bounded first pass over the pinned source tree. It does not authorize
+bulk copying, deletion, scientific-result publication, or a backward-compatibility
+layer. The no-legacy rule applies: any future transfer must implement the
+justified Biopeia contract directly, not preserve old imports or behavior.
+
+### Provenance and coverage
+
+- Source repository: `/home/alessbarb/workspace/repos/active/symbiont-lab`
+- Pinned source commit: `80d372a186513035f85a769db886e505cabba52d`
+- Inventory paths below resolve at that commit, never at the moving source
+  `main` tip. For any path, its exact Git blob ID is reproducibly obtained with
+  `git -C <source> ls-tree <sha> -- <path>`; commits are not inferred from
+  directory names. Existing exact blob/commit evidence for already-extracted
+  files is preserved in earlier sections above.
+- Read-only tree counts at the pin: 297 files under `lab/tests`, 364 files
+  under `lab/experiments`, and 390 files under `lab/src/lab` (Python, schemas,
+  web assets and package docs). The source also has examples, run receipts,
+  result JSON, manifests and generated evidence under `lab/experiments/`.
+- Biopeia target consumer scan covered `repos/lab/src` and `repos/lab/tests`.
+  Current tracked target modules are `lab.apparatus.interoception`,
+  `lab.interventions.material_transfer`, and the three extracted common study
+  utilities (`digests`, `pairing`, `statistics`). Target tests cover those APIs
+  (`tests/unit/test_{interoception,digests,pairing,statistics}.py` and
+  `tests/integration/test_material_transfer_intervention.py`). No target
+  implementation or test imports source `lab.observatory`, `lab.observation`,
+  `lab.server`, `lab.app`, `lab.workbench`, `lab.world`, `lab.physics3d`,
+  `lab.integration`, `lab.experiments` or individual `lab.studies` modules.
+  Workspace integration callers are separately inventoried in workspace tests;
+  those consumers do not make the source package a dependency.
+- No source file, test, study, result, receipt, model or web asset was copied or
+  modified for this inventory. Source tests are consumer/evidence leads, not
+  proof that a historical scientific claim remains valid under Biopeia.
+
+### Candidate module dispositions
+
+All rows use `CANDIDATE` to distinguish this inventory from final inventory
+closure. A row's source paths are relative to the source repository and its blob
+provenance is the pinned commit plus exact path (the blob object is
+content-addressed and queryable using the command above). Source test paths are
+at the same pin; target paths are present consumers, not proposed destinations.
+
+| Source path(s), symbols / module responsibility | Source tests or consumers observed | Candidate disposition | Evidence, reason, caveat |
+| --- | --- | --- | --- |
+| `lab/src/lab/studies/common/{statistics,pairing,digests}.py`; `conditions.py`, `rng.py`, `summaries.py`, `causal_selection.py`, `actuator_probing_calendar.py` | `lab/tests/unit/lab/test_common_stats.py`, `test_pairing.py`, `test_digests.py`; `ExperimentRunner` is the tracked digest caller. Biopeia directly consumes only the three already-extracted utilities. | Existing three: `MOVE` (bounded extraction, see prior records). Remaining common modules: `DEFER` | Statistical helpers and deterministic pairing/digests are independently useful apparatus, but each remaining utility needs caller, API and provenance review. Do not infer target demand from a source test or study. |
+| `lab/src/lab/studies/**` (132 source files across ablations, continuity, embodiment, genetics, learning, observability, perception, physics3d, world and root-level studies); symbols include `run_*_study`, study/result dataclasses, condition and metric helpers | `lab/tests/integration/studies/**` (50), protocol/runner tests, and `lab/experiments/**` manifests/README files; source `lab/experiments/registry.py::get_protocol` dispatches selected runners. No target study imports. | `DEFER` per study, then `SPLIT` or `REWRITE` where a portable measurement/protocol utility is justified | Studies are scientific apparatus, not automatically reusable product modules. Each requires design, conditions, estimand, outcome, source/runtime dependencies, evidence custody and any human approval to be separately reviewed. Preserve historical protocols/results as evidence; do not port them as runtime compatibility. |
+| `lab/src/lab/experiments/{execution_workspace,generations,loader,manifest,registry,resource_guard,runner,snapshot_archive,spec,verified_child}.py`; symbols include `ExperimentRunner`, `ExperimentSpec`, `RunManifest`, `GenerationStore`, `pinned_worktree`, `run_verified`, `get_protocol` | Source `lab/experiments/**`, `lab/tests/experiments/{protocols,runners}/**`, CLI study/experiment entry points; no Biopeia target caller. | `SPLIT` / `REWRITE` candidate; `DEFER` pending Lab experiment/run contract | Study orchestration, run identity, manifests, resource controls, provenance and controlled execution belong in Lab, but source registry/runtime is monorepo- and protocol-coupled. Do not carry implicit source defaults, process-global registry or runner semantics forward. |
+| `lab/src/lab/observation/{semantic,contracts,projection,plane,bus,wire,delta,provenance_journal,world_scene,environment_resource,body_pose,body_physiology,joint_kinematics,physics3d,atlas,development_history,symbiont_affordance,subsystem_status,cadence,observatory}.py` | Source observation unit/smoke/integration suites; referenced by `observatory`, `physics3d`, `workbench`, `server` and source runtime adapters. Current Biopeia Observation repository owns its own semantic-model work; Lab has no implementation consumer. | `SPLIT` / `REWRITE` candidate; transport/UI-specific pieces `DROP` or `DEFER` after consumer audit | Ratified architecture keeps Observation a passive projection, distinct from scientific evidence custody. Its approved conceptual model does not authorize copying this source schema/API/transport. Lab may admit claims into evidence but must not become primary authority for Embodiment, Environment, Organism or World claims. |
+| `lab/src/lab/observatory/{adapter,config,history_summary,journal,manifest,provenance,publisher,registry,schema_validate,server}.py`, schemas, `world.html`, and nested tests | 48 source package files including schemas/tests; source `lab/tests/smoke/test_observatory_source_adapter.py`, server/runtime projection tests, source Workbench/app. No target consumers. | `SPLIT` candidate for Lab evidence/provenance custody; `DROP` candidate for domain-state adapters/schemas/UI that duplicate domain or Observation contracts; otherwise `DEFER` | Distinguish experiment evidence records from passive Observation claims, source state and delivery. Existing JSON shapes (`instance`, `snapshot`, `topology`) are not approved Biopeia records. Determine custody, retention, replay and integrity requirements before implementing any successor. |
+| `lab/src/lab/physics3d/{engine,runtime,effects,equivalence*,persistence,settling,observer_semantics,world_observation,private_model_training,telemetry/**}.py`; examples include physics runtime/engine, telemetry readers/writers and effect characterization | `lab/tests/unit/lab/physics3d/**`, integration/equivalence tests, Physics3D runs and CLI; no target Lab runtime consumer. | `SPLIT` / `REWRITE` candidate for scientific apparatus, analysis and retained telemetry evidence; `DROP` candidate for stale adapters/obsolete schemas only after per-path proof; core runtime `DEFER` | Biopeia ratifies solver as numerical substrate, not semantic authority; Environment and Embodiment own adoption and World commits. Do not transfer a source runtime as a solver authority. Preserve raw scientific outputs where governance requires; this candidate code disposition does not dispose of records. |
+| `lab/src/lab/integration/{integrated_habitat.py,organism/**,physics3d/**,world/**}` including `OpaqueBodyInteroception` and source adapters; `lab/src/lab/world/{population,runtime,transaction,persistence,cli_view}.py` | Source integrated-habitat/world/physics tests; current target uses rewritten `lab.apparatus.interoception` and `lab.interventions.material_transfer`; workspace suite has `tests/integration/test_operator_material_transfer.py` and `test_first_biopeia_physical_causal_step.py`. | Already extracted items: `SPLIT + REWRITE` (see earlier records). Remaining adapters/runtime: `DROP` candidate for superseded source composition or `DEFER` when independent Lab apparatus remains useful | World/Environment/Embodiment split is ratified; source World/hex/population assumptions do not transfer by name. New integrations must call current owner APIs and preserve causal commit order; no old namespace bridge. Determine each behavior against Biopeia contracts, not source file location. |
+| `lab/src/lab/app/physics3d/**`, `lab/src/lab/server/{api,server,sse}.py`, `lab/src/lab/cli/**` | Source unified server/app/CLI smoke tests and source users; no target consumer. | `DROP` candidate for old monolith/UI/commands; `REWRITE` candidate only for independently justified operator tooling or Lab application endpoints; otherwise `DEFER` | Do not preserve old HTTP/SSE, command syntax, browser assets or launch flow by compatibility. Any future operator tooling must not turn caller identity into authentication/authorization and must keep Lab out of causal ownership. |
+| `lab/src/lab/workbench/{coordinator.py,web/**}` | Source Workbench/browser tests; source `observatory`/`server` integration; no target consumer. | `DROP` candidate for source-coupled presentation; possible `REWRITE` candidate as a new Lab UI after requirements | Frontend and static assets are implementation-specific, not scientific evidence or semantic contracts. This candidate is not a ruling to delete historical screenshots/assets from protected evidence stores. |
+| `lab/src/lab/evaluation/**`, `evolution/**`, `experience/**`, `reproduction/**`, `modeling/**`, `kernel_characterization/**` | Corresponding source unit/integration tests and study/experiment callers; no target Lab consumer. | `SPLIT` / `REWRITE` or `DEFER`, module by module | Some can be Lab methods, analysis, model/evaluator apparatus; some source modules may encode Organism or lifecycle semantics. Keep longitudinal private state and cognition out of Lab. Establish owner for every persistent state and claim before any broad MOVE. |
+| `lab/experiments/**` (364 source files at pin: experiment definitions, protocols, README, result summaries, frozen reports, manifests, receipts, seeds, selection outputs and snapshots) | Referenced by source registry/studies/CLI; no target path consumes the source tree. | Executable definitions: `DEFER`/`REWRITE`; scientific results, receipts, manifests, snapshots: `DEFER` evidence-custody review; unsupported/stale test artifacts: candidate `DROP` only with evidence-owner approval | Distinguish executable code from scientific evidence. Do not migrate or regenerate recorded results as if source code. Preserve source/provenance and obtain owner decision before any destructive disposition. |
+| `lab/tests/**` (297 source test files) | Grouped under unit, integration/studies, experiments, smoke, workbench, Observatory and physics; exercise source implementation and source-coupled fixtures. | `DROP` as source tests from Biopeia package; selected assertions may be `REWRITE` as contract tests once target behavior exists; scientific evidence suites `DEFER` | Tests are not production API and must not be bulk copied. A rewritten test must state invariant and whether it is contract, validation or scientific experiment; no source experiment run is claimed. |
+| `lab/examples/**`, manifests, saved run/checkpoint payloads and model assets referenced by package | Source CLI/reproduction/Workbench or individual experiments; no target package consumer. | `DEFER` evidence/preservation inventory; then `DROP` from runtime distribution or `MOVE` to governed evidence archive only by explicit authorization | Code inventory does not authorize moving, deleting, exposing or reinterpreting evidence/artifacts. No data/evidence disposition is final in this PR. |
+
+### Target consumer and test evidence (bounded)
+
+The existing Biopeia Lab implementation has no target-side `observatory`,
+`observation`, `server`, `app`, `workbench`, `world`, `physics3d`, `integration`,
+`experiments` or individual study modules. Its consumers are limited to the
+current unit/integration paths listed above. Workspace tests exercise integrated
+Biopeia contracts, not source Lab modules. This is a search result over the
+current target checkout, not proof that no future contract will need an apparatus
+capability. In particular, a no-current-consumer result alone does not establish
+that code or evidence should be deleted.
+
+### Inventory limitations and next review
+
+This is not symbol-by-symbol closure of all 390 source package files or all 297
+tests. Rows group cohesive path families and name representative public/top-level
+symbols; paths and Git blob IDs remain mechanically recoverable from the pinned
+tree. Follow-up slices must expand any selected family to individual paths,
+symbols, blob IDs, source consumers, tests, disposition, rationale and caveats
+before code transfer. All candidate dispositions remain revisable. The complete
+source disposition inventory is not complete, and no migration completion claim
+is made.
