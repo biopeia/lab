@@ -13,10 +13,10 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 integration = [
-    "embodiment @ git+https://github.com/biopeia/embodiment.git@61da7911fd48bcc6fd7afaac050020ced5118b55",
-    "environment @ git+https://github.com/biopeia/environment.git@f2ef8c277a42695efe69adfe05f82176fd9ead39",
-    "observation @ git+https://github.com/biopeia/observation.git@64c3226ab3701f748e276c92a852ca4facd74091",
-    "world @ git+https://github.com/biopeia/world.git@9e808d23e3c063f71a9b5d93b7cd8ba4036c2a28",
+    "embodiment @ git+https://github.com/biopeia/embodiment.git@0562febd8dfffaa826c339600bb548ea172fa256 ; python_version >= '3.12'",
+    "environment @ git+https://github.com/biopeia/environment.git@a979688e90b279ccfe003d77eddb787272fd5ebf ; python_version >= '3.12'",
+    "observation @ git+https://github.com/biopeia/observation.git@cb07ace206058719a9aa9df65e2eb1f837130ee9 ; python_version >= '3.12'",
+    "world @ git+https://github.com/biopeia/world.git@dadf2743ee4ff9f22703d2d6643fca9fd9bfa025 ; python_version >= '3.12'",
 ]
 
 [tool.setuptools.packages.find]

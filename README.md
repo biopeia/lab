@@ -34,5 +34,8 @@ python -m pytest -o testpaths= tests/integration
 ```
 
 Alternatively, an authorized consumer may install `lab[integration]` at the
-immutable dependency revisions declared in `pyproject.toml`. A green package CI
-run validates only the isolated unit suite; it is not integration evidence.
+immutable dependency revisions declared in `pyproject.toml`. This extra is
+available on Python 3.12 or newer because the pinned Environment and World
+packages require that version. The base Lab package and isolated unit suite
+continue to support Python 3.11 or newer. A green package CI run validates only
+the isolated unit suite; it is not integration evidence.
