@@ -90,3 +90,130 @@ also keeps isolated Lab package CI from requiring private-repository credentials
 the workspace still composes the actual Embodiment package. The runtime adapter
 and the rest of `lab/integration/physics3d/apparatus.py` remain deferred. No
 experiment, study protocol, scientific asset, or result was copied or run.
+
+### Explicit operator material-transfer application entry point
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `symbiont/src/symbiont/core/orchestration/runtime.py::OrganismRuntime.request_resource_intake` | SPLIT + REWRITE | `src/lab/interventions/material_transfer.py::apply_material_transfer` plus Environment/Embodiment owner APIs | Source baseline SHA `80d372a186513035f85a769db886e505cabba52d`, source blob `c436087ec1d1f4bfab6bfa7c4e4d801514c69708`; the source method conflates resource acquisition and metabolism. The target Lab function is a new application-side composition, not a byte migration. Environment owns available quantity; Embodiment owns somatic acceptance; World commits an opaque record; the caller supplies a requested intervention envelope. |
+| `lab/integration/**` operator/resource exchange paths | DEFER except this bounded slice | `src/lab/interventions/material_transfer.py` | No legacy adapter, physical contact model, action inference, or autonomous Organism authority was carried over. |
+
+The application entry point requires `EmbodimentCheckpoint` and Environment's
+`IdentifiedFiniteResource`, deriving body/source identities from those owner
+boundaries rather than trusting identity values in the request. It verifies
+the accepted World genesis roster and exact initial checkpoint bytes, stages
+cloned owner candidates, and durably writes candidate Environment,
+Embodiment, and Lab intervention-evidence checkpoints before World publishes
+the next causal cut through `DurableWorldRuntime`. The evidence checkpoint is
+a staged candidate until World publishes the committed cut; an orphaned file
+after a failed preparation is not accepted state or evidence. World invokes
+each registered owner codec on the exact digest-checked bytes and issues its
+own recovery receipt only after successful validation; Lab does not validate
+or certify Embodiment/Environment checkpoints. The evidence checkpoint is a
+step-scoped Lab participant and records `intervention_id`, distinct
+`transition_id`, World/tick, source/body owner identities, applicability/run
+context, and requested/offered/accepted/debited amounts. World requires the
+prepared participant set and owner recoverability receipts before commit.
+Observation projection and returning candidates occur only after that commit.
+
+The operation does not mutate caller-held owner objects; callers must adopt
+the returned candidates after success. A failure while persisting any
+checkpoint leaves the previous committed tick intact and the World manifest
+`RECOVERY_REQUIRED`; callers must not continue ordinary causal execution.
+The local checkpoint store uses immutable content-addressed files and syncs
+file/directory writes, but staged files alone are not a committed cut and this
+slice is not a general crash/power-loss
+recovery implementation, distributed transaction, or multi-writer protocol.
+
+The transfer is deliberately an unspecified scalar. Current Embodiment intake
+maps accepted material amount into its energy-reserve scalar, but no conversion
+unit, physical energy equivalence, contact condition, or efficacy is claimed.
+No Organism intention/readout authorizes this intervention.
+
+#### Scientific-apparatus and intervention-identity boundary
+
+Lab remains the scientific apparatus/application layer for this operation. It
+composes Environment and Embodiment owner APIs and stages explicit requested
+intervention evidence; it does not own resource quantity, somatic acceptance,
+causal commit, or scientific interpretation. The evidence checkpoint is Lab
+provenance, not authority over Environment or Embodiment state. The bounded API
+carries `intervention_id`, caller-provided `operator_id`, owner-derived
+`source_id` and `target_body_id`, and requested/offered/accepted/debited scalar
+values. Those support traceable provenance but do not constitute an
+authenticated principal reference, approved protocol, or scientific result.
+The intervention contract
+requires an explicit applicability kind: `NON_EXPERIMENTAL_INTERVENTION` or
+`EXPERIMENTAL_RUN_INTERVENTION`. The latter requires a separately supplied
+real `run_id`; optional study, experiment, and protocol identities remain
+distinct. A non-experimental action cannot carry a synthetic `run_id`. Neither
+the causal event nor passive observation projection aliases `intervention_id`
+as `run_id`.
+
+`operator_id` and `InterventionRequest` are caller-supplied assertions,
+not authentication, authorization enforcement, or proof of operator authority.
+Authentication, permission checks, and principal-reference semantics belong
+to the control plane/application security boundary and are outside this API.
+The `requested_material` field records the requested action; the Environment
+and Embodiment APIs retain authority over offered quantity and accepted amount.
+The World causal cut references the step-scoped Lab evidence checkpoint; the
+World's generic causal record does not itself contain the intervention payload.
+The causal cut applies to this one committed transfer invocation only; it does
+not establish experimental causality, efficacy, repeatability, or physical
+interaction. This API is
+bounded to controlled experimental transfer under caller-supplied conditions;
+it makes no claim of physical material equivalence, energy equivalence, or
+general resource-exchange equivalence.
+
+#### Bounded CURRENT-oracle comparison
+
+At the pinned source SHA, the closest executable CURRENT oracle is
+`lab/src/lab/world/population.py`'s material-exchange path, exercised by
+`lab/tests/unit/lab/world/test_adapter.py::test_clean_material_exchange_conserves_mass_with_scarce_resources`.
+That path requests a bounded amount across positive resources, withdraws
+pro-rata shares, lets the body absorb up to capacity, refunds unabsorbed matter,
+and asserts that environmental stock lost equals body absorption. This is a
+behavioral reference for conservation and capacity handling, not a semantic
+equivalence target for the new Lab intervention.
+
+Disposition of that oracle path is **SPLIT + REWRITE; remaining contact/world
+coupling DEFERRED**. The target implements only the bounded single-source,
+single-body scalar subcase: the offer is capped by the Environment state, body
+acceptance caps the debit, and tests assert `debited_material ==
+accepted_material` including short acceptance. It does not reproduce source
+resource mixtures, pro-rata withdrawal/refund, spatial contact, world-population
+scheduling, or the source's energy-cost accounting. Those behaviors have no
+target-side equivalence claim and remain deferred. The target tests are local
+contract tests, not a run of the source oracle; no cross-repository differential
+or scientific equivalence test has been performed. Source and its frozen tests
+remain unchanged.
+
+Reproducible package coupling is declared in `pyproject.toml` using immutable
+merge commit references: Embodiment `61da7911fd48bcc6fd7afaac050020ced5118b55`
+(owner checkpoint validation PR #15), Environment
+`c14814a5bfdca0c23976cf194550b662602b12ff` (identified resource checkpoint
+validation PR #17), Observation
+`64c3226ab3701f748e276c92a852ca4facd74091` (semantic observation PR #3), and
+World `9e808d23e3c063f71a9b5d93b7cd8ba4036c2a28` (owner checkpoint validation
+PR #11). World main provides durable owner-closed cuts and
+step-participant checkpoints; the intervention payload is preserved by its
+Lab evidence reference, not by a generic World record extension. Lab CI
+therefore uses Python 3.12,
+matching World/Environment. The operator id is caller-supplied provenance, not
+authenticated authorization. Quantity remains a scalar with no established
+physical material-energy equivalence. No experiments or scientific assets were
+moved or run.
+
+### CI boundary for private domain dependencies
+
+The material-transfer contract tests remain real tests in
+`tests/integration/test_material_transfer_intervention.py`; they run against
+the actual Embodiment, Environment, World, and Observation package APIs. They
+were not replaced by mocks. The package repository's default GitHub Actions
+token is scoped to Lab and cannot clone those private repositories, as shown by
+the failed CI install logs (`fatal: could not read Username for
+'https://github.com'`). Therefore, package CI installs the dependency-free
+`dev` extra and runs only `tests/unit`; workspace integration runs are separate
+and use the sibling local checkouts through `requirements-integration.txt`.
+The pinned Git dependencies remain available as an explicit `integration`
+extra for authorized consumers. Green package CI alone is not evidence that
+the cross-package intervention tests ran.
