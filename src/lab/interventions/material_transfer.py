@@ -31,7 +31,7 @@ from world.durable_runtime import PresenceOwnerLink
 ENVIRONMENT_OWNER = "environment"
 EMBODIMENT_OWNER = "embodiment"
 LAB_EVIDENCE_OWNER = "lab-intervention-evidence"
-ENVIRONMENT_SCHEMA = "environment-identified-resource-v1"
+ENVIRONMENT_SCHEMA = IdentifiedFiniteResource.OWNER_SCHEMA
 EMBODIMENT_SCHEMA = "embodiment-checkpoint-v1"
 EVIDENCE_SCHEMA = "lab-intervention-evidence-v1"
 

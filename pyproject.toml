@@ -14,7 +14,7 @@ dependencies = []
 dev = ["pytest>=8"]
 integration = [
     "embodiment @ git+https://github.com/biopeia/embodiment.git@61da7911fd48bcc6fd7afaac050020ced5118b55",
-    "environment @ git+https://github.com/biopeia/environment.git@c14814a5bfdca0c23976cf194550b662602b12ff",
+    "environment @ git+https://github.com/biopeia/environment.git@f2ef8c277a42695efe69adfe05f82176fd9ead39",
     "observation @ git+https://github.com/biopeia/observation.git@64c3226ab3701f748e276c92a852ca4facd74091",
     "world @ git+https://github.com/biopeia/world.git@9e808d23e3c063f71a9b5d93b7cd8ba4036c2a28",
 ]

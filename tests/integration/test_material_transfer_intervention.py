@@ -120,6 +120,22 @@ def _apply(world, resource, body, request, store, *, requested_material: float =
     )
 
 
+def test_environment_checkpoint_schema_matches_current_owner_contract() -> None:
+    resource = IdentifiedFiniteResource(
+        "resource-1",
+        FiniteResourceState(remaining=3.0, transfer_per_tick=2.0),
+    )
+    encoded = resource.checkpoint_bytes()
+
+    assert ENVIRONMENT_SCHEMA == IdentifiedFiniteResource.OWNER_SCHEMA
+    assert IdentifiedFiniteResource.validate_checkpoint(
+        encoded, resource.resource_id, ENVIRONMENT_SCHEMA
+    )
+    assert not IdentifiedFiniteResource.validate_checkpoint(
+        encoded, resource.resource_id, "environment-identified-resource-v1"
+    )
+
+
 def test_intervention_commits_durable_owner_cut_and_lab_evidence(tmp_path) -> None:
     world, resource, body, request, store = _owners(tmp_path)
     initial_resource = resource.checkpoint_bytes()

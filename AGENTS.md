@@ -4,8 +4,8 @@
 
 ## Current ownership boundary
 
-- **Owns in the current extracted slice:** study pairing/statistics utilities and future laboratory composition under explicit approval.
-- **Does not own:** ownership of organism cognition, source-domain state, or unapproved transfer of experimental records.
+- **Owns in the current extracted slice:** study pairing/statistics utilities and future laboratory composition under explicit approval. Lab is the designated scientific custodian for historical Lab studies and evidence assets; this custody designation does not itself authorize transfer, publication, disposal, or scientific admission of any individual artifact.
+- **Does not own:** organism cognition or source-domain state. Lab custody is distinct from owning the authoritative state represented by an artifact.
 - Read [README.md](README.md) for current implemented scope and [MIGRATION.md](MIGRATION.md) for provenance, excluded work, source SHA, and deferred ownership. These local documents describe the extraction; they do not replace canonical constitutional or scientific authorities.
 
 ## Shared coordination guidance
