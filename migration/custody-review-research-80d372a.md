@@ -14,11 +14,11 @@ The canonical `migration/scientific-custody-80d372a.tsv` remains unchanged; all 
 
 | Proposed review class | Count |
 |---|---:|
-| `SCIENTIFIC_EVIDENCE` | 18 |
+| `SCIENTIFIC_EVIDENCE` | 15 |
 | `PROTOCOL` | 5 |
 | `HISTORICAL_RECORD` | 65 |
 | `WORKING_ARTIFACT` | 12 |
-| `DEFER` | 12 |
+| `DEFER` | 15 |
 | **Total** | **112** |
 
 These are proposed per-artifact custody classes, not scientific dispositions or validity grades. `PROTOCOL` records intended procedure, not execution. `HISTORICAL_RECORD` preserves prior audit, decision, execution or technical records. `WORKING_ARTIFACT` covers navigational/status/design material without demonstrated standalone evidentiary or protocol status. `DEFER` preserves mixed or insufficiently attributable artifacts without forcing a classification.
@@ -29,6 +29,7 @@ These are proposed per-artifact custody classes, not scientific dispositions or 
 - Execution receipts and manifests are not treated as scientific outcomes. Linked raw traces and result records remain distinct artifacts.
 - A result, negative finding, or historical assertion is not thereby scientifically validated, admitted into a study, or reproducible.
 - Mixed documents remain whole and are not split into newly authoritative records by this map.
+- The three cognitive-cycle confirmatory execution manifests state run IDs, confirmatory experiment identity, confirmation scope, and seeds. Their paired result files instead state the baseline protocol identity and `exploratory` regime. The three result rows therefore remain `DEFER` pending owner reconciliation; the manifest/result mismatch is not resolved by filename or sibling inference.
 - No source artifacts were changed. Preserve unclassified artifacts at the pinned source until an owner completes review.
 
 ## Review boundary
