@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from lab.studies.common.digests import compute_world_digest
+from lab.studies.common.digests import compute_config_digest, compute_world_digest
 
 
 @dataclass(slots=True, frozen=True)
@@ -92,3 +92,36 @@ def test_digest_rejects_objects_with_process_specific_default_repr():
     assert repr(first) != repr(second)
     with pytest.raises(TypeError, match="unsupported event type"):
         compute_world_digest([first])
+
+
+def test_digest_frames_strings_and_event_fields_without_separator_collisions():
+    first = _event(1, (), phase="b:c", drift_state="d")
+    second = _event(1, (), phase="b", drift_state="c:d")
+    assert compute_world_digest([first]) != compute_world_digest([second])
+    assert compute_world_digest(["a\nstr:b"]) != compute_world_digest(["a", "b"])
+
+
+def test_digest_preserves_numeric_type_and_observation_availability():
+    integer = _event(1, (1,))
+    floating = _event(1, (1.0,))
+    missing = _event(1, ())
+    unavailable = _Event(
+        step=missing.step,
+        host_index=missing.host_index,
+        truth_label=missing.truth_label,
+        is_threat=missing.is_threat,
+        phase=missing.phase,
+        drift_state=missing.drift_state,
+        observation=None,
+    )
+
+    assert compute_world_digest([integer]) != compute_world_digest([floating])
+    assert compute_world_digest([missing]) != compute_world_digest([unavailable])
+
+
+def test_config_digest_preserves_json_number_types_and_rejects_coercions():
+    assert compute_config_digest({"value": 1}) != compute_config_digest({"value": 1.0})
+    with pytest.raises(TypeError, match="keys must be strings"):
+        compute_config_digest({1: "value"})  # type: ignore[dict-item]
+    with pytest.raises(ValueError, match="non-finite"):
+        compute_config_digest({"value": float("nan")})
