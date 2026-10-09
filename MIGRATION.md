@@ -135,7 +135,7 @@ distinct. A non-experimental action cannot carry a synthetic `run_id`. Neither
 the causal event nor passive observation projection aliases `intervention_id`
 as `run_id`.
 
-`operator_id` and `InterventionAuthorization` are caller-supplied assertions,
+`operator_id` and `InterventionRequest` are caller-supplied assertions,
 not authentication, authorization enforcement, or proof of operator authority.
 Authentication, permission checks, and principal-reference semantics belong
 to the control plane/application security boundary and are outside this API.

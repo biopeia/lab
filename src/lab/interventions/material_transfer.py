@@ -29,8 +29,8 @@ class InterventionKind(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
-class InterventionAuthorization:
-    """Caller-supplied intervention declaration; not authentication or permission."""
+class InterventionRequest:
+    """Caller-declared request and constraints; not authentication or permission."""
 
     operator_id: str
     intervention_id: str
@@ -49,9 +49,9 @@ class InterventionAuthorization:
         if not self.intervention_id or not self.intervention_id.strip():
             raise ValueError("intervention_id must not be empty")
         if not self.source_id or not self.source_id.strip():
-            raise ValueError("authorized source_id must not be empty")
+            raise ValueError("requested source_id must not be empty")
         if not self.target_body_id or not self.target_body_id.strip():
-            raise ValueError("authorized target_body_id must not be empty")
+            raise ValueError("requested target_body_id must not be empty")
         if (
             isinstance(self.maximum_material, bool)
             or not isinstance(self.maximum_material, (int, float))
@@ -86,12 +86,12 @@ def apply_material_transfer(
     world: WorldRuntime,
     resource: FiniteResourceState,
     body: LivingBodyState,
-    authorization: InterventionAuthorization,
+    request: InterventionRequest,
     body_id: str,
     source_id: str,
     requested_material: float,
 ) -> MaterialTransferResult:
-    """Run one bounded, explicitly authorized scalar transfer.
+    """Run one scalar transfer under caller-declared constraints.
 
     The caller must adopt the returned owner candidates after success. Inputs
     are not mutated. Any callback or World journal failure raises before a
@@ -103,18 +103,18 @@ def apply_material_transfer(
         raise ValueError("body_id must not be empty")
     if not source_id or not source_id.strip():
         raise ValueError("source_id must not be empty")
-    if source_id != authorization.source_id:
-        raise ValueError("source_id does not match operator authorization")
-    if body_id != authorization.target_body_id:
-        raise ValueError("body_id does not match operator authorization")
+    if source_id != request.source_id:
+        raise ValueError("source_id does not match caller-declared request")
+    if body_id != request.target_body_id:
+        raise ValueError("body_id does not match caller-declared request")
     if (
         isinstance(requested_material, bool)
         or not isinstance(requested_material, (int, float))
         or not math.isfinite(float(requested_material))
         or requested_material < 0.0
-        or requested_material > authorization.maximum_material
+        or requested_material > request.maximum_material
     ):
-        raise ValueError("request exceeds explicit operator authorization")
+        raise ValueError("request exceeds caller-declared material limit")
 
     staged: dict[str, object] = {}
 
@@ -139,9 +139,9 @@ def apply_material_transfer(
 
         payload: dict[str, object] = {
             "kind": "operator.material_transfer",
-            "operator_id": authorization.operator_id,
-            "intervention_id": authorization.intervention_id,
-            "intervention_kind": authorization.kind.value,
+            "operator_id": request.operator_id,
+            "intervention_id": request.intervention_id,
+            "intervention_kind": request.kind.value,
             "source_id": source_id,
             "target_body_id": body_id,
             "requested_material": float(requested_material),
@@ -150,7 +150,7 @@ def apply_material_transfer(
             "debited_material": debited,
         }
         for key in ("run_id", "study_id", "experiment_id", "protocol_id"):
-            value = getattr(authorization, key)
+            value = getattr(request, key)
             if value is not None:
                 payload[key] = value
         # Staging stays local to this call; owner state is not mutated/exposed.
@@ -193,7 +193,7 @@ def apply_material_transfer(
 
 __all__ = [
     "InterventionKind",
-    "InterventionAuthorization",
+    "InterventionRequest",
     "MaterialTransferResult",
     "apply_material_transfer",
 ]

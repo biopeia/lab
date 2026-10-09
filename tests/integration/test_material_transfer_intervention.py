@@ -7,7 +7,7 @@ from environment.resource import FiniteResourceState
 from world.runtime import RuntimeStatus, WorldId, WorldRuntime
 
 from lab.interventions import (
-    InterventionAuthorization,
+    InterventionRequest,
     InterventionKind,
     apply_material_transfer,
 )
@@ -18,7 +18,7 @@ def _owners(*, remaining: float = 3.0, energy: float = 0.5, maximum: float = 2.0
         WorldRuntime(WorldId("lab-operator-world"), presence_id="body-1"),
         FiniteResourceState(remaining=remaining, transfer_per_tick=2.0),
         LivingBodyState(energy_reserve=energy, max_energy=maximum),
-        InterventionAuthorization(
+        InterventionRequest(
             "operator-7",
             "intervention-12",
             "resource-1",
@@ -38,7 +38,7 @@ def test_operator_intervention_commits_before_returning_candidates_or_projection
         world=world,
         resource=resource,
         body=body,
-        authorization=authorization,
+        request=authorization,
         body_id="body-1",
         source_id="resource-1",
         requested_material=2.5,
@@ -71,7 +71,7 @@ def test_operator_intervention_commits_before_returning_candidates_or_projection
 
 def test_real_run_context_is_explicit_and_not_aliased_from_intervention_id() -> None:
     world, resource, body, _ = _owners()
-    authorization = InterventionAuthorization(
+    authorization = InterventionRequest(
         "operator-7",
         "intervention-12",
         "resource-1",
@@ -85,7 +85,7 @@ def test_real_run_context_is_explicit_and_not_aliased_from_intervention_id() -> 
         world=world,
         resource=resource,
         body=body,
-        authorization=authorization,
+        request=authorization,
         body_id="body-1",
         source_id="resource-1",
         requested_material=1.0,
@@ -98,7 +98,7 @@ def test_real_run_context_is_explicit_and_not_aliased_from_intervention_id() -> 
 
 def test_experimental_intervention_requires_real_run_context() -> None:
     with pytest.raises(ValueError, match="requires a real run_id"):
-        InterventionAuthorization(
+        InterventionRequest(
             "operator-7",
             "intervention-12",
             "resource-1",
@@ -116,7 +116,7 @@ def test_rejected_or_short_body_acceptance_only_debits_accepted_material() -> No
         world=world,
         resource=resource,
         body=body,
-        authorization=authorization,
+        request=authorization,
         body_id="body-1",
         source_id="resource-1",
         requested_material=0.8,
@@ -132,12 +132,12 @@ def test_rejected_or_short_body_acceptance_only_debits_accepted_material() -> No
 
 def test_authorization_limit_rejects_before_world_transition() -> None:
     world, resource, body, authorization = _owners()
-    with pytest.raises(ValueError, match="operator authorization"):
+    with pytest.raises(ValueError, match="caller-declared material limit"):
         apply_material_transfer(
             world=world,
             resource=resource,
             body=body,
-            authorization=authorization,
+            request=authorization,
             body_id="body-1",
             source_id="resource-1",
             requested_material=2.51,
@@ -153,12 +153,12 @@ def test_authorization_limit_rejects_before_world_transition() -> None:
 )
 def test_authorization_is_bound_to_one_source_and_body(body_id: str, source_id: str) -> None:
     world, resource, body, authorization = _owners()
-    with pytest.raises(ValueError, match="authorization"):
+    with pytest.raises(ValueError, match="caller-declared request"):
         apply_material_transfer(
             world=world,
             resource=resource,
             body=body,
-            authorization=authorization,
+            request=authorization,
             body_id=body_id,
             source_id=source_id,
             requested_material=1.0,
@@ -192,7 +192,7 @@ def test_failed_world_publication_exposes_no_candidates_or_observation(monkeypat
             world=world,
             resource=resource,
             body=body,
-            authorization=authorization,
+            request=authorization,
             body_id="body-1",
             source_id="resource-1",
             requested_material=1.0,
