@@ -14,10 +14,10 @@ The canonical `migration/scientific-custody-80d372a.tsv` remains unchanged; all 
 
 | Proposed review class | Count |
 |---|---:|
-| `SCIENTIFIC_EVIDENCE` | 20 |
+| `SCIENTIFIC_EVIDENCE` | 18 |
 | `PROTOCOL` | 5 |
-| `HISTORICAL_RECORD` | 64 |
-| `WORKING_ARTIFACT` | 11 |
+| `HISTORICAL_RECORD` | 65 |
+| `WORKING_ARTIFACT` | 12 |
 | `DEFER` | 12 |
 | **Total** | **112** |
 
