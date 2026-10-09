@@ -19,6 +19,24 @@ links and may include shared tests/artifacts; every association requires review
 before being treated as a scientific relation. `NONE_FOUND...` is not proof
 that no related material exists.
 
+The supplemental
+[`study-protocol-test-links-80d372a.tsv`](study-protocol-test-links-80d372a.tsv)
+adds exact source-blob evidence for the registered implementation symbol and
+statically demonstrable test-symbol links. It scans Python test ASTs at the
+same pinned source commit and records a link only when a named test function
+either calls the imported registered implementation callable or calls
+`get_protocol` with that literal protocol ID. The table records **42** protocol
+IDs with a direct implementation-call link, **10** with only a direct
+registry-ID lookup, and **24** with `NO_DIRECT_TEST_LINK`; some direct-call
+tests also perform registry lookup. A direct call proves only that the test
+invokes that source callable, not that the test validates a scientific method
+or that any result is admissible evidence. A registry-ID lookup proves only
+that the test queries that key. `NO_DIRECT_TEST_LINK` means these explicit
+static patterns did not establish a link; it does not prove no indirect or
+dynamic association exists. Test and implementation blob IDs are from the
+pinned source tree. The supplemental table does not change any protocol
+disposition.
+
 ## Disposition
 
 Every protocol is currently `DEFER`. The crosswalk does not close any study
