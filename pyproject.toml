@@ -7,8 +7,10 @@ name = "lab"
 version = "0.1.0a1"
 description = "Biopeia scientific apparatus and study utilities"
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = []
+requires-python = ">=3.12"
+dependencies = [
+    "embodiment @ git+https://github.com/biopeia/embodiment.git@396c71a4262befaa88ff225bfb6aa6b85ff0f29b",
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]

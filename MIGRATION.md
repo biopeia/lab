@@ -73,3 +73,17 @@ accepted event contract. The source tests define the expected event shape (`step
 observation vector); this is test-fixture evidence, not proof of a production event
 class. CLI progress handling also reads `ev.step`. No source implementation was
 changed.
+
+### Opaque body-interoception apparatus transducer
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/physics3d/apparatus.py::OpaqueBodyInteroception` | SPLIT + REWRITE | `src/lab/apparatus/interoception.py::OpaqueBodyInteroception` | Source repository `alessbarb/symbiont-lab`, pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; preserves four-slot mapping/transduction but requires explicit target receptor IDs because target Embodiment has no corresponding humanoid receptor contract. |
+| `lab/tests/unit/lab/physics3d/test_contract.py` interoception cases | REWRITE (focused contract tests) | `tests/test_interoception.py` | Isolated tests cover bounded projections, ordinal permutation, validation, and label-free checkpoint round-trip; source integration suite is not migrated. |
+
+This extraction isolates a Lab-side apparatus transducer from the former mixed
+runtime adapter. It consumes `LivingBodyState` owned by Embodiment and emits
+four opaque receptor values; it does not acquire physiology ownership, add
+semantics to those values, or assert scientific validity. The runtime adapter
+and the rest of `lab/integration/physics3d/apparatus.py` remain deferred. No
+experiment, study protocol, scientific asset, or result was copied or run.
