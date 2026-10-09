@@ -82,8 +82,11 @@ changed.
 | `lab/tests/unit/lab/physics3d/test_contract.py` interoception cases | REWRITE (focused contract tests) | `tests/test_interoception.py` | Isolated tests cover bounded projections, ordinal permutation, validation, and label-free checkpoint round-trip; source integration suite is not migrated. |
 
 This extraction isolates a Lab-side apparatus transducer from the former mixed
-runtime adapter. It consumes `LivingBodyState` owned by Embodiment and emits
-four opaque receptor values; it does not acquire physiology ownership, add
-semantics to those values, or assert scientific validity. The runtime adapter
+runtime adapter. It consumes only a structural view of the required scalar
+fields, provided by Embodiment-owned state, and emits four opaque receptor
+values; Lab does not import Embodiment implementation code or acquire physiology
+ownership, add semantics to those values, or assert scientific validity. This
+also keeps isolated Lab package CI from requiring private-repository credentials;
+the workspace still composes the actual Embodiment package. The runtime adapter
 and the rest of `lab/integration/physics3d/apparatus.py` remain deferred. No
 experiment, study protocol, scientific asset, or result was copied or run.

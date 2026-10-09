@@ -1,21 +1,30 @@
 import pytest
+from dataclasses import dataclass
 
-from embodiment.physiology import LivingBodyState
 from lab.apparatus.interoception import OpaqueBodyInteroception
 
 RECEPTORS = ("slot.a", "slot.b", "slot.c", "slot.d")
 
 
-def _state(**changes: float) -> LivingBodyState:
-    values = dict(
-        energy_reserve=1.0,
-        max_energy=2.0,
-        structural_integrity=0.8,
-        temperature=0.4,
-        fatigue=0.2,
-    )
+@dataclass
+class _State:
+    energy_reserve: float = 1.0
+    max_energy: float = 2.0
+    structural_integrity: float = 0.8
+    temperature: float = 0.4
+    fatigue: float = 0.2
+
+
+def _state(**changes: float) -> _State:
+    values = {
+        "energy_reserve": 1.0,
+        "max_energy": 2.0,
+        "structural_integrity": 0.8,
+        "temperature": 0.4,
+        "fatigue": 0.2,
+    }
     values.update(changes)
-    return LivingBodyState(**values)
+    return _State(**values)
 
 
 def test_interoception_projects_four_bounded_opaque_values() -> None:

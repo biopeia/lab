@@ -7,8 +7,17 @@ valence, or action meaning to the underlying body-state scalars.
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
+from typing import Protocol
 
-from embodiment.physiology import LivingBodyState
+
+class SomaticInteroceptionInput(Protocol):
+    """Minimal structural view of Embodiment-owned scalar state."""
+
+    energy_reserve: float
+    max_energy: float
+    structural_integrity: float
+    temperature: float
+    fatigue: float
 
 
 class OpaqueBodyInteroception:
@@ -41,7 +50,7 @@ class OpaqueBodyInteroception:
     def source_ordinals_by_slot(self) -> tuple[int, ...]:
         return self._source_ordinals_by_slot
 
-    def sample(self, state: LivingBodyState) -> dict[str, float]:
+    def sample(self, state: SomaticInteroceptionInput) -> dict[str, float]:
         source_values = (
             max(0.0, min(1.0, state.energy_reserve / max(state.max_energy, 1e-12))),
             max(0.0, min(1.0, state.structural_integrity)),
