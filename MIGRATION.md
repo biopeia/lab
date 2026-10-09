@@ -368,6 +368,12 @@ For the classified data records, no unique structured `run_id` is asserted;
 linkage is to the adjacent historical protocol and the seed/configuration
 information actually present. The protocol/report state the important limits,
 including exploratory scope and known methodological/implementation caveats.
+The protocol and analysis document authors are not identified in their source
+content. The protocol names historical runner/diagnostic scripts, but those
+scripts are not files at the pinned repository revision and it does not map
+every output to a unique executable. The register records this limitation
+instead of attributing the documents to the scripts or claiming per-output
+executable hashes.
 No scientific claim is made here. Lab is the designated custodian and the
 source files remain the immutable originals; any later storage relocation must
 preserve their identity, provenance, and hashes. The other 470 entries,
