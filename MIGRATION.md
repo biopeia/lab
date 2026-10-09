@@ -188,11 +188,13 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-Git commit references: Embodiment `5a549c09807508812c47825c51ddb6cbe01a5202`
-(owner checkpoint validation PR #15; pending review), Environment `145e5c293ed599ecfac3c66a0c2dff3bb3832795`
-(owner checkpoint validation PR #17; pending review), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
-(current `main`), and World `186c46812911a69089e610067900a098bfc0d297`
-(owner validation PR #11; pending review). World main provides durable owner-closed cuts and
+merge commit references: Embodiment `61da7911fd48bcc6fd7afaac050020ced5118b55`
+(owner checkpoint validation PR #15), Environment
+`c14814a5bfdca0c23976cf194550b662602b12ff` (identified resource checkpoint
+validation PR #17), Observation
+`64c3226ab3701f748e276c92a852ca4facd74091` (semantic observation PR #3), and
+World `9e808d23e3c063f71a9b5d93b7cd8ba4036c2a28` (owner checkpoint validation
+PR #11). World main provides durable owner-closed cuts and
 step-participant checkpoints; the intervention payload is preserved by its
 Lab evidence reference, not by a generic World record extension. Lab CI
 therefore uses Python 3.12,
