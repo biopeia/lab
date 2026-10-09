@@ -364,3 +364,11 @@ Lab migration can be declared complete, every `DEFER` must be revisited, every
 must have an approved custody disposition without loss of provenance, and
 external users/consumers must be accounted for. This accounting change alone
 does not meet those conditions.
+
+## Integration test moved from the integration workspace
+
+`tests/integration/test_operator_material_transfer.py` was copied unchanged from the unversioned local integration workspace by Architecture Owner decision of 2026-10-09. It imports Lab, so it belongs here and not with World: World must not depend on Lab. It is a new Biopeia test; no path of the historical source repository corresponds to it.
+
+Verified on 2026-10-09 against the revisions pinned in the `integration` extra: `tests/integration` 9 passed.
+
+**Finding, not fixed here.** Against the `main` branches of the other repositories on the same day the integration suite does not pass: 7 of the 8 existing integration tests and this one fail with `ManifestError: initial causal cut checkpoint dependency closure is not verified`. Substituting one repository at a time isolates the cause to Environment: with World and Embodiment at `main` and Environment at the pinned `c14814a` the suite passes; with Environment at `main` (`f2ef8c2`) it fails. The pins were not moved. Default CI runs only the isolated unit suite, so it does not show this.
