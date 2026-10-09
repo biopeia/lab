@@ -10,10 +10,10 @@
 
 | Source path | Disposition | Target path | Notes |
 | --- | --- | --- | --- |
-| `lab/src/lab/studies/common/statistics.py` | MOVE (copy-first rehearsal) | `src/lab/studies/common/statistics.py` | Pure descriptive/paired scalar summaries; no runtime authority dependencies. |
-| `lab/src/lab/studies/common/pairing.py` | MOVE (copy-first rehearsal) | `src/lab/studies/common/pairing.py` | Enforces seed pairing and disjointness for study design; does not select causal outcomes. |
-| `lab/tests/unit/lab/test_common_stats.py` | REWRITE | `tests/test_statistics.py` | Focused equivalent contract checks. |
-| `lab/tests/experimental_integrity/test_pairing.py` | REWRITE | `tests/test_pairing.py` | Focused equivalent checks; no source test files changed. |
+| `lab/src/lab/studies/common/statistics.py` | MOVE (copy-first rehearsal) | `src/lab/studies/common/statistics.py` | Pure descriptive/paired scalar summaries; source-path commit `13720935595fedabec2c376dc933629b0deae5aa`; copied bytes verified identical. |
+| `lab/src/lab/studies/common/pairing.py` | MOVE (copy-first rehearsal) | `src/lab/studies/common/pairing.py` | Enforces seed pairing and disjointness for study design; source-path commit `13720935595fedabec2c376dc933629b0deae5aa`; copied bytes verified identical. |
+| `lab/tests/unit/lab/test_common_stats.py` | MOVE (copy-first rehearsal) | `tests/test_statistics.py` | Existing focused unit tests; source-path commit `282c44eea894faedb57763c3545a1401cf032a86`; copied bytes identical. |
+| `lab/tests/experimental_integrity/test_pairing.py` | MOVE (copy-first rehearsal) | `tests/test_pairing.py` | Existing focused seed-pairing checks; source-path commit `282c44eea894faedb57763c3545a1401cf032a86`; copied bytes identical. |
 
 No new Git history is claimed for copied modules. Provenance is the pinned source
 SHA and paths above. Source repository remains unchanged.
