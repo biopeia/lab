@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from enum import StrEnum
 from typing import Mapping
 
 from embodiment.intake import MaterialTransfer, absorb_material_transfer
@@ -18,6 +19,13 @@ from environment.resource import FiniteResourceState
 from observation.projection import runtime_tick_events
 from world.journal import CausalRecord
 from world.runtime import WorldRuntime
+
+
+class InterventionKind(StrEnum):
+    """Declared scientific applicability of an operator action."""
+
+    NON_EXPERIMENTAL = "NON_EXPERIMENTAL_INTERVENTION"
+    EXPERIMENTAL_RUN = "EXPERIMENTAL_RUN_INTERVENTION"
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,6 +37,11 @@ class InterventionAuthorization:
     source_id: str
     target_body_id: str
     maximum_material: float
+    kind: InterventionKind
+    run_id: str | None = None
+    study_id: str | None = None
+    experiment_id: str | None = None
+    protocol_id: str | None = None
 
     def __post_init__(self) -> None:
         if not self.operator_id or not self.operator_id.strip():
@@ -46,6 +59,16 @@ class InterventionAuthorization:
             or self.maximum_material < 0.0
         ):
             raise ValueError("maximum_material must be finite and non-negative")
+        if not isinstance(self.kind, InterventionKind):
+            raise ValueError("intervention kind must be explicit")
+        if self.kind is InterventionKind.EXPERIMENTAL_RUN and not self.run_id:
+            raise ValueError("experimental run intervention requires a real run_id")
+        if self.kind is InterventionKind.NON_EXPERIMENTAL and self.run_id is not None:
+            raise ValueError("non-experimental intervention cannot claim a run_id")
+        for name in ("run_id", "study_id", "experiment_id", "protocol_id"):
+            value = getattr(self, name)
+            if value is not None and not value.strip():
+                raise ValueError(f"{name} must be non-empty when supplied")
 
 
 @dataclass(frozen=True, slots=True)
@@ -118,6 +141,7 @@ def apply_material_transfer(
             "kind": "operator.material_transfer",
             "operator_id": authorization.operator_id,
             "intervention_id": authorization.intervention_id,
+            "intervention_kind": authorization.kind.value,
             "source_id": source_id,
             "target_body_id": body_id,
             "requested_material": float(requested_material),
@@ -125,6 +149,10 @@ def apply_material_transfer(
             "accepted_material": accepted,
             "debited_material": debited,
         }
+        for key in ("run_id", "study_id", "experiment_id", "protocol_id"):
+            value = getattr(authorization, key)
+            if value is not None:
+                payload[key] = value
         # Staging stays local to this call; owner state is not mutated/exposed.
         staged.update(
             candidate_resource=candidate_resource,
@@ -146,7 +174,6 @@ def apply_material_transfer(
         {
             "source": "biopeia.lab.operator_material_transfer",
             "instance_id": body_id,
-            "run_id": authorization.intervention_id,
             "sequence": record.causal_tick,
             "tick": record.causal_tick,
             "body_kind": "operator-intervention",
@@ -165,6 +192,7 @@ def apply_material_transfer(
 
 
 __all__ = [
+    "InterventionKind",
     "InterventionAuthorization",
     "MaterialTransferResult",
     "apply_material_transfer",

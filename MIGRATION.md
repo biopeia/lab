@@ -123,14 +123,17 @@ Lab remains the scientific apparatus/application layer for this operation. It
 composes owner APIs and stages an explicit requested intervention; it does not
 own resource quantity, somatic acceptance, causal commit, identity management,
 or scientific interpretation. The present bounded API carries
-`intervention_id` (also emitted as the observation `run_id`), caller-provided
+`intervention_id`, caller-provided
 `operator_id`, `source_id`, `target_body_id`, and requested/offered/accepted/
 debited scalar values. These support local intervention provenance and a
 World-recorded causal event. They do not constitute an authenticated principal
-reference, experiment identity, approved protocol, or scientific result. No
-separate `experiment_id` or principal-reference contract is currently defined;
-where an experiment/run context exists, its governing application must retain
-that association rather than infer it from `intervention_id`.
+reference, approved protocol, or scientific result. The intervention contract
+requires an explicit applicability kind: `NON_EXPERIMENTAL_INTERVENTION` or
+`EXPERIMENTAL_RUN_INTERVENTION`. The latter requires a separately supplied
+real `run_id`; optional study, experiment, and protocol identities remain
+distinct. A non-experimental action cannot carry a synthetic `run_id`. Neither
+the causal event nor passive observation projection aliases `intervention_id`
+as `run_id`.
 
 `operator_id` and `InterventionAuthorization` are caller-supplied assertions,
 not authentication, authorization enforcement, or proof of operator authority.
@@ -169,16 +172,12 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-Git commit references: Embodiment `396c71a4262befaa88ff225bfb6aa6b85ff0f29b`
-(current `main`), Environment `05087c6debe5e02734128b23d4ce8887a26b91ad`
+Git commit references: Embodiment `047bc4fdb2d3348237295032777b3d6e499c7c89`
+(merged PR #11), Environment `05087c6debe5e02734128b23d4ce8887a26b91ad`
 (current `main`), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
-(current `main`), and World `821bd07b50e100a5bfe2c7d4ac932b15838d4965`
-(current head of open World PR #10). Lab requires World callback payload
-support; current World `main` does not provide it. Therefore this is a
-compatible candidate pin, not a released dependency, and Lab #4 is not
-release-ready until the World contract is reviewed and integrated. The World
-reference is not a merged release; this PR depends on it and should not merge
-before that contract is integrated. Lab CI therefore uses Python 3.12,
+(current `main`), and World `8413e263ffa0a7887901a0bb875e24abd2a5e600`
+(merged World #10). Lab requires World callback payload support; the pinned
+World main now provides it. Lab CI therefore uses Python 3.12,
 matching World/Environment. The operator id is caller-supplied provenance, not
 authenticated authorization. Quantity remains a scalar with no established
 physical material-energy equivalence. No experiments or scientific assets were

@@ -6,7 +6,11 @@ from embodiment.physiology import LivingBodyState
 from environment.resource import FiniteResourceState
 from world.runtime import RuntimeStatus, WorldId, WorldRuntime
 
-from lab.interventions import InterventionAuthorization, apply_material_transfer
+from lab.interventions import (
+    InterventionAuthorization,
+    InterventionKind,
+    apply_material_transfer,
+)
 
 
 def _owners(*, remaining: float = 3.0, energy: float = 0.5, maximum: float = 2.0):
@@ -15,7 +19,12 @@ def _owners(*, remaining: float = 3.0, energy: float = 0.5, maximum: float = 2.0
         FiniteResourceState(remaining=remaining, transfer_per_tick=2.0),
         LivingBodyState(energy_reserve=energy, max_energy=maximum),
         InterventionAuthorization(
-            "operator-7", "intervention-12", "resource-1", "body-1", 2.5
+            "operator-7",
+            "intervention-12",
+            "resource-1",
+            "body-1",
+            2.5,
+            InterventionKind.NON_EXPERIMENTAL,
         ),
     )
 
@@ -42,6 +51,7 @@ def test_operator_intervention_commits_before_returning_candidates_or_projection
         "kind": "operator.material_transfer",
         "operator_id": "operator-7",
         "intervention_id": "intervention-12",
+        "intervention_kind": "NON_EXPERIMENTAL_INTERVENTION",
         "source_id": "resource-1",
         "target_body_id": "body-1",
         "requested_material": 2.5,
@@ -56,6 +66,46 @@ def test_operator_intervention_commits_before_returning_candidates_or_projection
         "cognition",
         "vitals",
     ]
+    assert all("run_id" not in event for event in result.observations)
+
+
+def test_real_run_context_is_explicit_and_not_aliased_from_intervention_id() -> None:
+    world, resource, body, _ = _owners()
+    authorization = InterventionAuthorization(
+        "operator-7",
+        "intervention-12",
+        "resource-1",
+        "body-1",
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+    )
+    result = apply_material_transfer(
+        world=world,
+        resource=resource,
+        body=body,
+        authorization=authorization,
+        body_id="body-1",
+        source_id="resource-1",
+        requested_material=1.0,
+    )
+    payload = result.record.payload["event_payload"]
+    assert payload["run_id"] == "run-42"
+    assert payload["study_id"] == "study-3"
+    assert payload["intervention_id"] == "intervention-12"
+
+
+def test_experimental_intervention_requires_real_run_context() -> None:
+    with pytest.raises(ValueError, match="requires a real run_id"):
+        InterventionAuthorization(
+            "operator-7",
+            "intervention-12",
+            "resource-1",
+            "body-1",
+            2.5,
+            InterventionKind.EXPERIMENTAL_RUN,
+        )
 
 
 def test_rejected_or_short_body_acceptance_only_debits_accepted_material() -> None:

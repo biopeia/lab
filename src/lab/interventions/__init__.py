@@ -2,12 +2,14 @@
 
 from .material_transfer import (
     InterventionAuthorization,
+    InterventionKind,
     MaterialTransferResult,
     apply_material_transfer,
 )
 
 __all__ = [
     "InterventionAuthorization",
+    "InterventionKind",
     "MaterialTransferResult",
     "apply_material_transfer",
 ]
