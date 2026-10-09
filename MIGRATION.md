@@ -218,13 +218,14 @@ The pinned Git dependencies remain available as an explicit `integration`
 extra for authorized consumers. Green package CI alone is not evidence that
 the cross-package intervention tests ran.
 
-## Candidate source inventory — Lab runtime, studies, observation, and apparatus
+## Preliminary candidate source inventory — Lab runtime, studies, observation, and apparatus
 
-**Status: CANDIDATE INVENTORY ONLY — NOT FINAL DISPOSITIONS.** This section
-records a bounded first pass over the pinned source tree. It does not authorize
-bulk copying, deletion, scientific-result publication, or a backward-compatibility
-layer. The no-legacy rule applies: any future transfer must implement the
-justified Biopeia contract directly, not preserve old imports or behavior.
+**Superseded as a path inventory by the file-level accounting below.** This
+section records the earlier grouped first pass. Its grouped candidate rows are
+not final dispositions and do not authorize bulk copying, deletion,
+scientific-result publication, or a backward-compatibility layer. The no-legacy
+rule applies: any future transfer must implement a justified Biopeia contract
+directly, not preserve old imports or behavior.
 
 ### Provenance and coverage
 
@@ -289,13 +290,77 @@ current target checkout, not proof that no future contract will need an apparatu
 capability. In particular, a no-current-consumer result alone does not establish
 that code or evidence should be deleted.
 
-### Inventory limitations and next review
+### Inventory limitations
 
-This is not symbol-by-symbol closure of all 390 source package files or all 297
-tests. Rows group cohesive path families and name representative public/top-level
-symbols; paths and Git blob IDs remain mechanically recoverable from the pinned
-tree. Follow-up slices must expand any selected family to individual paths,
-symbols, blob IDs, source consumers, tests, disposition, rationale and caveats
-before code transfer. All candidate dispositions remain revisable. The complete
-source disposition inventory is not complete, and no migration completion claim
-is made.
+This earlier table is not symbol-by-symbol closure. It groups cohesive path
+families and gives representative symbols. The file-level manifest below
+supersedes it for path/blob coverage; it does not eliminate the need for
+symbol-level responsibility review, source consumer/test linkage, evidence
+custody decisions, or approval of scientific protocol successors.
+
+## Pinned source file-level accounting
+
+**Status: complete path/blob accounting snapshot; semantic disposition and
+scientific custody remain open.** This is not migration completion, cut-over,
+authorization to transfer assets, or a claim that each historical behavior has
+been independently reviewed. It replaces grouped-path accounting as the index
+for all files in `lab/` at the pinned source commit.
+
+The machine-readable manifest is [`migration/source-inventory-80d372a.tsv`](migration/source-inventory-80d372a.tsv). Each row records the exact source-relative path, blob object ID at the pinned commit, Git mode, byte size, top-level Python symbols where parseable, a disposition, target-owner/path status, and the reason/caveat. The source commit for every row is
+`80d372a186513035f85a769db886e505cabba52d` in `alessbarb/symbiont-lab`; the
+manifest is not derived from the moving source checkout. The committed source
+tree is the provenance anchor; blob IDs identify file contents within it.
+
+Snapshot coverage is **1,172 tracked files**: 394 under `lab/src/lab/` (390
+Python modules plus non-Python package assets), 297 under `lab/tests/`, 364
+under `lab/experiments/`, 112 under `lab/research/`, and five package-root or
+example files (`lab/README.md`, `lab/pyproject.toml`, and three examples). The
+manifest disposition counts are:
+
+| Disposition | Files | Interpretation in this snapshot |
+| --- | ---: | --- |
+| `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
+| `SPLIT` | 149 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
+| `DROP` | 322 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 693 | Open disposition, not final. Must be revisited before migration completion. |
+
+The file-level classifications are intentionally conservative. A `SPLIT` row
+does not assert that a particular source symbol is worth preserving. A `DROP`
+row means “do not migrate this source artifact or its legacy interface”; the
+historical source copy remains untouched. A `DEFER` row is explicit migration
+debt and cannot be counted as completed inventory.
+
+### Lab tests and scientific assets
+
+All 297 pinned source test files have a row. The current target test coverage is
+selective: three focused utility test files are already present as `MOVE`, one
+mixed physics contract test file is `SPLIT` because only selected interoception
+assertions were rewritten, 76 science/protocol/integrity-oriented test files
+remain `DEFER`, and 217 source-coupled tests/fixtures are `DROP` from the target
+test plan. These are migration dispositions only: source tests remain in the
+historical repository, and `DROP` does not erase historical results or evidence.
+
+All 364 files under `lab/experiments/` and all 112 files under `lab/research/`
+remain `DEFER`. This includes executable protocol/run definitions, study
+descriptions, manifests, result records, receipts, snapshots, seeds, audit
+reports, and compressed traces. No custodial owner has approved which artifacts
+must be retained, their target archive/path, access controls, integrity scheme,
+retention policy, scientific admissibility, or linkage to future Biopeia runs.
+They therefore remain only in the untouched source repository; this change
+does not copy, regenerate, republish, relabel, or delete any of them. The
+historical replay example is also deferred for custody review. This is a
+material unresolved blocker to declaring Lab migration complete.
+
+### Remaining closure work
+
+The manifest establishes path/blob completeness at one pinned source tree, but
+it is not a source consumer graph: references between individual symbols,
+tests, protocols, runtime entry points, external users, and persisted records
+have not all been resolved. Nor does path/blob coverage show that a study can be
+reproduced or that a target replacement is scientifically admissible. Before
+Lab migration can be declared complete, every `DEFER` must be revisited, every
+`SPLIT` must receive a justified owner/path or a final `DROP`, scientific assets
+must have an approved custody disposition without loss of provenance, and
+external users/consumers must be accounted for. This accounting change alone
+does not meet those conditions.
