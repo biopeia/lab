@@ -1,4 +1,4 @@
-"""Explicit operator-authorized scalar transfer across Biopeia owners.
+"""Explicit caller-declared scalar transfer across Biopeia owners.
 
 This is a Lab/application intervention, not autonomous Organism agency or a
 physical contact model. Owner candidates are private until World returns its
@@ -30,7 +30,7 @@ class InterventionKind(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class InterventionAuthorization:
-    """Explicit caller-supplied authorization for one operator intervention."""
+    """Caller-supplied intervention declaration; not authentication or permission."""
 
     operator_id: str
     intervention_id: str
