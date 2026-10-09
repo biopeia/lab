@@ -279,6 +279,19 @@ at the same pin; target paths are present consumers, not proposed destinations.
 | `lab/tests/**` (297 source test files) | Grouped under unit, integration/studies, experiments, smoke, workbench, Observatory and physics; exercise source implementation and source-coupled fixtures. | `DROP` as source tests from Biopeia package; selected assertions may be `REWRITE` as contract tests once target behavior exists; scientific evidence suites `DEFER` | Tests are not production API and must not be bulk copied. A rewritten test must state invariant and whether it is contract, validation or scientific experiment; no source experiment run is claimed. |
 | `lab/examples/**`, manifests, saved run/checkpoint payloads and model assets referenced by package | Source CLI/reproduction/Workbench or individual experiments; no target package consumer. | `DEFER` evidence/preservation inventory; then `DROP` from runtime distribution or `MOVE` to governed evidence archive only by explicit authorization | Code inventory does not authorize moving, deleting, exposing or reinterpreting evidence/artifacts. No data/evidence disposition is final in this PR. |
 
+### Registered study-protocol crosswalk (candidate links only)
+
+[`migration/study-protocol-crosswalk-80d372a.md`](migration/study-protocol-crosswalk-80d372a.md)
+and its TSV enumerate the 76 protocol IDs registered at the pinned source SHA
+`80d372a186513035f85a769db886e505cabba52d`, with statically resolved
+registry-callable and implementation-module candidates plus candidate spec,
+test and artifact paths.
+All 76 remain `DEFER`; the path links are search candidates, not verified
+scientific provenance or a disposition closure. This is not a reconciliation
+of the historical “129” count, a crosswalk of all study capabilities, or a
+claim that every historical artifact has been classified. Unregistered study
+modules and artifact-level custody decisions remain open.
+
 ### Target consumer and test evidence (bounded)
 
 The existing Biopeia Lab implementation has no target-side `observatory`,
