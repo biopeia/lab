@@ -116,6 +116,29 @@ maps accepted material amount into its energy-reserve scalar, but no conversion
 unit, physical energy equivalence, contact condition, or efficacy is claimed.
 No Organism intention/readout authorizes this intervention.
 
+#### Bounded CURRENT-oracle comparison
+
+At the pinned source SHA, the closest executable CURRENT oracle is
+`lab/src/lab/world/population.py`'s material-exchange path, exercised by
+`lab/tests/unit/lab/world/test_adapter.py::test_clean_material_exchange_conserves_mass_with_scarce_resources`.
+That path requests a bounded amount across positive resources, withdraws
+pro-rata shares, lets the body absorb up to capacity, refunds unabsorbed matter,
+and asserts that environmental stock lost equals body absorption. This is a
+behavioral reference for conservation and capacity handling, not a semantic
+equivalence target for the new Lab intervention.
+
+Disposition of that oracle path is **SPLIT + REWRITE; remaining contact/world
+coupling DEFERRED**. The target implements only the bounded single-source,
+single-body scalar subcase: the offer is capped by the Environment state, body
+acceptance caps the debit, and tests assert `debited_material ==
+accepted_material` including short acceptance. It does not reproduce source
+resource mixtures, pro-rata withdrawal/refund, spatial contact, world-population
+scheduling, or the source's energy-cost accounting. Those behaviors have no
+target-side equivalence claim and remain deferred. The target tests are local
+contract tests, not a run of the source oracle; no cross-repository differential
+or scientific equivalence test has been performed. Source and its frozen tests
+remain unchanged.
+
 Reproducible package coupling is declared in `pyproject.toml` using immutable
 Git commit references: Embodiment `396c71a`, Environment `b22c88f`, Observation
 `8261dda`, and World `f672404` (the opaque World tick-payload candidate). The
