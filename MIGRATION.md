@@ -285,12 +285,17 @@ at the same pin; target paths are present consumers, not proposed destinations.
 and its TSV enumerate the 76 protocol IDs registered at the pinned source SHA
 `80d372a186513035f85a769db886e505cabba52d`, with statically resolved
 registry-callable and implementation-module candidates plus candidate spec,
-test and artifact paths.
-All 76 remain `DEFER`; the path links are search candidates, not verified
-scientific provenance or a disposition closure. This is not a reconciliation
-of the historical “129” count, a crosswalk of all study capabilities, or a
-claim that every historical artifact has been classified. Unregistered study
-modules and artifact-level custody decisions remain open.
+test and artifact paths. The supplemental
+[`migration/study-protocol-test-links-80d372a.tsv`](migration/study-protocol-test-links-80d372a.tsv)
+records pinned implementation blobs and test-symbol links established by
+static source inspection. It distinguishes direct calls to the registered
+implementation callable, registry-ID lookup tests, and explicit
+`NO_DIRECT_TEST_LINK` rows. All 76 remain `DEFER`; links establish source-code
+traceability only, not scientific provenance, test validity, method
+preservation, or disposition closure. This is not a reconciliation of the
+historical “129” count, a crosswalk of all study capabilities, or a claim that
+every historical artifact has been classified. Unregistered study modules
+and artifact-level custody decisions remain open.
 
 ### Target consumer and test evidence (bounded)
 
