@@ -368,9 +368,16 @@ The machine-readable custody register is
 It accounts for all 364 tracked files under `lab/experiments/`, all 112 under
 `lab/research/`, and the historical replay example. Each row pins the source
 repository revision, path, Git blob, byte count, and SHA-256 of the bytes at the
-pinned revision. `DEFER` means the artifact remains preserved at source and has
-not received a custody class; it does not mean discard. No artifact bytes were
-copied, regenerated, republished, or deleted by this update.
+pinned revision. The separate `proposed_review_class`, `proposal_source_map`, and
+`proposal_review_status` columns reconcile the six content-reviewed maps, while
+leaving the authoritative `custody_classification` unchanged pending Lab owner
+disposition. Proposal classes are not evidence admission, scientific validation,
+or authority to transfer/delete. `DEFER` in the authoritative field means the
+artifact remains preserved at source without a final owner custody class; it does
+not mean discard. See the
+[custody reconciliation](migration/custody-reconciliation-80d372a.md) for exact
+scope, counts, limitations, and identity checks. No artifact bytes were copied,
+regenerated, republished, or deleted by this update.
 
 This bounded slice classifies only the historical v0.24 audit packet at
 `lab/research/audits/historical/v024/`:
