@@ -8,15 +8,15 @@ The accompanying TSV gives one row per pinned source path, with its source blob,
 
 This is a proposed custody classification only. It does not authorize source changes, deletion, transfer, publication, TARGET code migration, evidence admission, scientific validation, replication, or preservation of a historical method. No candidate is promoted as truth merely because it is classified as `SCIENTIFIC_EVIDENCE`.
 
-The canonical `migration/scientific-custody-80d372a.tsv` remains unchanged; all scoped source rows remain `DEFER` there until all custody maps are independently reviewed and reconciled.
+The canonical `migration/scientific-custody-80d372a.tsv` remains unchanged; the authoritative `custody_classification` values remain unchanged. Proposal classes are recorded separately in the canonical ledger only after reconciliation; they are not admissions or final owner dispositions.
 
 ## Proposed classes
 
 | Proposed review class | Count |
 |---|---:|
-| `SCIENTIFIC_EVIDENCE` | 15 |
+| `SCIENTIFIC_EVIDENCE` | 18 |
 | `PROTOCOL` | 5 |
-| `HISTORICAL_RECORD` | 65 |
+| `HISTORICAL_RECORD` | 62 |
 | `WORKING_ARTIFACT` | 12 |
 | `DEFER` | 15 |
 | **Total** | **112** |
@@ -34,4 +34,4 @@ These are proposed per-artifact custody classes, not scientific dispositions or 
 
 ## Review boundary
 
-Independent Advisor review is required before this proposal is merged. Any later change to the canonical custody ledger requires reconciliation against the other scoped maps and the Lab owner's disposition; this PR does not make that change.
+Independent Advisor review was completed for the scope and specifically reassessed the three v0.24 result JSONs. It recommended `SCIENTIFIC_EVIDENCE` as a custody class (not admission) because explicit seeds/configuration link them to the adjacent pinned protocol. No unique run_id is asserted; scripts, the referenced snapshot, dependency lock and per-run raw traces are unavailable. The canonical ledger records this as a proposal separate from authoritative custody classification, pending Lab owner disposition.
