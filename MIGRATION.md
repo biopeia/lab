@@ -149,3 +149,18 @@ does not imply the PR is merged or that the dependency is independently
 released. The operator id is caller-supplied provenance, not authenticated
 identity or cryptographic authorization. No experiments or scientific assets
 were moved or run.
+
+### CI boundary for private domain dependencies
+
+The material-transfer contract tests remain real tests in
+`tests/integration/test_material_transfer_intervention.py`; they run against
+the actual Embodiment, Environment, World, and Observation package APIs. They
+were not replaced by mocks. The package repository's default GitHub Actions
+token is scoped to Lab and cannot clone those private repositories, as shown by
+the failed CI install logs (`fatal: could not read Username for
+'https://github.com'`). Therefore, package CI installs the dependency-free
+`dev` extra and runs only `tests/unit`; workspace integration runs are separate
+and use the sibling local checkouts through `requirements-integration.txt`.
+The pinned Git dependencies remain available as an explicit `integration`
+extra for authorized consumers. Green package CI alone is not evidence that
+the cross-package intervention tests ran.

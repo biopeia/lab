@@ -20,3 +20,19 @@ python -m pytest
 ```
 
 Python package and distribution name: `lab`.
+
+The default package CI suite is isolated (`tests/unit`) and installs no private
+domain packages. The actual material-transfer cross-package tests remain in
+`tests/integration`; they are not mocked or silently skipped. GitHub's default
+repository token cannot clone the private Biopeia domain repositories, so run
+these from the Biopeia workspace, where the pinned domain checkouts are present:
+
+```sh
+python -m pip install -r requirements-integration.txt
+cd lab
+python -m pytest -o testpaths= tests/integration
+```
+
+Alternatively, an authorized consumer may install `lab[integration]` at the
+immutable dependency revisions declared in `pyproject.toml`. A green package CI
+run validates only the isolated unit suite; it is not integration evidence.
