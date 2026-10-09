@@ -404,3 +404,6 @@ does not meet those conditions.
 Verified on 2026-10-09 against the revisions pinned in the `integration` extra: `tests/integration` 9 passed.
 
 **Finding, not fixed here.** Against the `main` branches of the other repositories on the same day the integration suite does not pass: 7 of the 8 existing integration tests and this one fail with `ManifestError: initial causal cut checkpoint dependency closure is not verified`. Substituting one repository at a time isolates the cause to Environment: with World and Embodiment at `main` and Environment at the pinned `c14814a` the suite passes; with Environment at `main` (`f2ef8c2`) it fails. The pins were not moved. Default CI runs only the isolated unit suite, so it does not show this.
+
+
+**Resolved later the same day.** The cause was Environment's change of its finite-resource checkpoint contract in `f2ef8c2` ("Define target-owned finite resource checkpoint contract"), the first Environment commit after the old pin with which the suite failed. Lab was aligned to that contract and its Environment pin moved to `f2ef8c2` in `e93401d` ("Record Lab custody and align Environment checkpoint schema"). With Lab at `3b84a25` and the revisions pinned in its `integration` extra, `tests/integration` passes: 10 passed. The finding above is kept as the record of what was observed before that change.
