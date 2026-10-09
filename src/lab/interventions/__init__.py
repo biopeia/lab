@@ -3,6 +3,7 @@
 from .material_transfer import (
     InterventionRequest,
     InterventionKind,
+    MaterialTransferCheckpointStore,
     MaterialTransferResult,
     apply_material_transfer,
 )
@@ -10,6 +11,7 @@ from .material_transfer import (
 __all__ = [
     "InterventionRequest",
     "InterventionKind",
+    "MaterialTransferCheckpointStore",
     "MaterialTransferResult",
     "apply_material_transfer",
 ]

@@ -98,19 +98,26 @@ experiment, study protocol, scientific asset, or result was copied or run.
 | `symbiont/src/symbiont/core/orchestration/runtime.py::OrganismRuntime.request_resource_intake` | SPLIT + REWRITE | `src/lab/interventions/material_transfer.py::apply_material_transfer` plus Environment/Embodiment owner APIs | Source baseline SHA `80d372a186513035f85a769db886e505cabba52d`, source blob `c436087ec1d1f4bfab6bfa7c4e4d801514c69708`; the source method conflates resource acquisition and metabolism. The target Lab function is a new application-side composition, not a byte migration. Environment owns available quantity; Embodiment owns somatic acceptance; World commits an opaque record; the caller supplies a requested intervention envelope. |
 | `lab/integration/**` operator/resource exchange paths | DEFER except this bounded slice | `src/lab/interventions/material_transfer.py` | No legacy adapter, physical contact model, action inference, or autonomous Organism authority was carried over. |
 
-The application entry point clones Environment and Embodiment state through
-their own checkpoint APIs, checks the caller-provided intervention envelope is
-bound to its operator label, intervention id, exact source id and exact target
-body id, caps the request by that envelope and the Environment offer, debits
-only the amount Embodiment accepts, and returns the
-candidate owner states only after `WorldRuntime.tick` returns a committed
-record. Observation projection occurs after that return. A World callback or
-journal failure yields no result/projection and leaves input owner objects
-unchanged; the existing World runtime enters `RECOVERY_REQUIRED`. This is not
-a distributed transaction, durable commit, or recovery protocol: callers must
-not continue ordinary causal execution after that World state. Callers must
-explicitly adopt returned candidate state; this API does not silently mutate
-owners. Tests verify this local contract.
+The application entry point requires `EmbodimentCheckpoint` and Environment's
+`IdentifiedFiniteResource`, deriving body/source identities from those owner
+boundaries rather than trusting identity values in the request. It verifies
+the accepted World genesis roster and exact initial checkpoint bytes, stages
+cloned owner candidates, and durably writes candidate Environment,
+Embodiment, and Lab intervention-evidence checkpoints before World publishes
+the next causal cut through `DurableWorldRuntime`. The evidence checkpoint is
+a step-scoped Lab participant and records `intervention_id`, distinct
+`transition_id`, World/tick, source/body owner identities, applicability/run
+context, and requested/offered/accepted/debited amounts. World requires the
+prepared participant set and owner recoverability receipts before commit.
+Observation projection and returning candidates occur only after that commit.
+
+The operation does not mutate caller-held owner objects; callers must adopt
+the returned candidates after success. A failure while persisting any
+checkpoint leaves the previous committed tick intact and the World manifest
+`RECOVERY_REQUIRED`; callers must not continue ordinary causal execution.
+The local checkpoint store uses immutable content-addressed files and syncs
+file/directory writes, but this slice is not a general crash/power-loss
+recovery implementation, distributed transaction, or multi-writer protocol.
 
 The transfer is deliberately an unspecified scalar. Current Embodiment intake
 maps accepted material amount into its energy-reserve scalar, but no conversion
@@ -120,14 +127,15 @@ No Organism intention/readout authorizes this intervention.
 #### Scientific-apparatus and intervention-identity boundary
 
 Lab remains the scientific apparatus/application layer for this operation. It
-composes owner APIs and stages an explicit requested intervention; it does not
-own resource quantity, somatic acceptance, causal commit, identity management,
-or scientific interpretation. The present bounded API carries
-`intervention_id`, caller-provided
-`operator_id`, `source_id`, `target_body_id`, and requested/offered/accepted/
-debited scalar values. These support local intervention provenance and a
-World-recorded causal event. They do not constitute an authenticated principal
-reference, approved protocol, or scientific result. The intervention contract
+composes Environment and Embodiment owner APIs and stages explicit requested
+intervention evidence; it does not own resource quantity, somatic acceptance,
+causal commit, or scientific interpretation. The evidence checkpoint is Lab
+provenance, not authority over Environment or Embodiment state. The bounded API
+carries `intervention_id`, caller-provided `operator_id`, owner-derived
+`source_id` and `target_body_id`, and requested/offered/accepted/debited scalar
+values. Those support traceable provenance but do not constitute an
+authenticated principal reference, approved protocol, or scientific result.
+The intervention contract
 requires an explicit applicability kind: `NON_EXPERIMENTAL_INTERVENTION` or
 `EXPERIMENTAL_RUN_INTERVENTION`. The latter requires a separately supplied
 real `run_id`; optional study, experiment, and protocol identities remain
@@ -140,10 +148,12 @@ not authentication, authorization enforcement, or proof of operator authority.
 Authentication, permission checks, and principal-reference semantics belong
 to the control plane/application security boundary and are outside this API.
 The `requested_material` field records the requested action; the Environment
-and Embodiment APIs retain authority over offered quantity and accepted amount,
-and World records the causal event. The causal record applies to this one
-committed transfer invocation only; it does not establish experimental
-causality, efficacy, repeatability, or physical interaction. This API is
+and Embodiment APIs retain authority over offered quantity and accepted amount.
+The World causal cut references the step-scoped Lab evidence checkpoint; the
+World's generic causal record does not itself contain the intervention payload.
+The causal cut applies to this one committed transfer invocation only; it does
+not establish experimental causality, efficacy, repeatability, or physical
+interaction. This API is
 bounded to controlled experimental transfer under caller-supplied conditions;
 it makes no claim of physical material equivalence, energy equivalence, or
 general resource-exchange equivalence.
@@ -173,11 +183,13 @@ remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
 Git commit references: Embodiment `047bc4fdb2d3348237295032777b3d6e499c7c89`
-(merged PR #11), Environment `05087c6debe5e02734128b23d4ce8887a26b91ad`
-(current `main`), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
+(merged PR #11), Environment `c1667f994e18915179d117c8c3caa82e2e440def`
+(identified resource checkpoint PR #16; pending merge), Observation `8261dda79551a4ad13bf2b91692098f7509c2c9b`
 (current `main`), and World `8413e263ffa0a7887901a0bb875e24abd2a5e600`
-(merged World #10). Lab requires World callback payload support; the pinned
-World main now provides it. Lab CI therefore uses Python 3.12,
+(merged World #10). World main provides durable owner-closed cuts and
+step-participant checkpoints; the intervention payload is preserved by its
+Lab evidence reference, not by a generic World record extension. Lab CI
+therefore uses Python 3.12,
 matching World/Environment. The operator id is caller-supplied provenance, not
 authenticated authorization. Quantity remains a scalar with no established
 physical material-energy equivalence. No experiments or scientific assets were
