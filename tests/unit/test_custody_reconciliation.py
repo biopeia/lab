@@ -286,7 +286,7 @@ def test_causal_revision_disposition_and_cross_ledger_records_agree() -> None:
     )
     validation_boundary = review_summary.split("## Validation boundary", 1)[1]
     assert "Seven results lack an attributable run ID" in validation_boundary
-    assert "causal-revision result records a run ID and source SHA" in validation_boundary
+    assert "The causal-revision result records a run ID, source SHA, and `config_digest`" in validation_boundary
     assert "software.dirty=true" in validation_boundary
     assert "exact executed tree is not reconstructible" in validation_boundary
 
