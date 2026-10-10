@@ -13,21 +13,22 @@ def read_tsv(name: str) -> list[dict[str, str]]:
         return list(csv.DictReader(stream, delimiter="\t"))
 
 
-def test_recurrent_restoration_source_implementation_is_dropped() -> None:
+def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     source = {
         row["source_path"]: row
         for row in read_tsv("source-inventory-80d372a.tsv")
     }
-    unit = {
-        row["unit_id"]: row
-        for row in read_tsv("study-disposition-register-80d372a.tsv")
-    }["continuity.recurrent-restoration"]
-    row = source["lab/src/lab/studies/continuity/recurrent_restoration.py"]
+    units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert row["source_blob_at_pinned_commit"] == (
-        "41dba8d3b2c5dae41ba83bc83ecf8858840e969b"
-    )
-    assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
-    assert unit["source_implementation_TARGET_disposition"] == "DROP"
-    assert row["disposition"] == unit["source_implementation_TARGET_disposition"]
-    assert "scientific validation" in row["rationale_and_caveat"]
+    assert len(units) == 4
+    for unit in units:
+        assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+        assert unit["source_implementation_TARGET_disposition"] == "DROP"
+        for source_ref in (
+            unit["implementation_path_and_blob"],
+            unit["source_test_path_and_blob"],
+        ):
+            path, expected_blob = source_ref.split("@", maxsplit=1)
+            row = source[path]
+            assert row["source_blob_at_pinned_commit"] == expected_blob
+            assert row["disposition"] == "DROP"
