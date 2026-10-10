@@ -43,15 +43,19 @@ dispositions and limitations.
 The 76 registered IDs are candidate units, not 76 proven independent studies.
 The companion
 [`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
-records two resolved owner-directed `HISTORICAL_PROTOCOL` units:
-`continuity.recurrent-restoration` and
+records three resolved owner-directed `HISTORICAL_PROTOCOL` units:
+`continuity.recurrent-restoration`,
+`embodiment.causal-revision-sequence`, and
 `world.genesis-viability-characterization`. The crosswalk retains the other
-74 candidate IDs as `DEFER`. Both historical implementations are `DROP` as TARGET
+73 candidate IDs as `DEFER`. All three historical implementations are `DROP` as TARGET
 code. These dispositions do not copy or move historical protocol/result bytes.
 The genesis-viability unit's linked result has an unresolved
 configuration/population discrepancy and is not treated as conformant or
 scientifically validated; the recurrent-restoration unit has no result/run
-artifact at the pinned source commit. The crosswalk alone does not close any
+artifact at the pinned source commit. The causal-revision result records a run ID
+and source SHA but also `software.dirty=true`, so its exact executed source tree
+is not reconstructible; it remains custody-only `SCIENTIFIC_EVIDENCE`, not admitted
+or scientifically validated. The crosswalk alone does not close any
 study unit. Remaining per-study dispositions must be one of:
 
 - `REIMPLEMENT_METHOD` with a scientifically reviewed method/estimand record;

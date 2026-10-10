@@ -313,10 +313,11 @@ implementation callable, registry-ID lookup tests, and explicit
 `NO_DIRECT_TEST_LINK` rows.
 
 The companion [`migration/study-disposition-register-80d372a.tsv`](migration/study-disposition-register-80d372a.tsv)
-records two resolved owner-directed `HISTORICAL_PROTOCOL` units:
-`continuity.recurrent-restoration` and
+records three resolved owner-directed `HISTORICAL_PROTOCOL` units:
+`continuity.recurrent-restoration`,
+`embodiment.causal-revision-sequence`, and
 `world.genesis-viability-characterization`. The protocol crosswalk retains the
-other 74 candidate IDs as `DEFER`. Both historical implementations are `DROP`
+other 73 candidate IDs as `DEFER`. All three historical implementations are `DROP`
 as TARGET code. This disposition does not copy or move protocol/result bytes;
 the historical source remains read-only at the recorded source paths. The
 genesis-viability unit's linked result/config has an unresolved population-size
