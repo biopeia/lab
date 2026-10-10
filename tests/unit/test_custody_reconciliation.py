@@ -118,10 +118,15 @@ def test_all_477_artifacts_have_identity_matched_owner_dispositions() -> None:
             assert "ledger remains DEFER" not in row["known_limitations_and_rationale"]
             assert "DEFER pending" not in row["known_limitations_and_rationale"]
         if owner_reclassified_result(row["source_path"]):
-            assert row["proposed_review_class"] == "DEFER"
             assert row["custody_classification"] == "SCIENTIFIC_EVIDENCE"
             assert row["proposal_review_status"] == ACCEPTED
             assert "NOT_ADMITTED" in row["known_limitations_and_rationale"]
+            if row["source_path"].endswith("causal-revision-sequence/results.json"):
+                assert row["proposed_review_class"] == "SCIENTIFIC_EVIDENCE"
+                assert "dirty=true" in row["known_limitations_and_rationale"]
+                assert "h1_supported=false" in row["known_limitations_and_rationale"]
+            else:
+                assert row["proposed_review_class"] == "DEFER"
         elif row["proposed_review_class"] == "DEFER":
             assert row["custody_classification"] == "DEFER"
             assert row["proposal_review_status"] == EXCEPTION
@@ -198,12 +203,92 @@ def test_eight_embodiment_results_are_custody_only_not_admitted():
     for row in results:
         assert row["custody_classification"] == "SCIENTIFIC_EVIDENCE"
         assert row["proposal_review_status"] == ACCEPTED
-        assert "candidate protocol=" in row["protocol_or_run_linkage"]
-        assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]
-        assert "execution producer/source commit not identified" in row["producer_or_source"]
         assert "config_digest=" in row["seed_and_configuration"]
         assert "NOT_ADMITTED" in row["known_limitations_and_rationale"]
-        assert "No run ID or producer is inferred" in row["known_limitations_and_rationale"]
+        if row["source_path"].endswith("causal-revision-sequence/results.json"):
+            assert "run_id=20260921T140357Z-embodiment-causal-revision-sequence-215145d-98d3" in row["protocol_or_run_linkage"]
+            assert "software.dirty=true" in row["protocol_or_run_linkage"]
+            assert "exact executed source tree not reconstructible" in row["protocol_or_run_linkage"]
+            assert "h1_supported=false" in row["known_limitations_and_rationale"]
+            assert "scientifically_valid=true" in row["known_limitations_and_rationale"]
+        else:
+            assert "candidate protocol=" in row["protocol_or_run_linkage"]
+            assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]
+            assert "execution producer/source commit not identified" in row["producer_or_source"]
+            assert "No run ID or producer is inferred" in row["known_limitations_and_rationale"]
+
+
+def test_causal_revision_disposition_and_cross_ledger_records_agree() -> None:
+    protocol_id = "embodiment.causal-revision-sequence"
+    source_root = "lab/experiments/embodiment/causal-revision-sequence/"
+    crosswalk = {
+        row["protocol_id"]: row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+    }[protocol_id]
+    disposition = {
+        row["unit_id"]: row
+        for row in read_tsv("study-disposition-register-80d372a.tsv")
+    }[protocol_id]
+    evidence = {
+        row["protocol_id"]: row
+        for row in read_tsv("study-evidence-map-80d372a.tsv")
+    }[protocol_id]
+    inventory = {
+        row["source_path"]: row
+        for row in read_tsv("source-inventory-80d372a.tsv")
+    }
+    custody = {
+        row["source_path"]: row
+        for row in read_tsv("scientific-custody-80d372a.tsv")
+    }
+
+    assert crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert disposition["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "test_e4_is_deterministic_and_reports_all_phases" in crosswalk[
+        "study_test_path_candidates"
+    ]
+    assert "test_e4_rejects_invalid_steps" in crosswalk["study_test_path_candidates"]
+    assert crosswalk["study_test_path_candidates"] != "NONE_FOUND_BY_LITERAL_ID_OR_CALLABLE_SEARCH"
+    for test_name in (
+        "test_e4_is_deterministic_and_reports_all_phases",
+        "test_e4_does_not_encode_h1_as_software_success",
+        "test_e4_protocol_is_registered",
+        "test_e4_rejects_invalid_steps",
+    ):
+        assert test_name in evidence["test_symbol_refs"]
+
+    implementation_path = "lab/src/lab/studies/embodiment/causal_revision_sequence.py"
+    assert inventory[implementation_path]["disposition"] == "DROP"
+    assert inventory[implementation_path]["target_path_or_status"] == "No TARGET implementation path; historical protocol only"
+    for filename, expected_class in (
+        ("README.md", "PROTOCOL"),
+        ("experiment.toml", "PROTOCOL"),
+        ("results.json", "SCIENTIFIC_EVIDENCE"),
+    ):
+        path = source_root + filename
+        assert inventory[path]["disposition"] == "DEFER"
+        assert "no physical TARGET transfer" in inventory[path]["rationale_and_caveat"]
+        assert custody[path]["custody_classification"] == expected_class
+        assert custody[path]["proposal_review_status"] == ACCEPTED
+        assert "NOT_ADMITTED" in custody[path]["proposal_review_status"]
+        assert "NOT_SCIENTIFICALLY_VALIDATED" in custody[path]["proposal_review_status"]
+
+    result = custody[source_root + "results.json"]
+    assert "software.dirty=true" in result["protocol_or_run_linkage"]
+    assert "exact executed source tree not reconstructible" in result[
+        "protocol_or_run_linkage"
+    ]
+    assert "scientifically_valid=true" in result["known_limitations_and_rationale"]
+    assert "not treated as validation" in result["known_limitations_and_rationale"]
+
+    review_summary = (MIGRATION / "custody-review-embodiment-kernel-80d372a.md").read_text(
+        encoding="utf-8"
+    )
+    validation_boundary = review_summary.split("## Validation boundary", 1)[1]
+    assert "Seven results lack an attributable run ID" in validation_boundary
+    assert "causal-revision result records a run ID and source SHA" in validation_boundary
+    assert "software.dirty=true" in validation_boundary
+    assert "exact executed tree is not reconstructible" in validation_boundary
 
 
 def test_proposal_maps_distinguish_historical_state_from_current_ledger() -> None:
