@@ -1,11 +1,11 @@
-"""Guard the source-pinned Lab artifact custody proposal reconciliation."""
+"""Guard source-pinned Lab custody owner dispositions and provenance boundaries."""
 
 from __future__ import annotations
 
 import csv
+import re
 from collections import Counter
 from pathlib import Path
-
 
 MIGRATION = Path(__file__).parents[2] / "migration"
 PIN = "80d372a186513035f85a769db886e505cabba52d"
@@ -18,6 +18,21 @@ MAPS = (
     "custody-review-replay-80d372a.tsv",
 )
 IDENTITY_FIELDS = ("source_commit", "source_blob", "bytes", "content_sha256")
+RECONCILED_FIELDS = (
+    "artifact_version_or_identity",
+    "protocol_or_run_linkage",
+    "producer_or_source",
+    "seed_and_configuration",
+)
+ACCEPTED = (
+    "LAB_OWNER_ACCEPTED_CUSTODY_CLASSIFICATION; "
+    "NOT_SCIENTIFICALLY_VALIDATED; NOT_ADMITTED"
+)
+EXCEPTION = "LAB_OWNER_DISPOSITION_PENDING; EXCEPTION_DOCUMENTED; NOT_ADMITTED"
+EMBODIMENT_RESULT_PREFIX = "lab/experiments/embodiment/"
+
+def owner_reclassified_result(path: str) -> bool:
+    return path.startswith(EMBODIMENT_RESULT_PREFIX) and path.endswith("/results.json")
 
 
 def read_tsv(name: str) -> list[dict[str, str]]:
@@ -29,7 +44,56 @@ def proposed_class(row: dict[str, str]) -> str:
     return row.get("proposed_review_class") or row.get("custody_classification", "")
 
 
-def test_all_pinned_artifacts_have_one_identity_matched_proposal() -> None:
+def accepted_rationale(proposal: dict[str, str]) -> str:
+    rationale = proposal["known_limitations_and_rationale"]
+    replacements = (
+        (
+            "Canonical ledger remains DEFER pending review and reconciliation.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "At proposal time, the canonical ledger was DEFER pending review and reconciliation.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "At proposal time, the canonical custody ledger was DEFER pending independent review.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "Canonical custody ledger remains DEFER pending independent review.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "The canonical custody ledger remains DEFER pending independent review.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "Canonical custody ledger remains DEFER.",
+            "Lab owner accepted this custody classification; it does not establish scientific validation, evidence admission, or migration authorization.",
+        ),
+        (
+            "Do not infer unique run provenance or admit as scientific evidence until the missing source/run provenance is resolved.",
+            "Do not infer unique run provenance. The Lab owner accepted SCIENTIFIC_EVIDENCE as a custody classification only; these results remain NOT_ADMITTED and NOT_SCIENTIFICALLY_VALIDATED. No run ID or producer is inferred.",
+        ),
+        (
+            "Proposed evidence class only; result payload lacks run_id, software revision and runtime producer metadata, so it is not admitted or scientifically validated here.",
+            "SCIENTIFIC_EVIDENCE custody classification only; the result payload lacks run_id, software revision, and runtime producer metadata, so it remains NOT_ADMITTED and NOT_SCIENTIFICALLY_VALIDATED.",
+        ),
+        (
+            "proposed as historical protocol only",
+            "classified as PROTOCOL for custody only",
+        ),
+        (
+            "Proposed WORKING_ARTIFACT is a repository-process classification only, not scientific admission, migration, deletion, or a final owner disposition.",
+            "Lab owner accepted WORKING_ARTIFACT as a repository-process custody classification only; this is not scientific admission, migration, or deletion authorization.",
+        ),
+    )
+    for old, new in replacements:
+        rationale = rationale.replace(old, new)
+    return rationale
+
+
+def test_all_477_artifacts_have_identity_matched_owner_dispositions() -> None:
     ledger = read_tsv("scientific-custody-80d372a.tsv")
     proposals: dict[str, dict[str, str]] = {}
     for name in MAPS:
@@ -47,41 +111,115 @@ def test_all_pinned_artifacts_have_one_identity_matched_proposal() -> None:
         assert all(row[field] == proposal[field] for field in IDENTITY_FIELDS)
         assert row["proposed_review_class"] == proposed_class(proposal)
         assert row["proposal_source_map"].startswith("migration/custody-review-")
-        assert row["proposal_review_status"] == (
-            "INDEPENDENT_ADVISOR_REVIEWED_PROPOSAL; "
-            "LAB_OWNER_DISPOSITION_PENDING; NOT_ADMITTED"
-        )
+        if row["proposal_review_status"] == ACCEPTED:
+            assert all(row[field] == proposal[field] for field in RECONCILED_FIELDS)
+            assert row["known_limitations_and_rationale"] == accepted_rationale(proposal)
+            assert "not reviewed sufficiently" not in row["known_limitations_and_rationale"]
+            assert "ledger remains DEFER" not in row["known_limitations_and_rationale"]
+            assert "DEFER pending" not in row["known_limitations_and_rationale"]
+        if owner_reclassified_result(row["source_path"]):
+            assert row["proposed_review_class"] == "DEFER"
+            assert row["custody_classification"] == "SCIENTIFIC_EVIDENCE"
+            assert row["proposal_review_status"] == ACCEPTED
+            assert "NOT_ADMITTED" in row["known_limitations_and_rationale"]
+        elif row["proposed_review_class"] == "DEFER":
+            assert row["custody_classification"] == "DEFER"
+            assert row["proposal_review_status"] == EXCEPTION
+            assert len(row["known_limitations_and_rationale"]) >= 100
+            assert "Reopen" in row["known_limitations_and_rationale"]
+        else:
+            assert row["custody_classification"] == row["proposed_review_class"]
+            assert row["proposal_review_status"] == ACCEPTED
+            assert "NOT_ADMITTED" in row["proposal_review_status"]
 
 
-def test_proposals_remain_separate_from_authoritative_custody_classes() -> None:
+def test_final_classes_are_owner_dispositions_not_admission_claims() -> None:
     ledger = read_tsv("scientific-custody-80d372a.tsv")
     assert Counter(row["custody_classification"] for row in ledger) == {
-        "DEFER": 470,
-        "HISTORICAL_RECORD": 3,
-        "SCIENTIFIC_EVIDENCE": 3,
-        "PROTOCOL": 1,
-    }
-    assert Counter(row["proposed_review_class"] for row in ledger) == {
-        "PROTOCOL": 222,
+        "DEFER": 29,
         "HISTORICAL_RECORD": 95,
-        "SCIENTIFIC_EVIDENCE": 75,
+        "PROTOCOL": 222,
+        "SCIENTIFIC_EVIDENCE": 83,
         "WORKING_ARTIFACT": 48,
-        "DEFER": 37,
     }
+    assert Counter(row["proposal_review_status"] for row in ledger) == {
+        ACCEPTED: 448,
+        EXCEPTION: 29,
+    }
+    assert all(row["custodian"].startswith("Biopeia Lab") for row in ledger)
 
 
-def test_v024_results_and_replay_keep_their_explicit_proposal_boundaries() -> None:
-    ledger = {row["source_path"]: row for row in read_tsv("scientific-custody-80d372a.tsv")}
+def test_v024_results_remain_custody_only_and_replay_is_working_artifact() -> None:
+    ledger = {
+        row["source_path"]: row
+        for row in read_tsv("scientific-custody-80d372a.tsv")
+    }
     for name in ("baseline.json", "causal.json", "causal_validation.json"):
-        path = f"lab/research/audits/historical/v024/{name}"
-        row = ledger[path]
-        assert row["custody_classification"] == row["proposed_review_class"] == "SCIENTIFIC_EVIDENCE"
-        assert "no unique run_id is asserted" in row["protocol_or_run_linkage"]
-        assert row["proposal_review_status"].endswith("NOT_ADMITTED")
+        row = ledger[f"lab/research/audits/historical/v024/{name}"]
+        assert row["custody_classification"] == "SCIENTIFIC_EVIDENCE"
+        assert "no unique per-output run_id is asserted" in row["protocol_or_run_linkage"]
+        assert row["proposal_review_status"] == ACCEPTED
+        assert "NOT_ADMITTED" in row["proposal_review_status"]
 
     replay = ledger["lab/examples/replays/symbiont-replay.json"]
-    assert replay["custody_classification"] == "DEFER"
-    assert replay["proposed_review_class"] == "WORKING_ARTIFACT"
+    assert replay["custody_classification"] == "WORKING_ARTIFACT"
+    assert replay["proposal_review_status"] == ACCEPTED
     replay_map = read_tsv("custody-review-replay-80d372a.tsv")[0]
     assert "not a protocol" in replay_map["known_limitations_and_rationale"].lower()
-    assert replay["proposal_review_status"].endswith("NOT_ADMITTED")
+
+
+def test_cognitive_cycle_manifest_result_conflicts_remain_explicit_exceptions() -> None:
+    ledger = {
+        row["source_path"]: row
+        for row in read_tsv("scientific-custody-80d372a.tsv")
+    }
+    paths = (
+        "lab/research/studies/cognition/cognitive-cycle/"
+        f"2026-10-04-shared-fact-identity-confirmatory-seed{seed}.result.json"
+        for seed in (101, 102, 103)
+    )
+    for path in paths:
+        row = ledger[path]
+        assert row["custody_classification"] == "DEFER"
+        assert row["proposal_review_status"] == EXCEPTION
+        assert "confirmatory" in row["known_limitations_and_rationale"]
+        assert "exploratory" in row["known_limitations_and_rationale"]
+
+
+def test_eight_embodiment_results_are_custody_only_not_admitted():
+    ledger = read_tsv("scientific-custody-80d372a.tsv")
+    results = [
+        row
+        for row in ledger
+        if row["source_path"].startswith("lab/experiments/embodiment/")
+        and row["source_path"].endswith("/results.json")
+    ]
+    assert len(results) == 8
+    for row in results:
+        assert row["custody_classification"] == "SCIENTIFIC_EVIDENCE"
+        assert row["proposal_review_status"] == ACCEPTED
+        assert "candidate protocol=" in row["protocol_or_run_linkage"]
+        assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]
+        assert "execution producer/source commit not identified" in row["producer_or_source"]
+        assert "config_digest=" in row["seed_and_configuration"]
+        assert "NOT_ADMITTED" in row["known_limitations_and_rationale"]
+        assert "No run ID or producer is inferred" in row["known_limitations_and_rationale"]
+
+
+def test_proposal_maps_distinguish_historical_state_from_current_ledger() -> None:
+    proposal_docs = (
+        "custody-review-experiment-root-readme-80d372a.md",
+        "custody-review-other-experiments-80d372a.md",
+    )
+    proposal_tsvs = (
+        "custody-review-experiment-root-readme-80d372a.tsv",
+        "custody-review-other-experiments-80d372a.tsv",
+    )
+    for name in proposal_docs:
+        assert "proposal-time" in (MIGRATION / name).read_text(encoding="utf-8")
+    for name in proposal_tsvs:
+        content = (MIGRATION / name).read_text(encoding="utf-8")
+        assert "At proposal time" in content
+        assert not re.search(
+            r"(?:canonical (?:custody )?ledger) remains DEFER", content, re.IGNORECASE
+        )

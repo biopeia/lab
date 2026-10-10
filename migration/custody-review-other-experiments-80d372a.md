@@ -18,7 +18,7 @@ This is a content-level, scope-specific proposal for the 38 files under the foll
 
 Source: `alessbarb/symbiont-lab` at `80d372a186513035f85a769db886e505cabba52d`.
 
-The proposal is deliberately separate from `scientific-custody-80d372a.tsv`. The canonical ledger remains unchanged: all 38 corresponding entries remain `DEFER`. Every proposed class below requires independent review and is explicitly **not admitted** as evidence. This is a custody classification proposal only; it does not assert validity, reproducibility, scientific equivalence, migration, publication, transfer, or deletion.
+This TSV is a proposal-time review map, separate from the current canonical disposition in `scientific-custody-80d372a.tsv`. Its `ledger_classification` and proposal-status fields preserve the ledger state recorded when the map was prepared; they are not a statement of current canonical status. The Lab owner has since reconciled the current ledger: the paths in this map now have accepted custody classifications except the one specifically documented `DEFER` exception. Accepted classifications are custody labels only and are **not admitted** as scientific evidence. This record does not assert validity, reproducibility, scientific equivalence, migration, publication, transfer, or deletion.
 
 ## Proposed classes
 
@@ -44,4 +44,4 @@ The TSV is the element-level mapping and records each exact source path, source 
 
 ## Review boundary
 
-Independent review must reconcile these proposals against the canonical custody ledger before any canonical reclassification. Lab retains scientific custody responsibility; that responsibility alone does not admit evidence or authorize artifact transfer. Preserve the pinned source unchanged while review is pending.
+The independent review and owner reconciliation have been recorded in the canonical custody ledger. This proposal map remains as review provenance; consult the canonical ledger for current classifications and exceptions. Lab retains scientific custody responsibility; that responsibility alone does not admit evidence or authorize artifact transfer. The pinned source remains unchanged.
