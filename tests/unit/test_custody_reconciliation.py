@@ -338,6 +338,8 @@ def test_heredity_leakage_disposition_is_bounded_and_cross_ledger_consistent() -
     assert disposition["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert disposition["source_implementation_TARGET_disposition"] == "DROP"
     assert "software.dirty=true" in disposition["real_run_identity"]
+    assert "scientifically_valid=null" in disposition["source_evidence_basis"]
+    assert "integrity_pass=null" in disposition["source_evidence_basis"]
     assert "method equivalence claim is made" in disposition["limitations_and_nonclaims"]
     assert "test_e7_heredity_leakage_replay" in links["test_symbol_links"]
     assert "test_e7_e8_protocols_registered" in links["test_symbol_links"]
