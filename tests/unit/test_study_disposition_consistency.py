@@ -20,8 +20,17 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 4
-    for unit in units:
+    assert len(units) == 5
+    by_id = {unit["unit_id"]: unit for unit in units}
+    assert len(by_id) == len(units)
+    deferred = by_id.pop("learning.visual-predictor-audit")
+    assert deferred["study_protocol_disposition"] == "DEFER"
+    assert deferred["source_implementation_TARGET_disposition"] == "DEFER"
+    implementation_path, expected_blob = deferred["implementation_path_and_blob"].split("@", maxsplit=1)
+    assert source[implementation_path]["source_blob_at_pinned_commit"] == expected_blob
+    assert source[implementation_path]["disposition"] == "DEFER"
+
+    for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
         assert unit["source_implementation_TARGET_disposition"] == "DROP"
         for source_ref in (
