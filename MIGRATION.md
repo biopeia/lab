@@ -313,13 +313,16 @@ implementation callable, registry-ID lookup tests, and explicit
 `NO_DIRECT_TEST_LINK` rows.
 
 The companion [`migration/study-disposition-register-80d372a.tsv`](migration/study-disposition-register-80d372a.tsv)
-records the one resolved owner-directed `HISTORICAL_PROTOCOL` unit. The
-protocol crosswalk retains the other 75 candidate IDs as `DEFER`. The
-historical implementation for the resolved protocol is `DROP` as
-TARGET code. This disposition does not copy or move protocol/result bytes; the historical
-source remains read-only at the recorded source paths. Its linked result/config
-has an unresolved population-size discrepancy and is not treated as conformant,
-scientifically validated, or admitted by this disposition. Links establish source-code traceability only,
+records two resolved owner-directed `HISTORICAL_PROTOCOL` units:
+`continuity.recurrent-restoration` and
+`world.genesis-viability-characterization`. The protocol crosswalk retains the
+other 74 candidate IDs as `DEFER`. Both historical implementations are `DROP`
+as TARGET code. This disposition does not copy or move protocol/result bytes;
+the historical source remains read-only at the recorded source paths. The
+genesis-viability unit's linked result/config has an unresolved population-size
+discrepancy and is not treated as conformant, scientifically validated, or
+admitted by this disposition. No run/result artifact is present in the recurrent-restoration protocol
+directory at the pinned source commit. Links establish source-code traceability only,
 not scientific provenance, test validity, method preservation, or disposition
 closure. This is not a reconciliation of the historical “129” count, a
 crosswalk of all study capabilities, or a claim that every historical artifact
