@@ -28,9 +28,9 @@ No source artifact was modified, copied, deleted, or scientifically admitted by 
 | Custody class | Count |
 | --- | ---: |
 | `SCIENTIFIC_EVIDENCE` | 83 |
-| `PROTOCOL` | 222 |
+| `PROTOCOL` | 221 |
 | `HISTORICAL_RECORD` | 95 |
-| `WORKING_ARTIFACT` | 48 |
+| `WORKING_ARTIFACT` | 49 |
 | `DEFER` (documented exception; not admitted) | 29 |
 | **Total** | **477** |
 

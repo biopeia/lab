@@ -84,6 +84,14 @@ def accepted_rationale(proposal: dict[str, str]) -> str:
             "classified as PROTOCOL for custody only",
         ),
         (
+            "The exact README bytes define generic directory organization and execution boundaries; they contain no study-specific hypothesis, conditions, seeds, method, or execution record. WORKING_ARTIFACT is custody classification only, not deletion or migration authorization.",
+            "Generic directory-scope README: organization, file placement, execution boundary, and generic limitation only. The adjacent experiment.toml is the study-specific protocol. Lab owner accepts WORKING_ARTIFACT as custody classification only; no scientific validation, evidence admission, migration, or deletion authorization.",
+        ),
+        (
+            "The JSON records a run_id and base software git SHA; dirty=true means the exact executed tree is not reconstructible. scientifically_valid=null and integrity_pass=null; neither field asserts a positive conclusion. Custody class is not validation or admission.",
+            "The result records a run_id and base software git SHA, but software.dirty=true and no patch/worktree diff is preserved, so the exact executed source tree is not reconstructible. Its scientifically_valid=null and integrity_pass=null; neither field asserts a positive conclusion. Lab owner accepts SCIENTIFIC_EVIDENCE as custody classification only; NOT_ADMITTED and NOT_SCIENTIFICALLY_VALIDATED.",
+        ),
+        (
             "Proposed WORKING_ARTIFACT is a repository-process classification only, not scientific admission, migration, deletion, or a final owner disposition.",
             "Lab owner accepted WORKING_ARTIFACT as a repository-process custody classification only; this is not scientific admission, migration, or deletion authorization.",
         ),
@@ -143,9 +151,9 @@ def test_final_classes_are_owner_dispositions_not_admission_claims() -> None:
     assert Counter(row["custody_classification"] for row in ledger) == {
         "DEFER": 29,
         "HISTORICAL_RECORD": 95,
-        "PROTOCOL": 222,
+        "PROTOCOL": 221,
         "SCIENTIFIC_EVIDENCE": 83,
-        "WORKING_ARTIFACT": 48,
+        "WORKING_ARTIFACT": 49,
     }
     assert Counter(row["proposal_review_status"] for row in ledger) == {
         ACCEPTED: 448,
@@ -211,6 +219,13 @@ def test_eight_embodiment_results_are_custody_only_not_admitted():
             assert "exact executed source tree not reconstructible" in row["protocol_or_run_linkage"]
             assert "h1_supported=false" in row["known_limitations_and_rationale"]
             assert "scientifically_valid=true" in row["known_limitations_and_rationale"]
+        elif row["source_path"].endswith("heredity-leakage-challenge/results.json"):
+            assert "run_id=20260921T140452Z-embodiment-heredity-leakage-challenge-215145d-5d8f" in row["protocol_or_run_linkage"]
+            assert "software.dirty=true" in row["protocol_or_run_linkage"]
+            assert "exact executed source tree not reconstructible" in row["protocol_or_run_linkage"]
+            assert "scientifically_valid=null" in row["known_limitations_and_rationale"]
+            assert "integrity_pass=null" in row["known_limitations_and_rationale"]
+            assert "neither field asserts a positive conclusion" in row["known_limitations_and_rationale"]
         else:
             assert "candidate protocol=" in row["protocol_or_run_linkage"]
             assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]
@@ -308,3 +323,38 @@ def test_proposal_maps_distinguish_historical_state_from_current_ledger() -> Non
         assert not re.search(
             r"(?:canonical (?:custody )?ledger) remains DEFER", content, re.IGNORECASE
         )
+
+
+def test_heredity_leakage_disposition_is_bounded_and_cross_ledger_consistent() -> None:
+    protocol_id = "embodiment.heredity-leakage-challenge"
+    source_root = "lab/experiments/embodiment/heredity-leakage-challenge/"
+    crosswalk = {row["protocol_id"]: row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")}[protocol_id]
+    disposition = {row["unit_id"]: row for row in read_tsv("study-disposition-register-80d372a.tsv")}[protocol_id]
+    links = {row["protocol_id"]: row for row in read_tsv("study-protocol-test-links-80d372a.tsv")}[protocol_id]
+    inventory = {row["source_path"]: row for row in read_tsv("source-inventory-80d372a.tsv")}
+    custody = {row["source_path"]: row for row in read_tsv("scientific-custody-80d372a.tsv")}
+
+    assert crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert disposition["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert disposition["source_implementation_TARGET_disposition"] == "DROP"
+    assert "software.dirty=true" in disposition["real_run_identity"]
+    assert "scientifically_valid=null" in disposition["source_evidence_basis"]
+    assert "integrity_pass=null" in disposition["source_evidence_basis"]
+    assert "method equivalence claim is made" in disposition["limitations_and_nonclaims"]
+    assert "test_e7_heredity_leakage_replay" in links["test_symbol_links"]
+    assert "test_e7_e8_protocols_registered" in links["test_symbol_links"]
+    implementation = "lab/src/lab/studies/embodiment/heredity_leakage_challenge.py"
+    assert inventory[implementation]["disposition"] == "DROP"
+    assert custody[source_root + "README.md"]["custody_classification"] == "WORKING_ARTIFACT"
+    assert custody[source_root + "experiment.toml"]["custody_classification"] == "PROTOCOL"
+    result = custody[source_root + "results.json"]
+    assert result["custody_classification"] == "SCIENTIFIC_EVIDENCE"
+    assert result["proposal_review_status"] == ACCEPTED
+    assert "NOT_ADMITTED" in result["proposal_review_status"]
+    assert "scientifically_valid=null" in result["known_limitations_and_rationale"]
+    assert "integrity_pass=null" in result["known_limitations_and_rationale"]
+    assert "neither field asserts a positive conclusion" in result["known_limitations_and_rationale"]
+    review_summary = (MIGRATION / "custody-review-embodiment-kernel-80d372a.md").read_text(
+        encoding="utf-8"
+    )
+    assert "`scientifically_valid` and `integrity_pass` fields are `null`" in review_summary
