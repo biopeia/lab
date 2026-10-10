@@ -354,3 +354,7 @@ def test_heredity_leakage_disposition_is_bounded_and_cross_ledger_consistent() -
     assert "scientifically_valid=null" in result["known_limitations_and_rationale"]
     assert "integrity_pass=null" in result["known_limitations_and_rationale"]
     assert "neither field asserts a positive conclusion" in result["known_limitations_and_rationale"]
+    review_summary = (MIGRATION / "custody-review-embodiment-kernel-80d372a.md").read_text(
+        encoding="utf-8"
+    )
+    assert "`scientifically_valid` and `integrity_pass` fields are `null`" in review_summary
