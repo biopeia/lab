@@ -211,7 +211,7 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-merge commit references: Embodiment `0562febd8dfffaa826c339600bb548ea172fa256`,
+commit references: Embodiment `028e2f912eccbe554a9d7f8543fe9dfe2bb94218`,
 Environment `a979688e90b279ccfe003d77eddb787272fd5ebf`, Observation
 `be82907d1d677b2362e369d15eb1e8e964d893aa`, and World
 `4d264b24d0501a51d8b56b9cbe762aff3402da7b`. World main provides durable
@@ -224,20 +224,28 @@ authenticated authorization. Quantity remains a scalar with no established
 physical material-energy equivalence. No experiments or scientific assets were
 moved or run.
 
-### CI boundary for private domain dependencies
+### Lab CI boundary for cross-repository dependencies
 
-The material-transfer contract tests remain real tests in
-`tests/integration/test_material_transfer_intervention.py`; they run against
-the actual Embodiment, Environment, World, and Observation package APIs. They
-were not replaced by mocks. The package repository's default GitHub Actions
-token is scoped to Lab and cannot clone those private repositories, as shown by
-the failed CI install logs (`fatal: could not read Username for
-'https://github.com'`). Therefore, package CI installs the dependency-free
-`dev` extra and runs only `tests/unit`; workspace integration runs are separate
-and use the sibling local checkouts through `requirements-integration.txt`.
-The pinned Git dependencies remain available as an explicit `integration`
-extra for authorized consumers. Green package CI alone is not evidence that
-the cross-package intervention tests ran.
+The material-transfer contract tests in `tests/integration` exercise the
+actual Embodiment, Environment, World, and Observation APIs; they are not
+replaced by mocks. The domain repositories are public, and their immutable
+commit references are declared by the `integration` extra in `pyproject.toml`.
+The required Lab CI workflow installs that extra on Python 3.12 and explicitly
+runs `tests/integration`; dependency or setup failures fail the job. It also
+runs unit tests on Python 3.11 and 3.12 and builds, installs, and imports the
+wheel in an isolated Python 3.11 environment. These checks establish software
+integration and package-distribution evidence only; they do not establish
+scientific validity, efficacy, or historical equivalence.
+
+The integration suite was locally verified against the exact immutable
+dependency revisions in `pyproject.toml` (17 passed). An exploratory run
+against the current moving `main` heads of all sibling repositories produced
+15 passed and 2 failed: the current Environment main exposes
+`validate_checkpoint`, while current World main requires
+`verify_restoration` for the corresponding owner contract. This does not alter
+the tested immutable integration set and must not be hidden by a skip or
+fallback. Updating these pins requires resolving that owner-contract mismatch
+in the relevant domain repositories first.
 
 ## Preliminary candidate source inventory — Lab runtime, studies, observation, and apparatus
 
@@ -471,7 +479,7 @@ record; no source bytes are copied into this repository.
 
 `tests/integration/test_operator_material_transfer.py` was copied unchanged from the unversioned local integration workspace by Architecture Owner decision of 2026-10-09. It imports Lab, so it belongs here and not with World: World must not depend on Lab. It is a new Biopeia test; no path of the historical source repository corresponds to it.
 
-Verified on 2026-10-09 against the revisions pinned in the `integration` extra: `tests/integration` 9 passed.
+Verified on 2026-10-09 against the then-pinned revisions in the `integration` extra: `tests/integration` 9 passed. This is historical evidence; current validation is recorded below.
 
 **Finding, not fixed here.** Against the `main` branches of the other repositories on the same day the integration suite does not pass: 7 of the 8 existing integration tests and this one fail with `ManifestError: initial causal cut checkpoint dependency closure is not verified`. Substituting one repository at a time isolates the cause to Environment: with World and Embodiment at `main` and Environment at the pinned `c14814a` the suite passes; with Environment at `main` (`f2ef8c2`) it fails. The pins were not moved. Default CI runs only the isolated unit suite, so it does not show this.
 
