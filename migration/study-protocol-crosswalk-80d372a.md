@@ -43,12 +43,15 @@ dispositions and limitations.
 The 76 registered IDs are candidate units, not 76 proven independent studies.
 The companion
 [`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
-records the one resolved owner-directed `HISTORICAL_PROTOCOL`
-(`world.genesis-viability-characterization`). The crosswalk retains the other
-75 candidate IDs as `DEFER`. The historical implementation is `DROP` as TARGET
-code. This disposition does not copy or move historical protocol/result bytes. Its linked result has an
-unresolved configuration/population discrepancy and is not treated as
-conformant or scientifically validated. The crosswalk alone does not close any
+records two resolved owner-directed `HISTORICAL_PROTOCOL` units:
+`continuity.recurrent-restoration` and
+`world.genesis-viability-characterization`. The crosswalk retains the other
+74 candidate IDs as `DEFER`. Both historical implementations are `DROP` as TARGET
+code. These dispositions do not copy or move historical protocol/result bytes.
+The genesis-viability unit's linked result has an unresolved
+configuration/population discrepancy and is not treated as conformant or
+scientifically validated; the recurrent-restoration unit has no result/run
+artifact at the pinned source commit. The crosswalk alone does not close any
 study unit. Remaining per-study dispositions must be one of:
 
 - `REIMPLEMENT_METHOD` with a scientifically reviewed method/estimand record;
@@ -68,5 +71,8 @@ The registry has 76 distinct IDs at the pinned source SHA. It is not a count of
 all study capabilities: helper modules, unregistered study code, `experiment.toml`
 files, tests, and artifact groups are different units. This crosswalk does not
 classify unregistered code or resolve the historical, unreconciled “129” count.
-It does not classify the 470 unclassified custody artifacts or alter the seven
-previously classified records. Those remain governed by the Lab custody ledger.
+Custody classification is maintained separately in
+[`scientific-custody-80d372a.tsv`](scientific-custody-80d372a.tsv): 477 source artifacts
+are accounted for, with 448 owner-accepted custody classifications and 29
+row-specific pending exceptions. This study crosswalk does not alter those
+artifact-level custody dispositions.
