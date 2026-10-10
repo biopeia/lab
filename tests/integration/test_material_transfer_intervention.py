@@ -202,7 +202,8 @@ def test_intervention_commits_durable_owner_cut_and_lab_evidence(tmp_path) -> No
     }
     assert result.resource_candidate.state.remaining == 1.5
     assert result.body_candidate.body_state.energy_reserve == 2.0
-    assert [event["type"] for event in result.observations] == ["body", "cognition", "vitals"]
+    assert [event["type"] for event in result.observations] == ["body", "vitals"]
+    assert all(event["type"] != "cognition" for event in result.observations)
     assert all("run_id" not in event for event in result.observations)
 
 
