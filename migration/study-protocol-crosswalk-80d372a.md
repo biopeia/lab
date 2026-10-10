@@ -34,13 +34,22 @@ or that any result is admissible evidence. A registry-ID lookup proves only
 that the test queries that key. `NO_DIRECT_TEST_LINK` means these explicit
 static patterns did not establish a link; it does not prove no indirect or
 dynamic association exists. Test and implementation blob IDs are from the
-pinned source tree. The supplemental table does not change any protocol
-disposition.
+pinned source tree. Test-link evidence does not change scientific disposition;
+the separately maintained study disposition register records approved unit-level
+dispositions and limitations.
 
 ## Disposition
 
-Every protocol is currently `DEFER`. The crosswalk does not close any study
-unit. A later per-study disposition must be one of:
+The 76 registered IDs are candidate units, not 76 proven independent studies.
+The companion
+[`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
+records the one resolved owner-directed `HISTORICAL_PROTOCOL`
+(`world.genesis-viability-characterization`). The crosswalk retains the other
+75 candidate IDs as `DEFER`. The historical implementation is `DROP` as TARGET
+code. This disposition does not copy or move historical protocol/result bytes. Its linked result has an
+unresolved configuration/population discrepancy and is not treated as
+conformant or scientifically validated. The crosswalk alone does not close any
+study unit. Remaining per-study dispositions must be one of:
 
 - `REIMPLEMENT_METHOD` with a scientifically reviewed method/estimand record;
 - `HISTORICAL_PROTOCOL` where the source protocol remains historical;

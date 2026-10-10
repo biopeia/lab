@@ -306,17 +306,25 @@ at the same pin; target paths are present consumers, not proposed destinations.
 and its TSV enumerate the 76 protocol IDs registered at the pinned source SHA
 `80d372a186513035f85a769db886e505cabba52d`, with statically resolved
 registry-callable and implementation-module candidates plus candidate spec,
-test and artifact paths. The supplemental
-[`migration/study-protocol-test-links-80d372a.tsv`](migration/study-protocol-test-links-80d372a.tsv)
+test and artifact paths. [`migration/study-protocol-test-links-80d372a.tsv`](migration/study-protocol-test-links-80d372a.tsv)
 records pinned implementation blobs and test-symbol links established by
 static source inspection. It distinguishes direct calls to the registered
 implementation callable, registry-ID lookup tests, and explicit
-`NO_DIRECT_TEST_LINK` rows. All 76 remain `DEFER`; links establish source-code
-traceability only, not scientific provenance, test validity, method
-preservation, or disposition closure. This is not a reconciliation of the
-historical “129” count, a crosswalk of all study capabilities, or a claim that
-every historical artifact has been classified. Unregistered study modules
-and artifact-level custody decisions remain open.
+`NO_DIRECT_TEST_LINK` rows.
+
+The companion [`migration/study-disposition-register-80d372a.tsv`](migration/study-disposition-register-80d372a.tsv)
+records the one resolved owner-directed `HISTORICAL_PROTOCOL` unit. The
+protocol crosswalk retains the other 75 candidate IDs as `DEFER`. The
+historical implementation for the resolved protocol is `DROP` as
+TARGET code. This disposition does not copy or move protocol/result bytes; the historical
+source remains read-only at the recorded source paths. Its linked result/config
+has an unresolved population-size discrepancy and is not treated as conformant,
+scientifically validated, or admitted by this disposition. Links establish source-code traceability only,
+not scientific provenance, test validity, method preservation, or disposition
+closure. This is not a reconciliation of the historical “129” count, a
+crosswalk of all study capabilities, or a claim that every historical artifact
+has been classified. Unregistered study modules and artifact-level custody
+decisions remain open.
 
 ### Target consumer and test evidence (bounded)
 
@@ -362,10 +370,13 @@ manifest disposition counts are:
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
 | `SPLIT` | 149 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 398 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 617 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 399 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 616 | Open disposition, not final. Must be revisited before migration completion. |
 
-The file-level classifications are intentionally conservative. A `SPLIT` row
+The file-level classifications are intentionally conservative. One study
+implementation row was changed from `DEFER` to `DROP` in this update; the study
+protocol itself is separately retained as `HISTORICAL_PROTOCOL` in the study
+disposition register. A `SPLIT` row
 does not assert that a particular source symbol is worth preserving. A `DROP`
 row means “do not migrate this source artifact or its legacy interface”; the
 historical source copy remains untouched. A `DEFER` row is explicit migration
