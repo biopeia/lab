@@ -421,9 +421,6 @@ def apply_material_transfer(
             "sequence": record.causal_tick,
             "tick": record.causal_tick,
             "body_kind": "operator-intervention",
-            "metabolic_reserve_ratio": (
-                candidate_body.body_state.energy_reserve / candidate_body.body_state.max_energy
-            ),
             "resource_remaining": candidate_resource.state.remaining,
         }
     )
