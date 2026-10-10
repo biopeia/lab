@@ -20,7 +20,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 5
+    assert len(units) == 6
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     deferred = by_id.pop("learning.visual-predictor-audit")
@@ -29,6 +29,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     implementation_path, expected_blob = deferred["implementation_path_and_blob"].split("@", maxsplit=1)
     assert source[implementation_path]["source_blob_at_pinned_commit"] == expected_blob
     assert source[implementation_path]["disposition"] == "DEFER"
+    new_method = by_id.pop("embodiment.hidden-common-cause")
+    assert new_method["study_protocol_disposition"] == "REIMPLEMENT_METHOD"
+    assert new_method["source_implementation_TARGET_disposition"] == "DROP"
 
     for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"

@@ -415,3 +415,37 @@ def test_visual_predictor_audit_is_an_actionable_bounded_defer() -> None:
     source_row = inventory[implementation.split("@blob:")[0]]
     assert source_row["disposition"] == "DEFER"
     assert issue in source_row["rationale_and_caveat"]
+
+
+def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> None:
+    protocol_id = "embodiment.hidden-common-cause"
+    crosswalk = {
+        row["protocol_id"]: row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+    }[protocol_id]
+    disposition = {
+        row["unit_id"]: row
+        for row in read_tsv("study-disposition-register-80d372a.tsv")
+    }[protocol_id]
+    inventory = {
+        row["source_path"]: row
+        for row in read_tsv("source-inventory-80d372a.tsv")
+    }
+
+    assert crosswalk["candidate_disposition"] == "REIMPLEMENT_METHOD"
+    assert "issue (#59)" in crosswalk["basis"]
+    assert "does not preserve the historical method" in crosswalk["basis"]
+    assert disposition["source_commit"] == PIN
+    assert disposition["study_protocol_disposition"] == "REIMPLEMENT_METHOD"
+    assert disposition["source_implementation_TARGET_disposition"] == "DROP"
+    assert "confounded_false_positive_rate=1.0" in disposition["source_evidence_basis"]
+    assert "h1_supported=false" in disposition["source_evidence_basis"]
+    assert "not treated as independent scientific validation" in disposition["source_evidence_basis"]
+    assert "NOT_ADMITTED" in disposition["limitations_and_nonclaims"]
+    assert "No scientific validity" in disposition["limitations_and_nonclaims"]
+    assert (
+        inventory["lab/src/lab/studies/embodiment/hidden_common_cause.py"][
+            "disposition"
+        ]
+        == "DROP"
+    )
