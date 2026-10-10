@@ -21,7 +21,7 @@ from embodiment.checkpoint import EmbodimentCheckpoint
 from embodiment.intake import MaterialTransfer, absorb_material_transfer
 from environment.identified_resource import IdentifiedFiniteResource
 from observation.projection import runtime_tick_events
-from world.durable_runtime import DurableWorldRuntime
+from world.durable_runtime import DurableWorldRuntime, OwnerCausalRecord
 from world.journal import CausalRecord
 from world.manifest import CheckpointReference, ManifestError
 from world.runtime import PresenceId
@@ -33,7 +33,8 @@ EMBODIMENT_OWNER = "embodiment"
 LAB_EVIDENCE_OWNER = "lab-intervention-evidence"
 ENVIRONMENT_SCHEMA = IdentifiedFiniteResource.OWNER_SCHEMA
 EMBODIMENT_SCHEMA = "embodiment-checkpoint-v1"
-EVIDENCE_SCHEMA = "lab-intervention-evidence-v1"
+EVIDENCE_SCHEMA = "lab-intervention-evidence-v2"
+OWNER_RECORD_TYPE = "world.owner_record.committed"
 
 
 class InterventionKind(StrEnum):
@@ -83,7 +84,7 @@ class InterventionRequest:
 
 
 class LabInterventionEvidenceCodec:
-    """Lab-owned validation of its evidence checkpoint, without World receipts."""
+    """Lab-owned validation of intervention evidence checkpoint identity."""
 
     @classmethod
     def validate_checkpoint(cls, encoded: bytes, owner_identity: str, schema_version: str) -> bool:
@@ -95,8 +96,10 @@ class LabInterventionEvidenceCodec:
             return False
         return (
             isinstance(payload, dict)
-            and payload.get("schema_version") == 1
+            and payload.get("schema_version") == 2
             and payload.get("intervention_id") == owner_identity
+            and isinstance(payload.get("intervention_action_id"), str)
+            and bool(payload["intervention_action_id"].strip())
         )
 
     @classmethod
@@ -168,6 +171,7 @@ class MaterialTransferResult:
     """Committed World record and owner candidates from an adopted cut."""
 
     record: CausalRecord
+    intervention_action_id: str
     evidence_reference: CheckpointReference
     observations: tuple[dict[str, object], ...]
     resource_candidate: IdentifiedFiniteResource
@@ -181,6 +185,7 @@ def apply_material_transfer(
     resource: IdentifiedFiniteResource,
     body: EmbodimentCheckpoint,
     request: InterventionRequest,
+    intervention_action_id: str,
     transition_id: str,
     requested_material: float,
 ) -> MaterialTransferResult:
@@ -197,10 +202,14 @@ def apply_material_transfer(
         raise TypeError("resource must be an Environment-owned identified resource")
     if not isinstance(body, EmbodimentCheckpoint):
         raise TypeError("body must be an EmbodimentCheckpoint")
-    if not transition_id or not transition_id.strip():
-        raise ValueError("transition_id must be non-empty and distinct from intervention_id")
+    if not isinstance(transition_id, str) or not transition_id.strip():
+        raise ValueError("transition_id must be non-empty")
     if transition_id == request.intervention_id:
         raise ValueError("transition_id must be distinct from intervention_id")
+    if not isinstance(intervention_action_id, str) or not intervention_action_id.strip():
+        raise ValueError("intervention_action_id must be non-empty")
+    if intervention_action_id in {request.intervention_id, transition_id}:
+        raise ValueError("intervention_action_id must be distinct from intervention_id and transition_id")
     source_id = resource.resource_id
     body_id = body.body_id
     if source_id != request.source_id:
@@ -220,6 +229,38 @@ def apply_material_transfer(
     embodiment_key = (EMBODIMENT_OWNER, body_id)
     if set(world.manifest.registered_owner_ids) != {environment_key, embodiment_key}:
         raise ValueError("World genesis owner roster must exactly match the Environment and Embodiment owners")
+
+    # These fields identify the logical request/provenance and therefore stay
+    # fixed across its causal actions. Resource/body targets and quantities
+    # below describe each action, not the logical intervention as a whole.
+    intervention_context: dict[str, object] = {
+        "operator_id": request.operator_id,
+        "applicability": request.kind.value,
+        "run_id": request.run_id,
+        "study_id": request.study_id,
+        "experiment_id": request.experiment_id,
+        "protocol_id": request.protocol_id,
+    }
+
+    def validate_intervention_history() -> None:
+        for journal_record in world.records:
+            if journal_record.record_type != OWNER_RECORD_TYPE:
+                continue
+            envelope = journal_record.payload
+            if (
+                envelope.get("owner_id") != LAB_EVIDENCE_OWNER
+                or envelope.get("owner_identity") != request.intervention_id
+            ):
+                continue
+            if envelope.get("owner_record_id") == intervention_action_id:
+                raise ValueError("intervention action id was already committed in this World")
+            data = envelope.get("data")
+            if not isinstance(data, Mapping) or data.get("intervention_context") != intervention_context:
+                raise ValueError("intervention_id cannot be reused with a different immutable intervention context")
+
+    # Fail user errors before World enters PREPARING. World independently
+    # enforces stable action-record uniqueness at commit, including after restore.
+    validate_intervention_history()
 
     # Verify the accepted World cut references the exact owner identities and
     # that its checkpoint values still represent the supplied owner objects.
@@ -258,8 +299,9 @@ def apply_material_transfer(
 
     def write_owner_checkpoints(causal_tick: int) -> tuple[CheckpointReference, ...]:
         evidence: dict[str, object] = {
-            "schema_version": 1,
+            "schema_version": 2,
             "intervention_id": request.intervention_id,
+            "intervention_action_id": intervention_action_id,
             "operator_id": request.operator_id,
             "applicability": request.kind.value,
             "transition_id": transition_id,
@@ -298,19 +340,69 @@ def apply_material_transfer(
             checkpoint_store.write(
                 owner=LAB_EVIDENCE_OWNER,
                 owner_identity=request.intervention_id,
-                checkpoint_id=f"tick-{causal_tick}",
+                checkpoint_id=f"action-{hashlib.sha256(intervention_action_id.encode()).hexdigest()}",
                 schema_version=EVIDENCE_SCHEMA,
                 encoded=evidence_bytes,
             ),
         )
         staged["evidence"] = evidence
-        staged["evidence_ref"] = refs[2]
+        evidence_refs = tuple(
+            ref
+            for ref in refs
+            if ref.owner == LAB_EVIDENCE_OWNER
+            and ref.owner_identity == request.intervention_id
+        )
+        if len(evidence_refs) != 1:
+            raise RuntimeError("Lab evidence checkpoint writer must return exactly one matching reference")
+        staged["evidence_ref"] = evidence_refs[0]
         return refs
+
+    def write_owner_records(
+        causal_tick: int,
+        owner_references: tuple[CheckpointReference, ...],
+    ) -> tuple[OwnerCausalRecord, ...]:
+        # Recheck while World owns its single-writer tick guard. The World
+        # journal is the durable index; Lab remains the semantic/evidence owner.
+        validate_intervention_history()
+        evidence_refs = tuple(
+            ref
+            for ref in owner_references
+            if ref.owner == LAB_EVIDENCE_OWNER
+            and ref.owner_identity == request.intervention_id
+        )
+        if len(evidence_refs) != 1:
+            raise RuntimeError("World candidate cut must contain exactly one Lab evidence checkpoint")
+        evidence_ref = evidence_refs[0]
+        return (
+            OwnerCausalRecord(
+                owner_id=LAB_EVIDENCE_OWNER,
+                owner_identity=request.intervention_id,
+                owner_record_id=intervention_action_id,
+                payload={
+                    "schema_version": 1,
+                    "intervention_id": request.intervention_id,
+                    "intervention_action_id": intervention_action_id,
+                    "intervention_context": intervention_context,
+                    "transition_id": transition_id,
+                    "world_id": world.world_id.value,
+                    "causal_tick": causal_tick,
+                    "evidence_checkpoint": {
+                        "owner": evidence_ref.owner,
+                        "owner_identity": evidence_ref.owner_identity,
+                        "checkpoint_id": evidence_ref.checkpoint_id,
+                        "schema_version": evidence_ref.schema_version,
+                        "locator": evidence_ref.locator,
+                        "sha256": evidence_ref.sha256,
+                    },
+                },
+            ),
+        )
 
     evidence_contract = checkpoint_store.evidence_contract()
     record = world.tick(
         transition_id,
         write_owner_checkpoints,
+        write_owner_records=write_owner_records,
         step_participants=((LAB_EVIDENCE_OWNER, request.intervention_id),),
         register_owner_contracts={
             (LAB_EVIDENCE_OWNER, request.intervention_id): evidence_contract
@@ -337,6 +429,7 @@ def apply_material_transfer(
     )
     return MaterialTransferResult(
         record=record,
+        intervention_action_id=intervention_action_id,
         evidence_reference=evidence_reference,
         observations=observations,
         resource_candidate=candidate_resource,

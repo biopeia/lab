@@ -155,12 +155,35 @@ Authentication, permission checks, and principal-reference semantics belong
 to the control plane/application security boundary and are outside this API.
 The `requested_material` field records the requested action; the Environment
 and Embodiment APIs retain authority over offered quantity and accepted amount.
-The World causal cut references the step-scoped Lab evidence checkpoint; the
-World's generic causal record does not itself contain the intervention payload.
-The causal cut applies to this one committed transfer invocation only; it does
-not establish experimental causality, efficacy, repeatability, or physical
-interaction. This API is
-bounded to controlled experimental transfer under caller-supplied conditions;
+The operation carries two distinct identities: `intervention_id` identifies
+the logical intervention, while required `intervention_action_id` identifies
+each causal action it produces. A single intervention may produce multiple
+actions and commits; a repeated action ID for the same World/intervention is
+rejected. Neither identity aliases the World `transition_id` or `run_id`.
+The operator and declared study/run applicability identify the logical
+intervention and remain stable across its actions. Source resource, target
+body, requested quantity, and the request's maximum quantity are per-action
+inputs, not logical-intervention identity. This bounded function currently
+requires a World roster with exactly one Environment resource and one
+Embodiment body, so it does not yet support changing source/body identities
+between actions. The fixture exercises multiple actions against that same
+registered pair.
+World's generic causal-tick record does not contain the intervention payload.
+Instead, Lab supplies an opaque `OwnerCausalRecord` to the World journal, with
+the stable action identity and an exact content-addressed reference to the Lab
+evidence checkpoint. The World journal therefore retains the committed
+evidence pointer across later ticks and restart, while Lab remains the
+scientific/evidence custodian and World does not interpret the payload.
+
+Evidence files staged for a failed causal step may remain as uncommitted
+orphans. They are not accepted actions unless a matching committed owner record
+exists in the durable World journal. This linkage identifies commit status; it
+does not prove long-term external archival, production crash/power-loss
+durability, or scientific admissibility.
+Each causal cut applies to exactly one committed transfer action. A logical
+intervention may correlate multiple such cuts, but that does not establish
+experimental causality, efficacy, repeatability, or physical interaction.
+This API is bounded to controlled experimental transfer under caller-supplied conditions;
 it makes no claim of physical material equivalence, energy equivalence, or
 general resource-exchange equivalence.
 
@@ -188,15 +211,13 @@ or scientific equivalence test has been performed. Source and its frozen tests
 remain unchanged.
 
 Reproducible package coupling is declared in `pyproject.toml` using immutable
-merge commit references: Embodiment `61da7911fd48bcc6fd7afaac050020ced5118b55`
-(owner checkpoint validation PR #15), Environment
-`c14814a5bfdca0c23976cf194550b662602b12ff` (identified resource checkpoint
-validation PR #17), Observation
-`64c3226ab3701f748e276c92a852ca4facd74091` (semantic observation PR #3), and
-World `9e808d23e3c063f71a9b5d93b7cd8ba4036c2a28` (owner checkpoint validation
-PR #11). World main provides durable owner-closed cuts and
-step-participant checkpoints; the intervention payload is preserved by its
-Lab evidence reference, not by a generic World record extension. Lab CI
+merge commit references: Embodiment `0562febd8dfffaa826c339600bb548ea172fa256`,
+Environment `a979688e90b279ccfe003d77eddb787272fd5ebf`, Observation
+`cb07ace206058719a9aa9df65e2eb1f837130ee9`, and World
+`4d264b24d0501a51d8b56b9cbe762aff3402da7b`. World main provides durable
+owner-closed cuts, step-participant checkpoints, and opaque owner causal
+records; the intervention payload remains in Lab's evidence checkpoint and
+the World journal stores its stable pointer. Lab CI
 therefore uses Python 3.12,
 matching World/Environment. The operator id is caller-supplied provenance, not
 authenticated authorization. Quantity remains a scalar with no established
