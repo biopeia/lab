@@ -78,10 +78,13 @@ ADR clause, source implementation, or H-00 question is resolved.
 
 - Independent review is preserved in the source dossier as the Antigravity
   sampling report and `.audit/registers/review_resolutions.md#REV-0024`.
+- A separate independent Advisor review of this Biopeia-side transcription
+  found no blocking factual errors or omissions. It is not a constitutional
+  approval or a GitHub review approval.
 - The Architecture Owner's BAW-001 follow-up is recorded at
   <https://github.com/biopeia/.github-private/issues/9#issuecomment-6091293563>.
-- An independent review of this Biopeia-side summary is required before merge;
-  the source review does not substitute for review of this transcription.
+- Any separately required repository review remains distinct; the source
+  review does not substitute for review of this transcription.
 - BAW-001 may be marked resolved only after this record is merged and the issue
   and Project #1 status/link are updated. This PR alone does not close the
   issue.
