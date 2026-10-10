@@ -1,4 +1,4 @@
-"""Workspace integration check for durable Lab operator intervention."""
+"""Lab integration check for durable operator intervention."""
 
 from __future__ import annotations
 
