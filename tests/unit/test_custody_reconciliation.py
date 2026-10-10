@@ -88,8 +88,8 @@ def accepted_rationale(proposal: dict[str, str]) -> str:
             "Generic directory-scope README: organization, file placement, execution boundary, and generic limitation only. The adjacent experiment.toml is the study-specific protocol. Lab owner accepts WORKING_ARTIFACT as custody classification only; no scientific validation, evidence admission, migration, or deletion authorization.",
         ),
         (
-            "The JSON records a run_id and base software git SHA; dirty=true means the exact executed tree is not reconstructible. scientifically_valid=true and integrity_pass=true are source-reported fields only. Custody class is not validation or admission.",
-            "The result records a run_id and base software git SHA, but software.dirty=true and no patch/worktree diff is preserved, so the exact executed source tree is not reconstructible. Its scientifically_valid=true and integrity_pass=true fields are recorded source claims only, not accepted conclusions. Lab owner accepts SCIENTIFIC_EVIDENCE as custody classification only; NOT_ADMITTED and NOT_SCIENTIFICALLY_VALIDATED.",
+            "The JSON records a run_id and base software git SHA; dirty=true means the exact executed tree is not reconstructible. scientifically_valid=null and integrity_pass=null; neither field asserts a positive conclusion. Custody class is not validation or admission.",
+            "The result records a run_id and base software git SHA, but software.dirty=true and no patch/worktree diff is preserved, so the exact executed source tree is not reconstructible. Its scientifically_valid=null and integrity_pass=null; neither field asserts a positive conclusion. Lab owner accepts SCIENTIFIC_EVIDENCE as custody classification only; NOT_ADMITTED and NOT_SCIENTIFICALLY_VALIDATED.",
         ),
         (
             "Proposed WORKING_ARTIFACT is a repository-process classification only, not scientific admission, migration, deletion, or a final owner disposition.",
@@ -223,8 +223,9 @@ def test_eight_embodiment_results_are_custody_only_not_admitted():
             assert "run_id=20260921T140452Z-embodiment-heredity-leakage-challenge-215145d-5d8f" in row["protocol_or_run_linkage"]
             assert "software.dirty=true" in row["protocol_or_run_linkage"]
             assert "exact executed source tree not reconstructible" in row["protocol_or_run_linkage"]
-            assert "scientifically_valid=true" in row["known_limitations_and_rationale"]
-            assert "not accepted conclusions" in row["known_limitations_and_rationale"]
+            assert "scientifically_valid=null" in row["known_limitations_and_rationale"]
+            assert "integrity_pass=null" in row["known_limitations_and_rationale"]
+            assert "neither field asserts a positive conclusion" in row["known_limitations_and_rationale"]
         else:
             assert "candidate protocol=" in row["protocol_or_run_linkage"]
             assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]
@@ -348,5 +349,6 @@ def test_heredity_leakage_disposition_is_bounded_and_cross_ledger_consistent() -
     assert result["custody_classification"] == "SCIENTIFIC_EVIDENCE"
     assert result["proposal_review_status"] == ACCEPTED
     assert "NOT_ADMITTED" in result["proposal_review_status"]
-    assert "scientifically_valid=true" in result["known_limitations_and_rationale"]
-    assert "not accepted conclusions" in result["known_limitations_and_rationale"]
+    assert "scientifically_valid=null" in result["known_limitations_and_rationale"]
+    assert "integrity_pass=null" in result["known_limitations_and_rationale"]
+    assert "neither field asserts a positive conclusion" in result["known_limitations_and_rationale"]
