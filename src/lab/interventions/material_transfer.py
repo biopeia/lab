@@ -32,7 +32,7 @@ ENVIRONMENT_OWNER = "environment"
 EMBODIMENT_OWNER = "embodiment"
 LAB_EVIDENCE_OWNER = "lab-intervention-evidence"
 ENVIRONMENT_SCHEMA = IdentifiedFiniteResource.OWNER_SCHEMA
-EMBODIMENT_SCHEMA = "embodiment-checkpoint-v1"
+EMBODIMENT_SCHEMA = "embodiment-checkpoint-v2"
 EVIDENCE_SCHEMA = "lab-intervention-evidence-v2"
 OWNER_RECORD_TYPE = "world.owner_record.committed"
 

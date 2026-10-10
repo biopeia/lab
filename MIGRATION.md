@@ -462,3 +462,7 @@ Verified on 2026-10-09 against the revisions pinned in the `integration` extra: 
 
 
 **Resolved later the same day.** The cause was Environment's change of its finite-resource checkpoint contract in `f2ef8c2` ("Define target-owned finite resource checkpoint contract"), the first Environment commit after the old pin with which the suite failed. Lab was aligned to that contract and its Environment pin moved to `f2ef8c2` in `e93401d` ("Record Lab custody and align Environment checkpoint schema"). With Lab at `3b84a25` and the revisions pinned in its `integration` extra, `tests/integration` passes: 10 passed. The finding above is kept as the record of what was observed before that change.
+
+### Embodiment physiology-complete checkpoint consumer
+
+Lab now requires Embodiment owner schema `embodiment-checkpoint-v2` for material-transfer checkpoint validation. Its integration dependency is pinned to the explicit Biopeia Embodiment revision that introduces this format; no v1 fallback is accepted. This is a consumer-contract update only: Lab does not interpret or own Embodiment physiology state. The change does not claim complete material-transfer durability or scientific equivalence.
