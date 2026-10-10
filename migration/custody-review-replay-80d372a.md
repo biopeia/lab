@@ -1,4 +1,6 @@
-# Proposed custody review: Observatory replay fixture
+# Custody review: Observatory replay fixture
+
+**Disposition:** Lab owner accepted `WORKING_ARTIFACT` as a custody classification only. See [canonical reconciliation](custody-reconciliation-80d372a.md).
 
 ## Scope and status
 
@@ -8,4 +10,4 @@ This one-row proposal covers `lab/examples/replays/symbiont-replay.json` at pinn
 
 `WORKING_ARTIFACT`, based on content and the adjacent Observatory README, which calls it a curated local-inspection example. It contains 20 schema-v1 display snapshots (ticks 1-20), but no study/protocol/run identity, timestamp, seed, checkpoint, execution receipt, source software revision, or environment. The CLI's ability to produce replay files does not prove this particular fixture's origin.
 
-Independent Advisor review found no blocker to this proposed class. This is not scientific evidence, a validated historical record, evidence admission, migration authorization, or deletion authority. The pinned source remains unchanged. The canonical ledger's existing `custody_classification` remains authoritative pending Lab owner disposition; proposal fields are separate.
+Independent Advisor review found no blocker to this proposed class. This is not scientific evidence, a validated historical record, evidence admission, migration authorization, or deletion authority. The pinned source remains unchanged. The canonical ledger records the accepted `WORKING_ARTIFACT` custody class. This remains a local-inspection fixture; it is not evidence admission, scientific validation, or deletion authority.

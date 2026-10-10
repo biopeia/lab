@@ -1,4 +1,6 @@
-# Proposed custody review: research artifacts
+# Custody review: research artifacts
+
+**Disposition:** Lab owner accepted all non-`DEFER` map classes as custody labels only; 15 row-specific exceptions remain `DEFER`. See [canonical reconciliation](custody-reconciliation-80d372a.md).
 
 ## Scope and status
 
@@ -6,9 +8,9 @@ This is a content-reviewed, path-level proposal for all 112 files under `lab/res
 
 The accompanying TSV gives one row per pinned source path, with its source blob, byte count, SHA-256, content-derived title/identity, proposed class, explicit linkage/producer/configuration information where present, custodial responsibility, and per-item rationale/limits. Missing linkage is stated rather than inferred. The source commit identifies the source snapshot; it is not automatically the software revision that produced any result.
 
-This is a proposed custody classification only. It does not authorize source changes, deletion, transfer, publication, TARGET code migration, evidence admission, scientific validation, replication, or preservation of a historical method. No candidate is promoted as truth merely because it is classified as `SCIENTIFIC_EVIDENCE`.
+This review map records the independently reviewed proposals. The Lab owner dispositions are recorded in the canonical ledger. These custody classifications do not authorize source changes, deletion, transfer, publication, TARGET code migration, evidence admission, scientific validation, replication, or preservation of a historical method. No candidate is promoted as truth merely because it is classified as `SCIENTIFIC_EVIDENCE`.
 
-The canonical `migration/scientific-custody-80d372a.tsv` remains unchanged; the authoritative `custody_classification` values remain unchanged. Proposal classes are recorded separately in the canonical ledger only after reconciliation; they are not admissions or final owner dispositions.
+The canonical `migration/scientific-custody-80d372a.tsv` records the owner-accepted classes and the unresolved exceptions. No class is scientific admission or validation.
 
 ## Proposed classes
 
@@ -34,4 +36,4 @@ These are proposed per-artifact custody classes, not scientific dispositions or 
 
 ## Review boundary
 
-Independent Advisor review was completed for the scope and specifically reassessed the three v0.24 result JSONs. It recommended `SCIENTIFIC_EVIDENCE` as a custody class (not admission) because explicit seeds/configuration link them to the adjacent pinned protocol. No unique run_id is asserted; scripts, the referenced snapshot, dependency lock and per-run raw traces are unavailable. The canonical ledger records this as a proposal separate from authoritative custody classification, pending Lab owner disposition.
+Independent Advisor review was completed for the scope and specifically reassessed the three v0.24 result JSONs. It recommended `SCIENTIFIC_EVIDENCE` as a custody class (not admission) because explicit seeds/configuration link them to the adjacent pinned protocol. No unique run_id is asserted; scripts, the referenced snapshot, dependency lock and per-run raw traces are unavailable. These rows' canonical custody class is `SCIENTIFIC_EVIDENCE`; they remain `NOT_ADMITTED` and `NOT_SCIENTIFICALLY_VALIDATED`. The separate cognitive-cycle manifest/result mismatch entries remain documented `DEFER` exceptions in the canonical ledger pending source-owner reconciliation.

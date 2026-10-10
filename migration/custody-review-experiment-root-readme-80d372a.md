@@ -12,4 +12,4 @@ This is a one-artifact content-level proposal for `lab/experiments/README.md` at
 
 The source identity is recorded exactly in the TSV. No protocol/run linkage, producer identity, seed, or configuration is specified by this README. The pinned source remains unchanged.
 
-This map is a custody-classification proposal only. It does not admit evidence, validate scientific claims, authorize transfer/migration/deletion, or finalize the Lab owner disposition. The canonical custody ledger remains `DEFER` until independent review and reconciliation with the other scope maps.
+This map is a proposal-time custody review, not the current canonical disposition. Its TSV preserves the original proposal and the ledger state as it stood when the proposal was prepared. The Lab owner has since accepted `WORKING_ARTIFACT` for this path in `scientific-custody-80d372a.tsv`; that is a custody label only, not scientific validation, evidence admission, transfer/migration, or deletion authorization. The canonical ledger is authoritative for current status.
