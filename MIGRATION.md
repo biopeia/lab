@@ -213,7 +213,7 @@ remain unchanged.
 Reproducible package coupling is declared in `pyproject.toml` using immutable
 merge commit references: Embodiment `0562febd8dfffaa826c339600bb548ea172fa256`,
 Environment `a979688e90b279ccfe003d77eddb787272fd5ebf`, Observation
-`cb07ace206058719a9aa9df65e2eb1f837130ee9`, and World
+`be82907d1d677b2362e369d15eb1e8e964d893aa`, and World
 `4d264b24d0501a51d8b56b9cbe762aff3402da7b`. World main provides durable
 owner-closed cuts, step-participant checkpoints, and opaque owner causal
 records; the intervention payload remains in Lab's evidence checkpoint and
