@@ -422,6 +422,15 @@ must have an approved custody disposition without loss of provenance, and
 external users/consumers must be accounted for. This accounting change alone
 does not meet those conditions.
 
+### Historical source-audit reconciliations
+
+[`BAW-001 — EV-0356–EV-0361 and ADR tension reconciliation`](migration/baw-001-source-audit-reconciliation.md)
+records the bounded Biopeia-side disposition of one sealed historical audit
+dossier. It is a provenance/review record, not a new scientific-evidence item,
+evidence admission, or rewrite of the source register. The source dossier
+remains read-only and is identified by its pinned audit base and SHA-256 in the
+record; no source bytes are copied into this repository.
+
 ## Integration test moved from the integration workspace
 
 `tests/integration/test_operator_material_transfer.py` was copied unchanged from the unversioned local integration workspace by Architecture Owner decision of 2026-10-09. It imports Lab, so it belongs here and not with World: World must not depend on Lab. It is a new Biopeia test; no path of the historical source repository corresponds to it.
