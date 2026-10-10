@@ -321,11 +321,12 @@ implementation callable, registry-ID lookup tests, and explicit
 `NO_DIRECT_TEST_LINK` rows.
 
 The companion [`migration/study-disposition-register-80d372a.tsv`](migration/study-disposition-register-80d372a.tsv)
-records three resolved owner-directed `HISTORICAL_PROTOCOL` units:
+records four resolved owner-directed `HISTORICAL_PROTOCOL` units:
 `continuity.recurrent-restoration`,
-`embodiment.causal-revision-sequence`, and
+`embodiment.causal-revision-sequence`,
+`embodiment.heredity-leakage-challenge`, and
 `world.genesis-viability-characterization`. The protocol crosswalk retains the
-other 73 candidate IDs as `DEFER`. All three historical implementations are `DROP`
+other 72 candidate IDs as `DEFER`. All four historical implementations are `DROP`
 as TARGET code. This disposition does not copy or move protocol/result bytes;
 the historical source remains read-only at the recorded source paths. The
 genesis-viability unit's linked result/config has an unresolved population-size
@@ -382,13 +383,14 @@ manifest disposition counts are:
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
 | `SPLIT` | 149 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 399 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 616 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 402 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 613 | Open disposition, not final. Must be revisited before migration completion. |
 
-The file-level classifications are intentionally conservative. One study
-implementation row was changed from `DEFER` to `DROP` in this update; the study
-protocol itself is separately retained as `HISTORICAL_PROTOCOL` in the study
-disposition register. A `SPLIT` row
+The file-level classifications are intentionally conservative. Four registered
+study implementation rows are now `DROP` under their separately documented
+unit dispositions; their protocols are retained as `HISTORICAL_PROTOCOL` in the
+study disposition register. The file-level inventory and unit register are kept
+consistent without claiming scientific validation or method equivalence. A `SPLIT` row
 does not assert that a particular source symbol is worth preserving. A `DROP`
 row means “do not migrate this source artifact or its legacy interface”; the
 historical source copy remains untouched. A `DEFER` row is explicit migration
