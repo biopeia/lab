@@ -23,12 +23,12 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert len(units) == 6
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
-    deferred = by_id.pop("learning.visual-predictor-audit")
-    assert deferred["study_protocol_disposition"] == "DEFER"
-    assert deferred["source_implementation_TARGET_disposition"] == "DEFER"
-    implementation_path, expected_blob = deferred["implementation_path_and_blob"].split("@", maxsplit=1)
+    visual_audit = by_id.pop("learning.visual-predictor-audit")
+    assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert visual_audit["source_implementation_TARGET_disposition"] == "DROP"
+    implementation_path, expected_blob = visual_audit["implementation_path_and_blob"].split("@", maxsplit=1)
     assert source[implementation_path]["source_blob_at_pinned_commit"] == expected_blob
-    assert source[implementation_path]["disposition"] == "DEFER"
+    assert source[implementation_path]["disposition"] == "DROP"
     new_method = by_id.pop("embodiment.hidden-common-cause")
     assert new_method["study_protocol_disposition"] == "REIMPLEMENT_METHOD"
     assert new_method["source_implementation_TARGET_disposition"] == "DROP"

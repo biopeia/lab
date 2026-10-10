@@ -360,7 +360,7 @@ def test_heredity_leakage_disposition_is_bounded_and_cross_ledger_consistent() -
     assert "`scientifically_valid` and `integrity_pass` fields are `null`" in review_summary
 
 
-def test_visual_predictor_audit_is_an_actionable_bounded_defer() -> None:
+def test_visual_predictor_audit_owner_disposition_is_reconciled() -> None:
     protocol_id = "learning.visual-predictor-audit"
     issue = "https://github.com/biopeia/lab/issues/57"
     crosswalk = {
@@ -380,10 +380,14 @@ def test_visual_predictor_audit_is_an_actionable_bounded_defer() -> None:
         row["source_path"]: row
         for row in read_tsv("source-inventory-80d372a.tsv")
     }
+    custody = {
+        row["source_path"]: row
+        for row in read_tsv("scientific-custody-80d372a.tsv")
+    }
 
     spec = (
         "lab/experiments/learning/visual-acquisition-v1/audit/experiment.toml"
-        "@blob:5b46ce1a1af2cb129008c2ab20b104686a9d9ac"
+        "@blob:5b46ce1a1af2cb129008c2ab20b104686a49d9ac"
     )
     narrative = (
         "lab/experiments/learning/visual-acquisition-v1/audit/README.md"
@@ -394,12 +398,12 @@ def test_visual_predictor_audit_is_an_actionable_bounded_defer() -> None:
         "@blob:3e59aa3523bee5b144358a51e3a75e04983e3bea"
     )
 
-    assert crosswalk["candidate_disposition"] == "DEFER"
+    assert crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
     assert crosswalk["experiment_spec_path_candidates"] == spec.split("@blob:")[0]
     assert crosswalk["experiment_artifact_path_candidates"] == (
         narrative.split("@blob:")[0] + ";" + spec.split("@blob:")[0]
     )
-    assert "target capability need is unresolved" in crosswalk["basis"]
+    assert "no current Biopeia TARGET consumer or authorized scientific workflow" in crosswalk["basis"]
     assert issue in crosswalk["basis"]
     assert evidence["spec_relation_status"] == "CONTENT_VERIFIED_PROTOCOL_SPEC"
     assert spec in evidence["experiment_spec_refs"]
@@ -408,13 +412,27 @@ def test_visual_predictor_audit_is_an_actionable_bounded_defer() -> None:
     assert evidence["protocol_or_run_identity_status"] == "PROTOCOL_SEEDS_NOT_RUN_ID"
     assert disposition["source_commit"] == PIN
     assert implementation.replace("@blob:", "@") == disposition["implementation_path_and_blob"]
-    assert disposition["study_protocol_disposition"] == "DEFER"
-    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
+    assert disposition["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert disposition["source_implementation_TARGET_disposition"] == "DROP"
     assert issue in disposition["owner_basis"]
-    assert "No scientific validation" in disposition["limitations_and_nonclaims"]
+    assert "makes no claim about historical scientific validity" in disposition["limitations_and_nonclaims"]
     source_row = inventory[implementation.split("@blob:")[0]]
-    assert source_row["disposition"] == "DEFER"
+    assert source_row["disposition"] == "DROP"
     assert issue in source_row["rationale_and_caveat"]
+    for path in (narrative.split("@blob:")[0], spec.split("@blob:")[0]):
+        protocol_record = inventory[path]
+        assert protocol_record["disposition"] == "DROP"
+        assert "retained under Lab custody as PROTOCOL" in protocol_record["rationale_and_caveat"]
+        assert custody[path]["custody_classification"] == "PROTOCOL"
+    assert inventory[spec.split("@blob:")[0]]["source_blob_at_pinned_commit"] == spec.split("@blob:")[1]
+
+    visual_acquisition = {
+        row["protocol_id"]: row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+    }["learning.visual-acquisition-v1"]
+    assert "visual-acquisition-v1/audit/" not in visual_acquisition["experiment_spec_path_candidates"]
+    assert "visual-acquisition-v1/audit/" not in visual_acquisition["experiment_artifact_path_candidates"]
+    assert "audit subprotocol is separately disposed under issue #57" in visual_acquisition["basis"]
 
 
 def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> None:
