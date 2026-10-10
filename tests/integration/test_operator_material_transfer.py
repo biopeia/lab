@@ -99,6 +99,7 @@ def test_lab_intervention_commits_owner_states_and_evidence_in_durable_cut(tmp_p
         resource=resource,
         body=body,
         request=request,
+        intervention_action_id="action-1",
         transition_id="transition-1",
         requested_material=2.5,
     )

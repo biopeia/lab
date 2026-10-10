@@ -16,7 +16,7 @@ integration = [
     "embodiment @ git+https://github.com/biopeia/embodiment.git@0562febd8dfffaa826c339600bb548ea172fa256 ; python_version >= '3.12'",
     "environment @ git+https://github.com/biopeia/environment.git@a979688e90b279ccfe003d77eddb787272fd5ebf ; python_version >= '3.12'",
     "observation @ git+https://github.com/biopeia/observation.git@cb07ace206058719a9aa9df65e2eb1f837130ee9 ; python_version >= '3.12'",
-    "world @ git+https://github.com/biopeia/world.git@dadf2743ee4ff9f22703d2d6643fca9fd9bfa025 ; python_version >= '3.12'",
+    "world @ git+https://github.com/biopeia/world.git@4d264b24d0501a51d8b56b9cbe762aff3402da7b ; python_version >= '3.12'",
 ]
 
 [tool.setuptools.packages.find]
