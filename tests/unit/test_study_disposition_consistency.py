@@ -97,7 +97,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 7
+    assert len(units) == 8
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     visual_audit = by_id.pop("learning.visual-predictor-audit")
@@ -106,6 +106,21 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     implementation_path, expected_blob = visual_audit["implementation_path_and_blob"].split("@", maxsplit=1)
     assert source[implementation_path]["source_blob_at_pinned_commit"] == expected_blob
     assert source[implementation_path]["disposition"] == "DROP"
+    somatic_trap = by_id.pop("embodiment.somatic-correlation-trap")
+    assert somatic_trap["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert somatic_trap["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab/issues/61" in somatic_trap["owner_basis"]
+    assert "NOT_ADMITTED" in somatic_trap["custody_ledger_state"]
+    assert "NOT_SCIENTIFICALLY_VALIDATED" in somatic_trap["custody_ledger_state"]
+    assert "activation/temperature relation" in somatic_trap["limitations_and_nonclaims"]
+    for source_ref in (
+        somatic_trap["implementation_path_and_blob"],
+        somatic_trap["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+        assert source[path]["disposition"] == "DROP"
+
     new_method = by_id.pop("embodiment.hidden-common-cause")
     assert new_method["study_protocol_disposition"] == "REIMPLEMENT_METHOD"
     assert new_method["source_implementation_TARGET_disposition"] == "DROP"
@@ -172,6 +187,10 @@ def test_registered_protocol_crosswalk_matches_resolved_dispositions() -> None:
     crosswalk_by_id = {row["protocol_id"]: row for row in crosswalk}
 
     assert len(crosswalk_by_id) == len(crosswalk)
+    somatic_protocol = crosswalk_by_id["embodiment.somatic-correlation-trap"]
+    assert somatic_protocol["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "biopeia/lab#61" in somatic_protocol["basis"]
+    assert "does not claim scientific validity" in somatic_protocol["basis"]
     for unit in units:
         protocol = crosswalk_by_id[unit["unit_id"]]
         assert protocol["candidate_disposition"] == unit["study_protocol_disposition"]
