@@ -478,8 +478,8 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
     assert "nor authorizes any execution" in disposition["TARGET_action"]
     assert "not acceptance of the protocol" in disposition["TARGET_action"]
     assert (
-        "**Status: PROPOSED. Reviewed by the owner-designated Advisor; "
-        "not accepted, not executed.**"
+        "**Status: PROPOSED. Reviewed by the owner-designated Advisor and by an "
+        "independent fresh-context reviewer; not accepted, not executed.**"
     ) in proposal
     assert "this is not an independent review in the sense of the review policy" in proposal
     assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
@@ -491,7 +491,9 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
     )
     assert "**Status: PROPOSED VALUES. Not ratified, not accepted, not used in any run.**" in design
     assert "0.70" not in design and "0.10" not in design
-    for open_value in ("⟨ε⟩", "⟨m⟩", "⟨N⟩", "⟨K⟩", "⟨L⟩", "⟨W⟩", "⟨t_κ⟩", "⟨t_n⟩", "⟨v⟩"):
+    for open_value in (
+        "⟨ε⟩", "⟨m⟩", "⟨N⟩", "⟨K⟩", "⟨L⟩", "⟨W⟩", "⟨t_κ⟩", "⟨t_n⟩", "⟨v⟩", "⟨N_q⟩", "⟨t_q⟩", "⟨r⟩",
+    ):
         assert open_value in proposal
     for source_blob in (
         "1ef13e9fa48ec642525a31dc8c83aa2b6b64ccda",

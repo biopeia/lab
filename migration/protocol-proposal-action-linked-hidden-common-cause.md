@@ -1,6 +1,6 @@
 # Protocol proposal — action-linked evidence under a hidden common cause
 
-**Status: PROPOSED. Reviewed by the owner-designated Advisor; not accepted, not executed.**
+**Status: PROPOSED. Reviewed by the owner-designated Advisor and by an independent fresh-context reviewer; not accepted, not executed.**
 
 - Tracking issue: [biopeia/lab#59](https://github.com/biopeia/lab/issues/59), bounded child of [biopeia/lab#45](https://github.com/biopeia/lab/issues/45).
 - Work class: SCIENTIFIC (protocol design). Scientific acceptance authority: Lab owner (`alessbarb`).
@@ -91,7 +91,13 @@ Two factors are crossed.
 
 **Channel structure** (how `Y` is generated). The fixture is additive by
 construction: `P(Y=1 | A=a, U=u) = b + τ·a + γ·u`, with every value inside
-`(0, 1)` and no `A × U` interaction.
+`(0, 1)` and no `A × U` interaction. Additivity is a property of the
+mechanism, not only of these probabilities: in every condition a window
+contains **at most one** target change, produced by a single random event
+whose probability is `b + τ·a + γ·u`, and that change always has the same
+size. The fixture must not build `MIXED` or `MASKED` from two separate
+increments on the target feature, which could sum into another magnitude
+class or cancel.
 
 | Condition | `τ` (effect of `A`) | `γ` (effect of `U`) | Role |
 |---|---|---|---|
@@ -150,6 +156,12 @@ as the only other rows:
 δ = action_hits / action_n − other_hits / other_n
 ```
 
+The counts are read with the ledger's atom query for the target atom, with
+`field="intervention_signature_id"`, the one signature as the only value, and
+the cell's `context_ref`. Every row of a cell — action and passive — carries
+that same `context_ref`; the ledger totals are per context, so a passive row
+written with a different or null reference would leave `other_n` at zero.
+
 `δ` is defined only when `action_n > 0` and `other_n > 0`; see §11 for cells
 where it is not. At the pinned revision the ledger counts a window with no
 observed change among the opportunities (a row with no effect identifier is
@@ -181,8 +193,9 @@ effect in `MIXED`.
 
 The identity depends on: windows independent and identically distributed
 within a cell; no carry-over between windows; no `A × U` interaction; passive
-windows as the only `other` rows; every window written to the ledger. Each is
-enforced by design (§6, §7) or checked (§11).
+windows as the only `other` rows; every window written to the ledger; and a
+ledger hit being exactly a change the fixture generated (§7, reconciliation).
+Each is enforced by design (§6, §7) or checked (§8, §11).
 
 **Secondary, descriptive only:** the value of
 `controllability_confidence(action_n, action_hits, other_n, other_hits)` at the
@@ -198,10 +211,11 @@ rule, because the estimator is not ratified.
 - **Negative controls:** `NULL` in both regimes; every condition at `κ = 0`;
   `CONFOUNDED` in `RAND_ASSIGNED`.
 - **Positive control:** `DIRECT` in both regimes.
-- **Conformance check, not a scientific result:** every cell with
-  `action_hits = 0` must give a `controllability_confidence` of exactly zero,
-  per the ratified invariant. A violation is a software defect to report to
-  Organism, and voids the run.
+- **Conformance observation, not a scientific result and not a validity
+  check:** every cell with `action_hits = 0` should give a
+  `controllability_confidence` of exactly zero, per the ratified invariant. A
+  violation is reported to Organism as a software defect. It does not void a
+  run, because it is triggered by the outcome.
 
 ## 7. Units and time basis
 
@@ -223,15 +237,27 @@ rule, because the estimator is not ratified.
   affects no window by design.
 - **Outcome identity:** the fixture's change must map to the target atom —
   same feature, direction and magnitude class in every window where it occurs
-  — and no-change must produce no atom on the target feature. A window keeps
-  at most 16 atoms, largest change first; the fixture must keep the number of
-  changing Organism-visible features within that bound, or the target change
-  among the largest, so the target atom is never dropped. Features carry
+  — and no-change must produce no atom on the target feature. At the pinned
+  revision a change is quantised as `round(7·x)`, so the fixed change size
+  must be well above 1/14 and away from the edges between magnitude classes.
+  A window keeps at most 16 atoms, sorted by size and then by feature name;
+  the fixture must keep the number of changing Organism-visible features in a
+  window at 16 or fewer, so that no ordering can drop the target atom. The
+  return of the target feature to its baseline is an opposite-direction
+  change, hence a different atom; it must occur inside the washout, and the
+  feature must not saturate.
+- **Reconciliation:** for every window, the target atom is in that window's
+  ledger row if and only if the fixture generated the change in that window.
+  This is exact, not statistical. It is established in fixture qualification
+  (§8) and re-checked over the whole study; a single mismatch means the
+  pipeline does not record what the fixture produced, and invalidates the
+  study as a whole — it is not grounds for voiding individual runs. Features carry
   Organism prefixes assigned through the normal transduction path, not labels
   supplied by Lab.
 - **Capacity:** windows per run are chosen so that neither ledger list evicts
-  (defaults at the pinned revision: 4096 intervention rows, 1024 passive
-  rows). A run in which eviction occurred is void.
+  (constructor defaults at the pinned revision: 4096 intervention rows and a
+  quarter of that, 1024, passive rows; these are defaults, not properties of
+  the ledger). A run in which eviction occurred is void.
 - **Quantities:** `δ`, `τ`, `γ`, `β`, `κ` are differences of probabilities,
   dimensionless, in `[−1, 1]`.
 
@@ -246,11 +272,17 @@ rule, because the estimator is not ratified.
   (`assert_disjoint_seeds`), and identical across all cells
   (`assert_paired_seeds`).
 - **Fixture qualification.** Before the study seeds are used, the fixture is
-  run on development seeds to confirm that it reproduces the constructed
-  `τ_c` under `RAND_ASSIGNED` and emits the target atom as specified.
-  Development seeds are disjoint from the study seeds and their runs are not
-  admissible evidence. A fixture that fails qualification is corrected and
-  re-qualified; the study seeds are not touched until it passes.
+  run on `⟨N_q⟩` development seeds. It passes when all of the following hold:
+  the reconciliation of §7 is exact in every window; in each `RAND_ASSIGNED`
+  cell the mean of `δ` is within `⟨t_q⟩` of the constructed `τ_c`; and in
+  every cell the variance of `δ` across development runs is at most `⟨r⟩`
+  times the binomial value assumed by the design calculation. Development
+  seeds are disjoint from the study seeds and their runs are not admissible
+  evidence. A fixture that fails is corrected and re-qualified on fresh
+  development seeds, each attempt being recorded; the study seeds are not
+  touched until it passes. If the variance criterion fails for a reason that
+  is a property of the fixture and not a defect, `⟨N⟩` is recalculated before
+  it is frozen.
 - `U`, the assignment of `A`, and any noise in `Y` are drawn from separately
   named streams derived from the run seed. No operating-system entropy enters
   causal state (ADR-0108).
@@ -290,7 +322,11 @@ revision that fixes it, as follows:
 5. A criterion evaluated at `k` levels of `κ` uses simultaneous intervals at
    level `1 − α/k` (Bonferroni), so that its interval statements hold jointly
    across those levels. `k` is stated per criterion in §12.
-6. Sensitivity of the chosen values to the fixture parameters is reported.
+6. Sensitivity of the chosen values to the fixture parameters is reported,
+   including the largest inflation of per-run variance over the binomial
+   model that the chosen `⟨N⟩` tolerates; `⟨r⟩` is set at or below it.
+7. `⟨N⟩` is recalculated if `⟨ε⟩`, the windows per run, the multiplicity rule
+   or the measured variance changes.
 
 The design calculation uses only the sampling model written in this document.
 It is not a run of the study, exercises no Biopeia component, and yields no
@@ -312,7 +348,7 @@ Admissible, if and only if all of the following hold for a run:
 
 Not admissible: the historical `results.json` or anything derived from it;
 pilot or development runs; design calculations; runs from a modified tree;
-runs that reused a seed; any cell with eviction or a failed validity check; a
+runs that reused a seed; any run with eviction or a failed validity check; a
 value of `controllability_confidence` offered as a causal finding.
 
 ## 10. Limitations
@@ -359,8 +395,10 @@ being labelled exploratory.
    (g) In each `RAND_ASSIGNED` cell, realised `action_n` is within `⟨t_n⟩` of
    its paired `U_ASSIGNED` cell.
 2. **Void rate.** The number and fraction of void runs, and the check each
-   failed, are reported. If the void rate exceeds `⟨v⟩` the study is
-   inconclusive.
+   failed, are reported. If the void rate exceeds `⟨v⟩` the fixture is not
+   fit for the question and no claim is evaluated. A void run is removed
+   whole, in every cell, before any pairing; pairs are never dropped
+   individually.
 3. **Per cell and seed:** read the four atom opportunity counts through the
    ledger's query for the target atom and the intervention signature; compute
    `δ`. Record the realised `P(Y=1 | U)` beside its design value.
@@ -368,9 +406,9 @@ being labelled exploratory.
    `⟨1−α⟩` interval over seeds by `⟨interval method⟩`, using seed-paired
    differences (`lab.studies.common.statistics.paired_deltas`) for every
    between-cell comparison.
-5. **Comparisons:** each `U_ASSIGNED` cell against `NULL`; each `U_ASSIGNED`
-   cell against the predicted `τ_c + γ_c·κ` across `κ` levels; each
-   `U_ASSIGNED` cell against its `RAND_ASSIGNED` counterpart.
+5. **Comparisons:** exactly those of §12 — `D(c)` for `CONFOUNDED`, `MASKED`
+   and `DIRECT`; each `U_ASSIGNED` cell against the predicted `τ_c + γ_c·κ`;
+   each `RAND_ASSIGNED` cell against `τ_c`.
 
 ## 12. Falsification criteria
 
@@ -381,13 +419,17 @@ claim is set before any result exists. In the predictions, `τ_c` and `γ_c` are
 the frozen design values and `κ` is the realised value of the run. `D(c)`
 denotes `δ(c, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` at the same `κ` level.
 
-Every claim has three outcomes. An interval that straddles its margin is
-**inconclusive**: it neither supports nor falsifies.
+Every claim has exactly three outcomes. It is **supported** when its
+"supported" condition holds, **falsified** when its "falsified" condition
+holds, and **inconclusive** in every other case — an interval straddling a
+margin, an interval on the side neither condition names, or an unmet
+side-condition. Inconclusive neither supports nor falsifies. `τ_c` in the
+claims is the value fixed by construction, not an estimate.
 
 | Claim | Evaluated at | Supported when | Falsified when |
 |---|---|---|---|
 | **H-sufficient:** over `U`-assigned rows, a contrast above `⟨ε⟩` implies `τ > 0` | the `⟨K⟩` non-zero `κ` levels | at every level the interval for `D(CONFOUNDED)` lies wholly inside `±⟨ε⟩` | at any level the interval for `D(CONFOUNDED)` lies wholly above `⟨ε⟩`, where `τ = 0` by construction |
-| **H-necessary:** over `U`-assigned rows, `τ > 0` implies a contrast above `⟨ε⟩` | the largest `κ` level | the interval for `D(MASKED)` lies wholly above `⟨ε⟩` | the interval for `D(MASKED)` lies wholly below `⟨ε⟩`, while `H-exogenous` is supported for `MASKED`, so that `τ > 0` holds in the fixture |
+| **H-necessary:** over `U`-assigned rows, `τ > 0` implies a contrast above `⟨ε⟩` | the largest `κ` level | the interval for `D(MASKED)` lies wholly above `⟨ε⟩` | the interval for `D(MASKED)` lies wholly below `⟨ε⟩` **and** the side-condition holds: in every `MASKED` `RAND_ASSIGNED` cell the `H-exogenous` interval, at the `H-exogenous` level, lies wholly inside `±⟨ε⟩`, so that `τ > 0` is shown in the fixture and not only assumed |
 | **H-bias-model:** the contrast is the one predicted in §5 | every `U_ASSIGNED` cell: 5 conditions × `⟨K⟩ + 1` levels, `κ = 0` included | in every cell the interval for `δ − (τ_c + γ_c·κ)` lies wholly inside `±⟨ε⟩` | in any cell that interval lies wholly outside `±⟨ε⟩` |
 | **H-sensitivity:** without confounding the contrast detects a caused change | `DIRECT` at `κ = 0` | the interval for `D(DIRECT)` lies wholly above `⟨m⟩` | that interval lies wholly below `⟨m⟩` |
 | **H-exogenous:** exogenous assignment removes the bias | every `RAND_ASSIGNED` cell, one per condition and paired level | in every cell the interval for `δ − τ_c` lies wholly inside `±⟨ε⟩` | in any cell that interval lies wholly outside `±⟨ε⟩` |
@@ -396,8 +438,10 @@ Reading of outcomes:
 
 - `H-sufficient` and `H-necessary` falsified, and `H-bias-model`,
   `H-sensitivity` and `H-exogenous` supported: the predicted result. In this
-  fixture, rows from `U`-dependent assignment support neither the presence
-  nor the absence of a causal effect; exogenously assigned rows do.
+  fixture, a count contrast over rows from `U`-dependent assignment supports
+  neither the presence nor the absence of a causal effect, while over
+  exogenously assigned rows it equals the constructed effect within the
+  margin. That is a statement about this fixture; it validates no estimator.
 - `H-sufficient` or `H-necessary` **supported**: contradicts §5. Treat first
   as a fixture or analysis defect and investigate before any interpretation.
 - `H-bias-model`, `H-sensitivity` or `H-exogenous` falsified, or the void
@@ -405,6 +449,16 @@ Reading of outcomes:
   says nothing about the question.
 - Any claim inconclusive: the study was underpowered for that claim. It is
   reported as inconclusive and is not read in either direction.
+
+**What kind of study this is.** Once the reconciliation of §7 holds, every
+claim above follows from arithmetic on counts the fixture itself produced,
+and §5 derives the predicted outcome without measurement. No observable
+result could then count against §5 except a defect in the fixture or in the
+pipeline between fixture and ledger. The study therefore tests whether the
+real ledger and effect pipeline record what the sampling model assumes.
+Whether to keep it framed as a falsification test, or to label it a
+conformance study of that pipeline — which a deterministic check could also
+provide — is a decision for the Lab owner (§14) and is not made here.
 
 No outcome licenses a statement about agency, ownership of consequences, the
 behaviour of a living Organism, or the validity of any estimator.
@@ -437,6 +491,9 @@ method. All are post-migration scientific work.
 | Step | Required by | State | Record |
 |---|---|---|---|
 | Method review by the owner-designated Advisor | lab#59; owner instruction of 2026-10-11 | RECORDED | Findings and outcomes on lab#70. The reviewer also advised on the draft, so this is not an independent review in the sense of the review policy |
+| Review by a fresh-context reviewer with no part in the draft | owner decision of 2026-10-11 (option B) | RECORDED | Report posted verbatim on lab#70 at head `abe1f93`. Limits: its brief was written by the protocol's author, and it was not blind to the two errors corrected earlier. Its required changes are incorporated in this revision; whether they are incorporated correctly has not been re-reviewed |
+| Study framing: falsification test or conformance study (§12) | independent review, finding F-06 | PENDING | Lab owner decision |
+| Reviewer suggestions not adopted: a less conservative interval rule, five randomised cells instead of twenty, additional control arms, an across-seed check on assignment | independent review, findings F-09, F-10, F-11, F-14 | PENDING | Lab owner decision; each would be a protocol change |
 | Design calculation proposing a value for each `⟨…⟩` | §8; authorized by the Lab owner 2026-10-11 | PROPOSED | [`protocol-design-calculation-hidden-common-cause.md`](protocol-design-calculation-hidden-common-cause.md). Statistical model only; proposes, does not ratify |
 | Lab owner fixes every `⟨…⟩` value under §8 | this document | PENDING | — |
 | Fixture qualification on development seeds (§8) | this document | PENDING | It is itself an execution and needs the Lab owner's authorization before it is run |

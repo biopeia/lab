@@ -163,7 +163,13 @@ def monte_carlo(seeds: int, trials: int = MC_TRIALS) -> dict[str, float]:
     low, _ = intervals(contrast_vs_null("CONFOUNDED", KAPPAS[1]), seeds, K_NONZERO)
     out["H-sufficient falsified"] = float((low > EPSILON).mean())
     _, high = intervals(contrast_vs_null("MASKED", KAPPAS[-1]), seeds, 1)
-    out["H-necessary falsified"] = float((high < EPSILON).mean())
+    # side-condition of the claim: every MASKED randomised cell inside the margin at the
+    # H-exogenous level, so that tau > 0 is shown in the fixture and not only assumed
+    shown = np.ones(trials, dtype=bool)
+    for kappa in KAPPAS:
+        lo, hi = intervals(simulate(rng, "MASKED", kappa, True, runs)[0] - CONDITIONS["MASKED"][1], seeds, CELLS)
+        shown &= (lo > -EPSILON) & (hi < EPSILON)
+    out["H-necessary falsified"] = float(((high < EPSILON) & shown).mean())
     low, _ = intervals(contrast_vs_null("DIRECT", 0.0), seeds, 1)
     out["H-sensitivity supported"] = float((low > M_MARGIN).mean())
     for name, rand in (("H-bias-model supported", False), ("H-exogenous supported", True)):
@@ -251,7 +257,7 @@ def main() -> None:
             f"P(2 or more voids) {stats.binom.sf(1, seeds, p):.2e}"
         )
     print("\n## Monte Carlo power by seeds (standard error at most", round(0.5 / sqrt(MC_TRIALS), 4), ")")
-    for seeds in (19, 20, 22, 24, 26):
+    for seeds in (18, 20, 22, 24, 26):
         print(seeds, {k: round(v, 4) for k, v in monte_carlo(seeds).items()})
 
 

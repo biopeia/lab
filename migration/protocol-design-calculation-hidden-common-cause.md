@@ -111,17 +111,30 @@ Monte Carlo check at the proposed values (standard error at most 0.0035):
 
 | Seeds | `H-sufficient` falsified | `H-necessary` falsified | `H-sensitivity` supported | `H-bias-model` supported | `H-exogenous` supported | All five as predicted |
 |---|---|---|---|---|---|---|
-| 19 | 0.970 | 1.000 | 1.000 | 0.900 | 0.809 | 0.71 |
-| 20 | 0.979 | 1.000 | 1.000 | 0.944 | 0.881 | 0.81 |
-| 22 | 0.987 | 1.000 | 1.000 | 0.983 | 0.961 | 0.93 |
-| 24 | 0.995 | 1.000 | 1.000 | 0.996 | 0.988 | 0.98 |
-| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.997 | 0.99 |
+| 18 | 0.961 | 0.925 | 1.000 | 0.821 | 0.691 | 0.50 |
+| 20 | 0.979 | 0.976 | 1.000 | 0.946 | 0.885 | 0.80 |
+| 22 | 0.987 | 0.992 | 1.000 | 0.982 | 0.959 | 0.92 |
+| 24 | 0.995 | 0.997 | 1.000 | 0.995 | 0.987 | 0.98 |
+| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.996 | 0.99 |
+
+`H-necessary` is evaluated with its side-condition — every `MASKED` randomised
+cell inside the margin at the `H-exogenous` level. With it the claim needs 18
+seeds, not the 4 the interval alone requires; an earlier version of this
+calculation omitted the side-condition. `H-sufficient` is evaluated here at
+the smallest non-zero level only, which is conservative: the protocol
+falsifies it at any level. The last column multiplies the five figures and so
+counts the randomised `MASKED` cells twice; the independent reviewer's joint
+evaluation gives 0.982 at 24 seeds.
 
 `H-bias-model` is evaluated on `δ − (τ + γ·κ)` with the realised `κ`, which
 removes the variance due to chance imbalance of `U`. `H-exogenous` is
 evaluated on `δ − τ`, as the protocol defines it, and keeps that variance; it
 is the binding claim. The analytic figure of 20 for `H-exogenous` is slightly
-short: the Monte Carlo gives 0.88 at 20 and 0.96 at 22.
+short: the Monte Carlo gives 0.88 at 20 and 0.96 at 22. The analytic formula
+treats the across-seed standard deviation as known; the independent reviewer,
+integrating over its sampling distribution, obtains 21 for the base case, 40
+and 14 for the smaller and larger `ε` of §3, and 25 for `α = 0.01`, where the
+tables here show 20, 40, 13 and 24.
 
 Error rates, checked with the true value placed exactly on the margin: a
 superiority interval lies wholly beyond it in 0.8–0.9 % of trials (nominal
@@ -133,14 +146,38 @@ within Monte Carlo error.
 
 - 22 is the count taken as required: the Monte Carlo confirms power of at
   least 0.9 for every claim at 22 and shows `H-exogenous` below 0.9 at 20.
-  21 was not run.
+  The independent reviewer's exact calculation puts the requirement at 21.
 - The protocol forbids replacing a void run, so voids reduce the effective
   count. Two seeds of headroom keep 22 valid runs even with two voids; under
   a correct fixture two voids are far less likely than one in a million (§6).
 - At 24 the probability that all five claims come out as predicted is about
-  0.98, and about 0.93 if two runs are void. The protocol asks only for
-  per-claim power. Whether joint power should be required is an owner
-  decision; this document does not make it.
+  0.98, and about 0.92–0.95 if two runs are void. The Lab owner has added a
+  complementary joint-power target of 0.90 (decision of 2026-10-11); under the
+  sampling model it is met at 24 and at 22 valid runs. This does not depend
+  on how cells or claims are correlated: the sum of the per-claim failure
+  probabilities bounds the joint failure probability under any dependence,
+  giving at least 0.98 at 24 and 0.93 at 22. The independent reviewer's
+  simulation with shared random streams gives 0.982 at 24 when only `U` and
+  assignment are shared and 0.993 when outcome noise is shared too.
+- **The headroom that matters is variance, not void runs.** These figures
+  assume the binomial per-run variance of the sampling model. The independent
+  reviewer computed what happens if a real fixture's variance is `r` times
+  that (first figure 24 valid runs, second 22):
+
+  | `r` | `H-exogenous` supported | All five as predicted |
+  |---|---|---|
+  | 1.0 | 0.988 / 0.961 | 0.982 / 0.946 |
+  | 1.1 | 0.966 / 0.908 | 0.950 / 0.866 |
+  | 1.2 | 0.924 / 0.819 | 0.891 / 0.729 |
+  | 1.3 | 0.855 / 0.696 | 0.782 / 0.564 |
+
+  At 24 valid runs the joint target of 0.90 fails near `r ≈ 1.18`; at 22 valid
+  runs near `r ≈ 1.05–1.1`. A lag-one correlation between windows of about
+  0.09 is enough for `r = 1.2`. 24 seeds is therefore a budget that holds
+  only while measured variance stays within roughly 18 % of the binomial
+  value, and the two extra seeds buy that margin far more than they cover
+  void runs. The protocol now makes the variance measurement part of fixture
+  qualification and requires `⟨N⟩` to be recalculated if it fails.
 - For `α = 0.01` the analytic requirement is 24 before headroom. That figure
   was not checked by Monte Carlo and, by the pattern above, is probably a
   seed or two short.
@@ -202,23 +239,37 @@ about 1.6 × 10⁻⁴ per run; the proposed `⟨v⟩` holds under either assumpt
 effect was moved to fixture qualification so that no run is discarded on an
 outcome.
 
-## 7. Other proposed values
+## 7. Qualification values — not proposed
+
+The protocol's `⟨N_q⟩` (development seeds), `⟨t_q⟩` (tolerance on the
+constructed effect at qualification) and `⟨r⟩` (tolerated variance inflation)
+are left open. One constraint is worth stating: the variance of `δ` estimated
+from `n` development runs has relative standard error `√(2/(n−1))`, about
+20 % at 50 runs and 10 % at 200. Showing that `r` is below 1.18 with any
+confidence therefore needs a few hundred development runs per cell, or a
+larger `⟨N⟩` chosen to tolerate a larger `r`. That trade is the owner's.
+
+## 8. Other proposed values
 
 | Value | Proposed | Note |
 |---|---|---|
 | `⟨1−α⟩` | 0.95, adjusted per claim to `1 − α/k` | Owner choice; `α = 0.01` tabulated in §4 |
 | `⟨1−β⟩` | 0.9 | Owner choice; 0.8 and 0.95 tabulated in §4 |
-| `⟨interval method⟩` | Student-t interval over seeds on seed-paired differences | Each run's `δ` is an average over about 900 windows per arm, so the across-seed distribution is close to normal; the error-rate check in §4 supports this at 19–26 seeds |
+| `⟨interval method⟩` | Student-t interval over seeds on seed-paired differences | Each run's `δ` is an average over about 900 windows per arm, so the across-seed distribution is close to normal; the error-rate check in §4 supports this at 18–26 seeds |
 | Seed set | not proposed | To be drawn and written into the protocol when the owner fixes `⟨N⟩`; it must be disjoint from development seeds. The numpy generator seeds used by this calculation (`20261011 + N`) are unrelated to study seeds |
 
-## 8. Limitations of this calculation
+## 9. Limitations of this calculation
 
 - It assumes the protocol's sampling model exactly: independent windows,
   additive effects, no carry-over, every window recorded. A fixture that
   departs from any of these needs a new calculation.
 - Variances are for the model's Bernoulli outcomes. If the fixture adds
-  variance the model lacks, more seeds are needed; fixture qualification on
-  development seeds is where that would show.
+  variance the model lacks, more seeds are needed; §4 gives the tolerated
+  inflation and fixture qualification is where it is measured.
+- The independent review of 2026-10-11 confirmed the arithmetic, the cell
+  probabilities and variances, the capacity tail, the false-void rates and
+  the error-rate control, and reproduced the power figures with its own
+  simulation. Its numbers are quoted above where they differ or add.
 - Fixture parameters are one admissible choice, not the only one. Power is
   most sensitive to `ε` and to windows per run (§3, §4).
 - It says nothing about feasibility. The four dependencies in §13 of the
