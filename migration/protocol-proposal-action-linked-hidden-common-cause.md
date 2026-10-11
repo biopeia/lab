@@ -151,7 +151,10 @@ as the only other rows:
 ```
 
 `δ` is defined only when `action_n > 0` and `other_n > 0`; see §11 for cells
-where it is not.
+where it is not. At the pinned revision the ledger counts a window with no
+observed change among the opportunities (a row with no effect identifier is
+indexed like any other), so quiet action and passive windows enter `action_n`
+and `other_n` and the denominators are the numbers of windows.
 
 **Primary estimand:** the bias of the action-linked contrast under
 `U`-dependent assignment, `β_c = E[δ | c, U_ASSIGNED] − τ_c`, with
@@ -260,15 +263,23 @@ rule, because the estimator is not ratified.
 alone. Each is derived, in a written design calculation attached to the
 revision that fixes it, as follows:
 
-1. `⟨ε⟩` is anchored to the smallest bias of interest: the smallest `γ·κ`
-   among the planned non-zero `κ` levels. `⟨m⟩` is anchored to the smallest
-   `τ` the study is meant to detect.
+1. `⟨ε⟩` is set strictly below the smallest bias of interest — the smallest
+   `|γ|·κ` among the planned non-zero `κ` levels — and `⟨m⟩` strictly below
+   the smallest `τ` the study is meant to detect. A margin equal to the
+   quantity it is compared with could never be exceeded by an interval.
 2. For one run, with `n_1` action windows and `n_0` passive windows and hit
    probabilities `p_1`, `p_0`,
    `Var(δ) ≈ p_1(1 − p_1)/n_1 + p_0(1 − p_0)/n_0`.
-   Windows per run and `⟨N⟩` are chosen so that the `⟨1−α⟩` interval for each
-   seed-paired difference of §11 has half-width at most `⟨ε⟩/2`, with power
-   `⟨1−β⟩` to detect a difference of `⟨ε⟩`.
+   Windows per run and `⟨N⟩` are chosen so that each claim of §12 reaches
+   power `⟨1−β⟩` in its own sense:
+   - equivalence claims (`H-bias-model`, `H-exogenous`): probability at least
+     `⟨1−β⟩` that the interval lies wholly inside `±⟨ε⟩` when the true
+     difference is zero;
+   - `H-sufficient`: probability at least `⟨1−β⟩` that the interval lies
+     wholly above `⟨ε⟩` when the true contrast is the smallest planned `γ·κ`;
+   - `H-sensitivity`: the same with `⟨m⟩` and the smallest planned `τ`;
+   - `H-necessary`: probability at least `⟨1−β⟩` that the interval lies
+     wholly below `⟨ε⟩` at the largest `κ` level under the design values.
 3. Windows per run are capped so that the expected number of passive windows
    at the design `P(A=0)`, plus a stated margin, stays below the passive
    capacity, and action windows below the intervention capacity.
@@ -276,9 +287,9 @@ revision that fixes it, as follows:
    `U` in every run with stated probability, and keep every
    `P(Y=1 | A, U)` inside `(0, 1)`. In `MASKED`, at the largest `κ` level
    `|γ|·κ` must be at least `τ`, so that the masking claim is testable.
-5. Criteria evaluated at `K` levels of `κ` use simultaneous intervals at
-   level `1 − α/K` (Bonferroni), so that every interval statement in §12
-   holds jointly across levels.
+5. A criterion evaluated at `k` levels of `κ` uses simultaneous intervals at
+   level `1 − α/k` (Bonferroni), so that its interval statements hold jointly
+   across those levels. `k` is stated per criterion in §12.
 6. Sensitivity of the chosen values to the fixture parameters is reported.
 
 The design calculation uses only the sampling model written in this document.
@@ -364,35 +375,36 @@ being labelled exploratory.
 ## 12. Falsification criteria
 
 `⟨ε⟩` is an equivalence margin and `⟨m⟩` a minimum contrast, fixed under §8.
-Criteria evaluated at `K` levels of `κ` use simultaneous intervals at level
-`1 − α/K`, so that the error rate of each claim is set before any result
-exists. A claim of equivalence is supported only by an interval wholly inside
-its margin; an interval that straddles the margin is inconclusive, not
-support.
-In the predictions, `τ_c` and `γ_c` are the frozen design values and `κ` is
-the realised value of the run.
+With `⟨K⟩` non-zero levels of `κ`, a criterion evaluated at `k` levels uses
+simultaneous intervals at level `1 − α/k`, so that the error rate of each
+claim is set before any result exists. In the predictions, `τ_c` and `γ_c` are
+the frozen design values and `κ` is the realised value of the run. `D(c)`
+denotes `δ(c, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` at the same `κ` level.
 
-| Claim | Falsified when |
-|---|---|
-| **H-sufficient:** over `U`-assigned rows, an action-linked contrast above `⟨ε⟩` implies `τ > 0` | the interval for `δ(CONFOUNDED, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` lies wholly above `⟨ε⟩` at any `κ > 0` level, where `τ = 0` by construction |
-| **H-necessary:** over `U`-assigned rows, `τ > 0` implies an action-linked contrast above `⟨ε⟩` | the interval for `δ(MASKED, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` lies wholly below `⟨ε⟩` at any `κ > 0` level, while `τ > 0` by construction and confirmed in `RAND_ASSIGNED` |
-| **H-bias-model:** the contrast is the one predicted in §5 | in any `U_ASSIGNED` cell the interval for `δ − (τ_c + γ_c·κ)` is not wholly inside `±⟨ε⟩`, `κ = 0` included |
-| **H-sensitivity:** without confounding the contrast detects a caused change | the interval for `δ(DIRECT, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` does not lie wholly above `⟨m⟩` |
-| **H-exogenous:** exogenous assignment removes the bias | in any `RAND_ASSIGNED` cell the interval for `δ − τ_c` is not wholly inside `±⟨ε⟩` |
+Every claim has three outcomes. An interval that straddles its margin is
+**inconclusive**: it neither supports nor falsifies.
+
+| Claim | Evaluated at | Supported when | Falsified when |
+|---|---|---|---|
+| **H-sufficient:** over `U`-assigned rows, a contrast above `⟨ε⟩` implies `τ > 0` | the `⟨K⟩` non-zero `κ` levels | at every level the interval for `D(CONFOUNDED)` lies wholly inside `±⟨ε⟩` | at any level the interval for `D(CONFOUNDED)` lies wholly above `⟨ε⟩`, where `τ = 0` by construction |
+| **H-necessary:** over `U`-assigned rows, `τ > 0` implies a contrast above `⟨ε⟩` | the largest `κ` level | the interval for `D(MASKED)` lies wholly above `⟨ε⟩` | the interval for `D(MASKED)` lies wholly below `⟨ε⟩`, while `H-exogenous` is supported for `MASKED`, so that `τ > 0` holds in the fixture |
+| **H-bias-model:** the contrast is the one predicted in §5 | every `U_ASSIGNED` cell: 5 conditions × `⟨K⟩ + 1` levels, `κ = 0` included | in every cell the interval for `δ − (τ_c + γ_c·κ)` lies wholly inside `±⟨ε⟩` | in any cell that interval lies wholly outside `±⟨ε⟩` |
+| **H-sensitivity:** without confounding the contrast detects a caused change | `DIRECT` at `κ = 0` | the interval for `D(DIRECT)` lies wholly above `⟨m⟩` | that interval lies wholly below `⟨m⟩` |
+| **H-exogenous:** exogenous assignment removes the bias | every `RAND_ASSIGNED` cell, one per condition and paired level | in every cell the interval for `δ − τ_c` lies wholly inside `±⟨ε⟩` | in any cell that interval lies wholly outside `±⟨ε⟩` |
 
 Reading of outcomes:
 
 - `H-sufficient` and `H-necessary` falsified, and `H-bias-model`,
-  `H-sensitivity` and `H-exogenous` each supported by an interval meeting its
-  criterion: the predicted result. In this fixture, rows from `U`-dependent assignment
-  support neither the presence nor the absence of a causal effect;
-  exogenously assigned rows do.
-- `H-sufficient` or `H-necessary` **not** falsified: contradicts §5. Treat
-  first as a fixture or analysis defect and investigate before any
-  interpretation.
-- `H-bias-model`, `H-sensitivity` or `H-exogenous` not supported, or the void
-  rate above its limit: the fixture is not fit for the question. The study is
-  inconclusive, not negative.
+  `H-sensitivity` and `H-exogenous` supported: the predicted result. In this
+  fixture, rows from `U`-dependent assignment support neither the presence
+  nor the absence of a causal effect; exogenously assigned rows do.
+- `H-sufficient` or `H-necessary` **supported**: contradicts §5. Treat first
+  as a fixture or analysis defect and investigate before any interpretation.
+- `H-bias-model`, `H-sensitivity` or `H-exogenous` falsified, or the void
+  rate above its limit: the fixture is not fit for the question. The study
+  says nothing about the question.
+- Any claim inconclusive: the study was underpowered for that claim. It is
+  reported as inconclusive and is not read in either direction.
 
 No outcome licenses a statement about agency, ownership of consequences, the
 behaviour of a living Organism, or the validity of any estimator.
@@ -426,6 +438,7 @@ method. All are post-migration scientific work.
 |---|---|---|---|
 | Method review by the owner-designated Advisor | lab#59; owner instruction of 2026-10-11 | RECORDED | Findings and outcomes on lab#70. The reviewer also advised on the draft, so this is not an independent review in the sense of the review policy |
 | Lab owner fixes every `⟨…⟩` value under §8 | this document | PENDING | — |
+| Fixture qualification on development seeds (§8) | this document | PENDING | It is itself an execution and needs the Lab owner's authorization before it is run |
 | Lab owner scientific acceptance | lab#59 | PENDING | — |
 | Feasibility confirmed against an available fixture | lab#59 trigger | PENDING | — |
 
