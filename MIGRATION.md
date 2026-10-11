@@ -74,22 +74,19 @@ observation vector); this is test-fixture evidence, not proof of a production ev
 class. CLI progress handling also reads `ev.step`. No source implementation was
 changed.
 
-### Opaque body-interoception apparatus transducer
+### Historical body-interoception behavior disposition
 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
-| `lab/src/lab/integration/physics3d/apparatus.py::OpaqueBodyInteroception` | SPLIT + REWRITE | `src/lab/apparatus/interoception.py::OpaqueBodyInteroception` | Source repository `alessbarb/symbiont-lab`, pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; preserves four-slot mapping/transduction but requires explicit target receptor IDs because target Embodiment has no corresponding humanoid receptor contract. |
-| `lab/tests/unit/lab/physics3d/test_contract.py` interoception cases | REWRITE (focused contract tests) | `tests/test_interoception.py` | Isolated tests cover bounded projections, ordinal permutation, validation, and label-free checkpoint round-trip; source integration suite is not migrated. |
+| `lab/src/lab/integration/physics3d/apparatus.py::OpaqueBodyInteroception` | DROP as TARGET code | No TARGET path | Source repository `alessbarb/symbiont-lab`, pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `8de1f29fe87321fcab0cb051e79fadcf0f833cd6`. Independent review found no approved TARGET contract and no production consumer on Biopeia Lab main. This is a migration disposition, not a scientific validity judgment or a permanent ban on future sensing under a separately approved contract. |
+| Five interoception assertions in `lab/tests/unit/lab/physics3d/test_contract.py` | DROP as TARGET tests | No TARGET test mapping | Pinned source blob `f23d0122a7ab649f7142b0138c50b0cb6f1a57b6`; exact source test names and bounded disposition are recorded in `migration/source-inventory-80d372a.tsv`. Other assertions/helpers in this mixed source test file are outside this slice. |
 
-This extraction isolates a Lab-side apparatus transducer from the former mixed
-runtime adapter. It consumes only a structural view of the required scalar
-fields, provided by Embodiment-owned state, and emits four opaque receptor
-values; Lab does not import Embodiment implementation code or acquire physiology
-ownership, add semantics to those values, or assert scientific validity. This
-also keeps isolated Lab package CI from requiring private-repository credentials;
-the workspace still composes the actual Embodiment package. The runtime adapter
-and the rest of `lab/integration/physics3d/apparatus.py` remain deferred. No
-experiment, study protocol, scientific asset, or result was copied or run.
+The former target-only `OpaqueBodyInteroception` implementation and its tests
+were removed because they had no production consumers and no independent TARGET
+contract. No historical source code or tests were copied or modified. This
+bounded disposition does not classify other symbols/assertions in the mixed
+source files and makes no claim that an analogous future capability is
+unwanted; any future implementation requires its own approved contract.
 
 ### Explicit operator material-transfer application entry point
 
@@ -270,10 +267,10 @@ directly, not preserve old imports or behavior.
   web assets and package docs). The source also has examples, run receipts,
   result JSON, manifests and generated evidence under `lab/experiments/`.
 - Biopeia target consumer scan covered `repos/lab/src` and `repos/lab/tests`.
-  Current tracked target modules are `lab.apparatus.interoception`,
-  `lab.interventions.material_transfer`, and the three extracted common study
-  utilities (`digests`, `pairing`, `statistics`). Target tests cover those APIs
-  (`tests/unit/test_{interoception,digests,pairing,statistics}.py` and
+  Current tracked target modules are `lab.interventions.material_transfer` and
+  the three extracted common study utilities (`digests`, `pairing`,
+  `statistics`). Target tests cover those APIs
+  (`tests/unit/test_{digests,pairing,statistics}.py` and
   `tests/integration/test_material_transfer_intervention.py`). No target
   implementation or test imports source `lab.observatory`, `lab.observation`,
   `lab.server`, `lab.app`, `lab.workbench`, `lab.world`, `lab.physics3d`,
@@ -300,7 +297,7 @@ at the same pin; target paths are present consumers, not proposed destinations.
 | `lab/src/lab/observation/{semantic,contracts,projection,plane,bus,wire,delta,provenance_journal,world_scene,environment_resource,body_pose,body_physiology,joint_kinematics,physics3d,atlas,development_history,symbiont_affordance,subsystem_status,cadence,observatory}.py` | Source observation unit/smoke/integration suites; referenced by `observatory`, `physics3d`, `workbench`, `server` and source runtime adapters. Current Biopeia Observation repository owns its own semantic-model work; Lab has no implementation consumer. | `SPLIT` / `REWRITE` candidate; transport/UI-specific pieces `DROP` or `DEFER` after consumer audit | Ratified architecture keeps Observation a passive projection, distinct from scientific evidence custody. Its approved conceptual model does not authorize copying this source schema/API/transport. Lab may admit claims into evidence but must not become primary authority for Embodiment, Environment, Organism or World claims. |
 | `lab/src/lab/observatory/{adapter,config,history_summary,journal,manifest,provenance,publisher,registry,schema_validate,server}.py`, schemas, `world.html`, and nested tests | 48 source package files including schemas/tests; source `lab/tests/smoke/test_observatory_source_adapter.py`, server/runtime projection tests, source Workbench/app. No target consumers. | `SPLIT` candidate for Lab evidence/provenance custody; `DROP` candidate for domain-state adapters/schemas/UI that duplicate domain or Observation contracts; otherwise `DEFER` | Distinguish experiment evidence records from passive Observation claims, source state and delivery. Existing JSON shapes (`instance`, `snapshot`, `topology`) are not approved Biopeia records. Determine custody, retention, replay and integrity requirements before implementing any successor. |
 | `lab/src/lab/physics3d/{engine,runtime,effects,equivalence*,persistence,settling,observer_semantics,world_observation,private_model_training,telemetry/**}.py`; examples include physics runtime/engine, telemetry readers/writers and effect characterization | `lab/tests/unit/lab/physics3d/**`, integration/equivalence tests, Physics3D runs and CLI; no target Lab runtime consumer. | `SPLIT` / `REWRITE` candidate for scientific apparatus, analysis and retained telemetry evidence; `DROP` candidate for stale adapters/obsolete schemas only after per-path proof; core runtime `DEFER` | Biopeia ratifies solver as numerical substrate, not semantic authority; Environment and Embodiment own adoption and World commits. Do not transfer a source runtime as a solver authority. Preserve raw scientific outputs where governance requires; this candidate code disposition does not dispose of records. |
-| `lab/src/lab/integration/{integrated_habitat.py,organism/**,physics3d/**,world/**}` including `OpaqueBodyInteroception` and source adapters; `lab/src/lab/world/{population,runtime,transaction,persistence,cli_view}.py` | Source integrated-habitat/world/physics tests; current target uses rewritten `lab.apparatus.interoception` and `lab.interventions.material_transfer`; workspace suite has `tests/integration/test_operator_material_transfer.py` and `test_first_biopeia_physical_causal_step.py`. | Already extracted items: `SPLIT + REWRITE` (see earlier records). Remaining adapters/runtime: `DROP` candidate for superseded source composition or `DEFER` when independent Lab apparatus remains useful | World/Environment/Embodiment split is ratified; source World/hex/population assumptions do not transfer by name. New integrations must call current owner APIs and preserve causal commit order; no old namespace bridge. Determine each behavior against Biopeia contracts, not source file location. |
+| `lab/src/lab/integration/{integrated_habitat.py,organism/**,physics3d/**,world/**}` including `OpaqueBodyInteroception` and source adapters; `lab/src/lab/world/{population,runtime,transaction,persistence,cli_view}.py` | Source integrated-habitat/world/physics tests; current target uses `lab.interventions.material_transfer`; workspace suite has `tests/integration/test_operator_material_transfer.py` and `test_first_biopeia_physical_causal_step.py`. | Interoception symbol: `DROP` as TARGET code (see bounded disposition above). Other extracted items and remaining adapters/runtime retain their separately recorded dispositions. | World/Environment/Embodiment split is ratified; source World/hex/population assumptions do not transfer by name. New integrations must call current owner APIs and preserve causal commit order; no old namespace bridge. Determine each behavior against Biopeia contracts, not source file location. |
 | `lab/src/lab/app/physics3d/**`, `lab/src/lab/server/{api,server,sse}.py`, `lab/src/lab/cli/**` | Source unified server/app/CLI smoke tests and source users; no target consumer. | `DROP` candidate for old monolith/UI/commands; `REWRITE` candidate only for independently justified operator tooling or Lab application endpoints; otherwise `DEFER` | Do not preserve old HTTP/SSE, command syntax, browser assets or launch flow by compatibility. Any future operator tooling must not turn caller identity into authentication/authorization and must keep Lab out of causal ownership. |
 | `lab/src/lab/workbench/{coordinator.py,web/**}` | Source Workbench/browser tests; source `observatory`/`server` integration; no target consumer. | `DROP` candidate for source-coupled presentation; possible `REWRITE` candidate as a new Lab UI after requirements | Frontend and static assets are implementation-specific, not scientific evidence or semantic contracts. This candidate is not a ruling to delete historical screenshots/assets from protected evidence stores. |
 | `lab/src/lab/evaluation/**`, `evolution/**`, `experience/**`, `reproduction/**`, `modeling/**`, `kernel_characterization/**` | Corresponding source unit/integration tests and study/experiment callers; no target Lab consumer. | `SPLIT` / `REWRITE` or `DEFER`, module by module | Some can be Lab methods, analysis, model/evaluator apparatus; some source modules may encode Organism or lifecycle semantics. Keep longitudinal private state and cognition out of Lab. Establish owner for every persistent state and claim before any broad MOVE. |
@@ -400,11 +397,12 @@ debt and cannot be counted as completed inventory.
 
 All 297 pinned source test-tree files have a row. The current target test
 coverage is selective: three focused utility test files are `MOVE`, one mixed
-physics contract test file is `SPLIT` because only selected interoception
-assertions were rewritten, and 293 files are `DROP` from the Biopeia TARGET
-test/code plan (217 previously classified source-coupled files plus 76
-science/protocol/integrity-oriented source test files). The 76 are not carried
-forward as compatibility tests. This code disposition does not delete source
+physics contract test file is `SPLIT` because it contains assertion groups with
+distinct dispositions; its five interoception assertions are explicitly `DROP`
+as TARGET tests in the bounded record above, and 293 files are `DROP` from the
+Biopeia TARGET test/code plan (217 previously classified source-coupled files
+plus 76 science/protocol/integrity-oriented source test files). The 76 are not
+carried forward as compatibility tests. This code disposition does not delete source
 history or automatically admit test code, assertions, fixtures or outputs as
 scientific evidence. Lab, as designated scientific custodian, may separately
 identify and admit evidence with its own provenance and admissibility record.

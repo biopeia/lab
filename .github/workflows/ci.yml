@@ -42,10 +42,9 @@ jobs:
         run: |
           "$RUNNER_TEMP/lab-install-check/bin/python" -I -c '
           import lab
-          from lab.apparatus.interoception import OpaqueBodyInteroception
           from lab.studies.common.pairing import assert_unique_seeds
           assert lab.__file__
-          assert OpaqueBodyInteroception and assert_unique_seeds
+          assert assert_unique_seeds
           print(f"installed lab package: {lab.__file__}")
           '
 

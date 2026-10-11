@@ -1,14 +1,15 @@
-"""Keep the bounded interoception migration rows source-pinned and actionable."""
+"""Keep the bounded historical interoception DROP disposition source-pinned."""
 
 from __future__ import annotations
 
-import ast
 import csv
 from pathlib import Path
 
 ROOT = Path(__file__).parents[2]
 MIGRATION = ROOT / "migration"
 SOURCE_COMMIT = "80d372a186513035f85a769db886e505cabba52d"
+APPARATUS_BLOB = "8de1f29fe87321fcab0cb051e79fadcf0f833cd6"
+TEST_BLOB = "f23d0122a7ab649f7142b0138c50b0cb6f1a57b6"
 
 
 def read_inventory() -> dict[str, dict[str, str]]:
@@ -19,76 +20,55 @@ def read_inventory() -> dict[str, dict[str, str]]:
     return {row["source_path"]: row for row in rows}
 
 
-def declared_symbols(path: Path) -> set[str]:
-    tree = ast.parse(path.read_text(encoding="utf-8"))
-    return {
-        node.name
-        for node in tree.body
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
-    }
-
-
-def test_interoception_source_symbols_have_bounded_rewrite_and_drop_dispositions() -> None:
+def test_historical_interoception_symbol_is_dropped_without_target_mapping() -> None:
     rows = read_inventory()
     row = rows["lab/src/lab/integration/physics3d/apparatus.py"]
     symbols = set(row["top_level_python_symbols"].split(";"))
-    retained = {"OpaqueBodyInteroception"}
-    dropped = {
-        "_running_version",
-        "physics3d_sensory_system",
-        "physics3d_cognition",
-        "physics3d_actuator_surface",
-        "PhysicsDiscoveryProvider",
-        "PhysicsReadingProvider",
-        "actuator_to_effector_map",
-        "actuator_exclusion_groups",
-        "body_schema_summary",
-    }
+    source_symbol = "OpaqueBodyInteroception"
 
-    assert row["source_blob_at_pinned_commit"] == "8de1f29fe87321fcab0cb051e79fadcf0f833cd6"
-    assert row["disposition"] == "SPLIT"
-    assert row["source_path"] == "lab/src/lab/integration/physics3d/apparatus.py"
-    assert row["target_owner"].startswith("Lab (transducer only; Embodiment retains authority")
-    assert symbols == retained | dropped
-    assert "src/lab/apparatus/interoception.py::OpaqueBodyInteroception" in row["target_path_or_status"]
-    assert all(name in row["target_path_or_status"] for name in dropped)
-    assert "claims no semantic equivalence" in row["rationale_and_caveat"]
-    assert SOURCE_COMMIT in (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
+    assert row["source_blob_at_pinned_commit"] == APPARATUS_BLOB
+    assert row["disposition"] == "SPLIT"  # the source file contains other symbols
+    assert source_symbol in symbols
+    assert "DROP: lab/src/lab/integration/physics3d/apparatus.py::OpaqueBodyInteroception" in row["target_path_or_status"]
+    assert "no TARGET path" in row["target_path_or_status"]
+    assert "no approved TARGET contract" in row["rationale_and_caveat"]
+    assert "no production consumer" in row["rationale_and_caveat"]
+    assert SOURCE_COMMIT in row["rationale_and_caveat"]
+    assert APPARATUS_BLOB in row["rationale_and_caveat"]
 
-    target = ROOT / "src/lab/apparatus/interoception.py"
-    assert "OpaqueBodyInteroception" in declared_symbols(target)
+    assert not (ROOT / "src/lab/apparatus/interoception.py").exists()
+    assert not any(
+        source_symbol in path.read_text(encoding="utf-8")
+        for path in (ROOT / "src").rglob("*.py")
+    )
 
 
-def test_interoception_test_symbols_map_only_selected_assertions_and_drop_the_rest() -> None:
+def test_historical_interoception_assertions_are_dropped_without_target_tests() -> None:
     rows = read_inventory()
     row = rows["lab/tests/unit/lab/physics3d/test_contract.py"]
-    source_symbols = set(row["top_level_python_symbols"].split(";"))
-    target_tests = {
-        "test_interoception_projects_four_bounded_opaque_values",
-        "test_interoception_permutation_changes_slots_not_source_state",
-        "test_interoception_checkpoint_round_trip_keeps_only_ordinal_mapping",
-    }
-    mapped_source_tests = {
+    source_tests = {
         "test_l3_receptors_remain_opaque_ordinals",
+        "test_l3_interoceptive_channels_are_independent",
         "test_l3_interoception_mapping_is_label_invariant_under_permutation",
+        "test_l3_local_contact_loads_are_independent_physical_channels",
         "test_l3_checkpoint_preserves_only_opaque_ordinal_mapping",
     }
-    explicitly_dropped_source_tests = {
-        "test_l3_interoceptive_channels_are_independent",
-        "test_l3_local_contact_loads_are_independent_physical_channels",
-    }
 
-    assert row["source_blob_at_pinned_commit"] == "f23d0122a7ab649f7142b0138c50b0cb6f1a57b6"
-    assert row["disposition"] == "SPLIT"
-    assert source_symbols >= mapped_source_tests | explicitly_dropped_source_tests
-    assert "tests/unit/test_interoception.py" in row["target_path_or_status"]
-    assert all(name in row["target_path_or_status"] for name in target_tests)
-    assert all(name in row["target_path_or_status"] for name in explicitly_dropped_source_tests)
-    assert "all other source tests/helpers listed in top_level_python_symbols" in row["target_path_or_status"]
-    assert "no label-invariance scientific claim" in row["rationale_and_caveat"]
-    assert "does not duplicate the separate somatic-correlation protocol disposition in Lab#61" in row["rationale_and_caveat"]
+    assert row["source_blob_at_pinned_commit"] == TEST_BLOB
+    assert row["disposition"] == "SPLIT"  # only this assertion group is scoped here
+    assert source_tests <= set(row["top_level_python_symbols"].split(";"))
+    assert all(name in row["target_path_or_status"] for name in source_tests)
+    assert "DROP from TARGET tests" in row["target_path_or_status"]
+    assert "No TARGET test mapping or destination" in row["target_path_or_status"]
+    assert SOURCE_COMMIT in row["rationale_and_caveat"]
+    assert TEST_BLOB in row["rationale_and_caveat"]
+    assert not (ROOT / "tests/unit/test_interoception.py").exists()
 
-    target = ROOT / "tests/unit/test_interoception.py"
-    assert target_tests <= declared_symbols(target)
-    assert mapped_source_tests <= source_symbols
-    assert explicitly_dropped_source_tests <= source_symbols
+    migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "DROP as TARGET code" in migration
+    assert "DROP as TARGET tests" in migration
+    assert APPARATUS_BLOB in migration
+    assert TEST_BLOB in migration
+    assert "does not include a body-interoception transducer" in readme
+    assert "lab.apparatus.interoception" not in readme
