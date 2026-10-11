@@ -44,3 +44,14 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
             row = source[path]
             assert row["source_blob_at_pinned_commit"] == expected_blob
             assert row["disposition"] == "DROP"
+
+
+def test_registered_protocol_crosswalk_matches_resolved_dispositions() -> None:
+    units = read_tsv("study-disposition-register-80d372a.tsv")
+    crosswalk = read_tsv("study-protocol-crosswalk-80d372a.tsv")
+    crosswalk_by_id = {row["protocol_id"]: row for row in crosswalk}
+
+    assert len(crosswalk_by_id) == len(crosswalk)
+    for unit in units:
+        protocol = crosswalk_by_id[unit["unit_id"]]
+        assert protocol["candidate_disposition"] == unit["study_protocol_disposition"]
