@@ -43,20 +43,28 @@ dispositions and limitations.
 The 76 registered IDs are candidate units, not 76 proven independent studies.
 The companion
 [`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
-records three resolved owner-directed `HISTORICAL_PROTOCOL` units:
-`continuity.recurrent-restoration`,
-`embodiment.causal-revision-sequence`, and
-`world.genesis-viability-characterization`. The crosswalk retains the other
-73 candidate IDs as `DEFER`. All three historical implementations are `DROP` as TARGET
-code. These dispositions do not copy or move historical protocol/result bytes.
-The genesis-viability unit's linked result has an unresolved
+records eight owner-directed dispositions: seven `HISTORICAL_PROTOCOL` units
+(`continuity.recurrent-restoration`, `embodiment.causal-revision-sequence`,
+`world.genesis-viability-characterization`, `embodiment.heredity-leakage-challenge`,
+`learning.visual-predictor-audit`, `embodiment.label-invariance`, and
+`embodiment.somatic-correlation-trap`) and one `REIMPLEMENT_METHOD` question
+(`embodiment.hidden-common-cause`) whose new protocol design is separately tracked.
+The other 68 candidate IDs remain `DEFER`. Historical implementations and
+source tests for these resolved units are `DROP` as TARGET code/tests; these
+classifications do not copy, move, or delete historical source bytes or artifact
+records. The genesis-viability unit's linked result has an unresolved
 configuration/population discrepancy and is not treated as conformant or
 scientifically validated; the recurrent-restoration unit has no result/run
 artifact at the pinned source commit. The causal-revision result records a run ID
 and source SHA but also `software.dirty=true`, so its exact executed source tree
 is not reconstructible; it remains custody-only `SCIENTIFIC_EVIDENCE`, not admitted
-or scientifically validated. The crosswalk alone does not close any
-study unit. Remaining per-study dispositions must be one of:
+or scientifically validated. The somatic-correlation-trap disposition is
+migration classification only: it does not import historical thresholds, an
+activation/temperature relation, or inference rules, and it makes no scientific
+validity, reproducibility, method-equivalence, evidence-admission, or Biopeia
+applicability claim. Its artifact custody remains separately recorded. The
+crosswalk alone does not close any study unit. Remaining per-study dispositions
+must be one of:
 
 - `REIMPLEMENT_METHOD` with a scientifically reviewed method/estimand record;
 - `HISTORICAL_PROTOCOL` where the source protocol remains historical;
