@@ -13,6 +13,115 @@ def read_tsv(name: str) -> list[dict[str, str]]:
         return list(csv.DictReader(stream, delimiter="\t"))
 
 
+def test_accepted_historical_custody_is_separate_from_code_migration_disposition() -> None:
+    source_rows = read_tsv("source-inventory-80d372a.tsv")
+    custody_rows = read_tsv("scientific-custody-80d372a.tsv")
+    source = {row["source_path"]: row for row in source_rows}
+    custody = {row["source_path"]: row for row in custody_rows}
+
+    assert len(source_rows) == len(source) == 1172
+    assert len(custody_rows) == len(custody) == 477
+    assert custody.keys() <= source.keys()
+
+    accepted_status = (
+        "LAB_OWNER_ACCEPTED_CUSTODY_CLASSIFICATION; "
+        "NOT_SCIENTIFICALLY_VALIDATED; NOT_ADMITTED"
+    )
+    exception_status = "LAB_OWNER_DISPOSITION_PENDING; EXCEPTION_DOCUMENTED; NOT_ADMITTED"
+    accepted = {
+        path: row
+        for path, row in custody.items()
+        if row["proposal_review_status"] == accepted_status
+    }
+    exceptions = {
+        path: row
+        for path, row in custody.items()
+        if row["proposal_review_status"] == exception_status
+    }
+
+    assert len(accepted) == 448
+    assert len(exceptions) == 29
+    assert set(accepted) | set(exceptions) == custody.keys()
+    assert {row["custody_classification"] for row in accepted.values()} == {
+        "SCIENTIFIC_EVIDENCE",
+        "PROTOCOL",
+        "HISTORICAL_RECORD",
+        "WORKING_ARTIFACT",
+    }
+    assert {
+        classification: sum(
+            row["custody_classification"] == classification
+            for row in accepted.values()
+        )
+        for classification in (
+            "PROTOCOL",
+            "HISTORICAL_RECORD",
+            "SCIENTIFIC_EVIDENCE",
+            "WORKING_ARTIFACT",
+        )
+    } == {
+        "PROTOCOL": 221,
+        "HISTORICAL_RECORD": 95,
+        "SCIENTIFIC_EVIDENCE": 83,
+        "WORKING_ARTIFACT": 49,
+    }
+
+    # Every row is a one-to-one path join and preserves the pinned provenance.
+    # Independently verified against git objects at source commit
+    # 80d372a186513035f85a769db886e505cabba52d during this bounded reconciliation.
+    for path, custody_row in custody.items():
+        source_row = source[path]
+        assert custody_row["source_repository"] == "alessbarb/symbiont-lab"
+        assert custody_row["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
+        assert len(custody_row["content_sha256"]) == 64
+        assert all(character in "0123456789abcdef" for character in custody_row["content_sha256"])
+        assert source_row["source_blob_at_pinned_commit"] == custody_row["source_blob"]
+        assert source_row["bytes"] == custody_row["bytes"]
+
+    preserved_existing_drops = 0
+    for path, custody_row in accepted.items():
+        source_row = source[path]
+        assert source_row["disposition"] == "DROP"
+        assert source_row["target_owner"] == "Lab"
+        rationale = source_row["rationale_and_caveat"]
+        assert "migration/scientific-custody-80d372a.tsv" in rationale
+        assert custody_row["proposal_review_status"] == accepted_status
+        if "Code-migration disposition: DROP" in rationale:
+            assert (
+                source_row["target_path_or_status"]
+                == "No TARGET artifact bytes are being migrated"
+            )
+            assert f"`{custody_row['custody_classification']}`" in rationale
+            assert "does not authorize deletion" in rationale
+            assert "scientifically validate evidence" in rationale
+        else:
+            # Preserve the narrower owner rationales already recorded before this slice.
+            preserved_existing_drops += 1
+            assert source_row["target_path_or_status"].startswith("No TARGET ")
+            assert (
+                path.startswith("lab/experiments/embodiment/label-invariance/")
+                or path.startswith(
+                    "lab/experiments/embodiment/label-invariance-governed-20261001-0a901ea/"
+                )
+                or path
+                in {
+                    "lab/experiments/learning/visual-acquisition-v1/audit/README.md",
+                    "lab/experiments/learning/visual-acquisition-v1/audit/experiment.toml",
+                }
+            )
+            assert (
+                "Owner disposition in biopeia/lab#62" in rationale
+                or "Biopeia Lab issue #57" in rationale
+            )
+
+    assert preserved_existing_drops == 29
+
+    for path, custody_row in exceptions.items():
+        assert source[path]["disposition"] == "DEFER"
+        assert custody_row["custody_classification"] == "DEFER"
+        assert custody_row["proposal_review_status"] == exception_status
+
+
 def test_label_invariance_artifact_disposition_matches_accepted_custody() -> None:
     source_rows = read_tsv("source-inventory-80d372a.tsv")
     custody_rows = read_tsv("scientific-custody-80d372a.tsv")
