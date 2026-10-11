@@ -137,8 +137,10 @@ Target of inference, per channel condition `c`, in a single context:
 τ_c = P(Y=1 | do(A=1)) − P(Y=1 | do(A=0))
 ```
 
-`τ_c` is known by construction and is also estimated from the `RAND_ASSIGNED`
-regime as a check on the fixture.
+`τ_c` is known by construction. That the fixture reproduces it under
+`RAND_ASSIGNED` is established beforehand, in fixture qualification on
+development seeds (§8), and tested on the study seeds as `H-exogenous` (§12);
+it is never a condition for keeping a run.
 
 Quantity under test, per run, from the ledger's **atom** opportunity counts
 for the target atom and the one intervention signature, with passive windows
@@ -240,6 +242,12 @@ rule, because the estimator is not ratified.
   every seed used during fixture development or piloting
   (`assert_disjoint_seeds`), and identical across all cells
   (`assert_paired_seeds`).
+- **Fixture qualification.** Before the study seeds are used, the fixture is
+  run on development seeds to confirm that it reproduces the constructed
+  `τ_c` under `RAND_ASSIGNED` and emits the target atom as specified.
+  Development seeds are disjoint from the study seeds and their runs are not
+  admissible evidence. A fixture that fails qualification is corrected and
+  re-qualified; the study seeds are not touched until it passes.
 - `U`, the assignment of `A`, and any noise in `Y` are drawn from separately
   named streams derived from the run seed. No operating-system entropy enters
   causal state (ADR-0108).
@@ -268,8 +276,9 @@ revision that fixes it, as follows:
    `U` in every run with stated probability, and keep every
    `P(Y=1 | A, U)` inside `(0, 1)`. In `MASKED`, at the largest `κ` level
    `|γ|·κ` must be at least `τ`, so that the masking claim is testable.
-5. Criteria evaluated at several `κ` levels are corrected with Holm's
-   procedure across those levels.
+5. Criteria evaluated at `K` levels of `κ` use simultaneous intervals at
+   level `1 − α/K` (Bonferroni), so that every interval statement in §12
+   holds jointly across levels.
 6. Sensitivity of the chosen values to the fixture parameters is reported.
 
 The design calculation uses only the sampling model written in this document.
@@ -321,7 +330,10 @@ Fixed before execution; no analysis is added after results are seen without
 being labelled exploratory.
 
 1. **Validity checks, per run.** A run failing any check is void, in all its
-   cells, and is reported as void.
+   cells, and is reported as void. No check depends on the observed outcome
+   `Y`: voiding runs on an outcome would select the runs on which the
+   hypotheses are then tested, and, because paired cells share a seed, would
+   bias the primary estimand.
    (a) Apart from the target channel in conditions with a `U → Y` edge, `U`
    appears in no Organism-visible feature, state reference or `context_ref`.
    (b) Both values of `A` occur under both values of `U`.
@@ -329,11 +341,12 @@ being labelled exploratory.
    (d) Realised `κ` is within `⟨t_κ⟩` of its design value.
    (e) No eviction; ticks strictly increasing; windows length-matched; every
    scheduled window present in the ledger.
-   (f) The target atom, and no other atom on the target feature, is what the
-   fixture's change produces.
+   (f) In the fixture's own record of the changes it generated, each
+   generated target change is the target atom and no other atom on the target
+   feature. This is checked against what the fixture emitted, not against
+   ledger hit counts.
    (g) In each `RAND_ASSIGNED` cell, realised `action_n` is within `⟨t_n⟩` of
-   its paired `U_ASSIGNED` cell, and the estimate of `τ_c` agrees with its
-   constructed value within `⟨t_τ⟩`.
+   its paired `U_ASSIGNED` cell.
 2. **Void rate.** The number and fraction of void runs, and the check each
    failed, are reported. If the void rate exceeds `⟨v⟩` the study is
    inconclusive.
@@ -351,8 +364,11 @@ being labelled exploratory.
 ## 12. Falsification criteria
 
 `⟨ε⟩` is an equivalence margin and `⟨m⟩` a minimum contrast, fixed under §8.
-Criteria evaluated at several `κ` levels use Holm's correction across those
-levels, so that the error rate of each claim is set before any result exists.
+Criteria evaluated at `K` levels of `κ` use simultaneous intervals at level
+`1 − α/K`, so that the error rate of each claim is set before any result
+exists. A claim of equivalence is supported only by an interval wholly inside
+its margin; an interval that straddles the margin is inconclusive, not
+support.
 In the predictions, `τ_c` and `γ_c` are the frozen design values and `κ` is
 the realised value of the run.
 
@@ -360,20 +376,21 @@ the realised value of the run.
 |---|---|
 | **H-sufficient:** over `U`-assigned rows, an action-linked contrast above `⟨ε⟩` implies `τ > 0` | the interval for `δ(CONFOUNDED, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` lies wholly above `⟨ε⟩` at any `κ > 0` level, where `τ = 0` by construction |
 | **H-necessary:** over `U`-assigned rows, `τ > 0` implies an action-linked contrast above `⟨ε⟩` | the interval for `δ(MASKED, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` lies wholly below `⟨ε⟩` at any `κ > 0` level, while `τ > 0` by construction and confirmed in `RAND_ASSIGNED` |
-| **H-bias-model:** the contrast is the one predicted in §5 | in any `U_ASSIGNED` cell the interval for `δ − (τ_c + γ_c·κ)` lies wholly outside `±⟨ε⟩`, `κ = 0` included |
+| **H-bias-model:** the contrast is the one predicted in §5 | in any `U_ASSIGNED` cell the interval for `δ − (τ_c + γ_c·κ)` is not wholly inside `±⟨ε⟩`, `κ = 0` included |
 | **H-sensitivity:** without confounding the contrast detects a caused change | the interval for `δ(DIRECT, U_ASSIGNED) − δ(NULL, U_ASSIGNED)` does not lie wholly above `⟨m⟩` |
 | **H-exogenous:** exogenous assignment removes the bias | in any `RAND_ASSIGNED` cell the interval for `δ − τ_c` is not wholly inside `±⟨ε⟩` |
 
 Reading of outcomes:
 
-- `H-sufficient` and `H-necessary` falsified, the other three not: the
-  predicted result. In this fixture, rows from `U`-dependent assignment
+- `H-sufficient` and `H-necessary` falsified, and `H-bias-model`,
+  `H-sensitivity` and `H-exogenous` each supported by an interval meeting its
+  criterion: the predicted result. In this fixture, rows from `U`-dependent assignment
   support neither the presence nor the absence of a causal effect;
   exogenously assigned rows do.
 - `H-sufficient` or `H-necessary` **not** falsified: contradicts §5. Treat
   first as a fixture or analysis defect and investigate before any
   interpretation.
-- `H-bias-model`, `H-sensitivity` or `H-exogenous` falsified, or the void
+- `H-bias-model`, `H-sensitivity` or `H-exogenous` not supported, or the void
   rate above its limit: the fixture is not fit for the question. The study is
   inconclusive, not negative.
 
