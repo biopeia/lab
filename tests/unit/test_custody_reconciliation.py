@@ -469,3 +469,35 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
         ]
         == "DROP"
     )
+
+    proposal_name = "protocol-proposal-action-linked-hidden-common-cause.md"
+    proposal = (MIGRATION / proposal_name).read_text(encoding="utf-8")
+    assert f"migration/{proposal_name}" in disposition["TARGET_action"]
+    assert "POST_MIGRATION scientific work" in disposition["TARGET_action"]
+    assert "successor tracking is biopeia/lab#59" in disposition["TARGET_action"]
+    assert "nor authorizes any execution" in disposition["TARGET_action"]
+    assert "not acceptance of the protocol" in disposition["TARGET_action"]
+    assert (
+        "**Status: PROPOSED. Reviewed by the owner-designated Advisor and by an "
+        "independent fresh-context reviewer; not accepted, not executed.**"
+    ) in proposal
+    assert "this is not an independent review in the sense of the review policy" in proposal
+    assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
+    # Historical decision thresholds are not TARGET authority and must not reappear.
+    assert "0.70" not in proposal and "0.10" not in proposal
+    # Proposed design values must not be mistaken for ratified parameters.
+    design = (MIGRATION / "protocol-design-calculation-hidden-common-cause.md").read_text(
+        encoding="utf-8"
+    )
+    assert "**Status: PROPOSED VALUES. Not ratified, not accepted, not used in any run.**" in design
+    assert "0.70" not in design and "0.10" not in design
+    for open_value in (
+        "⟨ε⟩", "⟨m⟩", "⟨N⟩", "⟨K⟩", "⟨L⟩", "⟨W⟩", "⟨t_κ⟩", "⟨t_n⟩", "⟨v⟩", "⟨N_q⟩", "⟨t_q⟩", "⟨r⟩",
+    ):
+        assert open_value in proposal
+    for source_blob in (
+        "1ef13e9fa48ec642525a31dc8c83aa2b6b64ccda",
+        "5cdfd88635fc28c3a44c25774c3c9a0ba7c068ce",
+        "6d1cf24be824884ec5a2f5510ce1ec0f404c2de0",
+    ):
+        assert source_blob in proposal
