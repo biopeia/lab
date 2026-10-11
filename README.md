@@ -7,10 +7,11 @@ Included utilities validate seed pairing/disjointness and summarize scalar
 study measurements. They do not run experiments, own simulated life, or carry
 scientific artifacts.
 
-The apparatus package includes a bounded opaque body-interoception transducer.
-It consumes Embodiment-owned body state and requires callers to supply receptor
-identifiers; it does not assign meanings to channels or claim scientific
-validity. See `MIGRATION.md` for source provenance and transfer limits.
+The current TARGET package does not include a body-interoception transducer.
+The historical-derived implementation and target-only tests were removed
+because no approved TARGET contract or production consumer exists. Historical
+source remains read-only; see `MIGRATION.md` for the bounded disposition and
+provenance. This does not preclude a separately specified future capability.
 
 ## Development
 
@@ -38,7 +39,7 @@ python -m pip install -e '.[integration]'
 python -m pytest tests/integration
 ```
 
-The isolated wheel check imports `lab.apparatus.interoception` and
-`lab.studies.common.pairing` from the installed distribution outside the source
-checkout. These CI jobs validate packaging and the tested software contracts;
-they do not establish scientific validity, efficacy, or equivalence.
+The isolated wheel check imports `lab.studies.common.pairing` from the installed
+distribution outside the source checkout. These CI jobs validate packaging and
+the tested software contracts; they do not establish scientific validity,
+efficacy, or equivalence.
