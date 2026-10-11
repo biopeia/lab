@@ -281,8 +281,10 @@ def test_causal_revision_disposition_and_cross_ledger_records_agree() -> None:
         ("results.json", "SCIENTIFIC_EVIDENCE"),
     ):
         path = source_root + filename
-        assert inventory[path]["disposition"] == "DEFER"
-        assert "no physical TARGET transfer" in inventory[path]["rationale_and_caveat"]
+        assert inventory[path]["disposition"] == "DROP"
+        assert "Code-migration disposition: DROP" in inventory[path]["rationale_and_caveat"]
+        assert "No source artifact bytes are migrated into TARGET" in inventory[path]["rationale_and_caveat"]
+        assert f"`{expected_class}`" in inventory[path]["rationale_and_caveat"]
         assert custody[path]["custody_classification"] == expected_class
         assert custody[path]["proposal_review_status"] == ACCEPTED
         assert "NOT_ADMITTED" in custody[path]["proposal_review_status"]
