@@ -111,11 +111,11 @@ Monte Carlo check at the proposed values (standard error at most 0.0035):
 
 | Seeds | `H-sufficient` falsified | `H-necessary` falsified | `H-sensitivity` supported | `H-bias-model` supported | `H-exogenous` supported | All five as predicted |
 |---|---|---|---|---|---|---|
-| 19 | 0.970 | 1.000 | 1.000 | 0.900 | 0.809 | 0.706 |
-| 20 | 0.979 | 1.000 | 1.000 | 0.944 | 0.881 | 0.814 |
-| 22 | 0.987 | 1.000 | 1.000 | 0.983 | 0.961 | 0.933 |
-| 24 | 0.995 | 1.000 | 1.000 | 0.996 | 0.988 | 0.979 |
-| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.997 | 0.992 |
+| 19 | 0.970 | 1.000 | 1.000 | 0.900 | 0.809 | 0.71 |
+| 20 | 0.979 | 1.000 | 1.000 | 0.944 | 0.881 | 0.81 |
+| 22 | 0.987 | 1.000 | 1.000 | 0.983 | 0.961 | 0.93 |
+| 24 | 0.995 | 1.000 | 1.000 | 0.996 | 0.988 | 0.98 |
+| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.997 | 0.99 |
 
 `H-bias-model` is evaluated on `δ − (τ + γ·κ)` with the realised `κ`, which
 removes the variance due to chance imbalance of `U`. `H-exogenous` is
