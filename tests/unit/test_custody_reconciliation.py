@@ -473,6 +473,9 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
     proposal_name = "protocol-proposal-action-linked-hidden-common-cause.md"
     proposal = (MIGRATION / proposal_name).read_text(encoding="utf-8")
     assert f"migration/{proposal_name}" in disposition["TARGET_action"]
+    assert "POST_MIGRATION scientific work" in disposition["TARGET_action"]
+    assert "successor tracking is biopeia/lab#59" in disposition["TARGET_action"]
+    assert "nor authorizes any execution" in disposition["TARGET_action"]
     assert "**Status: PROPOSED. Not reviewed, not accepted, not executed.**" in proposal
     assert "| Independent Advisor review of the method | lab#59 | PENDING |" in proposal
     assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
