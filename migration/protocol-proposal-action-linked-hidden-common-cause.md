@@ -437,6 +437,7 @@ method. All are post-migration scientific work.
 | Step | Required by | State | Record |
 |---|---|---|---|
 | Method review by the owner-designated Advisor | lab#59; owner instruction of 2026-10-11 | RECORDED | Findings and outcomes on lab#70. The reviewer also advised on the draft, so this is not an independent review in the sense of the review policy |
+| Design calculation proposing a value for each `⟨…⟩` | §8; authorized by the Lab owner 2026-10-11 | PROPOSED | [`protocol-design-calculation-hidden-common-cause.md`](protocol-design-calculation-hidden-common-cause.md). Statistical model only; proposes, does not ratify |
 | Lab owner fixes every `⟨…⟩` value under §8 | this document | PENDING | — |
 | Fixture qualification on development seeds (§8) | this document | PENDING | It is itself an execution and needs the Lab owner's authorization before it is run |
 | Lab owner scientific acceptance | lab#59 | PENDING | — |
@@ -449,6 +450,7 @@ may cite it as a method in force.
 
 No scientific validity, efficacy, reproducibility, equivalence, method or
 estimand preservation, transferability or Biopeia result is claimed. No
-historical source bytes are copied, moved or deleted. No experiment, campaign,
-pilot or design simulation was run to write this document. It introduces no
+historical source bytes are copied, moved or deleted. No experiment, campaign
+or pilot was run. The separately authorized design calculation uses the
+sampling model of §4–§5 only and exercises no Biopeia component. It introduces no
 physiology, no cognition semantics and no production behaviour.

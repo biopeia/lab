@@ -485,6 +485,14 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
     assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
     # Historical decision thresholds are not TARGET authority and must not reappear.
     assert "0.70" not in proposal and "0.10" not in proposal
+    # Proposed design values must not be mistaken for ratified parameters.
+    design = (MIGRATION / "protocol-design-calculation-hidden-common-cause.md").read_text(
+        encoding="utf-8"
+    )
+    assert "**Status: PROPOSED VALUES. Not ratified, not accepted, not used in any run.**" in design
+    assert "0.70" not in design and "0.10" not in design
+    for open_value in ("⟨ε⟩", "⟨m⟩", "⟨N⟩", "⟨K⟩", "⟨L⟩", "⟨W⟩", "⟨t_κ⟩", "⟨t_n⟩", "⟨v⟩"):
+        assert open_value in proposal
     for source_blob in (
         "1ef13e9fa48ec642525a31dc8c83aa2b6b64ccda",
         "5cdfd88635fc28c3a44c25774c3c9a0ba7c068ce",
