@@ -170,14 +170,17 @@ def monte_carlo(seeds: int, trials: int = MC_TRIALS) -> dict[str, float]:
         inside = np.ones(trials, dtype=bool)
         for condition in CONDITIONS:
             for kappa in KAPPAS:
-                low, high = intervals(simulate(rng, condition, kappa, rand, runs)[1], seeds, CELLS)
+                sim = simulate(rng, condition, kappa, rand, runs)
+                # H-exogenous is defined on delta - tau; only H-bias-model uses realised kappa
+                x = sim[0] - CONDITIONS[condition][1] if rand else sim[1]
+                low, high = intervals(x, seeds, CELLS)
                 inside &= (low > -EPSILON) & (high < EPSILON)
         out[name] = float(inside.mean())
     out["all five as predicted (independent claims)"] = float(np.prod(list(out.values())))
     # size: true value exactly at the margin must be called at most alpha/(2k) of the time
     low, _ = intervals(contrast_vs_null("NULL", KAPPAS[1], shift=EPSILON), seeds, K_NONZERO)
     out["size: superiority at the margin"] = float((low > EPSILON).mean())
-    low, high = intervals(simulate(rng, "NULL", 0.0, True, runs, shift=EPSILON)[1], seeds, CELLS)
+    low, high = intervals(simulate(rng, "NULL", 0.0, True, runs, shift=EPSILON)[0], seeds, CELLS)
     out["size: equivalence at the margin"] = float(((low > -EPSILON) & (high < EPSILON)).mean())
     return out
 
@@ -248,7 +251,7 @@ def main() -> None:
             f"P(2 or more voids) {stats.binom.sf(1, seeds, p):.2e}"
         )
     print("\n## Monte Carlo power by seeds (standard error at most", round(0.5 / sqrt(MC_TRIALS), 4), ")")
-    for seeds in (20, 22, 23, 24, 26, 28):
+    for seeds in (19, 20, 22, 24, 26):
         print(seeds, {k: round(v, 4) for k, v in monte_carlo(seeds).items()})
 
 

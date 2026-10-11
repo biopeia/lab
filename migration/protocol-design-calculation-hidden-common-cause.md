@@ -12,8 +12,8 @@
   for each; the Lab owner decides. Nothing here is a result of the study.
 - Reproduce with
   `python migration/design_calculation_hidden_common_cause.py`
-  (Python 3.12.3, numpy 1.26.4, scipy 1.17.1; Monte Carlo seed `20261011`,
-  20,000 trials per seed count). The script imports no Biopeia package.
+  (Python 3.12.3, numpy 1.26.4, scipy 1.17.1; numpy generator seeded with
+  `20261011 + N` for each seed count `N`; 20,000 trials each). The script imports no Biopeia package.
 
 ## 1. What was computed, and what was not
 
@@ -111,10 +111,17 @@ Monte Carlo check at the proposed values (standard error at most 0.0035):
 
 | Seeds | `H-sufficient` falsified | `H-necessary` falsified | `H-sensitivity` supported | `H-bias-model` supported | `H-exogenous` supported | All five as predicted |
 |---|---|---|---|---|---|---|
-| 20 | 0.979 | 1.000 | 1.000 | 0.944 | 0.945 | 0.873 |
-| 22 | 0.987 | 1.000 | 1.000 | 0.983 | 0.983 | 0.955 |
-| 24 | 0.995 | 1.000 | 1.000 | 0.996 | 0.995 | 0.986 |
-| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.999 | 0.994 |
+| 19 | 0.970 | 1.000 | 1.000 | 0.900 | 0.809 | 0.706 |
+| 20 | 0.979 | 1.000 | 1.000 | 0.944 | 0.881 | 0.814 |
+| 22 | 0.987 | 1.000 | 1.000 | 0.983 | 0.961 | 0.933 |
+| 24 | 0.995 | 1.000 | 1.000 | 0.996 | 0.988 | 0.979 |
+| 26 | 0.996 | 1.000 | 1.000 | 0.999 | 0.997 | 0.992 |
+
+`H-bias-model` is evaluated on `δ − (τ + γ·κ)` with the realised `κ`, which
+removes the variance due to chance imbalance of `U`. `H-exogenous` is
+evaluated on `δ − τ`, as the protocol defines it, and keeps that variance; it
+is the binding claim. The analytic figure of 20 for `H-exogenous` is slightly
+short: the Monte Carlo gives 0.88 at 20 and 0.96 at 22.
 
 Error rates, checked with the true value placed exactly on the margin: a
 superiority interval lies wholly beyond it in 0.8–0.9 % of trials (nominal
@@ -122,20 +129,24 @@ superiority interval lies wholly beyond it in 0.8–0.9 % of trials (nominal
 0.08–0.16 % (nominal `α/(2·20)` = 0.125 %). Both are at their nominal level
 within Monte Carlo error.
 
-**Proposed `⟨N⟩` = 22 seeds.**
+**Proposed `⟨N⟩` = 24 seeds.**
 
-- 20 is the smallest count at which every claim reaches power 0.9, analytic
-  and Monte Carlo agreeing.
+- 22 is the count taken as required: the Monte Carlo confirms power of at
+  least 0.9 for every claim at 22 and shows `H-exogenous` below 0.9 at 20.
+  21 was not run.
 - The protocol forbids replacing a void run, so voids reduce the effective
-  count. Two seeds of headroom keep 20 valid runs even with two voids; under
+  count. Two seeds of headroom keep 22 valid runs even with two voids; under
   a correct fixture two voids are far less likely than one in a million (§6).
-- At 22 the probability that all five claims come out as predicted is about
-  0.95. The protocol asks only for per-claim power. Whether joint power
-  should be required is an owner decision; this document does not make it.
-- If the owner prefers `α = 0.01`, the same reasoning gives 24 + 2 = 26.
+- At 24 the probability that all five claims come out as predicted is about
+  0.98, and about 0.93 if two runs are void. The protocol asks only for
+  per-claim power. Whether joint power should be required is an owner
+  decision; this document does not make it.
+- For `α = 0.01` the analytic requirement is 24 before headroom. That figure
+  was not checked by Monte Carlo and, by the pattern above, is probably a
+  seed or two short.
 
 Scale: 5 conditions × 4 levels × 2 regimes = 40 cells per seed, each with its
-own ledger; 22 seeds × 40 cells × 1800 windows is about 1.6 million windows.
+own ledger; 24 seeds × 40 cells × 1800 windows is about 1.7 million windows.
 
 Two conservatisms. Paired cells share a seed and therefore their random
 streams; the calculation treats them as independent, which overstates the
@@ -144,9 +155,11 @@ cells of an equivalence claim independently, which understates the
 probability that all of them fall inside the margin. Real power should be
 somewhat higher than tabulated; neither figure is exact.
 
-One observation for the owner. With the same marginal `P(A=1)` at every level
-and shared streams, the four `RAND_ASSIGNED` cells of a condition are the same
-run. The protocol counts them as 20 cells and the calculation follows the
+One observation for the owner. If the random streams are named per regime and
+level and shared across conditions and across the levels of the randomised
+regime — the protocol says streams derive from the run seed but does not fix
+their naming — then, with the same marginal `P(A=1)` at every level, the four
+`RAND_ASSIGNED` cells of a condition are the same run. The protocol counts them as 20 cells and the calculation follows the
 protocol; the effective number of distinct randomised cells is 5, so the
 correction for `H-exogenous` is stricter than it needs to be. Changing that
 would be a protocol change and is not proposed here.
@@ -177,11 +190,13 @@ None of these depends on the outcome `Y`.
 | `⟨t_n⟩` | 135 windows | 4.5 standard deviations of the difference in `action_n` between paired cells (standard deviation 30). A marginal `P(A=1)` wrong by 0.08 is caught in a single run with probability 0.62, and almost surely within a few runs | about 3 × 10⁻⁵ per run |
 | Both values of `A` under both of `U`; non-zero denominators | — | The rarest `(A, U)` combination has probability 0.085; over 1800 windows it is never empty in practice | below 10⁻⁶⁰ |
 | Eviction | — | §5 | 1 × 10⁻⁸ per run |
-| `⟨v⟩` | more than 2 void runs of 22 | Overall false-void probability is about 3 × 10⁻⁵ per run. With a correct fixture the chance of even one void in 22 runs is below 0.1 %, and of two or more below one in a million. More than two therefore indicates a defect, and also leaves fewer than 20 valid runs | — |
+| `⟨v⟩` | more than 2 void runs of 24 | Overall false-void probability is about 3 × 10⁻⁵ per run. With a correct fixture the chance of even one void in 24 runs is below 0.1 %, and of two or more below one in a million. More than two therefore indicates a defect, and also leaves fewer than 22 valid runs | — |
 
-The realised `κ` and `action_n` are the same in every condition at a given
-level, because conditions share the assignment stream; the false-void figures
-count one check per level, not one per cell.
+These figures assume the assignment stream is shared by the conditions at a
+given level, so that realised `κ` and `action_n` are the same in all five and
+there is one check per level. If each cell had its own stream there would be
+five times as many independent checks and the false-void probability would be
+about 1.6 × 10⁻⁴ per run; the proposed `⟨v⟩` holds under either assumption.
 
 `⟨t_τ⟩` no longer exists in the protocol: reproduction of the constructed
 effect was moved to fixture qualification so that no run is discarded on an
@@ -193,8 +208,8 @@ outcome.
 |---|---|---|
 | `⟨1−α⟩` | 0.95, adjusted per claim to `1 − α/k` | Owner choice; `α = 0.01` tabulated in §4 |
 | `⟨1−β⟩` | 0.9 | Owner choice; 0.8 and 0.95 tabulated in §4 |
-| `⟨interval method⟩` | Student-t interval over seeds on seed-paired differences | Each run's `δ` is an average over about 900 windows per arm, so the across-seed distribution is close to normal; the error-rate check in §4 supports this at 20–26 seeds |
-| Seed set | not proposed | To be drawn and written into the protocol when the owner fixes `⟨N⟩`; it must be disjoint from development seeds and from the Monte Carlo seed used here |
+| `⟨interval method⟩` | Student-t interval over seeds on seed-paired differences | Each run's `δ` is an average over about 900 windows per arm, so the across-seed distribution is close to normal; the error-rate check in §4 supports this at 19–26 seeds |
+| Seed set | not proposed | To be drawn and written into the protocol when the owner fixes `⟨N⟩`; it must be disjoint from development seeds. The numpy generator seeds used by this calculation (`20261011 + N`) are unrelated to study seeds |
 
 ## 8. Limitations of this calculation
 
