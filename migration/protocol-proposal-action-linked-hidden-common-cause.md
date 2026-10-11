@@ -38,15 +38,18 @@ historical method.
 
 ## 2. Biopeia contracts this proposal is written against
 
+- Organism pin: `biopeia/organism@b19a39079b57a65f00eaecbe2c5cee3427a54f80` (`origin/main` when written).
+- Docs pin: `biopeia/docs@2c414f7d546075f961046fc5cc9ac2b67ea46514`.
+
 | Contract | Revision | Standing |
 |---|---|---|
-| `organism:src/organism/actuation/evidence.py::CausalEvidenceLedger` — intervention rows, passive windows, opportunity counts | `biopeia/organism@b19a390` | Implemented, source-unit tested; not assembled by any production runtime |
-| `organism:src/organism/actuation/model.py::controllability_confidence` — zero action-linked hits yield zero | `biopeia/organism@b19a390`; `organism:MIGRATION.md`, "zero action-linked hits cannot imply causal controllability" | Zero-hit invariant is owner-ratified. The positive-confidence estimator is **not** ratified ([biopeia/organism#42](https://github.com/biopeia/organism/issues/42), open) |
-| `organism:src/organism/actuation/effects.py::EffectSpace` — effect identity from quantised change on Organism-prefixed features | `biopeia/organism@b19a390` | Implemented |
-| ADR-0074, ADR-0098 — World owns causal integration and commit; Environment owns external environmental truth | `biopeia/docs@2c414f7` | Accepted |
-| ADR-0102 — Lab composes studies and intervenes explicitly; it owns no Organism, World or Environment state | `biopeia/docs@2c414f7` | Accepted |
-| ADR-0101, ADR-0078 — interventions are explicit attributable requests; Observation is causally passive | `biopeia/docs@2c414f7` | Accepted |
-| ADR-0090, ADR-0108 — causal time is explicit, never host wall-clock; entropy entering causal state is explicit and controlled | `biopeia/docs@2c414f7` | Accepted |
+| `organism:src/organism/actuation/evidence.py::CausalEvidenceLedger` — intervention rows, passive windows, opportunity counts | Organism pin | Implemented, source-unit tested; not assembled by any production runtime |
+| `organism:src/organism/actuation/model.py::controllability_confidence` — zero action-linked hits yield zero | same revision; `organism:MIGRATION.md`, "zero action-linked hits cannot imply causal controllability" | Zero-hit invariant is owner-ratified. The positive-confidence estimator is **not** ratified ([biopeia/organism#42](https://github.com/biopeia/organism/issues/42), open) |
+| `organism:src/organism/actuation/effects.py::EffectSpace` — effect identity from quantised change on Organism-prefixed features | Organism pin | Implemented |
+| ADR-0074, ADR-0098 — World owns causal integration and commit; Environment owns external environmental truth | Docs pin | Accepted |
+| ADR-0102 — Lab composes studies and intervenes explicitly; it owns no Organism, World or Environment state | Docs pin | Accepted |
+| ADR-0101, ADR-0078 — interventions are explicit attributable requests; Observation is causally passive | Docs pin | Accepted |
+| ADR-0090, ADR-0108 — causal time is explicit, never host wall-clock; entropy entering causal state is explicit and controlled | Docs pin | Accepted |
 
 The ledger answers one question about a source and an effect with four
 integers: `action_n`, `action_hits`, `other_n`, `other_hits`. `other` is every
@@ -73,8 +76,8 @@ none is.
 
 | Variable | Meaning | Owner | Visible to the Organism |
 |---|---|---|---|
-| `U` | Binary state drawn independently for each window | Environment (external truth) | **No** — not transduced into any signal, not encoded in `context_ref`, state references or effect features |
-| `A` | 1 if the command is issued in the window, 0 if the window is passive | Issued by the study's controller as an explicit, attributable Lab intervention (ADR-0101, ADR-0102) | Yes, as its own command |
+| `U` | Binary state drawn independently for each window | Environment (external truth) | **Not as such.** In `CONFOUNDED` it reaches the Organism only through its influence on `Y`; in `DIRECT` and `NULL` not at all. No other feature, state reference or `context_ref` carries it in any condition |
+| `A` | 1 if the command is issued in the window, 0 if the window is passive | Requested by the study's controller as an explicit, attributable Lab intervention (ADR-0101, ADR-0102); how such a request becomes a ledger row is a feasibility gap (§13) | Yes, as an issued command |
 | `Y` | 1 if the target effect identifier is observed in the window, else 0 | Change is committed by World; effect identity is assigned by Organism's `EffectSpace` on Organism-prefixed features | Yes |
 
 Two factors are crossed.
@@ -139,8 +142,8 @@ E[δ | CONFOUNDED, SELF] = (P(Y=1 | U=1) − P(Y=1 | U=0)) · κ
 so the contrast is predicted to be positive whenever `U` moves both
 quantities, to scale linearly in `κ`, and to vanish at `κ = 0`. This follows
 from the definition of the counts and from no measurement. It predicts that a
-count contrast over self-assigned rows does **not** separate `CONFOUNDED` from
-`DIRECT`. The study exists to check that prediction against the real ledger
+positive count contrast over self-assigned rows is **not** sufficient for
+`τ > 0`: `CONFOUNDED` yields one with no causal link. The study exists to check that prediction against the real ledger
 and effect pipeline, to size the bias, and to leave a fixture against which
 any estimator later proposed under biopeia/organism#42 can be tested.
 
@@ -248,8 +251,9 @@ any cell with eviction or a failed validity check; a value of
 Fixed before execution; no analysis is added after results are seen without
 being labelled exploratory.
 
-1. **Validity checks, per run.** (a) `U` appears in no Organism-visible
-   feature, state reference or `context_ref`. (b) Both values of `A` occur
+1. **Validity checks, per run.** (a) Apart from the target channel `Y` in
+   `CONFOUNDED`, `U` appears in no Organism-visible feature, state reference
+   or `context_ref`. (b) Both values of `A` occur
    under both values of `U`. (c) Realised `κ` is within `⟨t_κ⟩` of its design
    value. (d) No eviction; ticks strictly increasing; windows length-matched.
    (e) In `RAND`, the estimate of `τ_c` agrees with its constructed value
@@ -268,21 +272,24 @@ being labelled exploratory.
 ## 12. Falsification criteria
 
 `⟨ε⟩` is an equivalence margin and `⟨m⟩` a minimum contrast, both to be fixed
-by the Lab owner with a written rationale before execution.
+by the Lab owner with a written rationale before execution. Criteria that
+are evaluated at several `κ` levels are adjusted by `⟨multiplicity rule⟩`,
+fixed at the same time, so that the error rate of each claim is set before
+any result exists.
 
 | Claim | Falsified when |
 |---|---|
-| **H-distinguish:** the action-linked contrast over self-assigned rows separates a caused change from a hidden-common-cause change | the interval for `δ(CONFOUNDED, SELF) − δ(NULL, SELF)` lies wholly above `⟨ε⟩` at any `κ > 0` level |
-| **H-bias-model:** the bias is the one predicted in §5 | `δ(CONFOUNDED, SELF)` departs from `(P(Y=1|U=1) − P(Y=1|U=0)) · κ` by more than `⟨ε⟩` at any level, including a non-zero contrast at `κ = 0` |
+| **H-sufficient:** over self-assigned rows, an action-linked contrast above `⟨ε⟩` implies `τ > 0` | the interval for `δ(CONFOUNDED, SELF) − δ(NULL, SELF)` lies wholly above `⟨ε⟩` at any `κ > 0` level, where `τ = 0` by construction |
+| **H-bias-model:** the bias is the one predicted in §5 | the interval for `δ(CONFOUNDED, SELF) − (P(Y=1|U=1) − P(Y=1|U=0)) · κ` lies wholly outside `±⟨ε⟩` at any level, `κ = 0` included; the conditional probabilities are the frozen design values and `κ` is the realised value of the run |
 | **H-sensitivity:** the contrast detects a caused change | the interval for `δ(DIRECT, SELF) − δ(NULL, SELF)` does not lie wholly above `⟨m⟩` |
 | **H-exogenous:** exogenous assignment removes the bias | the interval for `δ(CONFOUNDED, RAND) − δ(NULL, RAND)` is not wholly inside `±⟨ε⟩` |
 
 Reading of outcomes:
 
-- `H-distinguish` falsified, the other three not: the predicted result. Rows
+- `H-sufficient` falsified, the other three not: the predicted result. Rows
   from self-assigned actions do not by themselves support causal confidence
   in this fixture; exogenously assigned rows do.
-- `H-distinguish` **not** falsified: contradicts §5. Treat first as a fixture
+- `H-sufficient` **not** falsified: contradicts §5. Treat first as a fixture
   or analysis defect and investigate before any interpretation.
 - `H-sensitivity` or `H-exogenous` falsified, or any validity failure: the
   fixture is not fit for the question. The study is inconclusive, not
@@ -303,8 +310,13 @@ method.
 - Lab does not depend on Organism. Using the ledger requires an Organism
   surface declared for study use and an explicit Lab integration pin; Lab
   must not import Organism internals as a shortcut.
-- Environment has no declared way to hold a per-window state that is
-  guaranteed absent from transduction. Check (a) of §11 needs one.
+- Environment has no declared way to hold a per-window state whose only
+  route to the Organism is one named channel. Check (a) of §11 needs one.
+- In `SELF` and `RAND` the command is requested by Lab, yet a ledger row
+  records an attempt and intervention signature as Organism actuation. No
+  declared surface lets an attributable Lab-requested command enter Organism
+  actuation and the ledger; ADR-0101 makes such a request one to the owning
+  authority, not a write by Lab.
 - The estimator question in biopeia/organism#42 is open. A ratified estimator
   would be added as a further quantity under test in a revised protocol.
 
