@@ -469,3 +469,18 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
         ]
         == "DROP"
     )
+
+    proposal_name = "protocol-proposal-action-linked-hidden-common-cause.md"
+    proposal = (MIGRATION / proposal_name).read_text(encoding="utf-8")
+    assert f"migration/{proposal_name}" in disposition["TARGET_action"]
+    assert "**Status: PROPOSED. Not reviewed, not accepted, not executed.**" in proposal
+    assert "| Independent Advisor review of the method | lab#59 | PENDING |" in proposal
+    assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
+    # Historical decision thresholds are not TARGET authority and must not reappear.
+    assert "0.70" not in proposal and "0.10" not in proposal
+    for source_blob in (
+        "1ef13e9fa48ec642525a31dc8c83aa2b6b64ccda",
+        "5cdfd88635fc28c3a44c25774c3c9a0ba7c068ce",
+        "6d1cf24be824884ec5a2f5510ce1ec0f404c2de0",
+    ):
+        assert source_blob in proposal
