@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 131 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 130 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 873 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 874 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical kernel-characterization package facade
@@ -467,6 +467,14 @@ does not assert that a particular source symbol is worth preserving. A `DROP`
 row means “do not migrate this source artifact or its legacy interface”; the
 historical source copy remains untouched. A `DEFER` row is explicit migration
 debt and cannot be counted as completed inventory.
+
+### Historical evolution archive-evaluation module
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evolution/evaluation.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `749b84d3b66da594464a8dc6cd2d21da3460e86c` (1,279 bytes). The file defines `EvaluationResult` and `select_archive`; the latter selects a Pareto front using the historical Symbiont `LearningObjective`. At the pinned source, repository-wide references are limited to this definition, the package re-export and unit tests; there is no production caller. Biopeia Organism main `022afcc9dad0d4edbafd70440afb712f5bee7bfc` contains `LearningObjective`/`dominates` but no consumer of these symbols, and Lab main `4151e2fa5ec9835f02b43e25bcc789274ed56713` has no target evolution package or consumer. No currently authorized TARGET study/method requires this specific implementation, so it is excluded as migration input rather than assigned by historical package location. This code disposition does not assess scientific validity, utility or equivalence, and does not preclude a newly specified future Lab method. The pinned source remains read-only; its source tests are not migrated. |
+
+This is a disposition of the source artifact only. It does not classify any scientific protocol or result that may have used related concepts, and it creates no TARGET implementation or compatibility surface.
 
 ### Historical evolution package re-export
 
