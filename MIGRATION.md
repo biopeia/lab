@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 132 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 131 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 872 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 873 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical kernel-characterization package facade
@@ -591,3 +591,9 @@ Lab now requires Embodiment owner schema `embodiment-checkpoint-v2` for material
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/physics3d/__init__.py` | DROP as TARGET code | No TARGET Lab package or consumer | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `18a8d568dfb995653b5d6e838b62591889412e6a` (259 bytes), content SHA-256 `b5aab993112c2c867257104d6e7dd4a3a83c8b2537637b361685c1f787b58982`. The source digest was verified from the read-only checkout. This file contains only a docstring and re-exports `HumanoidPhysics`, `Physics3DEmbodimentRuntime`, and `Tick3D`; it does not define independent behavior. Drop only the historical package facade. Separately inventoried runtime and owner responsibilities remain independent and are not disposed here. No historical import namespace is retained for compatibility. This makes no claim about scientific validity or future physical-simulation needs; historical source remains read-only. |
+
+### Historical Physics3D telemetry package facade
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/physics3d/telemetry/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `d947446f8caf7b9c0a39bb91b61de8161b587dd7` (530 bytes), content SHA-256 `446644aaf51d1fde398269751e78a7d51d8a060a4fd38ae4dd3d41636cdccc58`. The source digest was verified from the read-only checkout. This file contains a package docstring and re-exports from separately inventoried `reader.py` and `v41.py`; it defines no independent behavior. Biopeia Lab TARGET main at `f3d5283302b4b71222820254fbecfc3f754d9fad` has no `physics3d/telemetry` package or tracked source/test consumer. Drop only this historical package facade; all sibling telemetry modules remain separate inventory rows and are not classified here. This is a TARGET migration disposition, not a scientific-validity claim or a decision that future telemetry capability is unnecessary. No historical import namespace is retained for compatibility; historical source remains read-only. |

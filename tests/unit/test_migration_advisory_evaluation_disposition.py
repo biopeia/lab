@@ -36,14 +36,14 @@ def test_historical_advisory_evaluation_module_is_dropped_without_target_claim()
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 132,
+        "SPLIT": 131,
         "REWRITE": 2,
-        "DROP": 872,
+        "DROP": 873,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 132 |" in migration
-    assert "`DROP` | 872 |" in migration
+    assert "`SPLIT` | 131 |" in migration
+    assert "`DROP` | 873 |" in migration
     assert "A future capability requires a newly specified TARGET source and workflow." in migration
