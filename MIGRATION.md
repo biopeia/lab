@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 130 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 129 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 874 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 875 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical kernel-characterization package facade
@@ -395,6 +395,12 @@ manifest disposition counts are:
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/modeling/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `3bf74d0ff1633c094853d49a1d5dcc637cbec7dc` (2,367 bytes; SHA-256 `7f2c443d947fa4b762cd990d125e0c5a473457efddd34db221c6c95f23d46d07`). This initializer is an aggregate import facade re-exporting names from separately inventoried modeling modules; it defines no independent model, training, or evaluation behavior. Biopeia Lab main `d58ff1fdeb6e4450a72d264fca4251311b2a0bdd` has no `src/lab/modeling` package or `lab.modeling` source/test import. Drop only this historical package-level import facade. The underlying modeling modules remain independent inventory rows and are not classified here. No scientific validity, utility, or irrelevance claim about models, studies, or results is made; no TARGET implementation is authorized. Historical source remains read-only and the old import surface is not retained for compatibility. |
+
+### Historical evolution lineage implementation
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evolution/lineage.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `0a9566b08ad245706162c1f8c3b67f2a8132921e` (4,114 bytes). `LineageRecord`/`LineageArchive` and `GenomeLineageRecord` are historical Lab evolution records; the archive is an in-memory record/ancestor/export/restore helper. A tracked-source search across the inspected current Biopeia main heads found no TARGET consumer for these symbols; historical references are limited to the source module, its package re-export, and source tests. Exclude this implementation and API from migration rather than assigning it by historical location. Any future Organism reproduction/lineage capability must be newly specified against TARGET contracts if required. This is a code disposition only: it makes no scientific validity, evidence-admission, method-equivalence, or permanent capability claim. Historical source and records/artifacts remain preserved; source tests are not migrated. |
 
 ### Historical Observation package initializer
 
