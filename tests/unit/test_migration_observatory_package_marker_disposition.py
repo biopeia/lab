@@ -34,9 +34,9 @@ def test_empty_observatory_package_marker_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/observatory/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 135, "REWRITE": 2, "DROP": 869, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 134, "REWRITE": 2, "DROP": 870, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 135 |" in migration
-    assert "`DROP` | 869 |" in migration
+    assert "`SPLIT` | 134 |" in migration
+    assert "`DROP` | 870 |" in migration
