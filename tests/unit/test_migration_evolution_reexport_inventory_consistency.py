@@ -47,3 +47,4 @@ def test_historical_evolution_reexport_row_matches_bounded_disposition() -> None
     assert "`SPLIT` | 145 |" in migration
     assert "`DROP` | 859 |" in migration
     assert "remain separate inventory rows" in migration
+    assert "a package-level facade may be `DROP` when separately dispositioned" in migration
