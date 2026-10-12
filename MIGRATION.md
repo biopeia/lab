@@ -378,9 +378,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 139 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 138 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 865 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 866 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Physics3D integration package marker
@@ -394,6 +394,12 @@ manifest disposition counts are:
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `366e8f126df46bb6eda3cf0bff057c9d06c671cc` (54 bytes). The file contains only a package docstring and defines no symbols. No Biopeia TARGET package or consumer uses this historical namespace. Drop this package marker only; the separately inventoried historical integration/runtime files are not dispositioned here. The source remains preserved read-only. |
+
+### Historical Lab World aggregate facade
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `73fb4a3b7f9c3380b6aa94f11f1bb62bbe494d02` (1,401 bytes). The initializer re-exports Environment genesis helpers and historical World adapter, population, checkpoint, runtime and transaction symbols from separately inventoried modules. It is an old aggregate import surface, not an independent implementation to migrate. Tracked source/test searches at candidate revisions found no Biopeia `lab.world` import or package; the only textual match was an unrelated `biopeia.lab.world-digest.v2` identifier in Lab. Drop the old facade and do not preserve its import path. This does not dispose of the re-exported modules or their symbols; each remains subject to its own inventory row and owner review. The source remains read-only. Search revisions: Lab `fccf2710e468b796298c66fdf99a9da0167a6828`, Organism `26778028c4058d96ba2f2b77199df7852a03def1`, Embodiment `a925c2f2f2694048e4ced4c00874dcfd2331bebe`, Environment `b71d5566c3a73774a088a41a7b99a03954e43a53`, Modality `79b779152d4bff2ab4191dc6601c8f1640e4cae3`, World `e231fa38c92360161847b71e7abd617a5c8691f0`, Observation `ef6321d2bab43b883238cdcf0ce33c08321d595c`. |
 
 ### Historical evaluation package re-export
 
