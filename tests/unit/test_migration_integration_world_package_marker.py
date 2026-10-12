@@ -34,10 +34,10 @@ def test_world_integration_package_marker_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/integration/world/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 139, "REWRITE": 2, "DROP": 865, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 138, "REWRITE": 2, "DROP": 866, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 139 |" in migration
-    assert "`DROP` | 865 |" in migration
+    assert "`SPLIT` | 138 |" in migration
+    assert "`DROP` | 866 |" in migration
     assert "Drop this package marker only" in migration
