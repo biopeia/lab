@@ -378,10 +378,12 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 149 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 148 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 402 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 613 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 856 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+The source test file `lab/tests/unit/lab/physics3d/test_contract.py` is `DROP` as a whole from TARGET tests/code: its 52 test functions exercise historical implementation and do not constitute scientific result records or an independent scientific oracle. Its exact source commit/blob remain recorded in the inventory; this is not deletion of historical source or a claim that the tested concepts are scientifically invalid.
 
 The file-level classifications are intentionally conservative. Four registered
 study implementation rows are now `DROP` under their separately documented

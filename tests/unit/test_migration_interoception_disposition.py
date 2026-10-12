@@ -55,17 +55,27 @@ def test_historical_interoception_assertions_are_dropped_without_target_tests() 
     }
 
     assert row["source_blob_at_pinned_commit"] == TEST_BLOB
-    assert row["disposition"] == "SPLIT"  # only this assertion group is scoped here
+    assert row["disposition"] == "DROP"  # whole source test file is excluded from TARGET
     assert source_tests <= set(row["top_level_python_symbols"].split(";"))
-    assert all(name in row["target_path_or_status"] for name in source_tests)
-    assert "DROP from TARGET tests" in row["target_path_or_status"]
-    assert "No TARGET test mapping or destination" in row["target_path_or_status"]
+    all_source_tests = {
+        name
+        for name in row["top_level_python_symbols"].split(";")
+        if name.startswith("test_")
+    }
+    assert len(all_source_tests) == 52
+    assert row["target_path_or_status"] == (
+        "DROP as TARGET tests: all 52 test functions; no Biopeia target destination"
+    )
     assert SOURCE_COMMIT in row["rationale_and_caveat"]
     assert TEST_BLOB in row["rationale_and_caveat"]
     assert not (ROOT / "tests/unit/test_interoception.py").exists()
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "`SPLIT` | 148 |" in migration
+    assert "`DROP` | 856 |" in migration
+    assert "`DEFER` | 160 |" in migration
+    assert "test_contract.py` is `DROP` as a whole" in migration
     assert "DROP as TARGET code" in migration
     assert "DROP as TARGET tests" in migration
     assert APPARATUS_BLOB in migration
