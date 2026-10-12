@@ -40,14 +40,14 @@ def test_historical_evaluation_package_row_matches_disposition_record() -> None:
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 147,
+        "SPLIT": 146,
         "REWRITE": 2,
-        "DROP": 857,
+        "DROP": 858,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 147 |" in migration
-    assert "`DROP` | 857 |" in migration
+    assert "`SPLIT` | 146 |" in migration
+    assert "`DROP` | 858 |" in migration
     assert "classify `holdout.py`, transfer evaluation authority" in migration

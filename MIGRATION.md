@@ -378,9 +378,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 147 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 146 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 857 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 858 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical evaluation package re-export
@@ -393,6 +393,14 @@ This is a file-level disposition of a package re-export only. It does not
 classify `holdout.py`, transfer evaluation authority to Organism, or make any
 scientific validity or method-equivalence claim. The historical source remains
 read-only and preserved.
+
+### Historical advisory-evaluation utility
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evaluation/advisory_evaluation.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `e2d11c6420ea03b86f4de2fb072342d0fd94d864` (7,457 bytes). The cohesive module stores and summarizes operator judgments of advisories emitted by the historical Organism host advisory runtime. That producer/runtime is excluded from Biopeia TARGET (Organism `main` at `26778028c4058d96ba2f2b77199df7852a03def1`); tracked-source searches found no consumer in Lab `main` at `8febcad282e9c0ed0340dc255ae1c85b7cdd8992` or Organism `main`. Drop the source-specific implementation; do not retain an interface or create a replacement as part of this disposition. This says nothing about scientific validity or usefulness of the historical judgments. A future capability requires a newly specified TARGET source and workflow. The pinned source remains preserved read-only. |
+
+This resolves only this source module. It does not disposition its source tests as scientific evidence, authorize an operator study, or make any claim about the historical advisory mechanism.
 
 The source test file `lab/tests/unit/lab/physics3d/test_contract.py` is `DROP` as a whole from TARGET tests/code: its 52 test functions exercise historical implementation and do not constitute scientific result records or an independent scientific oracle. Its exact source commit/blob remain recorded in the inventory; this is not deletion of historical source or a claim that the tested concepts are scientifically invalid.
 
