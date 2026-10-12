@@ -378,9 +378,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 145 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 144 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 859 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 860 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical evaluation package re-export
@@ -389,10 +389,21 @@ manifest disposition counts are:
 | --- | --- | --- | --- |
 | `lab/src/lab/evaluation/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `2ee39fcc87b2a48b2d1a5ca183c0369c4bc688b1`. The file only re-exports `DevelopmentPhase`, `FrozenEvaluationPhase`, and `SeedLedger` from the historical `holdout` module. No target consumer or approved Biopeia package API requires this historical namespace. Drop the wrapper rather than preserve import compatibility; this does not determine the disposition of the underlying holdout methods or scientific protocols. |
 
-This is a file-level disposition of a package re-export only. It does not
-classify `holdout.py`, transfer evaluation authority to Organism, or make any
-scientific validity or method-equivalence claim. The historical source remains
-read-only and preserved.
+This is a file-level disposition of a package re-export only. Its disposition
+does not itself classify `holdout.py`; the underlying historical module is
+separately dispositioned below. Neither row transfers evaluation authority to
+Organism or makes a scientific validity or method-equivalence claim. The
+historical source remains read-only and preserved.
+
+### Historical evaluation holdout guard
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evaluation/holdout.py` | DROP as TARGET implementation | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `b9f230fb6ff5b3b33e99cd5be21c6a730d45d85d` (5,018 bytes). The module implements persisted seed-separation enforcement for the historical `predictive_discovery` study. Tracked Lab TARGET source at `34f7dd4504f425c6a262954aae7ee641b795a825` has no implementation/consumer for this source-specific API. Exclude the historical implementation and do not preserve its import/API. This does not disposition the study protocol/results, claim the guardrail is scientifically unnecessary, or preclude newly specified holdout controls for future Biopeia studies. Source and provenance remain preserved read-only. |
+
+This disposition concerns the source implementation only. Any scientific question,
+protocol, or result that uses a development/evaluation split remains subject to
+its own Lab custody and scientific review.
 
 ### Historical advisory-evaluation utility
 
