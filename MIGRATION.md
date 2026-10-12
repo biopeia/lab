@@ -378,10 +378,16 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 136 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 135 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 868 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 869 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical kernel-characterization package facade
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/kernel_characterization/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `072aea65d990b64db4936ead4e0fb0861cb46ca1` (343 bytes). The initializer contains a docstring and re-exports `BASELINE_KERNEL` and `KernelVariant` from the separately inventoried historical `config` module; it defines no independent behavior. The Biopeia Lab TARGET tree has no `kernel_characterization` package or tracked source/test consumer at candidate main `fcf678d85241842a7811e02c3e1b0d37b8895ade`. Drop this package facade only; the sibling config and characterization/study modules remain separate inventory items and are not classified here. This does not claim the historical method is scientifically invalid or future Lab analysis unnecessary. Do not retain the old import surface for compatibility. Historical source remains read-only. |
 
 ### Historical Physics3D integration package marker
 
