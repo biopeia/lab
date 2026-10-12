@@ -378,9 +378,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 144 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 143 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 860 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 861 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical evaluation package re-export
@@ -432,6 +432,17 @@ debt and cannot be counted as completed inventory.
 | `lab/src/lab/evolution/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `fd96fd72dd947913e2bc183c36b53c343cccae7f` (1,105 bytes). This file is a package-level convenience facade re-exporting lineage, mutation, recombination and reproduction symbols. Its docstring identifies the broader package as Lab scientific apparatus and distinguishes it from Organism reproduction. At candidate base `a8293ed7bf0af417a4c8fbf537f31772c7c2dcfa`, Biopeia Lab has no `src/lab/evolution/` TARGET package or production consumer. Drop only the legacy re-export facade; do not preserve import compatibility. This does not classify sibling implementation rows, declare the broader apparatus scientifically invalid/unnecessary, transfer ownership to Organism or preclude a newly specified future Lab method. The source remains read-only. |
 
 This disposition covers only the initializer/facade. `evaluation.py`, `lineage.py`, `mutation.py`, `recombination.py`, and `reproduction.py` remain separate inventory rows and are not resolved by this change.
+
+### Historical integrated-habitat package re-export
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `b19fae9ef159d30e7d3d7e614c804a986284c97f` (311 bytes). This initializer only re-exports `IntegratedHabitatConfig`, `IntegratedHabitatRuntime`, and `IntegratedTickSummary` from the separately inventoried historical `integrated_habitat.py` module. Lab main `a392a24f6767b711449df147ec328a77a5a0d35e` has no `src/lab/integration/` package or consumer for this facade. Drop the legacy package-level API rather than retain a compatibility namespace. This does not disposition the implementation module or its historical study/protocol/results, nor transfer causal runtime ownership to Lab. The source remains read-only. |
+
+This row concerns only a package initializer that re-exports one historical Lab
+runtime. The runtime and its experimental use remain separately inventoried;
+dropping the facade is not a claim that the historical experiment is invalid or
+that any causal capability should be copied into Lab.
 
 ### Lab tests and scientific assets
 
