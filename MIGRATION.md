@@ -378,10 +378,21 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 148 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 147 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 856 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 857 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical evaluation package re-export
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evaluation/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `2ee39fcc87b2a48b2d1a5ca183c0369c4bc688b1`. The file only re-exports `DevelopmentPhase`, `FrozenEvaluationPhase`, and `SeedLedger` from the historical `holdout` module. No target consumer or approved Biopeia package API requires this historical namespace. Drop the wrapper rather than preserve import compatibility; this does not determine the disposition of the underlying holdout methods or scientific protocols. |
+
+This is a file-level disposition of a package re-export only. It does not
+classify `holdout.py`, transfer evaluation authority to Organism, or make any
+scientific validity or method-equivalence claim. The historical source remains
+read-only and preserved.
 
 The source test file `lab/tests/unit/lab/physics3d/test_contract.py` is `DROP` as a whole from TARGET tests/code: its 52 test functions exercise historical implementation and do not constitute scientific result records or an independent scientific oracle. Its exact source commit/blob remain recorded in the inventory; this is not deletion of historical source or a claim that the tested concepts are scientifically invalid.
 
