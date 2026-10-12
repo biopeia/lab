@@ -378,9 +378,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 140 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 139 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 864 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 865 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Physics3D integration package marker
@@ -388,6 +388,12 @@ manifest disposition counts are:
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/physics3d/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `2c55cd785f6933fffd22f011447f38cc79d8e216` (81 bytes). The file contains only a package docstring; it defines no implementation or exports. Biopeia Lab has no corresponding integration package or consumer. Drop this historical package marker only. This does not disposition the separately inventoried integrated runtime, physics3d modules, domain semantics, protocols, or evidence; each remains subject to its own owner review. The source remains preserved read-only. |
+
+### Historical World integration package marker
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `366e8f126df46bb6eda3cf0bff057c9d06c671cc` (54 bytes). The file contains only a package docstring and defines no symbols. No Biopeia TARGET package or consumer uses this historical namespace. Drop this package marker only; the separately inventoried historical integration/runtime files are not dispositioned here. The source remains preserved read-only. |
 
 ### Historical evaluation package re-export
 
