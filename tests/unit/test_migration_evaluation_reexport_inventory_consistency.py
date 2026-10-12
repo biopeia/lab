@@ -1,4 +1,4 @@
-"""Keep the historical evaluation namespace disposition source-pinned."""
+"""Keep the evaluation re-export disposition consistent in the inventory."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ SOURCE_PATH = "lab/src/lab/evaluation/__init__.py"
 SOURCE_BLOB = "2ee39fcc87b2a48b2d1a5ca183c0369c4bc688b1"
 
 
-def test_historical_evaluation_package_reexport_is_dropped() -> None:
+def test_historical_evaluation_package_row_matches_disposition_record() -> None:
     with (ROOT / "migration/source-inventory-80d372a.tsv").open(
         encoding="utf-8", newline=""
     ) as stream:
