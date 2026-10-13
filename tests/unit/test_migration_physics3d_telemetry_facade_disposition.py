@@ -48,11 +48,11 @@ def test_historical_telemetry_facade_is_dropped_without_disposing_siblings() -> 
     assert all(sibling["disposition"] == "SPLIT" for sibling in sibling_rows.values())
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 118, "REWRITE": 2, "DROP": 888, "DEFER": 158}
+    assert counts == {"MOVE": 6, "SPLIT": 117, "REWRITE": 2, "DROP": 889, "DEFER": 158}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert TARGET_MAIN in migration
-    assert "`SPLIT` | 118 |" in migration
-    assert "`DROP` | 888 |" in migration
+    assert "`SPLIT` | 117 |" in migration
+    assert "`DROP` | 889 |" in migration
     assert "### Historical Physics3D telemetry package facade" in migration
