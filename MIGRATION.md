@@ -713,3 +713,11 @@ Lab now requires Embodiment owner schema `embodiment-checkpoint-v2` for material
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/physics3d/bodies.py` | DROP as TARGET code | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `e7753adda5aeb2c302f7477f882af39c9cdbaba9` (1,201 bytes); symbols `ANTHROPOMORPHIC_V6_VISION`, `DEFAULT_BODY_REGISTRY`. The file composes Embodiment body presets and `VisionHumanoidPhysics` with Modality `VisualApparatus` into a Lab-owned historical registry. No approved current TARGET consumer or Lab-owned use for this catalog/composition is established. Drop this historical implementation and its old names/API; do not retain compatibility. This does not claim Biopeia has no future need for a body catalog, vision apparatus or study configuration. Any such capability must be newly specified for a concrete TARGET consumer under current owner contracts. The historical source remains read-only. This is a migration disposition only, not a scientific-validity or permanent capability-necessity claim. |
+
+### Historical positional actuator-to-effector mapping
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/physics3d/apparatus.py::actuator_to_effector_map` | DROP as TARGET implementation | No TARGET path | Source repository `alessbarb/symbiont-lab`, pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `8de1f29fe87321fcab0cb051e79fadcf0f833cd6`. The historical function pairs actuator and effector IDs by list index. TARGET requires stable identity and forbids collection order as authoritative correspondence. DROP applies only to the exact historical function. The separate Embodiment TARGET binding is revision-bound and records explicit actuator_id→effector_id identity at `biopeia/embodiment@56e9a34a6a778a298493dabca9d15b0912066803`, `src/embodiment/physics3d/actuator_binding.py`; this is not a migration/adaptation of the historical function. No compatibility adapter is authorized, and sibling symbols in this mixed source file remain independently unresolved. |
+
+The source repository remains read-only. The mixed `apparatus.py` row remains `SPLIT` while its other symbols are reviewed independently.
