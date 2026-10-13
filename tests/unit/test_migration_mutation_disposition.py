@@ -38,26 +38,26 @@ def test_historical_mutation_implementation_is_dropped_without_dropping_protocol
     counts = Counter(item["disposition"] for item in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 127,
+        "SPLIT": 126,
         "REWRITE": 2,
-        "DROP": 877,
+        "DROP": 878,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_COMMIT in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 127 |" in migration
-    assert "`DROP` | 877 |" in migration
+    assert "`SPLIT` | 126 |" in migration
+    assert "`DROP` | 878 |" in migration
     assert "Historical genome mutation and developmental-budget intervention" in migration
     assert "Related historical protocols/results remain under their independent Lab #45" in migration
     assert not (ROOT / "src/lab/evolution/mutation.py").exists()
 
 
-def test_reproduction_source_row_remains_independent_and_unresolved() -> None:
+def test_reproduction_source_row_has_an_independent_disposition() -> None:
     with (ROOT / "migration/source-inventory-80d372a.tsv").open(
         encoding="utf-8", newline=""
     ) as stream:
         rows = {row["source_path"]: row for row in csv.DictReader(stream, delimiter="\t")}
 
-    assert rows["lab/src/lab/evolution/reproduction.py"]["disposition"] == "SPLIT"
+    assert rows["lab/src/lab/evolution/reproduction.py"]["disposition"] == "DROP"

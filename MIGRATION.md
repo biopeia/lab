@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 127 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 126 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 877 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 878 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical genome recombination implementation
@@ -410,6 +410,16 @@ Both portions are explicitly dropped as source code; the old `SPLIT` label did
 not justify carrying either implementation forward. This code disposition is
 not a scientific assessment or a disposition of historical protocol/result
 artifacts.
+
+### Historical offspring-package implementation
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evolution/reproduction.py` | DROP as TARGET implementation/API | No TARGET code destination; any future reproductive method requires fresh TARGET design and authorization | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4f990ac460e0b4104b925730e5705aa9179b70ae` (2,085 bytes). The single exported `create_offspring_package` combines historical mutation/recombination, germline/epigenetic handling, and parent/generation records. Organism main `022afcc9dad0d4edbafd70440afb712f5bee7bfc` has an `InheritancePackage` value type but no offspring producer or reproductive transition; Organism #49 records reproduction/genetics implementation as POST_MIGRATION and requires a fresh TARGET method/contract if later authorized. Lab main `cebbdb149deac3bf74b6b33d1bae2da364ace6b9` has no target evolution/reproduction consumer. The historical function is used by a historical study and source tests, but those protocol/result artifacts remain separately governed by Lab #45; no scientific validity, method-equivalence, evidence-admission, or future-capability claim is made. No source implementation/tests are copied; the pinned source remains read-only. |
+
+This row excludes the historical offspring-package implementation from TARGET
+migration only. It does not dispose the associated study/protocol/results or
+decide whether a future Biopeia Organism reproductive capability is needed.
 
 ### Historical kernel-characterization package facade
 
