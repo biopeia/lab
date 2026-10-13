@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 128 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 127 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 876 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 877 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical genome recombination implementation
@@ -396,6 +396,20 @@ previous `SPLIT` classification was therefore unsupported by the file's
 responsibilities. The source implementation is `DROP`; future TARGET work, if
 authorized, must be newly specified and implemented rather than adapted from
 this function.
+
+### Historical genome mutation and developmental-budget intervention
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evolution/mutation.py` | DROP as TARGET implementation and API | No TARGET code destination; future Organism or Lab methods require fresh specifications | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `fcd57742df5bdec29de2801aa4b3d68bffb2f4dd` (5,019 bytes). The file contains internal path/family-scale helpers, seeded `mutate_genome`, the `mutate_continuous_fields` wrapper, `derive_child_genome`, and a separate one-variable `mutate_soft_budget` intervention. The historical source uses an explicit seed, but that alone does not establish a current TARGET randomness or inheritance contract. Organism main `022afcc9dad0d4edbafd70440afb712f5bee7bfc` has mutation-related schema/data shapes but no mutation operation; Organism #49 keeps the capability POST_MIGRATION and requires a new method, controlled randomness and inheritance semantics before implementation. Lab main `c9e558b68611477f8400f213badf6f32d8b04df2` has no consumer for these symbols. Exclude the historical implementation, wrapper and API from migration; this does not decide whether future Organism genetics or Lab study methods are needed. Related historical protocols/results remain under their independent Lab #45 disposition and scientific-custody process. No code or source tests are copied; the source remains read-only. |
+
+The file combines historical organism-genome alteration with an experimental
+developmental-budget intervention, but neither responsibility has a current
+TARGET implementation consumer or authorization to reuse this implementation.
+Both portions are explicitly dropped as source code; the old `SPLIT` label did
+not justify carrying either implementation forward. This code disposition is
+not a scientific assessment or a disposition of historical protocol/result
+artifacts.
 
 ### Historical kernel-characterization package facade
 
