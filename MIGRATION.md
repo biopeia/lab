@@ -379,10 +379,23 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 129 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 128 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 875 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 876 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical genome recombination implementation
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/evolution/recombination.py` | DROP as TARGET implementation | No TARGET code destination; any future operation requires a new Organism design | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `8ff4517f3f102688c6b9d9780128475418c7764a` (2,232 bytes). The module implements seeded gene/linkage-group recombination (`recombine_genomes`) over the historical Genome schema. Biopeia Organism #49 confirms there is no TARGET recombination operation and requires a new design and controlled-randomness contract before any future implementation. The historical algorithm is therefore excluded from TARGET code; this does not decide whether a future Biopeia scientific question will require recombination, nor make a claim about historical scientific validity. No source code or tests are copied, and the historical source remains read-only. |
+
+This file performs one Organism-related genome operation; it does not itself
+mix a Lab apparatus responsibility with an Organism responsibility. Its
+previous `SPLIT` classification was therefore unsupported by the file's
+responsibilities. The source implementation is `DROP`; future TARGET work, if
+authorized, must be newly specified and implemented rather than adapted from
+this function.
 
 ### Historical kernel-characterization package facade
 
