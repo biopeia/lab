@@ -44,7 +44,7 @@ def test_experience_run_definition_is_dropped_without_scientific_claims() -> Non
 
     assert not (ROOT / "src/lab/experience/definition.py").exists()
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 119, "REWRITE": 2, "DROP": 885, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 119, "REWRITE": 2, "DROP": 886, "DEFER": 159}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
@@ -53,4 +53,4 @@ def test_experience_run_definition_is_dropped_without_scientific_claims() -> Non
     assert "### Historical Lab run-definition module" in migration
     assert "does not decide whether a future Biopeia run-definition capability is useful" in migration
     assert "`SPLIT` | 119 |" in migration
-    assert "`DROP` | 885 |" in migration
+    assert "`DROP` | 886 |" in migration
