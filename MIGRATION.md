@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 121 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 120 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 883 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 884 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical genome recombination implementation
@@ -490,6 +490,12 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `73fb4a3b7f9c3380b6aa94f11f1bb62bbe494d02` (1,401 bytes). The initializer re-exports Environment genesis helpers and historical World adapter, population, checkpoint, runtime and transaction symbols from separately inventoried modules. It is an old aggregate import surface, not an independent implementation to migrate. Tracked source/test searches at candidate revisions found no Biopeia `lab.world` import or package; the only textual match was an unrelated `biopeia.lab.world-digest.v2` identifier in Lab. Drop the old facade and do not preserve its import path. This does not dispose of the re-exported modules or their symbols; each remains subject to its own inventory row and owner review. The source remains read-only. Search revisions: Lab `fccf2710e468b796298c66fdf99a9da0167a6828`, Organism `26778028c4058d96ba2f2b77199df7852a03def1`, Embodiment `a925c2f2f2694048e4ced4c00874dcfd2331bebe`, Environment `b71d5566c3a73774a088a41a7b99a03954e43a53`, Modality `79b779152d4bff2ab4191dc6601c8f1640e4cae3`, World `e231fa38c92360161847b71e7abd617a5c8691f0`, Observation `ef6321d2bab43b883238cdcf0ce33c08321d595c`. |
+
+### Historical canonical Organism factory and restore adapter
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/organism/canonical.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `9b2e8ee25199a9b1a69cb822c695257d1fbf9b2c` (5,110 bytes). The listed symbols form one historical application factory/restore adapter: it constructs legacy `symbiont.api.OrganismRuntime` instances, resolves source sense requirements, adapts `modality.host.*` providers to `symbiont.host.HostSenseSources`, and invokes legacy checkpoint/resident restore APIs. The exact composition is bound to removed source APIs and has no authorized Biopeia destination; it is not a separable implementation of World, Environment, Embodiment, Modality or Organism authority. The accepted Biopeia scalar-field sensing path is independently implemented through current owner contracts and is not claimed to replace host telemetry. Exclude this source implementation and do not retain its namespace/API; any future application composition must be newly authored against TARGET boundaries. This makes no claim that historical concepts are scientifically invalid or that future host sensing is unnecessary. Sibling rows, protocols, studies and evidence are not dispositioned here; pinned source remains read-only. |
 
 ### Historical evaluation package re-export
 
