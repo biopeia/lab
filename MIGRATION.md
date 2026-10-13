@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 124 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 123 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 880 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 881 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical genome recombination implementation
@@ -536,6 +536,12 @@ This is a disposition of the source artifact only. It does not classify any scie
 | `lab/src/lab/evolution/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `fd96fd72dd947913e2bc183c36b53c343cccae7f` (1,105 bytes). This file is a package-level convenience facade re-exporting lineage, mutation, recombination and reproduction symbols. Its docstring identifies the broader package as Lab scientific apparatus and distinguishes it from Organism reproduction. At candidate base `a8293ed7bf0af417a4c8fbf537f31772c7c2dcfa`, Biopeia Lab has no `src/lab/evolution/` TARGET package or production consumer. Drop only the legacy re-export facade; do not preserve import compatibility. This does not classify sibling implementation rows, declare the broader apparatus scientifically invalid/unnecessary, transfer ownership to Organism or preclude a newly specified future Lab method. The source remains read-only. |
 
 This disposition covers only the initializer/facade. `evaluation.py`, `lineage.py`, `mutation.py`, `recombination.py`, and `reproduction.py` remain separate inventory rows and are not resolved by this change.
+
+### Historical Organism host adapter
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/organism/host_sources.py` | DROP as TARGET code | No TARGET implementation path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `1ed9fb9bdb1325ffe219416ce473eaf2f9a13bf6` (2,868 bytes). `HostSource` adapts historical modality host discovery, readings and tick-observer protocols into legacy Organism records; it owns no authoritative state and is not a multi-owner composition. No authorized TARGET consumer for this historical adapter has been identified within the approved sensing path, and no compatibility code is authorized. This disposition covers only this file, not sibling modules or scientific records, and makes no claim about future integration needs or scientific validity. Historical source remains read-only. |
 
 ### Historical integrated-habitat package re-export
 
