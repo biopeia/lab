@@ -38,8 +38,8 @@ def test_historical_evolution_evaluation_row_matches_bounded_drop() -> None:
         "MOVE": 6,
         "SPLIT": 119,
         "REWRITE": 2,
-        "DROP": 886,
-        "DEFER": 159,
+        "DROP": 887,
+        "DEFER": 158,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")

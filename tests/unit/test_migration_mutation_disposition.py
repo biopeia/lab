@@ -40,8 +40,8 @@ def test_historical_mutation_implementation_is_dropped_without_dropping_protocol
         "MOVE": 6,
         "SPLIT": 119,
         "REWRITE": 2,
-        "DROP": 886,
-        "DEFER": 159,
+        "DROP": 887,
+        "DEFER": 158,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")

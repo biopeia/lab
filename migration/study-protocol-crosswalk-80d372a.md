@@ -43,14 +43,14 @@ dispositions and limitations.
 The 76 registered IDs are candidate units, not 76 proven independent studies.
 The companion
 [`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
-records nine unit-level dispositions: eight `HISTORICAL_PROTOCOL` units
+records ten unit-level dispositions: nine `HISTORICAL_PROTOCOL` units
 (`continuity.recurrent-restoration`, `embodiment.causal-revision-sequence`,
 `world.genesis-viability-characterization`, `embodiment.heredity-leakage-challenge`,
 `learning.visual-predictor-audit`, `embodiment.label-invariance`,
-`embodiment.somatic-correlation-trap`, and
-`embodiment.temporal-causality-challenge`) and one `REIMPLEMENT_METHOD` question
+`embodiment.somatic-correlation-trap`, `embodiment.temporal-causality-challenge`, and
+`embodiment.tool-body-distinction`) and one `REIMPLEMENT_METHOD` question
 (`embodiment.hidden-common-cause`) whose new protocol design is separately tracked.
-The other 67 candidate IDs remain `DEFER`. Historical implementations and
+The other 66 candidate IDs remain `DEFER`. Historical implementations and
 source tests for these resolved units are `DROP` as TARGET code/tests; these
 classifications do not copy, move, or delete historical source bytes or artifact
 records. The genesis-viability unit's linked result has an unresolved

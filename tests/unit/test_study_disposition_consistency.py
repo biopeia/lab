@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 9
+    assert len(units) == 10
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     visual_audit = by_id.pop("learning.visual-predictor-audit")
@@ -272,6 +272,45 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "software.dirty=true" in temporal_result["known_limitations_and_rationale"]
     assert "NOT_ADMITTED" in temporal_result["known_limitations_and_rationale"]
     assert "scientific validity" in temporal_crosswalk["basis"]
+
+    tool_body = by_id.pop("embodiment.tool-body-distinction")
+    assert tool_body["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert tool_body["source_implementation_TARGET_disposition"] == "DROP"
+    assert "no current authorized TARGET consumer" in tool_body["source_evidence_basis"]
+    assert "No scientific validity" in tool_body["limitations_and_nonclaims"]
+    assert "software.dirty=true" in tool_body["real_run_identity"]
+    assert "not treated as a validated scientific finding" in tool_body[
+        "source_evidence_basis"
+    ]
+    for source_ref in (
+        tool_body["implementation_path_and_blob"],
+        tool_body["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+        assert source[path]["disposition"] == "DROP"
+
+    tool_body_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "embodiment.tool-body-distinction"
+    )
+    assert tool_body_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "no current authorized Biopeia TARGET consumer" in tool_body_crosswalk[
+        "basis"
+    ]
+    assert "software.dirty=true" in tool_body_crosswalk["basis"]
+
+    tool_body_evidence = next(
+        row
+        for row in read_tsv("study-evidence-map-80d372a.tsv")
+        if row["protocol_id"] == "embodiment.tool-body-distinction"
+    )
+    assert "custody:PROTOCOL" in tool_body_evidence["artifact_custody_refs"]
+    assert "custody:SCIENTIFIC_EVIDENCE" in tool_body_evidence[
+        "artifact_custody_refs"
+    ]
+    assert "NOT_ADMITTED" in tool_body_evidence["artifact_custody_refs"]
 
     new_method = by_id.pop("embodiment.hidden-common-cause")
     assert new_method["study_protocol_disposition"] == "REIMPLEMENT_METHOD"
