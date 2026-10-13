@@ -32,6 +32,11 @@ def test_no_observation_or_consumer_as_causal_target(domain):
         valid(target_domain=domain)
 
 
+def test_unhashable_target_domain_is_rejected_as_invalid_value():
+    with pytest.raises(ValueError, match="permitted domain"):
+        valid(target_domain=["world"])
+
+
 def test_reject_implicit_operation_and_missing_contract():
     with pytest.raises(ValueError, match="explicit"):
         valid(operation="run")

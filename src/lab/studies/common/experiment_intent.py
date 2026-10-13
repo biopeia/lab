@@ -31,7 +31,7 @@ class ExperimentIntent:
             value = getattr(self, field)
             if not isinstance(value, str) or not value.strip():
                 raise ValueError(f"{field} must be non-empty")
-        if self.target_domain not in {
+        if not isinstance(self.target_domain, str) or self.target_domain not in {
             "organism", "embodiment", "environment", "world", "modality"
         }:
             raise ValueError("target_domain must name a permitted domain boundary")
