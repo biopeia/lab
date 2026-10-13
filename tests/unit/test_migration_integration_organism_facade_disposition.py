@@ -33,10 +33,10 @@ def test_integration_organism_package_facade_is_dropped_without_dispositioning_m
     assert not (ROOT / "src/lab/integration/organism/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 119, "REWRITE": 2, "DROP": 886, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 118, "REWRITE": 2, "DROP": 887, "DEFER": 159}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 119 |" in migration
-    assert "`DROP` | 886 |" in migration
+    assert "`SPLIT` | 118 |" in migration
+    assert "`DROP` | 887 |" in migration
     assert "does not disposition `canonical.py`" in migration
