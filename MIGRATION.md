@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 116 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 115 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 890 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 891 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 158 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Hex World CLI visualization
@@ -487,6 +487,12 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `366e8f126df46bb6eda3cf0bff057c9d06c671cc` (54 bytes). The file contains only a package docstring and defines no symbols. No Biopeia TARGET package or consumer uses this historical namespace. Drop this package marker only; the separately inventoried historical integration/runtime files are not dispositioned here. The source remains preserved read-only. |
+
+### Historical Observatory topology-health contract test
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_topology_health_contract.py` | DROP as TARGET test | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `9d24e5ebb1366a0228d81637b64610a11c1ff671` (1,240 bytes). The two assertions exercise only the historical `cognition_state.schema.json` and private Lab Observatory `_cognition_state` adapter: an enum for `topology_health`, a `recovering` flag, and omission of raw graph/weight fields from that adapter's output. Biopeia has not authorized this source schema or adapter API as a TARGET contract. These assertions are not a scientific result or oracle. Drop this source test from TARGET code; do not migrate the historical test suite or infer that future cognition-state observation is unnecessary. No source bytes are deleted and no scientific validity, equivalence or evidence-admission claim is made. Historical source remains preserved read-only. |
 
 ### Historical Observatory test package marker
 
