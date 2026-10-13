@@ -226,6 +226,12 @@ def test_eight_embodiment_results_are_custody_only_not_admitted():
             assert "scientifically_valid=null" in row["known_limitations_and_rationale"]
             assert "integrity_pass=null" in row["known_limitations_and_rationale"]
             assert "neither field asserts a positive conclusion" in row["known_limitations_and_rationale"]
+        elif row["source_path"].endswith("temporal-causality-challenge/results.json"):
+            assert "run_id=20260921T140558Z-embodiment-temporal-causality-challenge-64a24d0-ad61" in row["protocol_or_run_linkage"]
+            assert "software.git_sha=64a24d0..." in row["protocol_or_run_linkage"]
+            assert "software.dirty=true" in row["protocol_or_run_linkage"]
+            assert "execution producer/source commit not identified" in row["producer_or_source"]
+            assert "unique reconstructible run or producer" in row["known_limitations_and_rationale"]
         else:
             assert "candidate protocol=" in row["protocol_or_run_linkage"]
             assert "no uniquely attributable run ID" in row["protocol_or_run_linkage"]

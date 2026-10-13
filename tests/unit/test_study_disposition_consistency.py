@@ -234,12 +234,14 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert temporal_challenge["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert temporal_challenge["source_implementation_TARGET_disposition"] == "DROP"
     assert "biopeia/lab#77" in temporal_challenge["owner_basis"]
-    assert "CONFIRMED" in temporal_challenge["owner_basis"]
+    assert "BOUNDED" in temporal_challenge["owner_basis"]
     assert "NOT_ADMITTED" in temporal_challenge["custody_ledger_state"]
     assert "NOT_SCIENTIFICALLY_VALIDATED" in temporal_challenge["custody_ledger_state"]
-    assert "does not record a uniquely attributable run ID or source commit" in temporal_challenge[
+    assert "run_id=20260921T140558Z-embodiment-temporal-causality-challenge-64a24d0-ad61" in temporal_challenge[
         "real_run_identity"
     ]
+    assert "software.dirty=true" in temporal_challenge["real_run_identity"]
+    assert "uniquely reconstructible execution" in temporal_challenge["real_run_identity"]
     for source_ref in (
         temporal_challenge["implementation_path_and_blob"],
         temporal_challenge["source_test_path_and_blob"],
@@ -259,6 +261,16 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         if row["protocol_id"] == "embodiment.temporal-causality-challenge"
     )
     assert temporal_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    temporal_result = next(
+        row
+        for row in read_tsv("scientific-custody-80d372a.tsv")
+        if row["source_path"] == "lab/experiments/embodiment/temporal-causality-challenge/results.json"
+    )
+    assert "run_id=20260921T140558Z-embodiment-temporal-causality-challenge-64a24d0-ad61" in temporal_result[
+        "protocol_or_run_linkage"
+    ]
+    assert "software.dirty=true" in temporal_result["known_limitations_and_rationale"]
+    assert "NOT_ADMITTED" in temporal_result["known_limitations_and_rationale"]
     assert "scientific validity" in temporal_crosswalk["basis"]
 
     new_method = by_id.pop("embodiment.hidden-common-cause")
