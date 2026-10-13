@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 8
+    assert len(units) == 9
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     visual_audit = by_id.pop("learning.visual-predictor-audit")
@@ -229,6 +229,37 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         path, expected_blob = source_ref.split("@", maxsplit=1)
         assert source[path]["source_blob_at_pinned_commit"] == expected_blob
         assert source[path]["disposition"] == "DROP"
+
+    temporal_challenge = by_id.pop("embodiment.temporal-causality-challenge")
+    assert temporal_challenge["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert temporal_challenge["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#77" in temporal_challenge["owner_basis"]
+    assert "CONFIRMED" in temporal_challenge["owner_basis"]
+    assert "NOT_ADMITTED" in temporal_challenge["custody_ledger_state"]
+    assert "NOT_SCIENTIFICALLY_VALIDATED" in temporal_challenge["custody_ledger_state"]
+    assert "does not record a uniquely attributable run ID or source commit" in temporal_challenge[
+        "real_run_identity"
+    ]
+    for source_ref in (
+        temporal_challenge["implementation_path_and_blob"],
+        temporal_challenge["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+        assert source[path]["disposition"] == "DROP"
+
+    temporal_impl = source[
+        "lab/src/lab/studies/embodiment/temporal_causality_challenge.py"
+    ]
+    assert temporal_impl["disposition"] == "DROP"
+    assert temporal_impl["target_path_or_status"] == "No TARGET implementation"
+    temporal_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "embodiment.temporal-causality-challenge"
+    )
+    assert temporal_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "scientific validity" in temporal_crosswalk["basis"]
 
     new_method = by_id.pop("embodiment.hidden-common-cause")
     assert new_method["study_protocol_disposition"] == "REIMPLEMENT_METHOD"

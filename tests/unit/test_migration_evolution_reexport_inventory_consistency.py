@@ -38,13 +38,13 @@ def test_historical_evolution_reexport_row_matches_bounded_disposition() -> None
         "MOVE": 6,
         "SPLIT": 119,
         "REWRITE": 2,
-        "DROP": 885,
-        "DEFER": 160,
+        "DROP": 886,
+        "DEFER": 159,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "`SPLIT` | 119 |" in migration
-    assert "`DROP` | 885 |" in migration
+    assert "`DROP` | 886 |" in migration
     assert "remain separate inventory rows" in migration
     assert "a package-level facade may be `DROP` when separately dispositioned" in migration
