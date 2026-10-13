@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 123 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 122 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 881 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 882 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical genome recombination implementation
@@ -426,6 +426,18 @@ decide whether a future Biopeia Organism reproductive capability is needed.
 The pinned `lab/src/lab/experience/definition.py` source module is classified `DROP` as TARGET code/API. At source commit `80d372a186513035f85a769db886e505cabba52d`, blob `1bbf7ea86a90f44203024888a1cfa029c5419ebd` (6,593 bytes), it defines a Lab-specific run taxonomy, Physics3D exit-cause mapping, and a hard-coded run/situation catalog. The file contains no Organism-owned state and no responsibilities requiring a multi-owner `SPLIT`.
 
 Biopeia Lab main at `acfb5c6c44eb8fec3eebdcaf236c2b94d3d355a4` has no current TARGET consumer or approved contract for this historical API. This disposition excludes the implementation from migration; it does not decide whether a future Biopeia run-definition capability is useful, classify related protocols/results, or make a scientific-validity claim. Historical protocols and evidence remain governed separately by Lab #45, and the pinned source remains read-only.
+
+### Historical Lab experience safety/run-guard implementation
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/experience/safety.py` | DROP as TARGET implementation | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `6d8b084b3e212ad76d56a418e75dec4982180a8e` (2,530 bytes). The module defines Lab-side termination guards over historical `alive`/`vital_state` values and `RunKind`, including the fixed protected-state set `agonizing`/`dormant`. Biopeia Lab main `50d0b575d693bc2efd619520e6cc7456a6918964` has no consumer or approved TARGET contract for these rules. Exclude this implementation rather than port legacy physiology/run semantics. This does not claim scientific invalidity or dispose of related protocols/results; any future Lab apparatus policy must be specified afresh for a TARGET study. The historical source remains read-only. |
+
+The source responsibility is confined to historical Lab run apparatus and does
+not establish authority over Organism lifecycle or Embodiment somatic truth.
+The prior `SPLIT` label had no concrete second responsibility or destination;
+the implementation is therefore classified `DROP`, not transferred to another
+domain. Protocol/result disposition remains separate under Lab #45.
 
 ### Historical kernel-characterization package facade
 
