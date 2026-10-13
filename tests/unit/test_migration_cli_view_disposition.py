@@ -39,10 +39,10 @@ def test_historical_hex_world_cli_view_is_dropped_without_future_ui_claim() -> N
     assert not (ROOT / "src/lab/world/cli_view.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 116, "REWRITE": 2, "DROP": 890, "DEFER": 158}
+    assert counts == {"MOVE": 6, "SPLIT": 115, "REWRITE": 2, "DROP": 891, "DEFER": 158}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 116 |" in migration
-    assert "`DROP` | 890 |" in migration
+    assert "`SPLIT` | 115 |" in migration
+    assert "`DROP` | 891 |" in migration
     assert "### Historical Hex World CLI visualization" in migration
