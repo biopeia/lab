@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 113 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 112 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 893 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 894 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 158 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Hex World CLI visualization
@@ -733,3 +733,10 @@ Lab now requires Embodiment owner schema `embodiment-checkpoint-v2` for material
 | `lab/src/lab/integration/physics3d/apparatus.py::actuator_to_effector_map` | DROP as TARGET implementation | No TARGET path | Source repository `alessbarb/symbiont-lab`, pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `8de1f29fe87321fcab0cb051e79fadcf0f833cd6`. The historical function pairs actuator and effector IDs by list index. TARGET requires stable identity and forbids collection order as authoritative correspondence. DROP applies only to the exact historical function. The separate Embodiment TARGET binding is revision-bound and records explicit actuator_id→effector_id identity at `biopeia/embodiment@56e9a34a6a778a298493dabca9d15b0912066803`, `src/embodiment/physics3d/actuator_binding.py`; this is not a migration/adaptation of the historical function. No compatibility adapter is authorized, and sibling symbols in this mixed source file remain independently unresolved. |
 
 The source repository remains read-only. The mixed `apparatus.py` row remains `SPLIT` while its other symbols are reviewed independently.
+
+
+### Historical Observatory architecture inventory
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/ARCHITECTURE.md` | DROP as TARGET documentation | No TARGET document destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; source blob `38def6dbfef9e01d6352d17c4d87ce6facbd7aaf`, mode `100644`, 3,759 bytes. This document inventories the historical Symbiont Observatory implementation and its old browser/server/launcher topology. It is not a scientific protocol, result, or evidence artifact and is not adopted as a TARGET design authority. The TARGET authority boundary is instead defined by Biopeia Docs at `ffe1503985bc815861d78efc5aa13b7e54928e01`, `technical/design/observability/observation-semantic-model-v1.md` and `technical/adr/ADR-0078-observation-is-causally-passive.md`; neither specifies or adopts the historical Observatory implementation topology. No portion of this historical inventory is required as a TARGET document. DROP applies only to migration into TARGET. The pinned historical source remains read-only and preserved; this does not claim that future visualization or Observation documentation is unnecessary. |
