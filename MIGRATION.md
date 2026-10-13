@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 112 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 111 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 894 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 895 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 158 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Hex World CLI visualization
@@ -396,6 +396,12 @@ manifest disposition counts are:
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/topology.schema.json` | DROP as TARGET alias | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `d83405ac5e7eac3565e2ff88caf159e2a59f1f62`, mode `120000`, 28 bytes. The symlink target is `schemas/topology.schema.json` (target-text SHA-256 `4154ccaeafb3dd3692cbc8bec8a6278962a9c1a44b4de3ca9f8e88fdbbcece73`). The underlying schema is separately inventoried as `lab/src/lab/observatory/schemas/topology.schema.json` (blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`) and is not dispositioned by this row. No Biopeia TARGET consumer/import was found. This drops only an unsupported legacy alias path; it does not drop the underlying schema or make scientific claims. Historical source remains read-only. |
+
+### Historical Observatory world visualization
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/world.html` | DROP as TARGET implementation | No TARGET code destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; Git blob `725250dd6c5fbc1b657be88ddb0ccd0397edb31c`, mode `100644`, 66,976 bytes; content SHA-256 `d321d005540f0169edc9a3ee8301df52d19dfdf258ddd3bc250d17766fd8f70a` verified from the exact pinned blob. This single-file HTML embeds the historical hex-grid/organism observatory and polls `/world/state`, `/api/observations?family=environment.resource_state`, and `/world/events` using source-specific payloads. It renders Reality/Ground Truth, phenotype, cognition, and population views. These routes, payload assumptions, topology, and combined presentation are not a TARGET UI or Observation publication contract, and no approved Biopeia target design/path authorizes this implementation. Drop this historical UI implementation only; do not copy it or preserve its routes as compatibility. The future Biopeia Workbench/visualization remains separately tracked in Lab #63 and must be specified anew against authorized TARGET publications. This does not claim visualization is unnecessary, assess scientific validity, or disposition separate historical evidence; the source remains read-only. |
 
 ### Historical genome recombination implementation
 

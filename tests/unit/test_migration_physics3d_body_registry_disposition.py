@@ -45,10 +45,10 @@ def test_historical_body_catalogue_composition_is_dropped_without_claiming_futur
     assert "DEFAULT_BODY_REGISTRY" not in target_sources
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 112, "REWRITE": 2, "DROP": 894, "DEFER": 158}
+    assert counts == {"MOVE": 6, "SPLIT": 111, "REWRITE": 2, "DROP": 895, "DEFER": 158}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 112 |" in migration
-    assert "`DROP` | 894 |" in migration
+    assert "`SPLIT` | 111 |" in migration
+    assert "`DROP` | 895 |" in migration
     assert "### Historical Lab Physics3D body registry and vision composition" in migration
