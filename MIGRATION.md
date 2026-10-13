@@ -379,10 +379,17 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 120 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 119 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 884 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 885 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+
+### Historical Observatory topology schema alias
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/topology.schema.json` | DROP as TARGET alias | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `d83405ac5e7eac3565e2ff88caf159e2a59f1f62`, mode `120000`, 28 bytes. The symlink target is `schemas/topology.schema.json` (target-text SHA-256 `4154ccaeafb3dd3692cbc8bec8a6278962a9c1a44b4de3ca9f8e88fdbbcece73`). The underlying schema is separately inventoried as `lab/src/lab/observatory/schemas/topology.schema.json` (blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`) and is not dispositioned by this row. No Biopeia TARGET consumer/import was found. This drops only an unsupported legacy alias path; it does not drop the underlying schema or make scientific claims. Historical source remains read-only. |
 
 ### Historical genome recombination implementation
 
