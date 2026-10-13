@@ -568,6 +568,12 @@ This disposition covers only the initializer/facade. `evaluation.py`, `lineage.p
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/organism/host_sources.py` | DROP as TARGET code | No TARGET implementation path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `1ed9fb9bdb1325ffe219416ce473eaf2f9a13bf6` (2,868 bytes). `HostSource` adapts historical modality host discovery, readings and tick-observer protocols into legacy Organism records; it owns no authoritative state and is not a multi-owner composition. No authorized TARGET consumer for this historical adapter has been identified within the approved sensing path, and no compatibility code is authorized. This disposition covers only this file, not sibling modules or scientific records, and makes no claim about future integration needs or scientific validity. Historical source remains read-only. |
 
+### Historical local host composition
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/organism/local_host.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; source-path commit `7a63ec3ce140514e085789f498e7c73a72eca3fc`; blob `c5841f9a91c42e4dd2ba702aa79371497f35eab0` (6,386 bytes; SHA-256 `4eacc161e68fb5b6a82c0d28d64d71984e84d8e63dea942727627a0c79a4ef99`). The convenience functions compose historical `modality.host` providers with `symbiont.host` discovery, sampling, perception, acclimation, lifecycle, rhythm, drift and second-look APIs; this is not a TARGET-owned contract or implementation. Current Biopeia TARGET source/tests have no consumer for these functions, and the accepted scalar-field sensing route is implemented separately. Exclude this source implementation/API and do not retain its namespace for compatibility. This is not a scientific-validity or permanent-capability claim and does not disposition related protocols/results. Source remains read-only. |
+
 ### Historical integrated-habitat package re-export
 
 | Source path | Disposition | Target path | Provenance / limits |
