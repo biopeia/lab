@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 115 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 113 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 891 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 893 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 158 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Hex World CLI visualization
@@ -487,6 +487,12 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `366e8f126df46bb6eda3cf0bff057c9d06c671cc` (54 bytes). The file contains only a package docstring and defines no symbols. No Biopeia TARGET package or consumer uses this historical namespace. Drop this package marker only; the separately inventoried historical integration/runtime files are not dispositioned here. The source remains preserved read-only. |
+
+### Historical Observatory snapshot schemas
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/snapshot.schema.json`; `lab/src/lab/observatory/schemas/snapshot.schema.json` | DROP as TARGET schema artifacts | No TARGET schema/code destination | Both paths resolve to the same pinned source blob `469eb56de0a1ce806eb4dfd693d06691cbf9f220` at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d` (mode `100644`, 61,719 bytes; SHA-256 `3ffb739a06c7047d184b8c392d6916a0e5b6a71232472048be92d11a7c09e6f0`). The JSON Schema identifies itself as a bounded, display-only Symbiont Observatory snapshot and includes schema version/tick plus organism, population, observer and apparatus projections. No Biopeia TARGET consumer or authorized schema/wire contract was identified; Observation Semantic Model v1 is conceptual and does not authorize this historical schema. Drop both copies from TARGET migration input without copying or compatibility support. This does not claim future Observation semantic-family schemas are unnecessary and makes no scientific-validity, equivalence or evidence-admission claim. The historical source remains read-only. |
 
 ### Historical Observatory topology-health contract test
 
