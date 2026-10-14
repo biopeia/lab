@@ -379,10 +379,17 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 111 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 110 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 895 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 158 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 159 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Observatory instance schema path alias (Lab #255; linked to #266)
+
+At pinned source commit `80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/instance.schema.json` is a symlink (mode `120000`, blob `705273ce14b8dad75fd3d087ee28dfddd2c6e389`, 28 bytes) containing only `schemas/instance.schema.json`. It aliases sibling source row `lab/src/lab/observatory/schemas/instance.schema.json` (blob `7a2d29bb3dc576c2b984d85bbcfc8746fc7adb44`), the subject of open Lab #266. That JSON describes an instance identity/heartbeat/topology-revision record; neither names, source placement, nor the non-authoritative `Observation / Lab` owner hint establish its TARGET owner or contract.
+
+Therefore this alias remains `DEFER` pending #266. The #266 assignee coordinates obtaining a competent-owner disposition for the sibling schema. If #266 records DROP, classify this alias as DROP because it has no independent semantic responsibility. If any schema responsibility is retained, require the explicit TARGET owner and path there before reclassification. Revisit #255 after #266 records and integrates a competent-owner disposition; absent that evidence, keep this bounded defer. The current Lab TARGET main (`e78adfa3efca85b6ea9314c13fee7c4323d13944`) has no Observatory instance schema path or tracked consumer of this path. This row is outside the authorized bounded runtime-transfer slice because #255 authorizes ledger review only and neither schema path exists on TARGET main. It remains open and blocks declaring Lab #78/#45 disposition work complete until #266 is integrated and this alias is reclassified. No code/schema is copied, historical source is untouched, and no scientific validity/equivalence/admission claim is made.
+
 
 ### Historical Hex World CLI visualization
 
