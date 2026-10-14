@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 110 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 109 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 895 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 896 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 159 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to #266)
@@ -753,3 +753,9 @@ The source repository remains read-only. The mixed `apparatus.py` row remains `S
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/ARCHITECTURE.md` | DROP as TARGET documentation | No TARGET document destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; source blob `38def6dbfef9e01d6352d17c4d87ce6facbd7aaf`, mode `100644`, 3,759 bytes. This document inventories the historical Symbiont Observatory implementation and its old browser/server/launcher topology. It is not a scientific protocol, result, or evidence artifact and is not adopted as a TARGET design authority. The TARGET authority boundary is instead defined by Biopeia Docs at `ffe1503985bc815861d78efc5aa13b7e54928e01`, `technical/design/observability/observation-semantic-model-v1.md` and `technical/adr/ADR-0078-observation-is-causally-passive.md`; neither specifies or adopts the historical Observatory implementation topology. No portion of this historical inventory is required as a TARGET document. DROP applies only to migration into TARGET. The pinned historical source remains read-only and preserved; this does not claim that future visualization or Observation documentation is unnecessary. |
+
+### Historical Observatory user and operator README
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/README.md` | DROP as TARGET documentation | No TARGET document destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; source blob `f4e3c4710ac5bc14f612c82a1c7ade809df8ee3c`, mode `100644`, 20,019 bytes. The README documents the historical Symbiont Observatory UI, launcher commands, local transports/replay, versioned snapshot schemas, and runtime-specific display projections. It is operational/product documentation, not a scientific protocol, result, or evidence artifact. Its routes, commands, schema versions, labels and display semantics are not Biopeia TARGET contracts and are not to be copied by analogy. The historical source remains read-only and preserved. This is only a migration disposition for this README; it does not claim that future Biopeia visualization, Observation publication, Lab tooling, or scientific value is unnecessary. |
