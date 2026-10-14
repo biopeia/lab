@@ -508,6 +508,108 @@ def publish_material_transfer_observations(
     if cut.world_id != result.record.world_id or cut.causal_tick != result.record.causal_tick:
         raise ValueError("World receipt does not match the committed intervention record")
 
+    # Bind Lab's experiment association to the exact Lab evidence and owner
+    # record that World committed. Result objects are caller-owned values; their
+    # run/experiment fields are not authoritative merely because they accompany
+    # a valid World receipt.
+    journal_records = world.records
+    if result.record not in journal_records:
+        raise ValueError("committed intervention record is absent from the World journal")
+    try:
+        verified_cut = world.committed_cut_for(
+            world_id=cut.world_id,
+            causal_tick=cut.causal_tick,
+            commit_id=cut.commit_id,
+            expected_owner_references=cut.owner_checkpoint_references,
+        )
+    except (ManifestError, OSError) as exc:
+        raise ValueError("World receipt is not the current verified committed cut") from exc
+    if verified_cut != cut:
+        raise ValueError("World receipt does not equal the verified committed cut")
+
+    evidence_refs = tuple(
+        reference
+        for reference in cut.owner_checkpoint_references
+        if reference.owner == LAB_EVIDENCE_OWNER
+        and reference.owner_identity == result.evidence_reference.owner_identity
+    )
+    if len(evidence_refs) != 1 or evidence_refs[0] != result.evidence_reference:
+        raise ValueError("evidence reference does not match committed World cut")
+
+    action_records = tuple(
+        journal_record
+        for journal_record in journal_records
+        if journal_record.world_id == cut.world_id
+        and journal_record.causal_tick == cut.causal_tick
+        and journal_record.record_type == OWNER_RECORD_TYPE
+        and journal_record.payload.get("owner_id") == LAB_EVIDENCE_OWNER
+        and journal_record.payload.get("owner_identity") == result.evidence_reference.owner_identity
+        and journal_record.payload.get("owner_record_id") == result.intervention_action_id
+    )
+    if len(action_records) != 1:
+        raise ValueError("committed Lab action record is missing or ambiguous")
+    action_record = action_records[0]
+    action_data = action_record.payload.get("data")
+    if not isinstance(action_data, Mapping):
+        raise ValueError("committed Lab action record has no evidence data")
+    evidence_pointer = action_data.get("evidence_checkpoint")
+    if not isinstance(evidence_pointer, Mapping):
+        raise ValueError("committed Lab action record has no evidence checkpoint reference")
+    expected_pointer = {
+        "owner": result.evidence_reference.owner,
+        "owner_identity": result.evidence_reference.owner_identity,
+        "checkpoint_id": result.evidence_reference.checkpoint_id,
+        "schema_version": result.evidence_reference.schema_version,
+        "locator": result.evidence_reference.locator,
+        "sha256": result.evidence_reference.sha256,
+    }
+    if dict(evidence_pointer) != expected_pointer:
+        raise ValueError("evidence reference does not match committed Lab action record")
+
+    try:
+        evidence_bytes = Path(result.evidence_reference.locator).read_bytes()
+    except OSError as exc:
+        raise ValueError("committed Lab evidence bytes are unavailable") from exc
+    if hashlib.sha256(evidence_bytes).hexdigest() != result.evidence_reference.sha256:
+        raise ValueError("committed Lab evidence digest does not match its reference")
+    if not LabInterventionEvidenceCodec.validate_checkpoint(
+        evidence_bytes,
+        result.evidence_reference.owner_identity,
+        result.evidence_reference.schema_version,
+    ):
+        raise ValueError("committed Lab evidence checkpoint is invalid")
+    evidence = json.loads(evidence_bytes)
+    intervention_context = action_data.get("intervention_context")
+    if not isinstance(intervention_context, Mapping):
+        raise ValueError("committed Lab action record has no intervention context")
+    expected_evidence = {
+        "intervention_id": action_data.get("intervention_id"),
+        "intervention_action_id": result.intervention_action_id,
+        "transition_id": action_data.get("transition_id"),
+        "world_id": cut.world_id,
+        "causal_tick": cut.causal_tick,
+        "run_id": result.run_id,
+        "experiment_id": result.experiment_id,
+        "operator_id": intervention_context.get("operator_id"),
+        "applicability": intervention_context.get("applicability"),
+    }
+    for field, expected in expected_evidence.items():
+        if evidence.get(field) != expected:
+            raise ValueError("result association does not match committed Lab evidence")
+    if (
+        intervention_context.get("run_id") != result.run_id
+        or intervention_context.get("experiment_id") != result.experiment_id
+    ):
+        raise ValueError("result association does not match committed Lab action context")
+    if action_data.get("intervention_id") != result.evidence_reference.owner_identity:
+        raise ValueError("committed Lab action identity does not match evidence owner identity")
+    if (
+        action_data.get("world_id") != cut.world_id
+        or action_data.get("causal_tick") != cut.causal_tick
+        or action_data.get("transition_id") != cut.commit_id
+    ):
+        raise ValueError("committed Lab action record does not match the World cut")
+
     by_owner = {(ref.owner, ref.owner_identity): ref for ref in cut.owner_checkpoint_references}
     environment_ref = by_owner.get((ENVIRONMENT_OWNER, result.resource_candidate.resource_id))
     embodiment_ref = by_owner.get((EMBODIMENT_OWNER, result.body_candidate.body_id))

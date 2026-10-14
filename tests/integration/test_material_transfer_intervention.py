@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -282,6 +283,173 @@ def test_experimental_material_transfer_publishes_real_owner_snapshots_after_com
         ref.sha256 for ref in result.committed_cut.owner_checkpoint_references
         if ref.owner == EMBODIMENT_OWNER
     )
+
+
+@pytest.mark.parametrize(
+    ("field", "forged_value"),
+    (("run_id", "run-claimed"), ("experiment_id", "experiment-claimed")),
+)
+def test_publication_rejects_experiment_association_not_bound_to_committed_evidence(
+    tmp_path, field, forged_value
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    forged_result = replace(result, **{field: forged_value})
+
+    with pytest.raises(ValueError, match="does not match committed Lab evidence"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=forged_result,
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+@pytest.mark.parametrize(
+    ("field", "forged_value"),
+    (
+        ("owner", "forged-owner"),
+        ("owner_identity", "forged-owner-identity"),
+        ("checkpoint_id", "forged-checkpoint"),
+        ("schema_version", "forged-schema"),
+        ("locator", "/nonexistent/forged-evidence"),
+        ("sha256", "0" * 64),
+    ),
+)
+def test_publication_rejects_evidence_reference_not_bound_to_committed_cut(
+    tmp_path, field, forged_value
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    forged_reference = replace(result.evidence_reference, **{field: forged_value})
+
+    with pytest.raises(ValueError, match="evidence reference does not match committed World cut"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=replace(result, evidence_reference=forged_reference),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_mismatched_committed_cut_before_observation(tmp_path) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    forged_cut = replace(result.committed_cut, commit_id="forged-commit")
+
+    with pytest.raises(ValueError, match="not the current verified committed cut"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=replace(result, committed_cut=forged_cut),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_ambiguous_committed_lab_action_record(tmp_path, monkeypatch) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    journal_records = world.records
+    action_record = next(
+        record
+        for record in journal_records
+        if record.record_type == "world.owner_record.committed"
+        and record.payload.get("owner_id") == "lab-intervention-evidence"
+        and record.payload.get("owner_record_id") == result.intervention_action_id
+    )
+    monkeypatch.setattr(world._journal, "replay", lambda: (*journal_records, action_record))
+
+    with pytest.raises(ValueError, match="missing or ambiguous"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=result,
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_modified_lab_evidence_bytes_before_observation(tmp_path) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    Path(result.evidence_reference.locator).write_bytes(b"corrupted evidence")
+    plane = ObservationPlane()
+
+    with pytest.raises(ValueError, match="evidence digest does not match its reference"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=result,
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
 
 
 def test_observation_publication_failure_does_not_repeat_committed_world_transition(
