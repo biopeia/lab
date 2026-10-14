@@ -319,7 +319,20 @@ def test_publication_rejects_experiment_association_not_bound_to_committed_evide
     assert world.causal_tick == result.record.causal_tick == 1
 
 
-def test_publication_rejects_evidence_reference_not_bound_to_committed_cut(tmp_path) -> None:
+@pytest.mark.parametrize(
+    ("field", "forged_value"),
+    (
+        ("owner", "forged-owner"),
+        ("owner_identity", "forged-owner-identity"),
+        ("checkpoint_id", "forged-checkpoint"),
+        ("schema_version", "forged-schema"),
+        ("locator", "/nonexistent/forged-evidence"),
+        ("sha256", "0" * 64),
+    ),
+)
+def test_publication_rejects_evidence_reference_not_bound_to_committed_cut(
+    tmp_path, field, forged_value
+) -> None:
     world, resource, body, _, store = _owners(tmp_path)
     request = InterventionRequest(
         "operator-7",
@@ -334,13 +347,77 @@ def test_publication_rejects_evidence_reference_not_bound_to_committed_cut(tmp_p
     )
     result = _apply(world, resource, body, request, store, requested_material=1.0)
     plane = ObservationPlane()
-    forged_reference = replace(result.evidence_reference, sha256="0" * 64)
+    forged_reference = replace(result.evidence_reference, **{field: forged_value})
 
     with pytest.raises(ValueError, match="evidence reference does not match committed World cut"):
         publish_material_transfer_observations(
             world=world,
             plane=plane,
             result=replace(result, evidence_reference=forged_reference),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_mismatched_committed_cut_before_observation(tmp_path) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    forged_cut = replace(result.committed_cut, commit_id="forged-commit")
+
+    with pytest.raises(ValueError, match="not the current verified committed cut"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=replace(result, committed_cut=forged_cut),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_ambiguous_committed_lab_action_record(tmp_path, monkeypatch) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    journal_records = world.records
+    action_record = next(
+        record
+        for record in journal_records
+        if record.record_type == "world.owner_record.committed"
+        and record.payload.get("owner_id") == "lab-intervention-evidence"
+        and record.payload.get("owner_record_id") == result.intervention_action_id
+    )
+    monkeypatch.setattr(world._journal, "replay", lambda: (*journal_records, action_record))
+
+    with pytest.raises(ValueError, match="missing or ambiguous"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=result,
         )
 
     assert plane.current_messages() == ()
