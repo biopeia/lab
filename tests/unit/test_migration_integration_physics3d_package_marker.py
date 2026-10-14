@@ -34,10 +34,10 @@ def test_physics3d_integration_package_marker_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/integration/physics3d/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 109, "REWRITE": 2, "DROP": 896, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 108, "REWRITE": 2, "DROP": 897, "DEFER": 159}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 109 |" in migration
-    assert "`DROP` | 896 |" in migration
+    assert "`SPLIT` | 108 |" in migration
+    assert "`DROP` | 897 |" in migration
     assert "Drop this historical package marker only" in migration
