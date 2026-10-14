@@ -381,7 +381,7 @@ manifest disposition counts are:
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
 | `SPLIT` | 109 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 896 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 76 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 896 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 159 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to #266)
@@ -518,6 +518,12 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/__init__.py` | DROP as TARGET code/test | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4e1fc67df6cac9182eac14d80d7c79420feb5709` (38 bytes). This file contains only the docstring `Observatory test suite package.`; it defines no test, implementation, API, or scientific result. Biopeia's own Lab tests live in its TARGET test tree and do not consume this historical source test namespace. Drop this package marker only; this neither reuses the source test suite nor disposes of any separate scientific evidence. Historical source remains preserved read-only. |
+
+### Historical Observatory schema-validation tests
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_schema_validate.py` | DROP as TARGET test | No TARGET test destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d6754edd98b6e26315ee2f95d13d7e4038642bba` (mode `100644`, 3,912 bytes). `SchemaValidateConditionalTests` checks the historical Observatory JSON-schema helper's `if/then/else`, `allOf`, `anyOf` and `not` behavior; `SignalKnowledgeSchemaTests` checks required/identity/unexpected-field structure in the historical `signal_knowledge.schema.json`. The inspected Biopeia TARGET repositories establish no matching schema/test contract or destination. These are structural test assertions, not scientific evidence. Exclude this historical test file from TARGET tests while preserving its source and provenance read-only. This does not claim future schema validation, signal-knowledge representation or Observation publication is unnecessary or scientifically invalid. |
 
 ### Historical reproduction package facade
 
