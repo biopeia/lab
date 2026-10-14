@@ -379,9 +379,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 108 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 107 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 897 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 898 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 159 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to #266)
@@ -403,6 +403,10 @@ Therefore this alias remains `DEFER` pending #266. The #266 assignee coordinates
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/topology.schema.json` | DROP as TARGET alias | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `d83405ac5e7eac3565e2ff88caf159e2a59f1f62`, mode `120000`, 28 bytes. The symlink target is `schemas/topology.schema.json` (target-text SHA-256 `4154ccaeafb3dd3692cbc8bec8a6278962a9c1a44b4de3ca9f8e88fdbbcece73`). The underlying schema is separately inventoried as `lab/src/lab/observatory/schemas/topology.schema.json` (blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`) and is not dispositioned by this row. No Biopeia TARGET consumer/import was found. This drops only an unsupported legacy alias path; it does not drop the underlying schema or make scientific claims. Historical source remains read-only. |
+
+### Historical Observatory replay schema alias (Lab #261; sibling tracked by #267)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/replay.schema.json` is a symlink (mode `120000`, blob `5f31831c1a9cd170f8384475e33c26e95742a3db`, 26 bytes) containing only `schemas/replay.schema.json` (target-text SHA-256 `88f0c6a4af97c62cf3d1bcb80767051014b64f0387c63c27393d76da346be155`). The JSON schema is separately inventoried at `lab/src/lab/observatory/schemas/replay.schema.json` (blob `d1f6f042b4ac49d70a8f4debf665ea4c68f72885`) and remains under the independent review in Lab #267. The alias has no independent semantic responsibility or Biopeia TARGET consumer/import. It is dropped only as a TARGET path alias under UC-0001; this does not disposition the underlying schema, any historical evidence, or the read-only source, and makes no scientific validity/equivalence claim.
 
 ### Historical Observatory world visualization
 
