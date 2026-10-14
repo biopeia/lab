@@ -15,10 +15,10 @@ dev = ["pytest>=9.1.1"]
 integration = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-    "embodiment @ git+https://github.com/biopeia/embodiment.git@028e2f912eccbe554a9d7f8543fe9dfe2bb94218 ; python_version >= '3.12'",
-    "environment @ git+https://github.com/biopeia/environment.git@a979688e90b279ccfe003d77eddb787272fd5ebf ; python_version >= '3.12'",
-    "observation @ git+https://github.com/biopeia/observation.git@be82907d1d677b2362e369d15eb1e8e964d893aa ; python_version >= '3.12'",
-    "world @ git+https://github.com/biopeia/world.git@4d264b24d0501a51d8b56b9cbe762aff3402da7b ; python_version >= '3.12'",
+    "embodiment @ git+https://github.com/biopeia/embodiment.git@c456401e9517bbb1fec02d84cbac7e94fddf9d68 ; python_version >= '3.12'",
+    "environment @ git+https://github.com/biopeia/environment.git@0ce1a4e3f4dd12529639f032929b8e09df4ce7d7 ; python_version >= '3.12'",
+    "observation @ git+https://github.com/biopeia/observation.git@d351df3d7cd2706fdd280a8d4e17359001689dd8 ; python_version >= '3.12'",
+    "world @ git+https://github.com/biopeia/world.git@95bafc14ecd579b5573c4fadd1d7d3b5833b6c2f ; python_version >= '3.12'",
 ]
 [tool.setuptools.packages.find]
 where = ["src"]
