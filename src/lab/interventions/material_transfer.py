@@ -521,17 +521,13 @@ def publish_material_transfer_observations(
 
     environment_projection = project_committed_resource_state(
         environment_bytes,
+        committed_cut=cut,
         owner_reference=environment_ref,
-        world_id=cut.world_id,
-        causal_tick=cut.causal_tick,
-        commit_id=cut.commit_id,
     )
     embodiment_projection = project_committed_reserve_state(
         embodiment_bytes,
+        committed_cut=cut,
         owner_reference=embodiment_ref,
-        world_id=cut.world_id,
-        causal_tick=cut.causal_tick,
-        commit_id=cut.commit_id,
     )
     observations = (
         environment_resource_state_observation(environment_projection),
