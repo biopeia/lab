@@ -1,0 +1,8 @@
+pytest>=9.1.1
+mujoco==3.15.0
+organism @ git+https://github.com/biopeia/organism.git@0ddadac6d51ab39aeee909cb423a911b069b11dc
+embodiment @ git+https://github.com/biopeia/embodiment.git@56e9a34a6a778a298493dabca9d15b0912066803
+environment @ git+https://github.com/biopeia/environment.git@d1dc309636fc66471e755d1f691826ebf8c552fe
+modality @ git+https://github.com/biopeia/modality.git@93a4c3a4ea71dcf65269ce730aab736238fd3ea7
+observation @ git+https://github.com/biopeia/observation.git@5926df28d75c206f0003c3a8d37bfa4b7901a06f
+world @ git+https://github.com/biopeia/world.git@fad0430713d9b365ad5a968c1cc83fb4e84e08a1
