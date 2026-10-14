@@ -11,6 +11,7 @@ from embodiment.metabolism import MetabolicLedger
 from embodiment.physiology import LivingBodyState
 from environment.identified_resource import IdentifiedFiniteResource
 from environment.resource import FiniteResourceState
+from observation.plane import ObservationPlane
 from world.durable_runtime import DurableJournalSnapshotStore, DurableWorldRuntime, WorldGenesisSpec
 from world.manifest import CheckpointReference, WorldCausalManifestStore
 from world.runtime import PresenceId, WorldId
@@ -20,7 +21,9 @@ from lab.interventions import (
     InterventionKind,
     InterventionRequest,
     MaterialTransferCheckpointStore,
+    MaterialTransferOwnerRestoration,
     apply_material_transfer,
+    publish_material_transfer_observations,
 )
 from lab.interventions.material_transfer import (
     EMBODIMENT_OWNER,
@@ -30,6 +33,7 @@ from lab.interventions.material_transfer import (
     LAB_EVIDENCE_OWNER,
     LabInterventionEvidenceCodec,
 )
+import lab.interventions.material_transfer as material_transfer_module
 
 
 def _owners(tmp_path, *, remaining: float = 3.0, energy: float = 0.5, maximum: float = 2.0):
@@ -159,7 +163,8 @@ def test_intervention_commits_durable_owner_cut_and_lab_evidence(tmp_path) -> No
     assert world.manifest.status.value == "COMMITTED"
     assert resource.checkpoint_bytes() == initial_resource
     assert body.to_bytes() == initial_body
-    assert result.record is world.records[0]
+    assert result.record in world.records
+    assert result.record.causal_tick == 1
     owner_record = next(
         record
         for record in world.records
@@ -202,9 +207,8 @@ def test_intervention_commits_durable_owner_cut_and_lab_evidence(tmp_path) -> No
     }
     assert result.resource_candidate.state.remaining == 1.5
     assert result.body_candidate.body_state.energy_reserve == 2.0
-    assert [event["type"] for event in result.observations] == ["body", "vitals"]
-    assert all(event["type"] != "cognition" for event in result.observations)
-    assert all("run_id" not in event for event in result.observations)
+    assert result.committed_cut.causal_tick == result.record.causal_tick == 1
+    assert result.committed_cut.commit_id == "world-transition-1"
 
 
 def test_real_run_context_is_explicit_in_committed_evidence(tmp_path) -> None:
@@ -225,6 +229,100 @@ def test_real_run_context_is_explicit_in_committed_evidence(tmp_path) -> None:
     assert evidence["study_id"] == "study-3"
     assert evidence["intervention_id"] == "intervention-12"
     assert result.evidence_reference.owner_identity != evidence["run_id"]
+
+
+def test_experimental_material_transfer_publishes_real_owner_snapshots_after_commit(tmp_path) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+
+    published = publish_material_transfer_observations(
+        world=world,
+        plane=plane,
+        result=result,
+    )
+
+    assert world.causal_tick == 1  # publication did not re-execute the transition
+    assert published.committed_cut == result.committed_cut
+    assert published.publication.delivery_sequences == (1, 2)
+    assert published.association.experiment_id == "experiment-5"
+    assert published.association.run_id == "run-42"
+    assert published.read.status.value == "associated"
+    assert len(published.read.messages) == 2
+    env_observation, body_observation = tuple(
+        message.observation for message in published.read.messages
+    )
+    assert env_observation.claim.authority.value == "environment"
+    assert env_observation.claim.value == {"remaining": 2.0}
+    assert body_observation.claim.authority.value == "embodiment"
+    assert body_observation.claim.value == {
+        "amount": {"value": 1.5, "quantity_kind": "model_amount"},
+        "capacity": {"value": 2.0, "quantity_kind": "model_amount"},
+        "fraction": {"value": 0.75, "unit": "1"},
+    }
+    for observation in (env_observation, body_observation):
+        assert observation.context_time[-1].value == 1
+        assert dict(observation.lineage.transformation.effective_configuration)["commit_id"] == "world-transition-1"
+    assert env_observation.lineage.parents[0].reference == next(
+        ref.sha256 for ref in result.committed_cut.owner_checkpoint_references
+        if ref.owner == ENVIRONMENT_OWNER
+    )
+    assert body_observation.lineage.parents[0].reference == next(
+        ref.sha256 for ref in result.committed_cut.owner_checkpoint_references
+        if ref.owner == EMBODIMENT_OWNER
+    )
+
+
+def test_observation_publication_failure_does_not_repeat_committed_world_transition(
+    tmp_path, monkeypatch
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    committed_tick = world.causal_tick
+    committed_cut = result.committed_cut
+
+    def fail_publication(*args, **kwargs):
+        raise OSError("observation publication unavailable")
+
+    monkeypatch.setattr(
+        material_transfer_module,
+        "publish_committed_owner_observations",
+        fail_publication,
+    )
+    with pytest.raises(OSError, match="observation publication unavailable"):
+        publish_material_transfer_observations(world=world, plane=plane, result=result)
+
+    assert world.causal_tick == committed_tick == 1
+    assert world.manifest.status.value == "COMMITTED"
+    assert world.committed_cut_for(
+        world_id=committed_cut.world_id,
+        causal_tick=committed_tick,
+        commit_id=committed_cut.commit_id,
+    ) == committed_cut
+    assert plane.current_messages() == ()
 
 
 def test_experimental_intervention_requires_real_run_context() -> None:
@@ -293,6 +391,7 @@ def test_one_intervention_can_commit_distinct_actions_and_preserve_evidence_afte
     assert first_evidence["causal_tick"] == action_records[0].causal_tick
     assert second.evidence_reference.locator == action_records[1].payload["data"]["evidence_checkpoint"]["locator"]
 
+    owner_restoration = MaterialTransferOwnerRestoration()
     restored = DurableWorldRuntime.restore(
         world.world_id,
         world.presence_id,
@@ -300,12 +399,17 @@ def test_one_intervention_can_commit_distinct_actions_and_preserve_evidence_afte
         world._journal_store,
         owner_checkpoint_verifier=world._owner_checkpoint_verifier,
         owner_checkpoint_contracts={
-            (ENVIRONMENT_OWNER, resource.resource_id): IdentifiedFiniteResource,
-            (EMBODIMENT_OWNER, body.body_id): EmbodimentCheckpoint,
+            **owner_restoration.contracts(
+                resource_id=resource.resource_id, body_id=body.body_id
+            ),
             (LAB_EVIDENCE_OWNER, request.intervention_id): LabInterventionEvidenceCodec,
         },
-        owner_checkpoint_restorer=lambda _references: None,
+        owner_checkpoint_restorer=owner_restoration.restore,
     )
+    assert owner_restoration.resource is not None
+    assert owner_restoration.body is not None
+    assert owner_restoration.resource.state.remaining == pytest.approx(1.5)
+    assert owner_restoration.body.body_state.energy_reserve == pytest.approx(2.0)
     restored_first = next(
         record
         for record in restored.records
@@ -513,8 +617,9 @@ def test_evidence_file_written_before_journal_failure_is_not_a_committed_action(
 
     monkeypatch.setattr(store, "write", capture_evidence)
 
-    def fail_journal(_journal, *, causal_tick):
+    def fail_journal(_journal, *, causal_tick, previous_reference):
         assert causal_tick == 1
+        assert previous_reference in world.manifest.checkpoint_references
         raise OSError("journal snapshot failure")
 
     monkeypatch.setattr(world._journal_store, "write", fail_journal)
@@ -571,30 +676,32 @@ def test_candidate_journal_and_evidence_are_not_committed_if_manifest_publicatio
     evidence = json.loads(Path(evidence_ref.locator).read_bytes())
     assert evidence["intervention_action_id"] == "action-1"
 
-    candidate_journals = tuple(world._journal_store.directory.glob("journal-1-*.json"))
-    assert len(candidate_journals) == 1
-    candidate_records = json.loads(candidate_journals[0].read_bytes())
+    candidate_journal = world._journal_store.directory / "world-causal-journal-v3.jsonl"
+    assert candidate_journal.is_file()
+    candidate_records = [
+        json.loads(line) for line in candidate_journal.read_text().splitlines()
+    ]
     assert any(
-        item["record_type"] == "world.owner_record.committed"
-        and item["payload"]["owner_record_id"] == "action-1"
-        for item in candidate_records
+        record.get("record_type") == "world.owner_record.committed"
+        and record.get("payload", {}).get("owner_record_id") == "action-1"
+        for record in (item.get("record", {}) for item in candidate_records)
     )
 
     # The pending manifest still identifies the previous cut, not the
     # candidate journal. Recovery must select that previous cut, leaving both
     # staged artifacts as uncommitted evidence/debug artifacts.
     assert world.manifest.causal_tick == 0
+    owner_restoration = MaterialTransferOwnerRestoration()
     recovered = DurableWorldRuntime.recover_previous_cut(
         world.world_id,
         world.presence_id,
         world._manifest_store,
         world._journal_store,
         owner_checkpoint_verifier=world._owner_checkpoint_verifier,
-        owner_checkpoint_contracts={
-            (ENVIRONMENT_OWNER, resource.resource_id): IdentifiedFiniteResource,
-            (EMBODIMENT_OWNER, body.body_id): EmbodimentCheckpoint,
-        },
-        owner_checkpoint_restorer=lambda _references: None,
+        owner_checkpoint_contracts=owner_restoration.contracts(
+            resource_id=resource.resource_id, body_id=body.body_id
+        ),
+        owner_checkpoint_restorer=owner_restoration.restore,
     )
     assert recovered.causal_tick == 0
     assert recovered.manifest.status.value == "COMMITTED"
@@ -604,7 +711,7 @@ def test_candidate_journal_and_evidence_are_not_committed_if_manifest_publicatio
         for record in recovered.records
     )
     assert Path(evidence_ref.locator).is_file()
-    assert candidate_journals[0].is_file()
+    assert candidate_journal.is_file()
     assert all(
         (reference.owner, reference.owner_identity)
         != (LAB_EVIDENCE_OWNER, request.intervention_id)

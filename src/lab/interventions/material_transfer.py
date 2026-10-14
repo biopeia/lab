@@ -17,15 +17,39 @@ from enum import StrEnum
 from pathlib import Path
 from typing import Any, Mapping
 
-from embodiment.checkpoint import EmbodimentCheckpoint
+from embodiment.checkpoint import (
+    EmbodimentCheckpoint,
+    project_committed_reserve_state,
+)
 from embodiment.intake import MaterialTransfer, absorb_material_transfer
-from environment.identified_resource import IdentifiedFiniteResource
-from observation.projection import runtime_tick_events
-from world.durable_runtime import DurableWorldRuntime, OwnerCausalRecord
+from environment.identified_resource import (
+    IdentifiedFiniteResource,
+    project_committed_resource_state,
+)
+from observation import (
+    ObservationPlane,
+    embodiment_reserve_state_observation,
+    environment_resource_state_observation,
+)
+from lab.observation_consumer import (
+    LabObservationAssociation,
+    LabObservationRead,
+    associate_current_messages,
+)
+from world.durable_runtime import (
+    CommittedWorldCut,
+    DurableWorldRuntime,
+    OwnerCausalRecord,
+    PresenceOwnerLink,
+)
 from world.journal import CausalRecord
 from world.manifest import CheckpointReference, ManifestError
 from world.runtime import PresenceId
-from world.durable_runtime import PresenceOwnerLink
+from world.observation_publication import (
+    ObservationPublication,
+    OwnerObservation,
+    publish_committed_owner_observations,
+)
 
 
 ENVIRONMENT_OWNER = "environment"
@@ -103,8 +127,18 @@ class LabInterventionEvidenceCodec:
         )
 
     @classmethod
-    def verify_restoration(cls, encoded: bytes, owner_identity: str, schema_version: str) -> bool:
-        return cls.validate_checkpoint(encoded, owner_identity, schema_version)
+    def verify_restoration(cls, reference: CheckpointReference) -> bool:
+        if reference.owner != LAB_EVIDENCE_OWNER:
+            return False
+        try:
+            encoded = Path(reference.locator).read_bytes()
+        except OSError:
+            return False
+        if hashlib.sha256(encoded).hexdigest() != reference.sha256:
+            return False
+        return cls.validate_checkpoint(
+            encoded, reference.owner_identity, reference.schema_version
+        )
 
 
 class MaterialTransferCheckpointStore:
@@ -168,14 +202,32 @@ class MaterialTransferCheckpointStore:
 
 @dataclass(frozen=True, slots=True)
 class MaterialTransferResult:
-    """Committed World record and owner candidates from an adopted cut."""
+    """Committed World record and owner candidates from an adopted cut.
+
+    Observation is deliberately a separate post-commit operation. The result
+    does not invent a sensory or causal event when no owner projection has
+    actually been published.
+    """
 
     record: CausalRecord
     intervention_action_id: str
     evidence_reference: CheckpointReference
-    observations: tuple[dict[str, object], ...]
+    committed_cut: CommittedWorldCut
+    experiment_id: str | None
+    run_id: str | None
     resource_candidate: IdentifiedFiniteResource
     body_candidate: EmbodimentCheckpoint
+
+
+@dataclass(frozen=True, slots=True)
+class MaterialTransferObservationPublication:
+    """Two independently owned state claims published against one World cut."""
+
+    committed_cut: CommittedWorldCut
+    observations: tuple[object, ...]
+    publication: ObservationPublication
+    association: LabObservationAssociation
+    read: LabObservationRead
 
 
 def apply_material_transfer(
@@ -413,24 +465,103 @@ def apply_material_transfer(
     if not isinstance(evidence_reference, CheckpointReference) or not isinstance(evidence_payload, dict):
         raise RuntimeError("World committed without the staged Lab intervention evidence checkpoint")
 
-    # Projection is after the durable World cut is committed.
-    observations = runtime_tick_events(
-        {
-            "source": "biopeia.lab.operator_material_transfer",
-            "instance_id": body_id,
-            "sequence": record.causal_tick,
-            "tick": record.causal_tick,
-            "body_kind": "operator-intervention",
-            "resource_remaining": candidate_resource.state.remaining,
-        }
+    # Obtain a World-issued receipt for exactly the committed candidate.
+    # This is correlation evidence only; it does not infer a transfer claim.
+    committed_cut = world.committed_cut_for(
+        world_id=world.world_id.value,
+        causal_tick=record.causal_tick,
+        commit_id=transition_id,
     )
     return MaterialTransferResult(
         record=record,
         intervention_action_id=intervention_action_id,
         evidence_reference=evidence_reference,
-        observations=observations,
+        committed_cut=committed_cut,
+        experiment_id=request.experiment_id,
+        run_id=request.run_id,
         resource_candidate=candidate_resource,
         body_candidate=candidate_body,
+    )
+
+
+def publish_material_transfer_observations(
+    *,
+    world: DurableWorldRuntime,
+    plane: ObservationPlane,
+    result: MaterialTransferResult,
+) -> MaterialTransferObservationPublication:
+    """Publish exact owner snapshots for an experimental committed transfer.
+
+    The emitted Environment and Embodiment claims are independent state
+    snapshots. Their shared World cut does not assert conservation, absorption,
+    physical transfer, or causation. Publication is process-local and
+    non-transactional across messages; this function never retries the causal
+    transition or publication automatically.
+    """
+    if not isinstance(plane, ObservationPlane):
+        raise TypeError("publication requires the accepted in-process ObservationPlane")
+    if not isinstance(result, MaterialTransferResult):
+        raise TypeError("publication requires a committed MaterialTransferResult")
+    if not result.experiment_id or not result.run_id:
+        raise ValueError("experimental publication requires explicit experiment_id and run_id")
+    cut = result.committed_cut
+    if cut.world_id != result.record.world_id or cut.causal_tick != result.record.causal_tick:
+        raise ValueError("World receipt does not match the committed intervention record")
+
+    by_owner = {(ref.owner, ref.owner_identity): ref for ref in cut.owner_checkpoint_references}
+    environment_ref = by_owner.get((ENVIRONMENT_OWNER, result.resource_candidate.resource_id))
+    embodiment_ref = by_owner.get((EMBODIMENT_OWNER, result.body_candidate.body_id))
+    if environment_ref is None or embodiment_ref is None:
+        raise ValueError("committed World cut lacks required Environment/Embodiment owner references")
+    try:
+        environment_bytes = Path(environment_ref.locator).read_bytes()
+        embodiment_bytes = Path(embodiment_ref.locator).read_bytes()
+    except OSError as exc:
+        raise ValueError("committed owner checkpoint bytes are unavailable for projection") from exc
+
+    environment_projection = project_committed_resource_state(
+        environment_bytes,
+        owner_reference=environment_ref,
+        world_id=cut.world_id,
+        causal_tick=cut.causal_tick,
+        commit_id=cut.commit_id,
+    )
+    embodiment_projection = project_committed_reserve_state(
+        embodiment_bytes,
+        owner_reference=embodiment_ref,
+        world_id=cut.world_id,
+        causal_tick=cut.causal_tick,
+        commit_id=cut.commit_id,
+    )
+    observations = (
+        environment_resource_state_observation(environment_projection),
+        embodiment_reserve_state_observation(embodiment_projection),
+    )
+    publication = publish_committed_owner_observations(
+        world,
+        plane,
+        committed_cut=cut,
+        owner_observations=(
+            OwnerObservation(environment_ref, observations[0]),
+            OwnerObservation(embodiment_ref, observations[1]),
+        ),
+    )
+    association = LabObservationAssociation.for_committed_cut(
+        experiment_id=result.experiment_id,
+        run_id=result.run_id,
+        committed_cut=cut,
+    )
+    read = associate_current_messages(
+        plane,
+        association=association,
+        committed_cut=cut,
+    )
+    return MaterialTransferObservationPublication(
+        committed_cut=cut,
+        observations=observations,
+        publication=publication,
+        association=association,
+        read=read,
     )
 
 
@@ -438,6 +569,8 @@ __all__ = [
     "InterventionKind",
     "InterventionRequest",
     "MaterialTransferCheckpointStore",
+    "MaterialTransferObservationPublication",
     "MaterialTransferResult",
     "apply_material_transfer",
+    "publish_material_transfer_observations",
 ]
