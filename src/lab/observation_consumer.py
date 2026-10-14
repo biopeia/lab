@@ -108,14 +108,21 @@ def _context_matches(
         for reference in committed_cut.owner_checkpoint_references
         if reference.owner == authority
     )
-    if len(owner_references) != 1:
-        return False, "committed_cut_has_no_unique_reference_for_authority"
-    expected_digest = owner_references[0].sha256
-
     lineage = getattr(observation, "lineage", None)
     parents = getattr(lineage, "parents", ())
-    if not any(getattr(parent, "reference", None) == expected_digest for parent in parents):
+    parent_references = {
+        getattr(parent, "reference", None)
+        for parent in parents
+        if isinstance(getattr(parent, "reference", None), str)
+    }
+    matching_references = tuple(
+        reference for reference in owner_references
+        if reference.sha256 in parent_references
+    )
+    if not matching_references:
         return False, "observation_does_not_reference_committed_owner_checkpoint"
+    if len(matching_references) != 1:
+        return False, "observation_owner_reference_is_ambiguous_within_committed_cut"
 
     context_time = getattr(observation, "context_time", ())
     if not any(
