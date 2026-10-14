@@ -1,0 +1,4 @@
+pytest>=9.1.1
+environment @ git+https://github.com/biopeia/environment.git@d1dc309636fc66471e755d1f691826ebf8c552fe
+observation @ git+https://github.com/biopeia/observation.git@5926df28d75c206f0003c3a8d37bfa4b7901a06f
+world @ git+https://github.com/biopeia/world.git@8fbe1b58f82d2189cd83f612aeb91165a5540807

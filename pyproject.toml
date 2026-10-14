@@ -20,7 +20,6 @@ integration = [
     "observation @ git+https://github.com/biopeia/observation.git@be82907d1d677b2362e369d15eb1e8e964d893aa ; python_version >= '3.12'",
     "world @ git+https://github.com/biopeia/world.git@4d264b24d0501a51d8b56b9cbe762aff3402da7b ; python_version >= '3.12'",
 ]
-
 [tool.setuptools.packages.find]
 where = ["src"]
 

@@ -65,3 +65,17 @@ jobs:
       - run: python -m pip install -e '.[integration]'
       - name: Run integration suite with coverage report
         run: python -m pytest --cov=lab --cov-report=term-missing tests/integration
+
+  observation-publication-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-observation-integration.txt
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e . -r requirements-observation-integration.txt
+      - name: Run the pinned World-to-Observation-to-Lab publication integration
+        run: python -m pytest tests/observation_integration
