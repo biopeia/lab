@@ -388,6 +388,161 @@ def test_publication_rejects_mismatched_committed_cut_before_observation(tmp_pat
     assert world.causal_tick == result.record.causal_tick == 1
 
 
+def test_publication_rejects_substituted_world_record_from_same_committed_cut(tmp_path) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    substituted = next(
+        record
+        for record in world.records
+        if record.record_type == "world.causal_cut.committed"
+        and record.world_id == result.record.world_id
+        and record.causal_tick == result.record.causal_tick
+    )
+
+    with pytest.raises(ValueError, match="exact committed World transition record"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=replace(result, record=substituted),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_altered_copy_of_committed_world_transition_record(
+    tmp_path,
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    altered_record = replace(result.record, actor_id="uncommitted-actor")
+
+    with pytest.raises(ValueError, match="exact committed World transition record"):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=replace(result, record=altered_record),
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_missing_committed_world_transition_record(
+    tmp_path, monkeypatch
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    journal_records = world.records
+    monkeypatch.setattr(
+        world._journal,
+        "replay",
+        lambda: tuple(
+            record
+            for record in journal_records
+            if not (
+                record.world_id == result.record.world_id
+                and record.causal_tick == result.record.causal_tick
+                and record.record_type == "world.causal_tick.committed"
+            )
+        ),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="exact committed World transition record is missing or ambiguous",
+    ):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=result,
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
+def test_publication_rejects_ambiguous_committed_world_transition_records(
+    tmp_path, monkeypatch
+) -> None:
+    world, resource, body, _, store = _owners(tmp_path)
+    request = InterventionRequest(
+        "operator-7",
+        "intervention-12",
+        resource.resource_id,
+        body.body_id,
+        2.5,
+        InterventionKind.EXPERIMENTAL_RUN,
+        run_id="run-42",
+        study_id="study-3",
+        experiment_id="experiment-5",
+    )
+    result = _apply(world, resource, body, request, store, requested_material=1.0)
+    plane = ObservationPlane()
+    journal_records = world.records
+    transition_record = next(
+        record
+        for record in journal_records
+        if record.record_type == "world.causal_tick.committed"
+        and record.world_id == result.record.world_id
+        and record.causal_tick == result.record.causal_tick
+    )
+    monkeypatch.setattr(
+        world._journal,
+        "replay",
+        lambda: (*journal_records, transition_record),
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="exact committed World transition record is missing or ambiguous",
+    ):
+        publish_material_transfer_observations(
+            world=world,
+            plane=plane,
+            result=result,
+        )
+
+    assert plane.current_messages() == ()
+    assert world.causal_tick == result.record.causal_tick == 1
+
+
 def test_publication_rejects_ambiguous_committed_lab_action_record(tmp_path, monkeypatch) -> None:
     world, resource, body, _, store = _owners(tmp_path)
     request = InterventionRequest(

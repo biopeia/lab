@@ -508,13 +508,26 @@ def publish_material_transfer_observations(
     if cut.world_id != result.record.world_id or cut.causal_tick != result.record.causal_tick:
         raise ValueError("World receipt does not match the committed intervention record")
 
-    # Bind Lab's experiment association to the exact Lab evidence and owner
-    # record that World committed. Result objects are caller-owned values; their
-    # run/experiment fields are not authoritative merely because they accompany
-    # a valid World receipt.
+    # Bind Lab's experiment association to the exact World transition record
+    # and Lab evidence that World committed. Result objects are caller-owned
+    # values; matching a World/tick pair or membership in that tick's journal
+    # does not establish which record represents the transition.
     journal_records = world.records
-    if result.record not in journal_records:
-        raise ValueError("committed intervention record is absent from the World journal")
+    transition_records = tuple(
+        record
+        for record in journal_records
+        if record.world_id == cut.world_id
+        and record.causal_tick == cut.causal_tick
+        and record.record_type == "world.causal_tick.committed"
+    )
+    if len(transition_records) != 1:
+        raise ValueError(
+            "exact committed World transition record is missing or ambiguous"
+        )
+    if result.record != transition_records[0]:
+        raise ValueError(
+            "result does not identify the exact committed World transition record"
+        )
     try:
         verified_cut = world.committed_cut_for(
             world_id=cut.world_id,
