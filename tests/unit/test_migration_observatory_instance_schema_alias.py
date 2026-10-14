@@ -46,7 +46,7 @@ def test_instance_schema_alias_is_bounded_defer_linked_to_sibling_issue() -> Non
     assert sibling["disposition"] == "SPLIT"
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 107, "REWRITE": 2, "DROP": 898, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 106, "REWRITE": 2, "DROP": 899, "DEFER": 159}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory instance schema path alias (Lab #255; linked to #266)" in migration

@@ -31,10 +31,10 @@ def test_holdout_implementation_drop_is_separate_from_scientific_disposition() -
     assert not (ROOT / "src/lab/evaluation/holdout.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 107, "REWRITE": 2, "DROP": 898, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 106, "REWRITE": 2, "DROP": 899, "DEFER": 159}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 107 |" in migration
-    assert "`DROP` | 898 |" in migration
+    assert "`SPLIT` | 106 |" in migration
+    assert "`DROP` | 899 |" in migration
     assert "does not disposition the study protocol/results" in migration

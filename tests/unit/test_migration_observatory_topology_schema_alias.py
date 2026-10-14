@@ -39,10 +39,10 @@ def test_topology_schema_alias_is_dropped_without_dispositioning_target_schema()
     assert schema["target_owner"] == "Observation / Lab"
 
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 6, "SPLIT": 107, "REWRITE": 2, "DROP": 898, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 106, "REWRITE": 2, "DROP": 899, "DEFER": 159}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert SCHEMA_BLOB in migration
     assert "### Historical Observatory topology schema alias" in migration
-    assert "| `SPLIT` | 107 |" in migration
-    assert "| `DROP` | 898 |" in migration
+    assert "| `SPLIT` | 106 |" in migration
+    assert "| `DROP` | 899 |" in migration
