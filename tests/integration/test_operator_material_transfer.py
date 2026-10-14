@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
+import pytest
+
 from embodiment.checkpoint import EmbodimentCheckpoint
 from embodiment.metabolism import MetabolicLedger
 from embodiment.physiology import LivingBodyState
@@ -28,6 +30,11 @@ from world.manifest import CheckpointReference, WorldCausalManifestStore
 from world.runtime import WorldId
 from world.runtime import PresenceId
 from world.durable_runtime import PresenceOwnerLink
+
+
+pytestmark = pytest.mark.skip(
+    reason="material-transfer execution is unsupported until verified authorization exists; see Lab #330"
+)
 
 
 def test_lab_intervention_commits_owner_states_and_evidence_in_durable_cut(tmp_path) -> None:

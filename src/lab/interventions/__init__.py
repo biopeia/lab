@@ -2,6 +2,7 @@
 
 from .material_transfer import (
     InterventionRequest,
+    MaterialTransferAuthorizationUnsupported,
     InterventionKind,
     MaterialTransferCheckpointStore,
     MaterialTransferObservationPublication,
@@ -13,6 +14,7 @@ from .material_transfer_restoration import MaterialTransferOwnerRestoration
 
 __all__ = [
     "InterventionRequest",
+    "MaterialTransferAuthorizationUnsupported",
     "InterventionKind",
     "MaterialTransferCheckpointStore",
     "MaterialTransferObservationPublication",

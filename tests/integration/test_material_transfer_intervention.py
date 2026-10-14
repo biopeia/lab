@@ -37,6 +37,11 @@ from lab.interventions.material_transfer import (
 import lab.interventions.material_transfer as material_transfer_module
 
 
+pytestmark = pytest.mark.skip(
+    reason="material-transfer execution is unsupported until verified authorization exists; see Lab #330"
+)
+
+
 def _owners(tmp_path, *, remaining: float = 3.0, energy: float = 0.5, maximum: float = 2.0):
     resource = IdentifiedFiniteResource(
         "resource-1",

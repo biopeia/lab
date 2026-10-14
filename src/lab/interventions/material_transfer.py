@@ -1,8 +1,8 @@
-"""Durable Lab intervention over Environment and Embodiment owners.
+"""Material-transfer intervention contracts and gated publication helpers.
 
-This is a caller-requested scalar transfer, not an autonomous action, physical
-contact model, or demonstrated material/energy equivalence. World publishes the
-causal cut; Lab contributes a step-scoped evidence checkpoint to that cut.
+The current runtime has no verified authorization source for material transfer,
+so the operation is explicitly unsupported. No caller-declared identifier or
+constraint grants permission to enter the World causal path.
 """
 
 from __future__ import annotations
@@ -59,6 +59,10 @@ ENVIRONMENT_SCHEMA = IdentifiedFiniteResource.OWNER_SCHEMA
 EMBODIMENT_SCHEMA = "embodiment-checkpoint-v2"
 EVIDENCE_SCHEMA = "lab-intervention-evidence-v2"
 OWNER_RECORD_TYPE = "world.owner_record.committed"
+
+
+class MaterialTransferAuthorizationUnsupported(RuntimeError):
+    """The current Lab runtime has no verified authority for this operation."""
 
 
 class InterventionKind(StrEnum):
@@ -241,246 +245,15 @@ def apply_material_transfer(
     transition_id: str,
     requested_material: float,
 ) -> MaterialTransferResult:
-    """Commit an intervention and owner checkpoints as one durable World cut.
+    """Reject material transfer until a verified authorization source exists.
 
-    Body identity is derived from Embodiment's checkpoint boundary; source
-    identity is carried by Environment's identified resource checkpoint. The
-    request envelope alone cannot establish either identity. Inputs are cloned
-    through owner checkpoint codecs and never mutated in place.
+    ``InterventionRequest`` contains caller-declared identifiers and constraints;
+    it is not an authorization credential. Lab #330 classifies verified
+    authorization as unsupported for the current implementation. Fail before
+    inspecting owner state, writing checkpoints, or entering World.
     """
-    if not isinstance(world, DurableWorldRuntime):
-        raise TypeError("material transfer requires DurableWorldRuntime")
-    if not isinstance(resource, IdentifiedFiniteResource):
-        raise TypeError("resource must be an Environment-owned identified resource")
-    if not isinstance(body, EmbodimentCheckpoint):
-        raise TypeError("body must be an EmbodimentCheckpoint")
-    if not isinstance(transition_id, str) or not transition_id.strip():
-        raise ValueError("transition_id must be non-empty")
-    if transition_id == request.intervention_id:
-        raise ValueError("transition_id must be distinct from intervention_id")
-    if not isinstance(intervention_action_id, str) or not intervention_action_id.strip():
-        raise ValueError("intervention_action_id must be non-empty")
-    if intervention_action_id in {request.intervention_id, transition_id}:
-        raise ValueError("intervention_action_id must be distinct from intervention_id and transition_id")
-    source_id = resource.resource_id
-    body_id = body.body_id
-    if source_id != request.source_id:
-        raise ValueError("requested source_id differs from Environment owner identity")
-    if body_id != request.target_body_id:
-        raise ValueError("requested target_body_id differs from Embodiment owner identity")
-    if (
-        isinstance(requested_material, bool)
-        or not isinstance(requested_material, (int, float))
-        or not math.isfinite(float(requested_material))
-        or requested_material < 0.0
-        or requested_material > request.maximum_material
-    ):
-        raise ValueError("request exceeds caller-declared material limit")
-
-    environment_key = (ENVIRONMENT_OWNER, source_id)
-    embodiment_key = (EMBODIMENT_OWNER, body_id)
-    if set(world.manifest.registered_owner_ids) != {environment_key, embodiment_key}:
-        raise ValueError("World genesis owner roster must exactly match the Environment and Embodiment owners")
-
-    # These fields identify the logical request/provenance and therefore stay
-    # fixed across its causal actions. Resource/body targets and quantities
-    # below describe each action, not the logical intervention as a whole.
-    intervention_context: dict[str, object] = {
-        "operator_id": request.operator_id,
-        "applicability": request.kind.value,
-        "run_id": request.run_id,
-        "study_id": request.study_id,
-        "experiment_id": request.experiment_id,
-        "protocol_id": request.protocol_id,
-    }
-
-    def validate_intervention_history() -> None:
-        for journal_record in world.records:
-            if journal_record.record_type != OWNER_RECORD_TYPE:
-                continue
-            envelope = journal_record.payload
-            if (
-                envelope.get("owner_id") != LAB_EVIDENCE_OWNER
-                or envelope.get("owner_identity") != request.intervention_id
-            ):
-                continue
-            if envelope.get("owner_record_id") == intervention_action_id:
-                raise ValueError("intervention action id was already committed in this World")
-            data = envelope.get("data")
-            if not isinstance(data, Mapping) or data.get("intervention_context") != intervention_context:
-                raise ValueError("intervention_id cannot be reused with a different immutable intervention context")
-
-    # Fail user errors before World enters PREPARING. World independently
-    # enforces stable action-record uniqueness at commit, including after restore.
-    validate_intervention_history()
-
-    # Verify the accepted World cut references the exact owner identities and
-    # that its checkpoint values still represent the supplied owner objects.
-    reference_by_owner = {
-        (ref.owner, ref.owner_identity): ref for ref in world.manifest.checkpoint_references
-    }
-    try:
-        environment_ref = reference_by_owner[environment_key]
-        embodiment_ref = reference_by_owner[embodiment_key]
-        if Path(environment_ref.locator).read_bytes() != resource.checkpoint_bytes():
-            raise ValueError("Environment state does not match its committed owner checkpoint")
-        if Path(embodiment_ref.locator).read_bytes() != body.to_bytes():
-            raise ValueError("Embodiment state does not match its committed owner checkpoint")
-    except (KeyError, OSError) as exc:
-        raise ValueError("World cut is missing a readable authoritative owner checkpoint") from exc
-
-    candidate_resource = IdentifiedFiniteResource.from_checkpoint_bytes(resource.checkpoint_bytes())
-    candidate_body = EmbodimentCheckpoint.from_bytes(body.to_bytes())
-    offered = min(float(requested_material), candidate_resource.state.offered_material())
-    transfer = MaterialTransfer(
-        source_id=source_id,
-        target_body_id=body_id,
-        amount=offered,
-        composition="unspecified-scalar-material",
-    )
-    accepted = absorb_material_transfer(
-        body_id=body_id,
-        body_state=candidate_body.body_state,
-        transfer=transfer,
-    )
-    debited = candidate_resource.state.consume_absorbed(accepted)
-    if debited != accepted:
-        raise RuntimeError("Environment debit did not equal Embodiment acceptance")
-
-    staged: dict[str, object] = {}
-
-    def write_owner_checkpoints(causal_tick: int) -> tuple[CheckpointReference, ...]:
-        evidence: dict[str, object] = {
-            "schema_version": 2,
-            "intervention_id": request.intervention_id,
-            "intervention_action_id": intervention_action_id,
-            "operator_id": request.operator_id,
-            "applicability": request.kind.value,
-            "transition_id": transition_id,
-            "world_id": world.world_id.value,
-            "causal_tick": causal_tick,
-            "source_id": source_id,
-            "target_body_id": body_id,
-            "requested_material": float(requested_material),
-            "offered_material": offered,
-            "accepted_material": accepted,
-            "debited_material": debited,
-            "quantity_semantics": "unspecified_scalar_material",
-        }
-        for key in ("run_id", "study_id", "experiment_id", "protocol_id"):
-            value = getattr(request, key)
-            if value is not None:
-                evidence[key] = value
-        evidence_bytes = json.dumps(
-            evidence, sort_keys=True, separators=(",", ":"), allow_nan=False
-        ).encode()
-        refs = (
-            checkpoint_store.write(
-                owner=ENVIRONMENT_OWNER,
-                owner_identity=source_id,
-                checkpoint_id=f"tick-{causal_tick}",
-                schema_version=ENVIRONMENT_SCHEMA,
-                encoded=candidate_resource.checkpoint_bytes(),
-            ),
-            checkpoint_store.write(
-                owner=EMBODIMENT_OWNER,
-                owner_identity=body_id,
-                checkpoint_id=f"tick-{causal_tick}",
-                schema_version=EMBODIMENT_SCHEMA,
-                encoded=candidate_body.to_bytes(),
-            ),
-            checkpoint_store.write(
-                owner=LAB_EVIDENCE_OWNER,
-                owner_identity=request.intervention_id,
-                checkpoint_id=f"action-{hashlib.sha256(intervention_action_id.encode()).hexdigest()}",
-                schema_version=EVIDENCE_SCHEMA,
-                encoded=evidence_bytes,
-            ),
-        )
-        staged["evidence"] = evidence
-        evidence_refs = tuple(
-            ref
-            for ref in refs
-            if ref.owner == LAB_EVIDENCE_OWNER
-            and ref.owner_identity == request.intervention_id
-        )
-        if len(evidence_refs) != 1:
-            raise RuntimeError("Lab evidence checkpoint writer must return exactly one matching reference")
-        staged["evidence_ref"] = evidence_refs[0]
-        return refs
-
-    def write_owner_records(
-        causal_tick: int,
-        owner_references: tuple[CheckpointReference, ...],
-    ) -> tuple[OwnerCausalRecord, ...]:
-        # Recheck while World owns its single-writer tick guard. The World
-        # journal is the durable index; Lab remains the semantic/evidence owner.
-        validate_intervention_history()
-        evidence_refs = tuple(
-            ref
-            for ref in owner_references
-            if ref.owner == LAB_EVIDENCE_OWNER
-            and ref.owner_identity == request.intervention_id
-        )
-        if len(evidence_refs) != 1:
-            raise RuntimeError("World candidate cut must contain exactly one Lab evidence checkpoint")
-        evidence_ref = evidence_refs[0]
-        return (
-            OwnerCausalRecord(
-                owner_id=LAB_EVIDENCE_OWNER,
-                owner_identity=request.intervention_id,
-                owner_record_id=intervention_action_id,
-                payload={
-                    "schema_version": 1,
-                    "intervention_id": request.intervention_id,
-                    "intervention_action_id": intervention_action_id,
-                    "intervention_context": intervention_context,
-                    "transition_id": transition_id,
-                    "world_id": world.world_id.value,
-                    "causal_tick": causal_tick,
-                    "evidence_checkpoint": {
-                        "owner": evidence_ref.owner,
-                        "owner_identity": evidence_ref.owner_identity,
-                        "checkpoint_id": evidence_ref.checkpoint_id,
-                        "schema_version": evidence_ref.schema_version,
-                        "locator": evidence_ref.locator,
-                        "sha256": evidence_ref.sha256,
-                    },
-                },
-            ),
-        )
-
-    evidence_contract = checkpoint_store.evidence_contract()
-    record = world.tick(
-        transition_id,
-        write_owner_checkpoints,
-        write_owner_records=write_owner_records,
-        step_participants=((LAB_EVIDENCE_OWNER, request.intervention_id),),
-        register_owner_contracts={
-            (LAB_EVIDENCE_OWNER, request.intervention_id): evidence_contract
-        },
-    )
-    evidence_reference = staged.get("evidence_ref")
-    evidence_payload = staged.get("evidence")
-    if not isinstance(evidence_reference, CheckpointReference) or not isinstance(evidence_payload, dict):
-        raise RuntimeError("World committed without the staged Lab intervention evidence checkpoint")
-
-    # Obtain a World-issued receipt for exactly the committed candidate.
-    # This is correlation evidence only; it does not infer a transfer claim.
-    committed_cut = world.committed_cut_for(
-        world_id=world.world_id.value,
-        causal_tick=record.causal_tick,
-        commit_id=transition_id,
-    )
-    return MaterialTransferResult(
-        record=record,
-        intervention_action_id=intervention_action_id,
-        evidence_reference=evidence_reference,
-        committed_cut=committed_cut,
-        experiment_id=request.experiment_id,
-        run_id=request.run_id,
-        resource_candidate=candidate_resource,
-        body_candidate=candidate_body,
+    raise MaterialTransferAuthorizationUnsupported(
+        "material transfer is unsupported: no verified authorization source is configured"
     )
 
 
