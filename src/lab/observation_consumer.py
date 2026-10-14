@@ -212,6 +212,7 @@ def associate_stream_messages(
         raise TypeError("subscription must be an Observation Plane stream subscription")
 
     messages: list[object] = []
+    previous_sequence: int | None = None
     for _ in range(max_messages):
         try:
             item = consumer_queue.get_nowait()
@@ -224,6 +225,22 @@ def associate_stream_messages(
                 reason=str(item.reason),
                 sequence=item.sequence,
             )
+        sequence = getattr(item, "sequence", None)
+        if type(sequence) is not int or sequence < 1:
+            return LabObservationRead(
+                LabObservationReadStatus.REBASE_REQUIRED,
+                association,
+                reason="stream_message_sequence_invalid",
+                sequence=sequence if type(sequence) is int else None,
+            )
+        if previous_sequence is not None and sequence <= previous_sequence:
+            return LabObservationRead(
+                LabObservationReadStatus.REBASE_REQUIRED,
+                association,
+                reason="stream_sequence_duplicate_or_out_of_order",
+                sequence=sequence,
+            )
+        previous_sequence = sequence
         messages.append(item)
     if not consumer_queue.empty():
         # A bounded drain cannot claim to have observed a complete available

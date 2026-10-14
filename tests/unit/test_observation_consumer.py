@@ -31,7 +31,13 @@ class _CommittedCut:
     )
 
 
-def _message(*, authority: str = "environment", world_id: str = "world-1", tick: int = 7):
+def _message(
+    *,
+    authority: str = "environment",
+    world_id: str = "world-1",
+    tick: int = 7,
+    sequence: int = 3,
+):
     observation = SimpleNamespace(
         claim=SimpleNamespace(authority=SimpleNamespace(value=authority)),
         family=SimpleNamespace(authority=authority),
@@ -47,7 +53,7 @@ def _message(*, authority: str = "environment", world_id: str = "world-1", tick:
             ),
         ),
     )
-    return SimpleNamespace(sequence=3, observation=observation)
+    return SimpleNamespace(sequence=sequence, observation=observation)
 
 
 class _Plane:
@@ -95,6 +101,7 @@ def test_empty_current_view_is_not_reported_as_source_absence():
         _message(authority="world"),
         _message(world_id="world-other"),
         _message(tick=6),
+        _message(tick=8),
     ),
 )
 def test_mismatched_authority_world_or_causal_tick_is_not_associated(message):
@@ -162,6 +169,58 @@ def test_stream_batch_limit_requires_rebase_instead_of_returning_partial_batch()
     assert result.status is LabObservationReadStatus.REBASE_REQUIRED
     assert result.reason == "consumer_batch_limit_exceeded"
     assert result.sequence == 3
+
+
+@pytest.mark.parametrize(
+    ("sequences", "expected_sequence"),
+    (((3, 3), 3), ((4, 2), 2)),
+)
+def test_stream_duplicate_or_out_of_order_sequence_requires_rebase(
+    sequences, expected_sequence
+):
+    subscription = SimpleNamespace(queue=Queue())
+    for sequence in sequences:
+        subscription.queue.put_nowait(_message(sequence=sequence))
+
+    result = associate_stream_messages(
+        subscription,
+        association=_association(),
+        committed_cut=_CommittedCut(),
+    )
+
+    assert result.status is LabObservationReadStatus.REBASE_REQUIRED
+    assert result.reason == "stream_sequence_duplicate_or_out_of_order"
+    assert result.sequence == expected_sequence
+
+
+def test_stream_sequence_gaps_are_allowed_and_not_world_time():
+    subscription = SimpleNamespace(queue=Queue())
+    subscription.queue.put_nowait(_message(sequence=3))
+    subscription.queue.put_nowait(_message(sequence=9))
+
+    result = associate_stream_messages(
+        subscription,
+        association=_association(),
+        committed_cut=_CommittedCut(),
+    )
+
+    assert result.status is LabObservationReadStatus.ASSOCIATED
+    assert tuple(message.sequence for message in result.messages) == (3, 9)
+
+
+def test_stream_invalid_sequence_requires_rebase():
+    subscription = SimpleNamespace(queue=Queue())
+    subscription.queue.put_nowait(_message(sequence=0))
+
+    result = associate_stream_messages(
+        subscription,
+        association=_association(),
+        committed_cut=_CommittedCut(),
+    )
+
+    assert result.status is LabObservationReadStatus.REBASE_REQUIRED
+    assert result.reason == "stream_message_sequence_invalid"
+    assert result.sequence == 0
 
 
 @pytest.mark.parametrize("value", (0, -1, True, 1.0))
