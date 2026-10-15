@@ -379,10 +379,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 106 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 105 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 899 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 159 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to #266)
 
@@ -779,3 +779,10 @@ kernel-characterization modules remain independently dispositioned.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/README.md` | DROP as TARGET documentation | No TARGET document destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; source blob `f4e3c4710ac5bc14f612c82a1c7ade809df8ee3c`, mode `100644`, 20,019 bytes. The README documents the historical Symbiont Observatory UI, launcher commands, local transports/replay, versioned snapshot schemas, and runtime-specific display projections. It is operational/product documentation, not a scientific protocol, result, or evidence artifact. Its routes, commands, schema versions, labels and display semantics are not Biopeia TARGET contracts and are not to be copied by analogy. The historical source remains read-only and preserved. This is only a migration disposition for this README; it does not claim that future Biopeia visualization, Observation publication, Lab tooling, or scientific value is unnecessary. |
+
+
+### Observatory instance registry schema (Lab #266)
+
+At source baseline `80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/schemas/instance.schema.json` is blob `7a2d29bb3dc576c2b984d85bbcfc8746fc7adb44` (946 bytes). It describes instance/run/process/display identity, start and heartbeat timestamps, topology revision, and organism identity. The source inventory records this row as `DEFER`, not `SPLIT`: the `Observation / Lab` hint does not establish a competent TARGET owner, contract, or path. Observation #38 remains open with design/owner decisions unresolved.
+
+Re-evaluate when Observation #38 and the competent Observation/Lab owners record whether this record has a TARGET responsibility and its owner/path, or explicitly determine DROP. Until then, preserve provenance and do not copy a schema or infer scientific validity/equivalence. This bounded ledger defer does not block the bounded runtime-transfer profile, but remains open and prevents declaring Lab #78/#45 source-disposition work complete. The sibling path alias remains separately deferred under the linked #255/#266 record.

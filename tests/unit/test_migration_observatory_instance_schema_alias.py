@@ -43,10 +43,12 @@ def test_instance_schema_alias_is_bounded_defer_linked_to_sibling_issue() -> Non
         "7a2d29bb3dc576c2b984d85bbcfc8746fc7adb44"
     )
     # The alias cannot be finally dropped or retained independently of the schema row.
-    assert sibling["disposition"] == "SPLIT"
+    assert sibling["disposition"] == "DEFER"
+    assert "Observation #38" in sibling["target_path_or_status"]
+    assert "bounded runtime-transfer profile" in sibling["rationale_and_caveat"]
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 106, "REWRITE": 2, "DROP": 899, "DEFER": 159}
+    assert counts == {"MOVE": 6, "SPLIT": 105, "REWRITE": 2, "DROP": 899, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory instance schema path alias (Lab #255; linked to #266)" in migration
