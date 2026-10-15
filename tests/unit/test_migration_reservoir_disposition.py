@@ -27,9 +27,9 @@ def test_historical_temporal_challenger_is_dropped_as_target_code() -> None:
     assert "No scientific-validity, learning-efficacy" in rationale
     assert not (ROOT / "src/lab/modeling/reservoir.py").exists()
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
+    assert counts == {"MOVE": 8, "SPLIT": 34, "REWRITE": 3, "DROP": 948, "DEFER": 179}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 35 |" in migration
+    assert "`SPLIT` | 34 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "### Historical continuous temporal challenger model (Lab #224)" in migration

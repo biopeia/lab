@@ -32,11 +32,11 @@ def test_historical_world_aggregate_facade_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/world/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
+    assert counts == {"MOVE": 8, "SPLIT": 34, "REWRITE": 3, "DROP": 948, "DEFER": 179}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 35 |" in migration
+    assert "`SPLIT` | 34 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "Historical Lab World aggregate facade" in migration
     assert "do not preserve its import path" in migration
