@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 11
+    assert len(units) == 12
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     visual_audit = by_id.pop("learning.visual-predictor-audit")
@@ -382,6 +382,36 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "NOT_ADMITTED" in custody[
         "lab/experiments/embodiment/label-invariance/results.json"
     ]["proposal_review_status"]
+
+    yoked = by_id.pop("embodiment.yoked-external-causation")
+    assert yoked["study_protocol_disposition"] == "DEFER"
+    assert yoked["source_implementation_TARGET_disposition"] == "DROP"
+    assert "software.dirty=true" in yoked["real_run_identity"]
+    assert "FPR=0.30" in yoked["source_evidence_basis"]
+    assert "NOT_ADMITTED" in yoked["custody_ledger_state"]
+    assert "NOT_SCIENTIFICALLY_VALIDATED" in yoked["custody_ledger_state"]
+    implementation_path, expected_blob = yoked["implementation_path_and_blob"].split(
+        "@", maxsplit=1
+    )
+    assert source[implementation_path]["source_blob_at_pinned_commit"] == expected_blob
+    # The study-level source inventory remains DEFER until applicability is resolved;
+    # this register separately records that no implementation is ported to TARGET.
+    assert source[implementation_path]["disposition"] == "DEFER"
+    test_path, expected_blob = yoked["source_test_path_and_blob"].split(
+        "@", maxsplit=1
+    )
+    assert source[test_path]["source_blob_at_pinned_commit"] == expected_blob
+    assert source[test_path]["disposition"] == "DROP"
+    yoked_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "embodiment.yoked-external-causation"
+    )
+    assert yoked_crosswalk["candidate_disposition"] == "DEFER"
+    assert (
+        "test_e1_yoked_external_causation_is_deterministic_and_bounded"
+        in yoked_crosswalk["study_test_path_candidates"]
+    )
 
     for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
