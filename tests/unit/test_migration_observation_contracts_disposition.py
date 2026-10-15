@@ -35,11 +35,11 @@ def test_historical_observation_frame_contract_requires_rewrite() -> None:
     assert "No scientific validity" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 80, "REWRITE": 3, "DROP": 923, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 79, "REWRITE": 3, "DROP": 924, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "### Historical Observation frame contract disposition (Lab #233)" in migration
-    assert "`SPLIT` | 80 |" in migration
+    assert "`SPLIT` | 79 |" in migration
     assert "`REWRITE` | 3 |" in migration
     assert "not one semantic claim" in migration
