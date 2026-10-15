@@ -37,10 +37,10 @@ def test_evidence_endpoint_tests_are_deferred_with_owner_closure_trigger() -> No
     assert "no scientific validity/equivalence/evidence-admission claim" in rationale
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 25, "REWRITE": 3, "DROP": 949, "DEFER": 187}
+    assert counts == {"MOVE": 8, "SPLIT": 24, "REWRITE": 3, "DROP": 949, "DEFER": 188}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 25 |" in migration
-    assert "`DEFER` | 187 |" in migration
+    assert "`SPLIT` | 24 |" in migration
+    assert "`DEFER` | 188 |" in migration
     assert "### Historical Observatory evidence-endpoint tests (Lab #278)" in migration

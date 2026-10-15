@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 25 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 24 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 187 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 188 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2013,3 +2013,31 @@ authorizes those behaviors; they remain excluded pending their respective owner
 contracts and any required Lab evidence-custody decision. No legacy runtime was
 executed, no code/data was copied or deleted, and no autonomy, scientific
 validity, numerical equivalence, or evidence admissibility is claimed.
+
+
+### Historical Physics3D passive settling disposition (Lab #304)
+
+The pinned `lab/src/lab/physics3d/settling.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`0f77e2ca231e0550bfc9e74d47750cdfeea2d068`, mode `100644`, 4,539 bytes)
+contains exactly `SettlingResult`, `SETTLING_MAX_STEPS`, and
+`settle_passive_body`. The routine mutates a passive solver scene, testing
+linear/angular velocity and joint displacement against configured thresholds
+for a stable-sample interval, then returns convergence status and residual/peak
+joint/contact diagnostics; the default bound is 2,400 solver steps.
+
+Disposition is bounded `DEFER`, not `SPLIT` or `DROP`. TARGET has physical-state
+adoption in Embodiment (`embodiment/src/embodiment/physics3d/physical_transition.py`)
+and numerical MuJoCo stepping in World (`world/src/world/adapters/mujoco.py`),
+but neither establishes a passive initialization/settling contract, stable
+criteria, target consumer, or ownership of the legacy diagnostic result. The
+historical source's comment that the humanoid settles in about 1,600 steps and
+that 2,400 steps is sufficient is not a validated TARGET calibration. Embodiment
+must decide whether this behavior is required and define the somatic acceptance
+contract; World must define the solver-step boundary if retained; Lab must decide
+evidence custody/admissibility if measurements are treated as scientific records.
+Closure requires those owner decisions and an approved target contract/path, or
+an explicit owner-authorized `DROP` with custody disposition. This bounded source
+review is not a runtime requirement and does not block target runtime extraction.
+No source code was copied, no settling experiment was run, and no convergence,
+scientific validity, evidence admissibility, or equivalence is claimed.

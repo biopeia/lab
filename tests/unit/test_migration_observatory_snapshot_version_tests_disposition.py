@@ -37,7 +37,7 @@ def test_snapshot_version_tests_are_bounded_defer() -> None:
     assert "no scientific validity" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 25, "REWRITE": 3, "DROP": 949, "DEFER": 187}
+    assert counts == {"MOVE": 8, "SPLIT": 24, "REWRITE": 3, "DROP": 949, "DEFER": 188}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
