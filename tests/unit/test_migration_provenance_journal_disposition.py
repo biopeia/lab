@@ -40,10 +40,10 @@ def test_provenance_journal_is_deferred_with_owner_decision_and_closure_trigger(
     assert not (ROOT / "src/lab/observation/provenance_journal.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 46, "REWRITE": 3, "DROP": 947, "DEFER": 168}
+    assert counts == {"MOVE": 8, "SPLIT": 45, "REWRITE": 3, "DROP": 947, "DEFER": 169}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical provenance journal disposition (Lab #242)" in migration
     assert "closure trigger" in migration
-    assert "`DEFER` | 168 |" in migration
+    assert "`DEFER` | 169 |" in migration

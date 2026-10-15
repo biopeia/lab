@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 46 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 45 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 947 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 169 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1530,3 +1530,10 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_contract.py` | DROP as TARGET tests | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `21d05a8ad1bd5fc0b9e341838e4d3caa55f602a7`, mode `100644`, 9,307 bytes. Verified symbols: `ROOT`, `_read_js_bundle`, `ObservatoryContractTests`, `ObserverProvenanceContractTests`, `SensoryWorldMapContractTests`. The assertions inspect legacy snapshot/body/cognition/topology/instance/replay JSON schemas, frontend module contents, historical resident CLI behavior, and optional sensory snapshot fields for replay compatibility. These are source-contract checks for the historical Observatory API/UI/CLI, not independent TARGET contracts or scientific evidence. Corresponding schema decisions remain separately classified, including unresolved DEFER entries; this DROP does not resolve or override them. No authorized TARGET destination adopts this snapshot, frontend, or CLI contract. Future requirements and tests must be target-authored against accepted owner contracts. Do not infer that boundedness, privacy, provenance, replay compatibility, sensory projection, or future safeguards are unnecessary. Historical source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made. |
+
+
+### Historical Observatory evidence-endpoint tests (Lab #278)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_evidence_endpoints.py` | DEFER (bounded) | No authorized TARGET endpoint/response contract | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `2029ddd95201008a1e16c237411b835fa0e11d31`, mode `100644`, 4,461 bytes; verified class `EvidenceEndpointTests`. The three tests exercise legacy HTTP projection of selected manifest provenance/digest fields while omitting private paths/config, history-summary selection via current registry run, and rejection of malformed instance IDs. No TARGET endpoint contract/service is authorized. Manifest custody/field authority remains DEFER under Lab #257; registry identity/current-run semantics remain DEFER under Lab #260 and Observation #38/Lab #266; journal/history custody remains DEFER under Lab #256. The historical summary generator is independently DROP under #254 and server implementation DROP under #271; those classifications do not settle whether any owner-authorized endpoint or evidence index is needed. Lab #278 coordinator tracks closure; Lab evidence-custody owner and competent Lab/Observation/domain owners must determine DROP or specify a new target-authored contract with field authority, source/run identity, privacy, schema, custody/retention, storage path and owner. Observation owner must separately resolve source/lake boundaries under #38. Closure trigger: record those decisions, then replace this bounded DEFER with explicit DROP or open a linked implementation/test Issue against accepted contract. This does not block bounded runtime transfer because no TARGET consumer/API dependency is identified. No source/tests/data are copied or deleted; no scientific validity, equivalence, evidence admission, or future-need claim is made. |
