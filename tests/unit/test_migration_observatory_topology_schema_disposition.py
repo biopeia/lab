@@ -24,7 +24,7 @@ def test_historical_topology_schema_has_bounded_defer() -> None:
     assert "private cognitive-structure fields" in rationale
     assert "does not block the bounded Lab runtime migration" in rationale
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 14, "REWRITE": 3, "DROP": 950, "DEFER": 197}
+    assert counts == {"MOVE": 8, "SPLIT": 13, "REWRITE": 3, "DROP": 950, "DEFER": 198}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory topology schema (Lab #270)" in migration
-    assert "| `SPLIT` | 14 |" in migration and "| `DEFER` | 197 |" in migration
+    assert "| `SPLIT` | 13 |" in migration and "| `DEFER` | 198 |" in migration

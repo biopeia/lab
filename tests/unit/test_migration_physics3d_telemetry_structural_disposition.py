@@ -23,7 +23,7 @@ def test_structural_codec_is_deferred_for_identity_and_ast_contract() -> None:
     for evidence in (COMMIT, SHA256, "#309", "#310", "#311", "#312", "#314", "#315", "identity"):
         assert evidence in row["rationale_and_caveat"]
     assert Counter(r["disposition"] for r in rows) == {
-        "MOVE": 8, "SPLIT": 14, "REWRITE": 3, "DROP": 950, "DEFER": 197
+        "MOVE": 8, "SPLIT": 13, "REWRITE": 3, "DROP": 950, "DEFER": 198
     }
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert BLOB in migration and SHA256 in migration
