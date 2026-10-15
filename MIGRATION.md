@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 59 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 35 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 936 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 166 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 178 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -552,11 +552,53 @@ Keep this alias as `DEFER`, linked to Observation #38. The Lab #255 coordinator 
 | `lab/src/lab/world/cli_view.py` | DROP as TARGET implementation | No TARGET code destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; Git blob `0f0ed5fcb41253a05b37413de3f6cdd08f1297ab`, mode `100644`, 15,581 bytes. The module renders a read-only CLI view over historical `HexTopology`, `WorldState`, `WorldEnvironment`, `GroundTruth`, and private `population._rigs` state. These inputs and semantics are not Biopeia TARGET contracts, and no Lab TARGET consumer exists. Drop this implementation and its API rather than preserving a compatibility path. Any future visualization must be newly authored to consume passive Observation publications; this disposition does not claim that visualization is unnecessary. Historical source remains read-only. |
 
 
+### Historical Observatory replay schema (Lab #267)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/replay.schema.json` | DROP as TARGET schema artifact | No TARGET replay schema/compatibility contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d1f6f042b4ac49d70a8f4debf665ea4c68f72885`, mode `100644`, 479 bytes; SHA-256 `1e916b2f4fde95b4ac62e78d91537a5bad0617399e3674df540a9f609530aae5`. This schema defines a version-1 envelope of up to 10,000 legacy Observatory snapshots via local `$ref`. The legacy snapshot schema and publisher are separately inventoried/dispositioned; no TARGET replay schema, consumer, or compatibility contract is authorized. Drop this historical envelope format only; historical replay records/data are not dispositioned by implication, and future replay is not ruled out. No scientific validity/equivalence/evidence-admission claim is made; historical source remains read-only. |
+
+### Historical Observatory signal-knowledge schema (Lab #268)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/signal_knowledge.schema.json` | DEFER as an unapproved historical wire schema | No TARGET signal-knowledge schema/path authorized; Organism owns any internal semantic state, while Lab custody applies only to separately dispositioned evidence artifacts | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `fe960b2b38ef3655a5aff6867b81a46fbf380a9e`, mode `100644`, 4,079 bytes; SHA-256 `100195ff2df5d7feb4e86eead7482858b5a1b2a88956e28efaa825ca67fe2c9d`. This schema describes a historical Observatory array of bounded per-signal claim summaries, including identity, claim kind/status, evidence/validation counters, performance/loss classes, epochs and age classes; its shape does not establish claim truth or scientific validity. Biopeia Organism migration already defers signal identity/knowledge components until a perception-source contract defines identity, provenance and epistemic basis. Keep this whole wire schema deferred rather than infer `SPLIT` from its historical location or field names. Closure trigger: Organism owner records the signal identity/source/provenance/epistemic contract and the publication/privacy disposition in Organism #169; Organism #45 tracks incomplete cognitive-checkpoint scope if any state is persisted. Lab then reclassifies this row: DROP the legacy wire artifact absent an accepted contract, or open a separate issue for a fresh target-authored schema under its authorized owner. This row does not block the bounded Lab runtime migration because no TARGET consumer/package dependency is identified. Historical source remains read-only; no schema is copied, no scientific validity/equivalence/admission or future-need claim is made. |
+
+### Historical Observatory topology schema (Lab #270)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/topology.schema.json` | DEFER as unapproved historical cognition-topology schema | Organism owns private cognition; no TARGET topology projection/checkpoint schema authorized. Dependencies: Organism #169, Organism #45, Observation #38. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`, mode `100644`, 1,669 bytes; SHA-256 `4c735bd03d4a0f46306441a68ff4e0abcdbdbf86da50fdfd08d4005e56254441`. The structural-only schema serializes genome/kernel identity, topology revision, node kinds/bias/tau and typed edges while excluding weights, eligibility and readouts. Its fields still describe private cognitive structure; this does not establish a scientific interpretation. ADR-0095 assigns private cognition to Organism and bars semantic inspection except via an explicit owner contract. No Biopeia consumer or approved projection/persistence contract was identified. DEFER until the Organism owner decides whether any bounded projection may be published (Organism #169); if intended only for private persistence, resolve checkpoint completeness first (Organism #45). Observation #38 tracks the broader producer inventory. Closure trigger: owner-recorded identity, provenance, revision and privacy semantics. Lab then drops this historical wire schema absent an accepted contract or raises a separate target-authored schema issue. This does not block bounded Lab runtime migration (no TARGET consumer/package dependency). No schema copy or scientific validity/equivalence/admission/future-need claim; source remains read-only. |
+
+### Historical Observatory server (Lab #271)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/server.py` | DROP as TARGET implementation | No TARGET server/application implementation destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `4f656e71647dfa05a10eb9e017f573d1fc5506cf`, mode `100644`, 10,054 bytes; SHA-256 `34686bbad323801893321c95cdd00f3168db1c010bde2104ab996cc6c9865058`. Verified symbols `_valid_instance_id`, `_Handler`, `ObservatoryServer`, `main`. This loopback-only read-only HTTP/SSE server serves legacy Observatory files, static assets, historical fleet/instance streams, optional World state/events and a semantic-observation wire endpoint; it provides presentation/transport, not scientific evidence custody or semantic authority. Its pinned source tests exercise route/server implementation behavior only, not scientific validity. Current Biopeia Lab has no target Observatory/server/application consumer, and target Observation owns a passive semantic contract rather than this HTTP service. Drop this implementation as TARGET migration input only; any future Lab presentation/transport must be separately specified and newly authored against owner-authorized contracts. This does not rule out future UI/transport needs, dispose historical evidence, or claim scientific validity/equivalence/admission; source remains read-only. |
+
+### Historical Observatory cognition-state schema (Lab #265)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/cognition_state.schema.json` | DROP as TARGET schema artifact | No TARGET cognition-state schema path or authorized projection contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4a64ef2467617deb58e466602319c0cc5939cb71`, mode `100644`, 11,259 bytes; SHA-256 `cb100c4d360a7411b62bc7b2a1cd795598fe2e1ee19b9dc921a27081f3cab64f`. This schema describes legacy per-tick Observatory telemetry, including topology status, quantized cognitive readouts/errors, edge deltas, graph mutations, safety and predictor/structural metrics. It is a display/wire shape over Organism-owned cognitive state, not a target semantic contract or scientific result. Organism owns its cognitive state/checkpoint internals; Observation's inherited frame remains explicitly transitional, with no authorized target schema/path for this legacy projection. Drop this historical schema format only; do not infer that cognitive concepts or future observation needs are invalid or unnecessary. Historical source remains read-only; no scientific validity/equivalence/evidence-admission claim is made. |
+
+### Historical Observatory compatibility matrix (Lab #263)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/CONTRACT_MATRIX.md` | DROP as TARGET artifact | No TARGET compatibility-matrix path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `dfaed5b57aa8750b22665200e7badc063aef7179`, mode `100644`, 3,093 bytes; SHA-256 `95ae294d7e636c56ae869b834a67d9fb6904910caf415af3e02ec1a74e206c96`. This document summarizes version/field rules for the historical Observatory snapshot schemas, projection bounds, replay/UI limits, and social/resource/degradation projections. It is not itself a schema or executable consumer contract. No TARGET consumer or authorized Biopeia compatibility matrix/path establishes this legacy version policy. Drop the document as a TARGET artifact only; the independently inventoried schemas and any future Observation schema/version policy remain separate and undecided here. Historical source remains read-only; no scientific validity/equivalence or evidence-admission claim is made. |
+
+### Historical Observatory signal-knowledge schema alias (Lab #272)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/signal_knowledge.schema.json` | DROP as TARGET alias | No TARGET code/schema alias destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `012e142f6b6d3489adc6982ee01473e338b76477`, mode `120000`, 36 bytes. The blob content is exactly `schemas/signal_knowledge.schema.json` (target-text SHA-256 `ead3631c068819492a6a2e7f2fcfc980f6e84f3cbc89c9b52e33dc7d2553a741`), so this path has no independent schema semantics. Its destination is separately inventoried at `lab/src/lab/observatory/schemas/signal_knowledge.schema.json` (blob `fe960b2b38ef3655a5aff6867b81a46fbf380a9e`) and remains DEFER under Lab #268 pending the Organism owner signal identity/provenance/privacy decision (#169; checkpoint scope #45). Drop only this unsupported legacy alias; it does not resolve or alter the underlying schema disposition and does not authorize a TARGET schema. No Biopeia target consumer or alias destination is identified. Historical source remains read-only; no schema or data is copied/deleted and no scientific validity/equivalence/admission or future-need claim is made. |
+
 ### Historical Observatory topology schema alias
 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
-| `lab/src/lab/observatory/topology.schema.json` | DROP as TARGET alias | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `d83405ac5e7eac3565e2ff88caf159e2a59f1f62`, mode `120000`, 28 bytes. The symlink target is `schemas/topology.schema.json` (target-text SHA-256 `4154ccaeafb3dd3692cbc8bec8a6278962a9c1a44b4de3ca9f8e88fdbbcece73`). The underlying schema is separately inventoried as `lab/src/lab/observatory/schemas/topology.schema.json` (blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`) and is not dispositioned by this row. No Biopeia TARGET consumer/import was found. This drops only an unsupported legacy alias path; it does not drop the underlying schema or make scientific claims. Historical source remains read-only. |
+| `lab/src/lab/observatory/topology.schema.json` | DROP as TARGET alias | No TARGET code destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `d83405ac5e7eac3565e2ff88caf159e2a59f1f62`, mode `120000`, 28 bytes. The symlink target is `schemas/topology.schema.json` (target-text SHA-256 `4154ccaeafb3dd3692cbc8bec8a6278962a9c1a44b4de3ca9f8e88fdbbcece73`). The underlying schema is separately inventoried as `lab/src/lab/observatory/schemas/topology.schema.json` (blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`) and is `DEFER` under Lab #270; its owner/privacy decision is tracked there. No Biopeia TARGET consumer/import was found. This drops only an unsupported legacy alias path; it does not drop the underlying schema or make scientific claims. Historical source remains read-only. |
 
 ### Historical Observatory replay schema alias (Lab #261; sibling tracked by #267)
 
@@ -999,6 +1041,12 @@ The issue-recorded symbols are individually dispositioned as follows; each DROP 
 The inventory row preserves the pinned path/blob and records this decision. No runtime code, source test suite, scientific result, or compatibility layer is copied. This is a migration classification only, not scientific review or admission.
 
 
+### Historical Observatory body self-knowledge schema (Lab #264)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/body_schema.schema.json` | DROP as TARGET schema artifact | No TARGET schema path or compatibility contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4f393ed9161c3ba8e9672dc78edbb1bef9cd516d`, mode `100644`, 4,195 bytes; SHA-256 `d111d1bafaee791e9688f2a6a0e6aefb67a8775a09b1aec797f15b1cca498738`. This closed JSON Schema describes a historical Observatory projection of bounded body self-knowledge, including sensory/cognitive-region parts, confidence and state classes, dependencies, and global state. It is not an authoritative Embodiment physical-body schema. Current Embodiment BodyPose and Observation adapters describe distinct physical claims; no TARGET contract for this legacy self-model representation was identified. Drop this schema format only; do not infer that body self-knowledge or future target projections are unnecessary or invalid. No source is deleted and no scientific validity/equivalence/evidence-admission claim is made. Historical source remains read-only. |
+
 ### Historical Observatory snapshot schemas
 
 | Source path | Disposition | Target path | Provenance / limits |
@@ -1017,11 +1065,29 @@ The inventory row preserves the pinned path/blob and records this decision. No r
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/__init__.py` | DROP as TARGET code/test | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4e1fc67df6cac9182eac14d80d7c79420feb5709` (38 bytes). This file contains only the docstring `Observatory test suite package.`; it defines no test, implementation, API, or scientific result. Biopeia's own Lab tests live in its TARGET test tree and do not consume this historical source test namespace. Drop this package marker only; this neither reuses the source test suite nor disposes of any separate scientific evidence. Historical source remains preserved read-only. |
 
+### Historical Observatory schema validator (Lab #262)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schema_validate.py` | DROP as TARGET implementation | No TARGET schema-validation helper path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `762299aa594fc5209a0ca7b826340dc33f6f80b4` (mode `100644`, 8,048 bytes); verified symbols `_require;validate`. This custom helper validates the historical Observatory JSON schema subset and resolves local `$ref`; its module documentation expressly says it is a test helper, not runtime input sanitization. No Biopeia TARGET contract or consumer establishes this helper as an Observation or Lab responsibility or supplies a target path. Drop only this source implementation from TARGET migration. Its schemas are independently inventoried and not decided by this row; the historical validator tests are independently dispositioned under Lab #288. No source is deleted and no schema validity/equivalence, scientific validity, evidence-admission, or future-need claim is made. Historical source remains preserved read-only. |
+
 ### Historical Observatory schema-validation tests
 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_schema_validate.py` | DROP as TARGET test | No TARGET test destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d6754edd98b6e26315ee2f95d13d7e4038642bba` (mode `100644`, 3,912 bytes). `SchemaValidateConditionalTests` checks the historical Observatory JSON-schema helper's `if/then/else`, `allOf`, `anyOf` and `not` behavior; `SignalKnowledgeSchemaTests` checks required/identity/unexpected-field structure in the historical `signal_knowledge.schema.json`. The inspected Biopeia TARGET repositories establish no matching schema/test contract or destination. These are structural test assertions, not scientific evidence. Exclude this historical test file from TARGET tests while preserving its source and provenance read-only. This does not claim future schema validation, signal-knowledge representation or Observation publication is unnecessary or scientifically invalid. |
+
+### Historical Observatory adapter tests (Lab #274)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_adapter.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `b4a586f647bb22a6169863bbbe56312b4203ed5f`, mode `100644`, 22,130 bytes. Verified symbols `_minimal_genome_payload`, `AdapterTests`, `_test_generative_projection_fixture`, `test_projects_generative_cognition_as_separate_ephemeral_layer`. The suite imports the legacy Observatory adapter and checks historical snapshot fields, replay serialization, schema shapes, and synthetic bounded cognition/generative projection fixtures. Assertions on contamination counters concern constructed objects and implementation output; they are not observed biological outcomes or scientific evidence. No Biopeia TARGET consumer or authorized contract adopts these legacy test oracles, and the tested adapter/schemas are separately inventoried. Exclude this implementation-coupled source test from TARGET tests; retain historical source read-only. Future tests must target owner-approved contracts. This does not dispose of scientific assets/results or establish validity, equivalence, evidence admission, or future need. |
+
+### Historical Observatory adversarial hardening tests (Lab #275)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_adversarial_hardening.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `00262cc40b18a8de57910e192d799f0063b21a07`, mode `100644`, 4,748 bytes; verified symbols `ROOT`, `_next_sse_payload`, `ObservatoryAdversarialHardeningTests`. The tests exercise legacy schema validation, malformed registry records, heartbeat timestamp parsing, run rollover and the historical HTTP/SSE server using synthetic temporary records. These are implementation-coupled software/security assertions, not a target API contract or scientific evidence. No Biopeia target Observatory server/registry consumer adopts these behaviors. Exclude only this historical test from TARGET tests; preserve its source read-only. Any future security requirements must be specified and tested against their owning TARGET contract; this disposition does not say safeguards are unnecessary. No evidence/assets are dispositioned and no scientific validity/equivalence/admission claim is made. |
 
 ### Historical reproduction package facade
 
@@ -1389,13 +1455,25 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/manifest.py`, blob `e002f1a246b40317d9feea99083666b1e85fe143` (mode `100644`, 6,374 bytes; SHA-256 `0e26e07b05736f63e847865b66c82a8c251c8717920bffcf712b9f7f164105cc`). Verified symbols: `_file_sha256;_git_commit_sha;CaptureManifest;create_capture_manifest;write_capture_manifest;verify_capture_manifest`. It hashes checkpoint/topology files and records identity/run/sequence/tick/revision/config/timestamp/consistency metadata in an atomically written manifest. No authorized TARGET capture schema, field authority, custody/retention policy or path was identified. `DEFER` pending Lab owner decision on custody/admissibility/retention and competent Organism/World field authority; Observation must define any passive projection boundary. Linked but distinct unresolved custody work: Lab #242 and #256. Closure requires explicit owner-authorized `DROP` or a target-authored contract naming field authority, schema/version, consistency semantics, custody/retention and storage path. This is outside the bounded runtime-transfer profile; no artifact/source is copied or deleted and no scientific validity/equivalence/admission is inferred.
 
+### Historical Observatory manifest-test disposition (Lab #281)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_manifest.py`, blob `22763bb6941654000d1bc7cf0941a6f7c71d5736` (mode `100644`, 8,115 bytes); verified class `ManifestTests`. Three tests exercise legacy capture-manifest writing and detection of checkpoint/topology digest mismatches; one checks a legacy heartbeat record against the historical instance schema; one checks the legacy canonical-organism adapter's identity/config/checkpoint round-trip. The manifest checks remain unresolved under #257 because no authorized TARGET capture-manifest contract, field authority, custody/retention policy or path exists. The heartbeat/schema check remains unresolved under #260, Observation #38 and Lab #266 because no TARGET instance registry/heartbeat contract/path is authorized. The adapter round-trip test covers only the legacy composition adapter already dispositioned `DROP`, not a TARGET Organism contract, and is not an independent retained TARGET responsibility. The file therefore does not establish a concrete split among TARGET owners; bounded `DEFER` is more accurate while the manifest and registry contracts remain undecided. Lab is accountable for evidence custody/admissibility/retention, domain owners for their represented fields, and Observation for any passive projection boundary. Closure trigger: competent owners record explicit `DROP` for these unresolved responsibilities, or author TARGET contracts naming field authority, schema/version, privacy, custody/retention and paths; then reconcile this row and create separately scoped TARGET tests only where justified. This does not block the bounded runtime-transfer profile. No source/state is copied or deleted, and no scientific validity/equivalence/admission or checkpoint compatibility is inferred.
+
 ### Historical Observatory journal disposition (Lab #256)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/journal.py`, blob `bad69fb063b32a949ae50b765672b69f8f61dffa` (mode `100644`, 3,957 bytes); verified symbol `Journal`. It appends per-run snapshot envelopes to NDJSON, rotates segments, triggers the derived summary separately dispositioned `DROP` in Lab #254, and gzips closed segments while unlinking the uncompressed paths. `DEFER` pending the Lab owner's explicit decision whether this historical stream is evidence requiring custody/retention or an obsolete Observatory cache, and the Observation owner's boundary decision if semantic projection is proposed. No TARGET journal schema, retention policy, or authorized path exists in the evidence reviewed. Lab #242 is a related but distinct unresolved archive-custody question, not a substitute contract. Closure requires an explicit owner-authorized `DROP` or a target-authored custody/retention contract with schema/path. This defer is outside the bounded runtime-transfer profile; no source/data is copied or deleted and no scientific validity/equivalence/admission is asserted.
 
+### Historical Observatory journal-test disposition (Lab #280)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_journal.py`, blob `7cddecc56a0dc102c134cb305a61de124826789a` (mode `100644`, 4,562 bytes). Verified class: `JournalTests`. Seven tests characterize per-run sequence/envelope generation, rotation, automatic summary generation, compaction/segment preservation, gzip output, segment naming and the configured size target not deleting segments across runs. These tests concern a single historical Lab journal implementation; they do not split separate Observation and Lab TARGET responsibilities. The implementation remains `DEFER` under Lab #256 because no owner has decided whether the snapshot stream is evidence requiring custody/retention or an obsolete cache, and no TARGET journal schema, integrity/retention policy or authorized path exists. Lab is accountable for custody/admissibility/retention; Observation must decide whether any passive projection responsibility remains. Lab #242 concerns a different provenance journal and is not a substitute decision. This test row therefore remains bounded `DEFER` rather than asserting the legacy tests as TARGET requirements or dropping potentially material retention/custody safeguards. Closure trigger: owner-authorized explicit `DROP` or a target-authored custody/retention contract naming schema, integrity, retention and path, then reconcile this row. The defer does not block the bounded runtime-transfer profile. Historical source remains read-only; no source/data is copied or deleted and no scientific validity/equivalence/admission is asserted.
+
 ### Historical Observatory history-summary disposition (Lab #254)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/history_summary.py`, blob `6461b3fce7d0f9e3be0381d4e64177331a6af313` (mode `100644`, 2,557 bytes). The recorded symbols `_lines;build_history_summary;write_history_summary` were verified. It reads per-run NDJSON/gzip journal segments, hashes compressed file bytes, counts entries/schema versions/organism-state strings, computes an integer tick range, and writes a derived JSON summary. No current Lab consumer or approved TARGET summary contract/path was identified. Therefore this pinned implementation is `DROP` from migration input, not deletion/disposition of historical records and not a decision that Lab must never build a newly specified evidence index. Any future index requires explicit Lab custody/retention requirements and a target-authored contract. No scientific validity, equivalence, admission, or source deletion is inferred.
+
+### Historical Observatory history-summary test disposition (Lab #279)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_history_summary.py`, blob `172039a1ab472acd38fc82cbb6822175cf3bbff3` (mode `100644`, 1,217 bytes). Verified symbol: `test_summary_covers_raw_and_compacted_segments_without_replacing_them`. It characterizes the legacy `build_history_summary` helper by asserting a count, tick range, organism-state strings and the presence of raw NDJSON and gzip segment names after reading them. The helper is separately `DROP` under Lab #254 (blob `6461b3fce7d0f9e3be0381d4e64177331a6af313`), with no authorized TARGET consumer or summary contract; this source-only characterization test therefore has no justified TARGET test responsibility and is `DROP` as migration input. This does not dispose of historical journal records, delete or alter the pinned source, assert the derived fields as scientifically meaningful, or decide whether a newly specified Lab evidence index is needed. Any future implementation requires an owner-authored Lab custody/retention contract and separate TARGET tests. No scientific validity/equivalence/admission is inferred.
 
 ### Historical Observatory operational configuration (Lab #253)
 
@@ -1450,3 +1528,188 @@ Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`
 ### Historical Observatory instance registry disposition (Lab #260)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/registry.py`, blob `22fd3b107ae2141940802972d019af50863c6f8f` (mode `100644`, 4,255 bytes). Verified symbols: `derive_instance_id;new_run_id;_atomic_write_json;write_heartbeat;_aware_datetime;_valid_registry_record;read_registry;classify_liveness`. The module derives local instance identity from a resolved state-file path, generates run UUIDs, writes per-instance JSON heartbeat records with PID/display ID/organism ID/key fingerprint/topology revision, validates records and classifies heartbeat freshness. It does not itself hold study results or experimental evidence, but combines local process liveness, identity and domain-related identifiers. Observation contracts currently carry transitional `instance_id` projections but define no durable instance registry, heartbeat, or liveness service; Lab has no TARGET Observatory runtime consumer. Do not infer a TARGET owner from either the projection or Lab's separate scientific evidence custody. This is a bounded `DEFER`, pending linked Observation #38 decisions on operational archive/source identity and Lab #266 disposition of the adjacent instance schema. Competent Observation/Lab owners must decide whether any fields and operational semantics have a TARGET responsibility, name the owner/contract/path, or explicitly `DROP` this behavior. The #260 coordinator tracks re-evaluation. Closure trigger: record the owner-authorized responsibility/path or explicit `DROP`, then reconcile this row. This item does not block the bounded runtime-transfer profile. No code/state is copied or deleted; historical source remains read-only. No scientific validity, equivalence, evidence-admission, or future-need claim is made.
+
+
+### Historical Observatory body-schema adapter test (Lab #276)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_body_schema_adapter.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `66c27df821f6ee57d7ea5e51b175381c56a575ec`, mode `100644`, 6,494 bytes. Verified symbols: `result`, `sense_part`, `region_part`, `body_schema_v1`, `body_schema_v2`, `BodySchemaAdapterTests`. Every assertion exercises the legacy `project_tick` adapter and its projection of v1/v2 body self-knowledge into Observatory snapshot v3, including synthetic cognitive-region fixtures and fail-closed redaction of private fields. TARGET Observation/Lab contracts do not adopt this snapshot API; the underlying schema was separately classified in Lab #264 and its alias remains tracked by #251. Exclude this implementation-coupled test from TARGET tests only. It is not a target schema/API contract or scientific result; this does not imply future body self-knowledge observation or safeguards are unnecessary and makes no scientific validity, equivalence or evidence-admission claim. Historical source remains read-only. |
+
+
+### Historical Observatory contract test suite (Lab #277)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_contract.py` | DROP as TARGET tests | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `21d05a8ad1bd5fc0b9e341838e4d3caa55f602a7`, mode `100644`, 9,307 bytes. Verified symbols: `ROOT`, `_read_js_bundle`, `ObservatoryContractTests`, `ObserverProvenanceContractTests`, `SensoryWorldMapContractTests`. The assertions inspect legacy snapshot/body/cognition/topology/instance/replay JSON schemas, frontend module contents, historical resident CLI behavior, and optional sensory snapshot fields for replay compatibility. These are source-contract checks for the historical Observatory API/UI/CLI, not independent TARGET contracts or scientific evidence. Corresponding schema decisions remain separately classified, including unresolved DEFER entries; this DROP does not resolve or override them. No authorized TARGET destination adopts this snapshot, frontend, or CLI contract. Future requirements and tests must be target-authored against accepted owner contracts. Do not infer that boundedness, privacy, provenance, replay compatibility, sensory projection, or future safeguards are unnecessary. Historical source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made. |
+
+
+### Historical Observatory evidence-endpoint tests (Lab #278)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_evidence_endpoints.py` | DEFER (bounded) | No authorized TARGET endpoint/response contract | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `2029ddd95201008a1e16c237411b835fa0e11d31`, mode `100644`, 4,461 bytes; verified class `EvidenceEndpointTests`. The three tests exercise legacy HTTP projection of selected manifest provenance/digest fields while omitting private paths/config, history-summary selection via current registry run, and rejection of malformed instance IDs. No TARGET endpoint contract/service is authorized. Manifest custody/field authority remains DEFER under Lab #257; registry identity/current-run semantics remain DEFER under Lab #260 and Observation #38/Lab #266; journal/history custody remains DEFER under Lab #256. The historical summary generator is independently DROP under #254 and server implementation DROP under #271; those classifications do not settle whether any owner-authorized endpoint or evidence index is needed. Lab #278 coordinator tracks closure; Lab evidence-custody owner and competent Lab/Observation/domain owners must determine DROP or specify a new target-authored contract with field authority, source/run identity, privacy, schema, custody/retention, storage path and owner. Observation owner must separately resolve source/lake boundaries under #38. Closure trigger: record those decisions, then replace this bounded DEFER with explicit DROP or open a linked implementation/test Issue against accepted contract. This does not block bounded runtime transfer because no TARGET consumer/API dependency is identified. No source/tests/data are copied or deleted; no scientific validity, equivalence, evidence admission, or future-need claim is made. |
+
+
+### Historical Observatory server-test disposition (Lab #289)
+
+The pinned `lab/src/lab/observatory/tests/test_server.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`997a603fc37dbb931790928016390972e2fcf8de`, SHA-256
+`56cd25bd981f701c2d7b395eb139f9923fc9d40d9c153e79199b7676110e73b8`) records
+top-level `OUTSIDE_STATIC_ROOT` and class `ServerTests`. Seven test methods cover
+loopback-only binding/rejection, SSE fleet membership from registry heartbeat,
+static-path/extension rejection, per-instance journal replay, and reading a
+compacted journal segment. They characterize one historical HTTP/SSE server
+contract that combines server routes with registry and journal behavior; they
+do not establish scientific validity or split into independently authorized
+TARGET test paths.
+
+Disposition is bounded `DEFER`, not `SPLIT`: the server implementation is
+`DROP` under Lab #271, but this test file also exercises distinct stream/history
+responsibilities whose target ownership and contracts remain unresolved. Lab
+#278 keeps historical endpoint tests `DEFER`; journal custody/retention remains
+`DEFER` under #256 and registry/identity under #260/#266. Observation #38 keeps
+source/lake/delivery boundaries unresolved. Lab coordinates the migration and
+retains only separately governed scientific evidence custody; Observation and
+relevant state owners must authorize any outward projection/identity semantics.
+Closure trigger: competent owners explicitly `DROP` historical-only routes and
+assertions, or approve target-authored endpoint/stream contracts naming semantic
+owner, schema, identity, delivery/completeness, privacy, evidence
+custody/retention, concrete paths and native tests; then reconcile this row.
+This does not block bounded runtime transfer. No source, runtime, records or
+compatibility are copied/deleted; no scientific validity, equivalence, evidence
+admission or future-need claim is made.
+
+
+### Historical Observatory integration-test disposition (Lab #282)
+
+The pinned historical file `lab/src/lab/observatory/tests/test_observatory_integration.py`
+(at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`3581df581e56afc91f490d707975c01707b62ca9`) contains two integration tests
+for the legacy resident/instance registry: independent residents receive
+distinct `instance_id` and `run_id`; restarting the same state file preserves
+`instance_id` and starts a new `run_id`. This does not establish target registry
+semantics. The inventory row is **DEFER**, not `SPLIT`: no target-authored
+registry/restart contract or test path is authorized, and the behaviors are
+coupled in one historical composition test. Lab #260/#266 and Observation #38
+leave identity authority and the registry/projection/evidence-custody boundary
+unresolved. Lab remains accountable for custody; Observation and the competent
+Organism/World owners decide their respective field and projection contracts.
+Closure requires an explicit owner-authorized `DROP` or an approved target
+contract naming schema, authority and path, followed by row reconciliation.
+This is outside the bounded runtime-transfer causal-cycle profile. No source
+code is copied or removed, and no scientific validity, equivalence, identity
+compatibility or evidence admission is inferred.
+
+
+### Historical Observatory publisher-test disposition (Lab #283)
+
+The pinned `lab/src/lab/observatory/tests/test_publisher.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`dd8a8891c32669072d04cc367db21ebe8751208b`) has five tests for the historical
+publisher implementation: stdout JSON-line output, `JournalSink` delegation and
+summary finalization, whole-file replay export, and identical-envelope fan-out.
+The publisher itself is `DROP` under Lab #259, but the JournalSink assertions
+intersect possible evidence custody/retention, still `DEFER` under Lab #256.
+Observation #38 leaves archive, identity/delivery/completeness, retention and
+API decisions unresolved; Docs #173 is readiness documentation, not
+implementation authorization. The file does not split into authorized target
+test paths, so it remains bounded `DEFER`, not `SPLIT` or `DROP`. Lab is
+accountable for custody; Observation owns only any approved passive
+projection. Closure requires an explicit owner-authorized `DROP` for the
+journal responsibility or a target-authored publication/journal contract naming
+semantics, authority, custody/retention and path, after which target-native tests
+may be separately justified. No publisher, replay, persistence or scientific
+behavior is implemented or inferred from the historical assertions. This does
+not block the bounded runtime-transfer profile and makes no scientific validity,
+equivalence, replay-compatibility or evidence-admission claim.
+
+
+### Historical Observatory registry-test disposition (Lab #284)
+
+The pinned `lab/src/lab/observatory/tests/test_registry.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`11b7d3d51f701b0c8fa31ae28ab7042ab9809c0b`) contains five tests for the legacy
+registry: path-derived hashed instance IDs, fresh run IDs, atomic heartbeat
+write/read including topology revision, malformed-record skipping, and
+alive/stale/expired classification. These characterize the single historical
+registry contract and do not establish separately authorized Observation/Lab
+test paths. The implementation remains bounded `DEFER` under Lab #260, the
+instance schema under Lab #266, and Observation #38; current instance-ID
+projections do not authorize a durable registry, heartbeat or liveness service.
+The `Observation / Lab` hint is not an owner decision, nor does Lab's evidence
+custody responsibility authorize process identity semantics. Closure requires
+competent Observation/Lab and represented-field owners to decide explicit
+`DROP` or name the TARGET responsibility, contract/schema and path, then
+reconcile both implementation and test rows. Outside bounded runtime transfer;
+no source or state is copied/deleted and no scientific validity, identity
+equivalence, privacy sufficiency or evidence-admission claim is made.
+
+
+### Historical Observatory resident-contract test disposition (Lab #285)
+
+The pinned `lab/src/lab/observatory/tests/test_resident_contract.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`3b877574c1eddb5b3ac3a9d34ac8df2fd380c673`) launches the historical resident
+in three subprocess tests. They check the legacy snapshot schema/redaction,
+registry + first-tick topology + journal publication, and revision-zero
+topology on cognition-configured first launch. This couples the legacy resident,
+snapshot validator, registry/journal and startup projection; it does not split
+into authorized TARGET test paths. Registry and instance-schema concerns remain
+bounded `DEFER` under Lab #260/#266 and Observation #38; this issue authorizes
+no TARGET resident/snapshot publication contract or path. Organism retains
+authority over any future cognition/genome start-state contract; Lab over any
+separately approved execution/custody responsibility. Closure requires competent
+owners to decide explicit `DROP` for historical-only assertions or approve
+target-authored contracts naming semantics and test paths, then reconcile this
+row. Outside bounded runtime transfer; the tests are software characterization,
+not science. No source/runtime is copied/changed and no scientific validity,
+schema equivalence, newborn-cognition equivalence or evidence-admission claim
+is made.
+
+
+### Historical Observatory runtime-projection E2E test disposition (Lab #287)
+
+The pinned `lab/src/lab/observatory/tests/test_runtime_projection_e2e.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`30fb83886faf6ef06a59787643ca01376f634259`, SHA-256
+`e7c8ed732f708bfa0fd5dbfabc9815cda83e8192a185ee962f2245b1a6a75d59`) has eight
+test functions. They characterize one legacy Observatory v1-v3 composite
+snapshot interface: runtime tick projection/schema validation; social relation
+and resource fields; degradation counters; observer provenance exclusion from
+organism data; embodiment projection/redaction; and fail-closed schema-version
+fallback. This is not eight independent TARGET contracts. The historical
+adapter and snapshot schema are already `DROP` as TARGET artifacts; this test
+file therefore does not split into authorized TARGET test destinations.
+
+Disposition is bounded `DEFER`, not `SPLIT`: the assertions span owner-meaningful
+data, but no target-owned composite snapshot/test path or independently approved
+field contracts authorize migration of this coupled historical test. Observation
+#38 leaves the observational ingestion/provenance/retention design unresolved;
+Organism, Embodiment and other represented state owners must separately
+authorize any outward semantic projections. Lab remains accountable only for
+its distinct, governed scientific evidence custody. Closure requires those
+competent owners to record explicit `DROP` for historical-only assertions or
+approve target-authored contracts naming each semantic owner, schema/path,
+privacy/provenance limits and separately justified target-native tests; then
+reconcile this row. This does not block bounded runtime transfer. No code or
+data is copied/deleted, and no scientific validity, equivalence, causality,
+evidence admission or future-need claim is made.
+
+
+### Historical reversible-structure contract test disposition (Lab #286)
+
+The pinned `lab/src/lab/observatory/tests/test_reversible_structure_contract.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`d80f10280f219d428f5619d02f2776bb44b8fcbd`) has one assertion: the historical
+`cognition_state.schema.json` enum includes `remove_node`. It does not execute a
+mutation, establish runtime acceptance, or demonstrate learning/reversible
+plasticity. The schema alias and underlying contract remain `DEFER`, with Lab
+#265 tracking owner review. Organism owns cognitive graph/mutation semantics;
+Observation owns only any approved passive projection. No TARGET cognition-state
+schema/test path or owner-approved mutation contract is established. Closure
+requires competent owners to decide explicit `DROP` or approve a target-authored
+contract/path and justified native tests, then reconcile both rows. Outside
+bounded runtime transfer; historical source remains read-only and no scientific
+validity, mutation equivalence, learning or evidence-admission claim is made.

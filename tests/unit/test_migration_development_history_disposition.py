@@ -36,10 +36,10 @@ def test_historical_development_history_reader_is_dropped_only() -> None:
     assert "No scientific result" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 59, "REWRITE": 3, "DROP": 936, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "### Historical Development history read model disposition (Lab #235)" in migration
-    assert "`DROP` | 936 |" in migration
+    assert "`DROP` | 948 |" in migration
     assert "Frontend v0.1 explicitly excludes history/persistence" in migration
