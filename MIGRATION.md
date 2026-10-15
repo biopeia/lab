@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 65 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 64 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 933 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 934 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 163 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1371,6 +1371,11 @@ At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52
 
 The alias is `DEFER`, linked to #265, until the competent Organism/Observation owners disposition the underlying schema and its TARGET responsibility or explicitly DROP it. Closure trigger: record the schema owner/path or explicit DROP, then reconcile the alias. This bounded defer does not block runtime transfer. Source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
 
+
+
+### Historical Observatory history-summary disposition (Lab #254)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/history_summary.py`, blob `6461b3fce7d0f9e3be0381d4e64177331a6af313` (mode `100644`, 2,557 bytes). The recorded symbols `_lines;build_history_summary;write_history_summary` were verified. It reads per-run NDJSON/gzip journal segments, hashes compressed file bytes, counts entries/schema versions/organism-state strings, computes an integer tick range, and writes a derived JSON summary. No current Lab consumer or approved TARGET summary contract/path was identified. Therefore this pinned implementation is `DROP` from migration input, not deletion/disposition of historical records and not a decision that Lab must never build a newly specified evidence index. Any future index requires explicit Lab custody/retention requirements and a target-authored contract. No scientific validity, equivalence, admission, or source deletion is inferred.
 
 ### Historical Observatory operational configuration (Lab #253)
 
