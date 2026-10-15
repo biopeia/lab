@@ -1,6 +1,6 @@
 # Protocol proposal — action-linked evidence under a hidden common cause
 
-**Status: PROPOSED. Reviewed by the owner-designated Advisor and by an independent fresh-context reviewer; not accepted, not executed.**
+**Status: PROPOSED. Reviewed by the owner-designated Advisor. A fresh-context reviewer reviewed an earlier candidate (`abe1f93`); the subsequent changes at merged HEAD `948f35b0a05e73d038cb9b7c03d7bb920572e36d` were not re-reviewed. The final revision has no independent review; not accepted, not executed.**
 
 - Tracking issue: [biopeia/lab#59](https://github.com/biopeia/lab/issues/59), bounded child of [biopeia/lab#45](https://github.com/biopeia/lab/issues/45).
 - Work class: SCIENTIFIC (protocol design). Scientific acceptance authority: Lab owner (`alessbarb`).
