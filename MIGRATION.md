@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 35 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 34 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 178 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 179 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1713,3 +1713,28 @@ requires competent owners to decide explicit `DROP` or approve a target-authored
 contract/path and justified native tests, then reconcile both rows. Outside
 bounded runtime transfer; historical source remains read-only and no scientific
 validity, mutation equivalence, learning or evidence-admission claim is made.
+
+
+### Historical Observatory snapshot-version test disposition (Lab #290)
+
+The pinned `lab/src/lab/observatory/tests/test_snapshot_versions.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`04f44728649cce6ae9e245e189b95beaf8bf0d48`) has twelve test methods. They
+characterize the legacy Observatory v1-v3 wire-snapshot validator: body and
+cognition combinations, sensory phenotype, bounded population telemetry,
+observer-provenance placement, private-field redaction, and malformed field
+rejection. This is one coupled historical snapshot contract, not separate
+TARGET contracts and not scientific evidence.
+
+Disposition is bounded `DEFER`, not `SPLIT`: no target-owned composite wire
+snapshot or authorized target test path is established. The historical adapter
+and schema are separately `DROP` as TARGET artifacts; those drops do not settle
+whether separately authorized semantic projections or evidence custody are
+needed. Observation #38 remains unresolved; Organism and Embodiment own their
+represented state semantics, while Lab's custody role applies only if a
+distinct evidence responsibility is authorized. Closure requires competent
+owners to choose explicit `DROP` for historical-only assertions or define
+target-authored contracts naming field authority, schema, privacy/provenance
+boundary and test paths, then reconcile this row. It does not block bounded
+runtime transfer. No code/data is copied or deleted and no scientific validity,
+schema equivalence, privacy sufficiency or evidence-admission claim is made.
