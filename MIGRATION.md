@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 39 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 38 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 174 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 175 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1614,3 +1614,25 @@ competent Observation/Lab and represented-field owners to decide explicit
 reconcile both implementation and test rows. Outside bounded runtime transfer;
 no source or state is copied/deleted and no scientific validity, identity
 equivalence, privacy sufficiency or evidence-admission claim is made.
+
+
+### Historical Observatory resident-contract test disposition (Lab #285)
+
+The pinned `lab/src/lab/observatory/tests/test_resident_contract.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`3b877574c1eddb5b3ac3a9d34ac8df2fd380c673`) launches the historical resident
+in three subprocess tests. They check the legacy snapshot schema/redaction,
+registry + first-tick topology + journal publication, and revision-zero
+topology on cognition-configured first launch. This couples the legacy resident,
+snapshot validator, registry/journal and startup projection; it does not split
+into authorized TARGET test paths. Registry and instance-schema concerns remain
+bounded `DEFER` under Lab #260/#266 and Observation #38; this issue authorizes
+no TARGET resident/snapshot publication contract or path. Organism retains
+authority over any future cognition/genome start-state contract; Lab over any
+separately approved execution/custody responsibility. Closure requires competent
+owners to decide explicit `DROP` for historical-only assertions or approve
+target-authored contracts naming semantics and test paths, then reconcile this
+row. Outside bounded runtime transfer; the tests are software characterization,
+not science. No source/runtime is copied/changed and no scientific validity,
+schema equivalence, newborn-cognition equivalence or evidence-admission claim
+is made.
