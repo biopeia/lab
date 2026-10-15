@@ -62,15 +62,16 @@ def test_historical_telemetry_facade_is_dropped_without_disposing_siblings() -> 
             "lab/src/lab/physics3d/telemetry/async_worker.py",
             "lab/src/lab/physics3d/telemetry/binary.py",
             "lab/src/lab/physics3d/telemetry/cli.py",
+            "lab/src/lab/physics3d/telemetry/compaction.py",
         }
     )
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 21, "REWRITE": 3, "DROP": 950, "DEFER": 190}
+    assert counts == {"MOVE": 8, "SPLIT": 20, "REWRITE": 3, "DROP": 950, "DEFER": 191}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert TARGET_MAIN in migration
-    assert "`SPLIT` | 21 |" in migration
+    assert "`SPLIT` | 20 |" in migration
     assert "`DROP` | 950 |" in migration
     assert "### Historical Physics3D telemetry package facade" in migration

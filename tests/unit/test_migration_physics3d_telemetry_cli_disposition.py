@@ -30,7 +30,7 @@ def test_physics3d_telemetry_cli_disposition_is_documented_and_counted() -> None
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Physics3D telemetry CLI disposition (Lab #307)" in migration
     assert "No CLI or gate was run" in migration
-    assert "| `SPLIT` | 21 |" in migration
-    assert "| `DEFER` | 190 |" in migration
+    assert "| `SPLIT` | 20 |" in migration
+    assert "| `DEFER` | 191 |" in migration
     assert "| `DROP` | 950 |" in migration
 

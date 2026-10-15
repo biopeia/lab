@@ -35,10 +35,10 @@ def test_historical_kernel_protocol_data_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/kernel_characterization/protocols.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 21, "REWRITE": 3, "DROP": 950, "DEFER": 190}
+    assert counts == {"MOVE": 8, "SPLIT": 20, "REWRITE": 3, "DROP": 950, "DEFER": 191}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 21 |" in migration
+    assert "`SPLIT` | 20 |" in migration
     assert "`DROP` | 950 |" in migration
     assert "### Historical kernel-characterization protocol data (Lab #212)" in migration
