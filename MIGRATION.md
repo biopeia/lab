@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 29 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 28 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 183 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 184 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1842,3 +1842,27 @@ because it is historical, and this bounded ledger defer does not block the
 separately defined runtime-transfer profile. No code/state is copied/deleted;
 no scientific validity, equivalence, autonomy or evidence-admission claim is
 made.
+
+### Historical Physics3D snapshot-equivalence disposition (Lab #298)
+
+The pinned `lab/src/lab/physics3d/equivalence.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`db6a9b34ada3f706d28e40b921ea2a418fc84c52`, mode `100644`, 13,944 bytes)
+replays copied snapshots through the legacy engine and hashes per-tick payloads,
+traces, provenance, body and model state, reporting divergence or equality for
+the exercised snapshot/configuration. Its source documentation limits a PASS
+to those exercised conditions; it is not proof of general equivalence or
+scientific validity.
+
+Disposition is bounded `DEFER`, not `SPLIT`: hashing several dimensions does
+not establish separate target responsibilities. No TARGET run/equivalence
+contract, snapshot schema, comparison dimensions/protocol, owner semantics,
+evidence-vs-diagnostic decision, custodian/retention/admissibility policy or
+consumer/path is authorized. This depends on engine #297 and its unresolved
+World causal / Embodiment physical-state contracts; Lab must define evidence
+status and custody. Closure requires target engine/snapshot contracts, scope
+and comparison protocol, evidence policy/path, or explicit owner-authorized
+`DROP`, then reconciliation of associated tests/results. This does not block
+the bounded runtime-transfer profile. No snapshot is executed, source/output
+is not copied/deleted, and no equivalence, determinism, validity or evidence
+admission claim is made.

@@ -21,5 +21,5 @@ def test_historical_body_schema_has_bounded_drop_disposition() -> None:
     assert COMMIT in row["rationale_and_caveat"]
     assert "not an authoritative Embodiment physical-body schema" in row["rationale_and_caveat"]
     counts = Counter(r["disposition"] for r in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 29, "REWRITE": 3, "DROP": 949, "DEFER": 183}
+    assert counts == {"MOVE": 8, "SPLIT": 28, "REWRITE": 3, "DROP": 949, "DEFER": 184}
     assert "### Historical Observatory body self-knowledge schema (Lab #264)" in (ROOT / "MIGRATION.md").read_text()
