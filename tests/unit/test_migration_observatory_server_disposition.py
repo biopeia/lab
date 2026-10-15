@@ -33,8 +33,8 @@ def test_historical_observatory_server_is_dropped_as_target() -> None:
     assert "claim scientific validity/equivalence/admission" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 22, "REWRITE": 3, "DROP": 949, "DEFER": 190}
+    assert counts == {"MOVE": 8, "SPLIT": 21, "REWRITE": 3, "DROP": 950, "DEFER": 190}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory server (Lab #271)" in migration
     assert BLOB in migration and "34686bbad323801893321c95cdd00f3168db1c010bde2104ab996cc6c9865058" in migration
-    assert "| `SPLIT` | 22 |" in migration and "| `DROP` | 949 |" in migration
+    assert "| `SPLIT` | 21 |" in migration and "| `DROP` | 950 |" in migration

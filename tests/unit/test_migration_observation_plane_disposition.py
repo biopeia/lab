@@ -38,10 +38,10 @@ def test_observation_plane_responsibility_moves_to_concrete_observation_owner() 
     assert (ROOT / "src/lab/observation_consumer.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 22, "REWRITE": 3, "DROP": 949, "DEFER": 190}
+    assert counts == {"MOVE": 8, "SPLIT": 21, "REWRITE": 3, "DROP": 950, "DEFER": 190}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical Observation plane disposition (Lab #240)" in migration
     assert "`MOVE` | 8 |" in migration
-    assert "`SPLIT` | 22 |" in migration
+    assert "`SPLIT` | 21 |" in migration

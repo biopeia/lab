@@ -25,7 +25,7 @@ def test_observer_semantics_remains_bounded_defer() -> None:
     for evidence in (SOURCE_COMMIT, "ground truth for evaluation only", "never enter organism discovery", "evidence-custody policy", "No source/labels are copied/deleted"):
         assert evidence in rationale
     counts = Counter(entry["disposition"] for entry in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 22, "REWRITE": 3, "DROP": 949, "DEFER": 190}
+    assert counts == {"MOVE": 8, "SPLIT": 21, "REWRITE": 3, "DROP": 950, "DEFER": 190}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Physics3D observer-semantics disposition (Lab #300)" in migration
     assert SOURCE_BLOB in migration

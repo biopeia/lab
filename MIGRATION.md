@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 22 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 21 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 190 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -2092,3 +2092,24 @@ consumer contract with a concrete path, or an owner-authorized `DROP` plus
 evidence disposition. This does not block bounded runtime transfer. No codec or
 stream was executed/copied, and no compatibility, integrity, durability,
 evidence admissibility, scientific validity or equivalence is claimed.
+
+
+### Historical Physics3D telemetry CLI disposition (Lab #307)
+
+The pinned `lab/src/lab/physics3d/telemetry/cli.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`7fdeaa4b535902afabe13160d52cb2964ddfdf3c`, mode `100644`, 1,602 bytes)
+contains only `benchmark_main`. The argparse wrapper selects historical telemetry
+benchmarking or run comparison, optionally evaluates a v4.1 gate, and prints JSON.
+It defines no independent domain behavior or target contract.
+
+Disposition is `DROP` as TARGET CLI code: no target command/consumer, telemetry
+reader/benchmark path, or accepted CLI contract was identified. This disposition
+excludes only the source command wrapper from TARGET migration; it does not delete
+the pinned source, dispose of recorded telemetry/results, or resolve underlying
+benchmark/gate behavior. Those belong to separate tool and v4.1 inventory rows
+([Lab #314](https://github.com/biopeia/lab/issues/314), [#315]
+(https://github.com/biopeia/lab/issues/315)) and require the appropriate Lab
+evidence-custody/claim review. No CLI or gate was run, no code/evidence was
+copied/deleted, and no acceptance, scientific validity, admissibility or
+equivalence claim is made.
