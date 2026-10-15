@@ -37,10 +37,10 @@ def test_historical_observatory_contract_tests_are_dropped_as_target_code() -> N
     assert not (ROOT / "src/lab/observatory/tests/test_contract.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 44, "REWRITE": 3, "DROP": 948, "DEFER": 169}
+    assert counts == {"MOVE": 8, "SPLIT": 43, "REWRITE": 3, "DROP": 948, "DEFER": 170}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 44 |" in migration
+    assert "`SPLIT` | 43 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "### Historical Observatory contract test suite (Lab #277)" in migration
