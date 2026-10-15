@@ -4,7 +4,7 @@
 **Lifecycle:** Proposed — not ratified  
 **Related issue:** [Lab #330](https://github.com/biopeia/lab/issues/330)  
 **Implementation authorization:** Not granted  
-**Evidence baseline:** `biopeia/lab@4f37ce9f7f141be3e955f6f286487a358c9b8222`; cross-domain source pins listed in §9
+**Evidence baseline:** current-main snapshot verified 2026-10-16; exact revisions listed in §9. Historical operation details are identified as historical, not current capability.
 
 ## 1. Purpose and limits
 
@@ -34,7 +34,7 @@ Run, study, protocol, logical-intervention, per-action, World-transition, and au
 | Participant | Responsibility in a future authorized operation | Must not assume |
 |---|---|---|
 | Lab | Define the scientific request/protocol context, submit an explicitly scoped request through an approved path, and preserve Lab-owned provenance/evidence. | Authority over target-domain state, target acceptance, authentication, or World commit. |
-| Target domain | Validate the request against its own identity, state, revisions, capability, and domain contract; construct and explicitly accept/reject its own state candidate; publish/adopt its authoritative state through its approved owner boundary. | That caller declarations establish identity, permission, scientific validity, or a committed transition. |
+| Target domain | Validate the request against its own identity, state, revisions, capability, and domain contract; construct and explicitly accept/reject its own state candidate; make authoritative state visible only under the applicable owner/World commit contract. | That caller declarations establish identity, permission, scientific validity, or a committed transition. |
 | World | Coordinate required causal participants and ordering; validate the applicable participant/checkpoint references; commit or reject the shared causal transition and coordinate recovery. | Semantic ownership of Lab, Environment, Embodiment, or Organism state; arbitrary execution of a request; deep-copy/adoption of another owner's truth. |
 | Observation | Passively project or deliver authorized publications according to its approved contracts. | Dispatch, validate, authorize, or execute an intervention. |
 | Frontend | Out of scope for this request contract. | Operational or causal authority. |
@@ -52,23 +52,23 @@ an approved security/operational boundary authenticates and authorizes, if requi
     ↓
 the target authority independently validates applicability and current owner state
     ↓
-the target authority accepts or rejects its candidate transition
+the target authority accepts or rejects a candidate transition (preparation alone is not authoritative state)
     ↓
-World coordinates required participants and the causal transaction
+World and participating owners apply the operation-specific commit/recovery contract;
+owner adoption and the committed cut must not be represented as separate
+successful outcomes unless that contract explicitly defines their relationship
     ↓
-owners publish/adopt only their own accepted state and recoverable references
-    ↓
-World commits one coherent causal cut, or no new committed cut results
+one coherent committed causal cut is recorded, or no successful new cut results
     ↓
 Lab records outcome/provenance; Observation may passively project committed publications
 ```
 
-No step may be inferred from a prior step. A request being well-formed is not authorization; authorization is not target acceptance; acceptance is not owner adoption; and candidate creation is not World commit.
+No step may be inferred from a prior step. A request being well-formed is not authorization; authorization is not target acceptance; acceptance is not owner adoption; and candidate creation is not World commit. This proposal does not assert a universal order or atomicity model for owner adoption and World commit. Before any operation is executable, its owners must specify whether adoption is staged, transactionally coupled to commit, or recoverable, and what exact record distinguishes committed from uncommitted owner state. Until then, candidate artifacts are non-authoritative and the design makes no claim that an owner mutation before the World record is durable or accepted.
 
 ### Rejection and interruption
 
 - **Rejected before causal preparation:** the target owner records or returns rejection according to its approved contract; there is no committed causal transition.
-- **Rejected during owner validation/adoption:** the owner does not adopt the candidate. World must not publish a successful next cut for that candidate.
+- **Rejected during owner validation/adoption:** the owner rejects or discards the candidate under its approved operation contract. World must not publish a successful next cut for that candidate; any prepared state not bound to a committed cut remains non-authoritative.
 - **Interrupted after preparation begins:** the applicable World recovery contract determines the last authoritative committed cut and whether recovery is required. Temporary candidate artifacts are not committed history.
 - **Committed:** the causal result is established by World’s committed record plus the required owner references/adoptions, not by a Lab-side success flag.
 
@@ -88,7 +88,7 @@ The following are source observations at the evidence pins in §9, not an approv
 
 | Existing path | What is present | What it does not establish |
 |---|---|---|
-| `Lab.InterventionRequest` and `apply_material_transfer` | One specific scalar material-transfer operation. The request explicitly treats operator identity as caller-declared, not authentication. It uses Environment/Embodiment state and World durable runtime/checkpoint references; `intervention_id`, `intervention_action_id`, `transition_id`, and optional `run_id` are kept distinct. In the inspected implementation, Lab clones owner checkpoints, computes candidates, calls Embodiment's `absorb_material_transfer`, and supplies checkpoint writers to `World.tick`. | General Lab-to-domain dispatch, an authentication/authorization contract, or a universal owner-validation interface. The code path does not demonstrate an independently invoked target-owner acceptance/adoption service; the precise domain-owner adoption boundary requires review before generalization. |
+| `Lab.InterventionRequest` and `apply_material_transfer` | **Current status at the §9 Lab revision:** the operation fails closed with `MaterialTransferAuthorizationUnsupported` before inspecting owner state, writing checkpoints, or entering World; no verified authorization source is configured. At the historical pre-#344 implementation inspected for this proposal, one specific scalar transfer kept `intervention_id`, `intervention_action_id`, `transition_id`, and optional `run_id` distinct and called owner/World checkpoint paths. That historical path treated operator identity as caller-declared, not authentication. | Current executable material transfer, general Lab-to-domain dispatch, an authentication/authorization contract, or a universal owner-validation interface. The historical path is not a supported executable template; the precise domain-owner adoption boundary remains operation-specific and unresolved. |
 | `ExperimentIntent` in Lab PR #329 at reviewed HEAD `97960bc5d643cedcfd6f18c7d55079b8be74487f` | A descriptive, non-executing intent prototype; independent review bounded its identifiers and requester field as caller-declared values. | Authentication, authorization, target-owner acceptance, dispatch, durable provenance, or experiment execution. |
 | World durable causal runtime | Coordinates causal cuts, participant/checkpoint references, commit, and recovery under World contracts. | Target-domain semantic ownership or automatic permission to execute a Lab request. |
 | Observation in-process publication | Passive bounded publication/projection surfaces and post-commit integration evidence exist. | Durable searchable history, browser access, a command path, or authorization. |
@@ -122,15 +122,17 @@ Review outcomes and any disagreement must be preserved. A green test suite alone
 
 ## 9. Evidence baseline
 
+The following exact `main` revisions were read for this refresh on 2026-10-16. They are independent current-source snapshots, not a compatible-release set or lockfile.
+
 | Repository | Revision inspected |
 |---|---|
-| Lab | `4f37ce9f7f141be3e955f6f286487a358c9b8222` |
-| Observation | `1456df093e4ac28032d956e4df30957f0bf87cec` |
-| World | `940c674d077860c44f07050cb79750e517d0099e` |
-| Environment | `d1dc309636fc66471e755d1f691826ebf8c552fe` |
-| Embodiment | `56e9a34a6a778a298493dabca9d15b0912066803` |
-| Modality | `93a4c3a4ea71dcf65269ce730aab736238fd3ea7` |
-| Organism | `0ddadac6d51ab39aeee909cb423a911b069b11dc` |
+| Lab | `95e298633eb1af5d28c29fba5993526975537d9d` |
+| Observation | `2c506900aa5ad0864eef7f0ce0ed70d7e8e4ea07` |
+| World | `2432ea86cb2959b114c9cda0345ff66438f81f1a` |
+| Environment | `4eb1f8c3393a7cdbabcfaf35b8630aaf57de20c1` |
+| Embodiment | `5019b94fc79ae5672eeee09ba308e382860af931` |
+| Modality | `62af4aba07146d5dfdc978af07bb72111112d873` |
+| Organism | `01c788b5844c7dc05b05160392fa9d860eb6fdd3` |
 
 The cross-domain pins are an inspection baseline, not a compatible-release set or an implementation lockfile. Revalidate them before any later implementation.
 
