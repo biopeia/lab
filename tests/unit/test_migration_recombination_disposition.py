@@ -37,17 +37,17 @@ def test_historical_recombination_implementation_is_dropped_not_migrated() -> No
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 8,
-        "SPLIT": 48,
+        "SPLIT": 47,
         "REWRITE": 3,
-        "DROP": 945,
+        "DROP": 946,
         "DEFER": 168,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_COMMIT in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 48 |" in migration
-    assert "`DROP` | 945 |" in migration
+    assert "`SPLIT` | 47 |" in migration
+    assert "`DROP` | 946 |" in migration
     assert "This file performs one Organism-related genome operation" in migration
     assert "historical scientific validity" in migration
     assert not (ROOT / "src/lab/evolution/recombination.py").exists()
