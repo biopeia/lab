@@ -402,6 +402,12 @@ manifest disposition counts are:
 | `DROP` | 922 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
+### Historical Lab ObservationBus disposition (Lab #231)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/bus.py` | SPLIT: retain semantic plane/passive-consumer responsibilities; DROP the historical event bus and legacy presentation schemas | Observation `repos/observation/src/observation/plane.py::ObservationPlane` owns bounded semantic current state, live fan-out, replay and rebase; `repos/observation/src/observation/http_bridge.py` exposes a limited local read-only current snapshot; Lab `repos/lab/src/lab/observation_consumer.py::associate_stream_messages` passively associates plane stream messages with committed-cut context | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `f270ded3e9963456eea3d18c94ba0b1d2bfb3e81` (15,539 bytes). The historical `ObservationBus` also materializes string-keyed legacy events and world scenes, compresses event deltas, manages run boundaries and serialized transport replay, and tracks client transport counters. The current target plane operates on semantic claims, not these legacy JSON event/schema contracts; the HTTP bridge is a narrow snapshot, not the old SSE bus. No source implementation, compatibility bus or UI schema is approved for transfer. No evidence-custody, scientific-validity or equivalence claim is made. |
+
 ### Historical Body Pose observation adapter disposition (Lab #230)
 
 | Source path | Disposition | Current target responsibility references | Provenance / limits |
