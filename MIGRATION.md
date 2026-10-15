@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 98 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 97 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 906 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 907 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -567,6 +567,26 @@ or disposition the historical source, protocol/results, or associated evidence;
 they remain preserved under their separate governance and custody paths. It is
 not a scientific-validity, result-admission, method-equivalence, or future-need
 claim. No experiment was run and no protocol was changed.
+
+
+### Historical kernel-characterization study runner (Lab #213)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/kernel_characterization/runner.py` is blob
+`ee911bbf77e8620281cd140a439ecef760afc5ff` (37,213 bytes). It orchestrates
+historical K1-A/K1-B and K2-K12 characterization runs, invoking historical
+cognition, structural-plasticity, consolidation, and weight-stability paths,
+and emits manifests and run outputs. Its recorded function inventory matches
+the pinned source. Biopeia Lab has no corresponding TARGET runner or tracked
+consumer; the pinned callers are source-coupled tests and direct study-runner
+entry points. This is a composite historical study runner, not an independent
+Organism runtime implementation; its current TARGET owner/path is not established.
+
+**Disposition: DROP this historical runner as TARGET code.** This excludes the
+legacy implementation only; it does not dispose of its protocols, study outputs,
+source, or evidence, which remain preserved and separately governed. This is not
+a scientific-validity, result-admission, method-equivalence, or future-need
+claim. No study or experiment was run.
 
 ### Historical modeling package facade
 
