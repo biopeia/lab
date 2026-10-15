@@ -48,15 +48,18 @@ def test_physics3d_apparatus_symbols_have_explicit_owner_or_drop_dispositions() 
     row = read_inventory()["lab/src/lab/integration/physics3d/apparatus.py"]
     status = row["target_path_or_status"]
     symbols = set(row["top_level_python_symbols"].split(";"))
-
-    dropped = {
-        "_running_version",
-        "physics3d_sensory_system",
-        "OpaqueBodyInteroception",
-        "PhysicsDiscoveryProvider",
-        "PhysicsReadingProvider",
-        "actuator_to_effector_map",
-        "body_schema_summary",
+    source = "lab/src/lab/integration/physics3d/apparatus.py::"
+    explicit = {
+        "_running_version": f"DROP: {source}_running_version;",
+        "physics3d_sensory_system": f"DROP: {source}physics3d_sensory_system;",
+        "physics3d_cognition": f"DROP historical Lab wrapper: {source}physics3d_cognition;",
+        "physics3d_actuator_surface": f"DROP historical Lab wrapper: {source}physics3d_actuator_surface;",
+        "OpaqueBodyInteroception": f"DROP: {source}OpaqueBodyInteroception;",
+        "PhysicsDiscoveryProvider": f"DROP: {source}PhysicsDiscoveryProvider and",
+        "PhysicsReadingProvider": f"`PhysicsReadingProvider`; no TARGET Lab adapter path.",
+        "actuator_to_effector_map": f"DROP: {source}actuator_to_effector_map;",
+        "actuator_exclusion_groups": f"DROP historical Lab projection: {source}actuator_exclusion_groups;",
+        "body_schema_summary": f"DROP: {source}body_schema_summary;",
     }
     references = {
         "physics3d_cognition": "src/organism/cognition/birth.py::load_base_cognition",
@@ -69,18 +72,23 @@ def test_physics3d_apparatus_symbols_have_explicit_owner_or_drop_dispositions() 
 
     assert row["source_blob_at_pinned_commit"] == APPARATUS_BLOB
     assert row["disposition"] == "SPLIT"
-    assert dropped | set(references) == symbols
-    for symbol in dropped:
-        assert symbol in status
-    assert "no TARGET Lab adapter path" in status
+    assert set(explicit) == symbols
+    for symbol, marker in explicit.items():
+        assert status.count(marker) == 1, f"missing or duplicate disposition for {symbol}"
     for symbol, target in references.items():
-        assert symbol in status
-        assert target in status
+        assert status.count(target) == 1
+        assert "independent" in status
+    assert "no TARGET Lab adapter path" in status
+    assert "not migrated" in status
+
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
+    rationale = row["rationale_and_caveat"]
     assert "Historical Physics3D apparatus wrapper dispositions" in migration
     assert "not migrated implementations or semantic equivalence" in migration
     assert SOURCE_COMMIT in migration
     assert APPARATUS_BLOB in migration
+    assert "Other source symbols in this mixed file are not disposed" not in rationale
+    assert "Exact symbol-level dispositions for every source symbol" in rationale
 
 
 def test_historical_interoception_assertions_are_dropped_without_target_tests() -> None:
