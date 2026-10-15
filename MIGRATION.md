@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 45 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 44 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 947 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 169 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1462,6 +1462,10 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 ### Historical Observatory history-summary disposition (Lab #254)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/history_summary.py`, blob `6461b3fce7d0f9e3be0381d4e64177331a6af313` (mode `100644`, 2,557 bytes). The recorded symbols `_lines;build_history_summary;write_history_summary` were verified. It reads per-run NDJSON/gzip journal segments, hashes compressed file bytes, counts entries/schema versions/organism-state strings, computes an integer tick range, and writes a derived JSON summary. No current Lab consumer or approved TARGET summary contract/path was identified. Therefore this pinned implementation is `DROP` from migration input, not deletion/disposition of historical records and not a decision that Lab must never build a newly specified evidence index. Any future index requires explicit Lab custody/retention requirements and a target-authored contract. No scientific validity, equivalence, admission, or source deletion is inferred.
+
+### Historical Observatory history-summary test disposition (Lab #279)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_history_summary.py`, blob `172039a1ab472acd38fc82cbb6822175cf3bbff3` (mode `100644`, 1,217 bytes). Verified symbol: `test_summary_covers_raw_and_compacted_segments_without_replacing_them`. It characterizes the legacy `build_history_summary` helper by asserting a count, tick range, organism-state strings and the presence of raw NDJSON and gzip segment names after reading them. The helper is separately `DROP` under Lab #254 (blob `6461b3fce7d0f9e3be0381d4e64177331a6af313`), with no authorized TARGET consumer or summary contract; this source-only characterization test therefore has no justified TARGET test responsibility and is `DROP` as migration input. This does not dispose of historical journal records, delete or alter the pinned source, assert the derived fields as scientifically meaningful, or decide whether a newly specified Lab evidence index is needed. Any future implementation requires an owner-authored Lab custody/retention contract and separate TARGET tests. No scientific validity/equivalence/admission is inferred.
 
 ### Historical Observatory operational configuration (Lab #253)
 
