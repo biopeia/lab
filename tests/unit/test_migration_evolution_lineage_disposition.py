@@ -36,14 +36,14 @@ def test_historical_evolution_lineage_is_dropped_without_target_or_science_claim
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 104,
+        "SPLIT": 102,
         "REWRITE": 2,
-        "DROP": 900,
+        "DROP": 902,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 104 |" in migration
-    assert "`DROP` | 900 |" in migration
+    assert "`SPLIT` | 102 |" in migration
+    assert "`DROP` | 902 |" in migration
     assert "Historical evolution lineage implementation" in migration

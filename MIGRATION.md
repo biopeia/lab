@@ -397,10 +397,36 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 104 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 102 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 900 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 902 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical habitat population and lineage authority disposition (Lab #317)
+
+At source baseline `80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/reproduction/authority.py` is blob
+`090a4ea9da61f6e36ddf504b931ed1609a73e388` (8,155 bytes; path commit
+`2caa8efa8a40a34e3b53045ca19416a3f6659126`). Its `BirthRecord`, `DeathRecord`,
+and `HabitatBirthAuthority` implement one in-memory historical aggregate for
+habitat capacity admission, identity allocation, live/dead membership, parent
+and generation lineage, legacy Body-death observation, and checkpoint state.
+
+| Responsibility | Current TARGET evidence | Disposition |
+| --- | --- | --- |
+| Identity and offspring lineage | Organism `src/organism/identity.py` accepts a caller-supplied UUID; it has no offspring identity or lineage operation. Organism #49 remains open on reproduction/inheritance contracts. | No equivalent authority or destination identified. |
+| Habitat population capacity and membership | World `src/world/durable_runtime.py` records explicit active-presence and causal-owner transitions with trigger provenance. It does not own biological population capacity or parentage. **World presence lifecycle is not a biological birth/death authority.** | Do not reassign this responsibility to World by name or analogy. |
+| Birth/death records and checkpointed authority state | No matching Environment contract or TARGET Lab reproduction package/consumer was found in the reviewed target revisions. | No component of this historical authority API or its source-coupled tests is retained as TARGET code. |
+
+**Disposition: DROP as TARGET code.** This is a bounded migration decision, not
+a claim that reproduction, lineage, habitat capacity, or birth/death
+coordination is unnecessary, impossible, scientifically invalid, or
+permanently prohibited. Any future capability requires newly specified,
+owner-approved TARGET contracts. Historical implementation and tests remain
+read-only evidence of historical software behavior, not proof of scientific
+validity or TARGET equivalence. The separate Lab #318 runtime disposition and
+Organism #49 remain independent records; this decision does not close either
+question. Historical study/protocol/results continue under Lab #45 governance.
 
 ### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)
 
@@ -555,6 +581,7 @@ The issue-recorded symbols are individually dispositioned as follows; each DROP 
 
 The inventory row preserves the pinned path/blob and records this decision. No runtime code, source test suite, scientific result, or compatibility layer is copied. This is a migration classification only, not scientific review or admission.
 
+
 ### Historical Observatory snapshot schemas
 
 | Source path | Disposition | Target path | Provenance / limits |
@@ -583,11 +610,67 @@ The inventory row preserves the pinned path/blob and records this decision. No r
 
 | `lab/src/lab/reproduction/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `302e1d96cd93da7dc7baaf3ff63c387bd9015d76` (313 bytes). The file only re-exports `BirthRecord`, `DeathRecord`, `HabitatBirthAuthority`, and `materialize_clonal_bud` from separately inventoried `authority.py` and `runtime.py`; it has no independent behavior. Drop this package facade only. The sibling modules remain independent inventory items and are not dispositioned here. No historical package import path is retained for compatibility. This does not make a claim about scientific validity, future reproductive capability, method equivalence or evidence admission; the historical source remains read-only. |
 
+### Historical clonal-budding runtime disposition (Lab #318)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/reproduction/runtime.py` is blob `1f24d3c045f971f4e69c4df019da7da1b581aa72` (path commit `200e0e259a25c6acad7b4fa2d79a27c78500e0e8`, 6,956 bytes). The two inventoried symbols are `materialize_clonal_bud` and `_birth_surfaces_available`.
+
+The code is a cross-boundary historical adapter, not separable Lab-only apparatus: it reads private Organism genome, reproductive-readiness, metabolism, physiology and runtime fields; asks `HabitatBirthAuthority` for a birth record; constructs a body state, metabolism and base cognitive graph; calls the Lab canonical organism factory; charges parental energy; and may join the child to social habitat. Its preflight checks historical habitat capacity. These operations together encode a reproduction transition and assumptions about who owns readiness, identity, somatic state, initialization, and habitat authority. The function depends on a private legacy runtime surface and cannot be retained as a Biopeia target operation merely by redirecting the factory call.
+
+| Source responsibility | Current target evidence | Disposition |
+| --- | --- | --- |
+| Reproductive readiness, inherited genome and offspring transition | Organism #49 remains open and records that the target genetics data has no reproduction producer/consumer; no target operation is authorized by this disposition. | DROP this historical implementation; future work requires its own Organism-owned contract/design. |
+| Habitat birth record and capacity authority | Separately inventoried in Lab #317, which remains open; this issue does not settle its disposition. | No part of this runtime row is retained as a target authority. |
+| Child body/metabolism/cognition setup and parent energy debit | Historical code directly accesses private legacy runtime and composes several domain states; no target offspring initializer/path is established by this issue. | DROP the composite and source-coupled tests from target migration; no equivalent behavior is claimed. |
+| Lab composition of the above | No current target contract/path for this legacy reproduction adapter. | No target code destination; do not preserve a compatibility API. |
+
+This is a code-migration disposition only. Historical tests that call `materialize_clonal_bud` are evidence that the historical code is exercised by its test suite, not scientific validation or evidence of target equivalence. No claim is made that reproduction is unnecessary, impossible, scientifically invalid, or permanently prohibited. The pinned source remains read-only; historical protocols/results remain independently governed and are not dispositioned here. See the exact row in `migration/source-inventory-80d372a.tsv` and the related open issues [Lab #317](https://github.com/biopeia/lab/issues/317) and [Organism #49](https://github.com/biopeia/organism/issues/49).
+
 ### Historical Lab World aggregate facade
 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `73fb4a3b7f9c3380b6aa94f11f1bb62bbe494d02` (1,401 bytes). The initializer re-exports Environment genesis helpers and historical World adapter, population, checkpoint, runtime and transaction symbols from separately inventoried modules. It is an old aggregate import surface, not an independent implementation to migrate. Tracked source/test searches at candidate revisions found no Biopeia `lab.world` import or package; the only textual match was an unrelated `biopeia.lab.world-digest.v2` identifier in Lab. Drop the old facade and do not preserve its import path. This does not dispose of the re-exported modules or their symbols; each remains subject to its own inventory row and owner review. The source remains read-only. Search revisions: Lab `fccf2710e468b796298c66fdf99a9da0167a6828`, Organism `26778028c4058d96ba2f2b77199df7852a03def1`, Embodiment `a925c2f2f2694048e4ced4c00874dcfd2331bebe`, Environment `b71d5566c3a73774a088a41a7b99a03954e43a53`, Modality `79b779152d4bff2ab4191dc6601c8f1640e4cae3`, World `e231fa38c92360161847b71e7abd617a5c8691f0`, Observation `ef6321d2bab43b883238cdcf0ce33c08321d595c`. |
+
+### `WorldStorage` and aggregate checkpoint source row disposition (Lab #319)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/world/persistence.py` is blob `0871079c908d2efb0329c3f0571a1d22671f12d7` (path commit `f7407d9b320caea839c637a8bb98324813584423`, 32,600 bytes). The inventory symbols were verified: `PERSISTENCE_SCHEMA_VERSION`, `_restore_rng_state`, `PersistentWorldCheckpoint`, `capture_checkpoint`, `restore_population_from_checkpoint`, and `WorldStorage`. This file crosses distinct state owners; it is not a single TARGET persistence contract:
+
+| Source responsibility | TARGET owner/path reference | Disposition and limit |
+| --- | --- | --- |
+| Causal cut, commit record and recovery state | World `src/world/durable_runtime.py`, `src/world/manifest.py` | World records opaque checkpoint references and cut status; it does not decode the legacy aggregate payload. This is not the old checkpoint format or general transactional rollback. |
+| Durable checkpoint bytes and atomic owner-store publication | World `src/world/owner_checkpoint_store.py` | File-backed owner checkpoint storage exists as a World infrastructure component. It does not establish parity with `WorldStorage` schema, event segmentation, retention, or restore rules. |
+| Environment state capture/restoration | Environment `src/environment/restoration.py` and owner checkpoint contracts | Environment retains authority for its own state; historical direct reads of private fields/resource pools are dropped. |
+| Organism and embodied state/checkpoint | Organism `src/organism/checkpoint.py`; Embodiment `src/embodiment/checkpoint.py` | Each owner controls its checkpoint schema and validation; no single `PersistentWorldCheckpoint` envelope spans these domains. |
+| Legacy `PERSISTENCE_SCHEMA_VERSION`, RNG adapter, aggregate checkpoint/capture/restore functions, and `WorldStorage` interface | No Lab-owned aggregate persistence API | Explicit `DROP` as TARGET implementation/API; no compatibility namespace. |
+
+The pinned source call sites and tests (including `lab/tests/unit/lab/world/test_persistence.py`) establish how the historical monolith was used, not TARGET requirements or validation. The old checkpoint serializes state from private population, Environment, and rig internals; its own checkpoint/replay assertions do not establish current cross-owner durability or equivalence. No checkpoint data is copied or migrated, no experiment runs, and no scientific validity, restore equivalence, crash-consistency, or cut-over claim is made. The canonical inventory row is covered by `tests/unit/test_migration_world_persistence_disposition.py`.
+
+### `PopulationGenesisRuntime` source row disposition (Lab #320)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/world/population.py` is blob `bcb046937b036fad9264599a7832afd95e810d29` (path commit `0550aede453d213674bfeb916cd6e3975f26aa91`, 59,604 bytes). The inventory symbol list was verified: `founder_placement`, `PopulationTickRecord`, `PopulationGenesisRuntime`. The file is genuinely cross-responsibility, but the historical aggregate is not a TARGET class to preserve:
+
+| Source responsibility | TARGET owner/path reference | Disposition and limit |
+| --- | --- | --- |
+| Shared world clock/state, founder placement, topology, ecology and causal event ordering | World `src/world/durable_runtime.py`, `src/world/causal_cycle.py`, `src/world/procedural_genesis.py` | Responsibility split to World; no claim that these APIs reproduce the old population runner. |
+| Resource pools, fields, local availability and material transfer | Environment `src/environment/resource.py`, `src/environment/dynamic_state.py` | Ownership stays with Environment; old integration and automatic exchange behavior are not transferred. |
+| Per-organism transition/construction and cognitive state | Organism `src/organism/transition.py`, `src/organism/checkpoint.py` | Responsibility split only; no TARGET population factory or `_rigs` aggregate is established. |
+| Somatic/metabolic state and embodied consequences | Embodiment `src/embodiment/physiology.py`, `src/embodiment/metabolism.py`, `src/embodiment/checkpoint.py` | Owner APIs are references, not a complete behavioral replacement for the legacy composition. |
+| Aggregate `PopulationTickRecord`, private rig map, legacy Hex-specific loop and source API | No Lab-owned population runtime/path | Explicit `DROP` as source implementation/API; no compatibility path. |
+
+The source combines these responsibilities in `PopulationGenesisRuntime`, including private `_rigs` storage and source-specific ordering. `founder_placement` and `PopulationTickRecord` are likewise source helper/aggregate records; naming World paths above does not assert equivalent placement guarantees or record contracts. Historical callers/tests are evidence of source use only. Source remains read-only; no experiment, scientific result, method equivalence, or target completeness is inferred. The canonical row is in `migration/source-inventory-80d372a.tsv` and is covered by `tests/unit/test_migration_world_population_disposition.py`.
+
+### `WorldRuntimeState` source row disposition (Lab #321)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/world/runtime.py` is blob `de62c2b2e56cb5c6a08fb431441ff3ecb8db9844` (path commit `17f56e5fa85dfdfd7c033bca18d073bcc9f1795f`). The class is a composite source implementation, not a Lab TARGET runtime. Its responsibilities divide by authority, but its implementation and API are dropped:
+
+| Source responsibility | TARGET owner / evidence | Disposition and limit |
+| --- | --- | --- |
+| Causal progression, tick serialization and commit | World `src/world/runtime.py`, `src/world/durable_runtime.py`; World owns causal commit. | `SPLIT` responsibility; source thread loop and runtime API `DROP`. No source-vs-target behavioral equivalence is claimed. |
+| Environment and body state creation/adoption through the legacy population | Environment and Embodiment owner contracts; source runtime directly builds/uses legacy `PopulationGenesisRuntime`. | `SPLIT` responsibility; old genesis/population composition and its assumptions `DROP` as a TARGET implementation. Owner modules retain authority; no Lab copy or default is carried forward. |
+| Periodic `WorldStorage` checkpoint and host-time tick delay | World durable runtime has a separately owned checkpoint/commit boundary; host-time pacing is not causal progression. | Source scheduling, storage integration, and `tick_delay_s` semantics `DROP`; no compatibility or equivalence claim. |
+| Resource observations and rendered snapshot/event/metric payloads | Observation publication is passive and requires its own authorized owner/cut contract; World owns commit. | Source direct publication adapter, private-population metrics, history accumulator and presentation payload `DROP`. No Lab TARGET consumer/path for this class was found. |
+
+Pinned source caller: `lab/src/lab/cli/world.py`; source tests: `lab/tests/unit/observatory/test_world_integration.py`. These are historical consumer evidence, not TARGET requirements or validation. The source class also accesses private `population._rigs`, runs a daemon thread and uses host `time.sleep`; these details are not transferred. No experiment is executed, no source material is removed, and no scientific result or efficacy is inferred. The canonical row is in `migration/source-inventory-80d372a.tsv` and is covered by `tests/unit/test_migration_world_runtime_disposition.py`.
 
 ### Historical integrated World tick transaction (Lab #322)
 
