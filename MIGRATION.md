@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 92 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 91 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 912 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 913 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -643,6 +643,21 @@ validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
 method-equivalence, or future-need claim is made.
+
+### Historical private-model determinism setup (Lab #219)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/determinism.py` is blob
+`e3b281b7f51a8a9216a478e754d2999a460038ce` (1,676 bytes). It configures
+PyTorch training seeds, CPU/CUDA RNG state, thread settings, and deterministic
+algorithm mode. Pinned callers are private-model training and an offline
+physics3d equivalence-test helper; it is not Organism runtime behavior. Biopeia
+Lab TARGET has no corresponding training/equivalence consumer.
+
+**Disposition: DROP this historical configuration helper as TARGET code.** No
+study or equivalence run was performed. This does not dispose of any separate
+study results or evidence, and makes no reproducibility, scientific-validity,
+method-equivalence, or future-need claim.
 
 ### Historical private-model corpus encoding (Lab #218)
 

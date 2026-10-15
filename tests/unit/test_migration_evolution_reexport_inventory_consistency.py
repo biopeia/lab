@@ -36,15 +36,15 @@ def test_historical_evolution_reexport_row_matches_bounded_disposition() -> None
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 92,
+        "SPLIT": 91,
         "REWRITE": 2,
-        "DROP": 912,
+        "DROP": 913,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 92 |" in migration
-    assert "`DROP` | 912 |" in migration
+    assert "`SPLIT` | 91 |" in migration
+    assert "`DROP` | 913 |" in migration
     assert "remain separate inventory rows" in migration
     assert "a package-level facade may be `DROP` when separately dispositioned" in migration
