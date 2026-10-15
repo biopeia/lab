@@ -35,9 +35,9 @@ def test_historical_runtime_projection_test_is_bounded_defer() -> None:
     assert "no scientific validity" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 16, "REWRITE": 3, "DROP": 950, "DEFER": 195}
+    assert counts == {"MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Observatory runtime-projection E2E test disposition (Lab #287)" in migration
     assert BLOB in migration and SHA256 in migration
-    assert "`SPLIT` | 16 |" in migration
-    assert "`DEFER` | 195 |" in migration
+    assert "`SPLIT` | 15 |" in migration
+    assert "`DEFER` | 196 |" in migration

@@ -21,5 +21,5 @@ def test_historical_replay_schema_has_bounded_drop_disposition() -> None:
     assert COMMIT in row["rationale_and_caveat"]
     assert "do not delete or disposition historical replay data by implication" in row["rationale_and_caveat"]
     counts = Counter(r["disposition"] for r in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 16, "REWRITE": 3, "DROP": 950, "DEFER": 195}
+    assert counts == {"MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196}
     assert "### Historical Observatory replay schema (Lab #267)" in (ROOT / "MIGRATION.md").read_text()

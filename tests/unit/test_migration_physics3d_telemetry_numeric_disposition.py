@@ -24,7 +24,7 @@ def test_numeric_frame_codec_is_deferred_for_contract_and_custody() -> None:
     for evidence in (COMMIT, SHA256, "#311", "#312", "#313", "custody", "sparse"):
         assert evidence in row["rationale_and_caveat"]
     assert Counter(r["disposition"] for r in rows) == {
-        "MOVE": 8, "SPLIT": 16, "REWRITE": 3, "DROP": 950, "DEFER": 195
+        "MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196
     }
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert BLOB in migration and SHA256 in migration
