@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 97 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 96 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 907 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 908 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -587,6 +587,25 @@ legacy implementation only; it does not dispose of its protocols, study outputs,
 source, or evidence, which remain preserved and separately governed. This is not
 a scientific-validity, result-admission, method-equivalence, or future-need
 claim. No study or experiment was run.
+
+
+### Historical private-model architectures (Lab #214)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/architectures.py` is blob
+`e35ff6df4dd2ef8649ca2d365c9d1947cc1a2aa2` (9,882 bytes). It defines bounded
+GRU/Transformer specifications, parameter-budget selection, reconstruction from
+model manifests, optional PyTorch builders, and parameter counting. Its imported
+`ArchitectureId` and `ModelArtifactManifest` come from the separately inventoried
+historical `symbiont.modeling.authority` module. Pinned callers are Lab's own
+historical modeling gateway/trainer and source-coupled tests; Biopeia Lab has no
+corresponding TARGET module or tracked consumer.
+
+**Disposition: DROP this historical Lab implementation as TARGET code.** This
+does not reassign or transfer the authority module, architecture/model artifacts,
+studies, or evidence; those remain separately governed and preserved. No model
+was trained or evaluated. This is not a scientific-validity, result-admission,
+method-equivalence, or future-need claim.
 
 ### Historical modeling package facade
 

@@ -34,10 +34,10 @@ def test_historical_observation_initializer_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/observation").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 97, "REWRITE": 2, "DROP": 907, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 96, "REWRITE": 2, "DROP": 908, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 97 |" in migration
-    assert "`DROP` | 907 |" in migration
+    assert "`SPLIT` | 96 |" in migration
+    assert "`DROP` | 908 |" in migration
     assert "### Historical Observation package initializer" in migration
