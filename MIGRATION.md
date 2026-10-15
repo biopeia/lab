@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 51 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 50 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 942 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 943 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -587,6 +587,12 @@ Keep this alias as `DEFER`, linked to Observation #38. The Lab #255 coordinator 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/schemas/CONTRACT_MATRIX.md` | DROP as TARGET artifact | No TARGET compatibility-matrix path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `dfaed5b57aa8750b22665200e7badc063aef7179`, mode `100644`, 3,093 bytes; SHA-256 `95ae294d7e636c56ae869b834a67d9fb6904910caf415af3e02ec1a74e206c96`. This document summarizes version/field rules for the historical Observatory snapshot schemas, projection bounds, replay/UI limits, and social/resource/degradation projections. It is not itself a schema or executable consumer contract. No TARGET consumer or authorized Biopeia compatibility matrix/path establishes this legacy version policy. Drop the document as a TARGET artifact only; the independently inventoried schemas and any future Observation schema/version policy remain separate and undecided here. Historical source remains read-only; no scientific validity/equivalence or evidence-admission claim is made. |
+
+### Historical Observatory signal-knowledge schema alias (Lab #272)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/signal_knowledge.schema.json` | DROP as TARGET alias | No TARGET code/schema alias destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; Git blob `012e142f6b6d3489adc6982ee01473e338b76477`, mode `120000`, 36 bytes. The blob content is exactly `schemas/signal_knowledge.schema.json` (target-text SHA-256 `ead3631c068819492a6a2e7f2fcfc980f6e84f3cbc89c9b52e33dc7d2553a741`), so this path has no independent schema semantics. Its destination is separately inventoried at `lab/src/lab/observatory/schemas/signal_knowledge.schema.json` (blob `fe960b2b38ef3655a5aff6867b81a46fbf380a9e`) and remains DEFER under Lab #268 pending the Organism owner signal identity/provenance/privacy decision (#169; checkpoint scope #45). Drop only this unsupported legacy alias; it does not resolve or alter the underlying schema disposition and does not authorize a TARGET schema. No Biopeia target consumer or alias destination is identified. Historical source remains read-only; no schema or data is copied/deleted and no scientific validity/equivalence/admission or future-need claim is made. |
 
 ### Historical Observatory topology schema alias
 

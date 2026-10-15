@@ -38,9 +38,9 @@ def test_observatory_registry_is_bounded_defer_pending_owner_decisions() -> None
     assert "No scientific validity, equivalence, evidence-admission" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 51, "REWRITE": 3, "DROP": 942, "DEFER": 168}
+    assert counts == {"MOVE": 8, "SPLIT": 50, "REWRITE": 3, "DROP": 943, "DEFER": 168}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory instance registry disposition (Lab #260)" in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 51 |" in migration
+    assert "`SPLIT` | 50 |" in migration
     assert "`DEFER` | 168 |" in migration
