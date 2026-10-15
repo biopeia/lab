@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 44 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 43 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 169 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 170 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1458,6 +1458,10 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 ### Historical Observatory journal disposition (Lab #256)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/journal.py`, blob `bad69fb063b32a949ae50b765672b69f8f61dffa` (mode `100644`, 3,957 bytes); verified symbol `Journal`. It appends per-run snapshot envelopes to NDJSON, rotates segments, triggers the derived summary separately dispositioned `DROP` in Lab #254, and gzips closed segments while unlinking the uncompressed paths. `DEFER` pending the Lab owner's explicit decision whether this historical stream is evidence requiring custody/retention or an obsolete Observatory cache, and the Observation owner's boundary decision if semantic projection is proposed. No TARGET journal schema, retention policy, or authorized path exists in the evidence reviewed. Lab #242 is a related but distinct unresolved archive-custody question, not a substitute contract. Closure requires an explicit owner-authorized `DROP` or a target-authored custody/retention contract with schema/path. This defer is outside the bounded runtime-transfer profile; no source/data is copied or deleted and no scientific validity/equivalence/admission is asserted.
+
+### Historical Observatory journal-test disposition (Lab #280)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_journal.py`, blob `7cddecc56a0dc102c134cb305a61de124826789a` (mode `100644`, 4,562 bytes). Verified class: `JournalTests`. Seven tests characterize per-run sequence/envelope generation, rotation, automatic summary generation, compaction/segment preservation, gzip output, segment naming and the configured size target not deleting segments across runs. These tests concern a single historical Lab journal implementation; they do not split separate Observation and Lab TARGET responsibilities. The implementation remains `DEFER` under Lab #256 because no owner has decided whether the snapshot stream is evidence requiring custody/retention or an obsolete cache, and no TARGET journal schema, integrity/retention policy or authorized path exists. Lab is accountable for custody/admissibility/retention; Observation must decide whether any passive projection responsibility remains. Lab #242 concerns a different provenance journal and is not a substitute decision. This test row therefore remains bounded `DEFER` rather than asserting the legacy tests as TARGET requirements or dropping potentially material retention/custody safeguards. Closure trigger: owner-authorized explicit `DROP` or a target-authored custody/retention contract naming schema, integrity, retention and path, then reconcile this row. The defer does not block the bounded runtime-transfer profile. Historical source remains read-only; no source/data is copied or deleted and no scientific validity/equivalence/admission is asserted.
 
 ### Historical Observatory history-summary disposition (Lab #254)
 
