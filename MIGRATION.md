@@ -402,6 +402,12 @@ manifest disposition counts are:
 | `DROP` | 922 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
+### Historical Body Pose observation adapter disposition (Lab #230)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/body_pose.py` | SPLIT across owner projection, semantic mapping and passive Lab consumption; do not transfer this source adapter | Embodiment `repos/embodiment/src/embodiment/observation.py::BodyPoseSample` and `repos/embodiment/src/embodiment/physics3d/physical_transition.py::body_pose_observation_projection`; Observation `repos/observation/src/observation/embodiment.py::embodiment_body_pose_observation`; Lab `repos/lab/src/lab/observation_consumer.py` | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `9eda624b2fcbcebaf5759faa9c4ec1b8e2f7cdcc` (3,069 bytes). The historical helper creates a `simulated_apparatus_sample` claim from an apparatus BodyPoseSample and attaches Lab producer/run context. Current Embodiment derives a validated projection from adopted owner state with checkpoint lineage; Observation maps it to an authoritative Embodiment claim; Lab passively associates plane messages. This mapping is not source API or semantic equivalence: the target observation is owner-state-derived rather than the source's raw simulated-apparatus sample. No historical helper, claim shape or compatibility behavior is transferred. No scientific measurement/validity, evidence admission or equivalence claim is made. |
+
 ### Historical modeled body physiology observation adapter disposition (Lab #229)
 
 | Source path | Disposition | Current target responsibility references | Provenance / limits |
