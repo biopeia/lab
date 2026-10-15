@@ -42,10 +42,10 @@ def test_body_schema_alias_is_bounded_defer_linked_to_underlying_schema() -> Non
     assert "Observation / Lab" == schema["target_owner"]
 
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 63, "REWRITE": 3, "DROP": 934, "DEFER": 164}
+    assert counts == {"MOVE": 8, "SPLIT": 62, "REWRITE": 3, "DROP": 934, "DEFER": 165}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory body-schema alias (Lab #251; underlying schema tracked by #264)" in migration
     assert ALIAS_BLOB in migration
     assert SCHEMA_BLOB in migration
-    assert "`DEFER` | 164 |" in migration
+    assert "`DEFER` | 165 |" in migration
     assert "no scientific validity, equivalence, or evidence-admission claim" in migration
