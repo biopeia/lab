@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 89 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 88 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 915 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 916 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -642,6 +642,23 @@ tracked consumer.
 validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
+method-equivalence, or future-need claim is made.
+
+### Historical private-model inference gateway (Lab #222)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/gateway.py` is blob
+`93e8e65261450c5c56e77bef13d2f66a6c6264fd` (4,642 bytes). It loads optional
+PyTorch models from stored private-model artifacts and serves cached token
+inference. Pinned callers are historical learning studies, training tests, and
+an observed-resident CLI path. Current Biopeia Lab and Organism targets have no
+direct consumer or matching artifact-inference contract.
+
+**Disposition: DROP this historical inference gateway as TARGET code.** This
+does not dispose of models, artifacts, protocols, or evidence, nor assess their
+utility. No model loading, inference, or study was performed. The source's legacy
+`torch.load` compatibility fallback is noted only as provenance; this issue is
+not a security assessment or endorsement. No scientific-validity, efficacy,
 method-equivalence, or future-need claim is made.
 
 ### Historical private-model factory and adoption orchestration (Lab #221)
