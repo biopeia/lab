@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 15 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 14 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 196 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 197 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2261,3 +2261,8 @@ limited to this codec and does not block unrelated migration rows. No
 code/telemetry/result/evidence was copied, deleted or executed; no identity validity,
 structural completeness, integrity/durability, evidence-admissibility,
 scientific-validity or equivalence claim is made.
+
+
+### Historical Physics3D telemetry tools disposition (Lab #314)
+
+The pinned telemetry/tools.py row is DEFER. Source commit 80d372a186513035f85a769db886e505cabba52d, blob 49a5361e6071b568a05532ad294a65fb51316878, SHA-256 7449a5a7c66a081ce91044da94fa77448a41b8c8121c7e459a08ffad1342e503. It combines telemetry reading, storage/timing summaries, integrity/fallback reporting, comparisons, and configurable v4.1 gates. Gate defaults encode policy rather than merely neutral utilities. No approved TARGET analysis contract, telemetry evidence custody/admission policy, domain-authorized field semantics, or competent owner for these gate criteria and their scientific scope was found. Lab must decide diagnostic versus governed-evidence use and custody; producer owners must authorize interpreted state; protocol/scientific authority must set any gate criteria. Related telemetry issues #309–#313 and v4.1 gate review #315 remain separate. Closure requires those decisions and a TARGET contract or a documented DROP of unsupported legacy policy. This bounded defer does not block unrelated migration rows. No source, telemetry, result, or evidence is copied, deleted, or executed; no validity, admissibility, integrity/durability, performance guarantee, or equivalence claim is made.
