@@ -556,6 +556,19 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | --- | --- | --- | --- |
 | `lab/src/lab/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `73fb4a3b7f9c3380b6aa94f11f1bb62bbe494d02` (1,401 bytes). The initializer re-exports Environment genesis helpers and historical World adapter, population, checkpoint, runtime and transaction symbols from separately inventoried modules. It is an old aggregate import surface, not an independent implementation to migrate. Tracked source/test searches at candidate revisions found no Biopeia `lab.world` import or package; the only textual match was an unrelated `biopeia.lab.world-digest.v2` identifier in Lab. Drop the old facade and do not preserve its import path. This does not dispose of the re-exported modules or their symbols; each remains subject to its own inventory row and owner review. The source remains read-only. Search revisions: Lab `fccf2710e468b796298c66fdf99a9da0167a6828`, Organism `26778028c4058d96ba2f2b77199df7852a03def1`, Embodiment `a925c2f2f2694048e4ced4c00874dcfd2331bebe`, Environment `b71d5566c3a73774a088a41a7b99a03954e43a53`, Modality `79b779152d4bff2ab4191dc6601c8f1640e4cae3`, World `e231fa38c92360161847b71e7abd617a5c8691f0`, Observation `ef6321d2bab43b883238cdcf0ce33c08321d595c`. |
 
+### `WorldRuntimeState` source row disposition (Lab #321)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/world/runtime.py` is blob `de62c2b2e56cb5c6a08fb431441ff3ecb8db9844` (path commit `17f56e5fa85dfdfd7c033bca18d073bcc9f1795f`). The class is a composite source implementation, not a Lab TARGET runtime. Its responsibilities divide by authority, but its implementation and API are dropped:
+
+| Source responsibility | TARGET owner / evidence | Disposition and limit |
+| --- | --- | --- |
+| Causal progression, tick serialization and commit | World `src/world/runtime.py`, `src/world/durable_runtime.py`; World owns causal commit. | `SPLIT` responsibility; source thread loop and runtime API `DROP`. No source-vs-target behavioral equivalence is claimed. |
+| Environment and body state creation/adoption through the legacy population | Environment and Embodiment owner contracts; source runtime directly builds/uses legacy `PopulationGenesisRuntime`. | `SPLIT` responsibility; old genesis/population composition and its assumptions `DROP` as a TARGET implementation. Owner modules retain authority; no Lab copy or default is carried forward. |
+| Periodic `WorldStorage` checkpoint and host-time tick delay | World durable runtime has a separately owned checkpoint/commit boundary; host-time pacing is not causal progression. | Source scheduling, storage integration, and `tick_delay_s` semantics `DROP`; no compatibility or equivalence claim. |
+| Resource observations and rendered snapshot/event/metric payloads | Observation publication is passive and requires its own authorized owner/cut contract; World owns commit. | Source direct publication adapter, private-population metrics, history accumulator and presentation payload `DROP`. No Lab TARGET consumer/path for this class was found. |
+
+Pinned source caller: `lab/src/lab/cli/world.py`; source tests: `lab/tests/unit/observatory/test_world_integration.py`. These are historical consumer evidence, not TARGET requirements or validation. The source class also accesses private `population._rigs`, runs a daemon thread and uses host `time.sleep`; these details are not transferred. No experiment is executed, no source material is removed, and no scientific result or efficacy is inferred. The canonical row is in `migration/source-inventory-80d372a.tsv` and is covered by `tests/unit/test_migration_world_runtime_disposition.py`.
+
 ### Historical integrated World tick transaction (Lab #322)
 
 | Source path | Disposition | Target owner/path | Provenance / limits |
