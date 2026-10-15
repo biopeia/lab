@@ -396,8 +396,8 @@ manifest disposition counts are:
 
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
-| `MOVE` | 7 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 74 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
+| `SPLIT` | 73 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 927 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 161 | Open disposition, not final. Must be revisited before migration completion. |
@@ -427,6 +427,10 @@ the historical source remains read-only and no scientific artifact, validity,
 or equivalence is dispositioned here. This row is non-blocking to the bounded
 Lab utility extraction, while its disposition is recorded for the complete
 source inventory.
+
+### Historical semantic model disposition (Lab #243)
+
+Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/semantic.py`, blob `125c906cd4a2d52d797f577172a33133534ef230` (12,321 bytes; mode `100644`). The verified top-level symbol list includes TypeVar `T`, token/text validators, authority/family/identity/subject/time/acquisition/transformation/lineage/condition/orchestration value types, semantic claims and observations. The responsibility is classified `MOVE` to the concrete owner `repos/observation/src/observation/semantic.py`; Observation's migration ledger records the copy-first extraction and target-native semantic model tests. This source file does not itself define Lab evidence custody or admission, so `SPLIT` incorrectly merged distinct authorities. These are capability primitives only: they do not grant semantic authority to Observation and do not choose wire/envelope, record schema, API, storage, transport, or evidence-admission policy. The TARGET implementation has evolved, including authority domains and validation; no source-code or behavioral equivalence is claimed. Historical source remains read-only.
 
 ### Historical provenance journal disposition (Lab #242)
 
