@@ -206,9 +206,21 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 12
+    assert len(units) == 13
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
+    agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
+    assert agency_ablation["study_protocol_disposition"] == "DEFER"
+    assert agency_ablation["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#123" in agency_ablation["owner_basis"]
+    assert "Closure trigger:" in agency_ablation["TARGET_action"]
+    assert "NO_DIRECT_TEST_LINK" in agency_ablation["source_evidence_basis"]
+    for source_ref in (
+        agency_ablation["implementation_path_and_blob"],
+        agency_ablation["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert visual_audit["source_implementation_TARGET_disposition"] == "DROP"
