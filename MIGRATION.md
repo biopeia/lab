@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 105 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 104 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 899 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 900 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)
@@ -521,6 +521,39 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/integration/world/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `366e8f126df46bb6eda3cf0bff057c9d06c671cc` (54 bytes). The file contains only a package docstring and defines no symbols. No Biopeia TARGET package or consumer uses this historical namespace. Drop this package marker only; the separately inventoried historical integration/runtime files are not dispositioned here. The source remains preserved read-only. |
+
+### Historical World integration adapter (Lab #208)
+
+| Source path | Disposition | Target owner/path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/integration/world/adapter.py` | DROP as TARGET code (all recorded symbols) | No TARGET code destination; no historical namespace or compatibility adapter retained | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `1e8c7b50d658ac2fc06db98868c713a517bc27b7` (26,212 bytes). AST inspection at the pinned commit verifies the 20 names in the inventory row. Searches of tracked TARGET source and tests at Lab `ac618e10ba8fdd9ce11bd9d7dd5045ea5d1006cd`, World `00e6335740101acef0fd93610edfbb7e7cfe0fac`, Environment `d09e45c40633c9b2bf927c7aec3f6326318c2ea8`, Embodiment `5a23e1fbeaa31109647aec4d4dc36eddbe0a6321`, and Organism `b674450dd6678d7a0a00a41591648511814709ba` found no direct consumers of the historical API. World causal-cycle orchestration, Environment inputs, Embodiment receptor/actuator mechanics, and Organism birth/cognition mechanisms have their own TARGET contracts; they are not asserted to replace or be equivalent to this adapter. The historical module is an integrated Lab population harness, not one separable current owner API. This excludes only its historical implementation from TARGET; it does not assert scientific invalidity, lack of future need, or validity/equivalence of studies or results. The pinned source remains read-only. |
+
+The issue-recorded symbols are individually dispositioned as follows; each DROP means exclusion of that historical symbol/API from TARGET, not a claim that its scientific question is invalid:
+
+| Source symbol | Disposition and bounded reason |
+| --- | --- |
+| `LONGITUDINAL_CONTRACT` | DROP — historical subject-construction setting; no TARGET adapter consumes it. |
+| `physical_receptor_ids` | DROP — historical apparatus identity generator; no TARGET consumer of this API. |
+| `WorldDiscoveryProvider` | DROP — implements the historical Host discovery contract; no TARGET Lab host adapter uses it. |
+| `WorldReadingProvider` | DROP — buffers legacy World observations into historical host readings; no TARGET Lab consumer. |
+| `local_substrate_signals` | DROP — legacy apparatus projection helper; no TARGET contract consumes this mapping. |
+| `_capabilities_for` | DROP — builds capabilities for the historical host API; no TARGET adapter consumer. |
+| `_unit_interval` | DROP — source-local numeric transform, not a standalone TARGET domain contract. |
+| `_mix_weight` | DROP — source-local physical-receptor transfer rule; no TARGET contract or consumer. |
+| `physical_receptor_signals` | DROP — historical clean-study projection; no TARGET contract adopts its mixing semantics. |
+| `clean_world_observation` | DROP — wrapper around that historical projection; no TARGET observation consumer. |
+| `_load_base_genome` | DROP — historical version-parsing/factory wrapper; Organism birth APIs are independent, not mapped replacements. |
+| `ActuationBinding` | DROP — historical World-effect binding record; no TARGET consumer of this type. |
+| `ActuationBindingConstitution` | DROP — historical binding collection/fingerprint; no TARGET contract adopts this schema. |
+| `ActuationAdapter` | DROP — translates historical opaque actuation into legacy WorldAction; no TARGET adapter consumer. |
+| `default_world_actuation_binding` | DROP — historical apparatus default mapping; no TARGET contract authorizes this mapping. |
+| `ActionExecutionResult` | DROP — module-local legacy step report; no TARGET consumer. |
+| `WorldTickRecord` | DROP — module-local legacy tick record; World causal records are a distinct owner contract, not an equivalence mapping. |
+| `_OrganismRig` | DROP — private state bundle for the historical integrated harness; no TARGET consumer. |
+| `_construct_organism` | DROP — legacy/experimental population construction path; no TARGET consumer; no Organism equivalence claim. |
+| `_act` | DROP — legacy harness action/intake driver; no TARGET consumer; no behavioral equivalence claim. |
+
+The inventory row preserves the pinned path/blob and records this decision. No runtime code, source test suite, scientific result, or compatibility layer is copied. This is a migration classification only, not scientific review or admission.
 
 ### Historical Observatory snapshot schemas
 
