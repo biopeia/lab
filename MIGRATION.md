@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 7 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 75 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 74 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 927 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 161 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -427,6 +427,12 @@ the historical source remains read-only and no scientific artifact, validity,
 or equivalence is dispositioned here. This row is non-blocking to the bounded
 Lab utility extraction, while its disposition is recorded for the complete
 source inventory.
+
+### Historical provenance journal disposition (Lab #242)
+
+Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/provenance_journal.py`, blob `e4eb2840dc63c52b95cbfce812dda4e9828b7c3f` (6,216 bytes; mode `100644`). Verified symbols: `ProvenanceJournal;ProvenanceIndex;render_tree`. The writer appends Organism `CausalEvent` payloads as JSONL; the index supports producer/ancestor/causal-tree queries over the append-only history. Current Organism `src/organism/provenance.py::ProvenanceLog` owns bounded event/frontier semantics and checkpoint state, not an all-history archive. Current World `src/world/journal.py` records committed causal-cycle records; that is not established as a replacement for this event archive. Observation's migration boundary excludes evidence archive/custody; its row remains deferred to Lab tooling pending custody/admissibility and artifact-retention decisions.
+
+Disposition: `DEFER` pending the Lab owner's explicit decision on (1) whether all causal events are retained as experiment evidence, (2) their admissibility status, (3) retention, integrity and schema/version requirements, and (4) the authorized target artifact/query path. Dependency: Lab #45 umbrella and #78 worklist. Closure trigger: record that owner decision and target path, then re-review this row before migrating, replacing, or dropping archive/query behavior. This does not block the bounded runtime-package migration because the pinned source module and artifacts remain preserved and no target claim of complete historical provenance continuity is made; it does block any such continuity claim. No scientific validity, equivalence, or evidence admission is inferred.
 
 ### Historical runtime/Mind projection disposition (Lab #241)
 
