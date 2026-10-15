@@ -37,12 +37,12 @@ def test_historical_observatory_world_html_is_dropped_as_target_implementation()
     assert "does not claim visualization is unnecessary" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 104, "REWRITE": 2, "DROP": 900, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 103, "REWRITE": 2, "DROP": 901, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert SOURCE_SHA256 in migration
     assert "### Historical Observatory world visualization" in migration
-    assert "`SPLIT` | 104 |" in migration
-    assert "`DROP` | 900 |" in migration
+    assert "`SPLIT` | 103 |" in migration
+    assert "`DROP` | 901 |" in migration
     assert not (ROOT / "src/lab/observatory/world.html").exists()
