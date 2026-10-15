@@ -397,8 +397,8 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 81 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
-| `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
+| `SPLIT` | 80 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 923 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
@@ -1275,3 +1275,9 @@ Re-evaluate when Observation #38 and the competent Observation/Lab owners record
 | Source path | Disposition | Current target responsibility references | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observation/cadence.py` | DROP as a historical Lab runtime scheduling helper; no target cadence scheduler is authorized | No target counterpart. World owns causal-cycle stepping and Embodiment owns physical transitions, but neither currently defines a cross-domain execution-rate policy. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `d1b3d23389c659142570b1360b89301be61786a0` (2,133 bytes), symbol `ExecutionRates`. It validates physics/cognition rates and computes substeps plus observation/render sampling cadence. In the pinned source, only `lab/src/lab/app/physics3d/runs.py` and `lab/src/lab/physics3d/engine.py` consume it; its unit test is source characterization, not target evidence. No target package currently implements or imports this policy. A future cadence need would require a separate design defining clock authority and cross-domain coupling. This disposition is not a scientific conclusion, a ban on future functionality, or deletion of protected historical source. |
+
+### Historical Observation frame contract disposition (Lab #233)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/contracts.py` | REWRITE the inherited frame/constants; drop its historical `observed_frame` event shape and any compatibility/wire promise | `repos/observation/src/observation/semantic.py` owns semantic claim primitives, not a composed frame; no target composition/delivery owner or envelope path is approved. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `14dd5186a187820d679d88b542c639cf84b57adc` (2,822 bytes), symbols `PRESENTATION_PROJECTION`, `COMPLETED_FRAME_CONTRACT`, `OBSERVATION_IDENTITY_CONTRACT`, `ObservedFrame`. Source docs describe an observer-only rendered-tick presentation frame; source `physics3d.py` composes body, cognition, vitals, mind and identity from multiple authorities and emits an `observed_frame` event. Current Observation `MIGRATION.md` at `repos/observation@2f4751f5` classifies the copied frame/constants as a REWRITE candidate: it says the Lab-composed frame is a delivery/composition artifact, not one semantic claim. The existing `observation/src/observation/contracts.py` is documented as transitional, not a stable target schema. A future composition/delivery design must choose its owner and envelope separately. This migration disposition makes no scientific-validity, custody, admission, or equivalence claim. |
