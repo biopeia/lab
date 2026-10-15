@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 77 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 76 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 926 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 927 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -427,6 +427,37 @@ the historical source remains read-only and no scientific artifact, validity,
 or equivalence is dispositioned here. This row is non-blocking to the bounded
 Lab utility extraction, while its disposition is recorded for the complete
 source inventory.
+
+### Historical Physics3D observation bridge disposition (Lab #239)
+
+At source baseline `80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/observation/physics3d.py` is blob
+`116d19599724ddfb785e7e8ea4eaacfeb0c27a4a` (mode `100644`, 26,053 bytes).
+The recorded top-level names were checked at the pinned blob:
+`_body_descriptor_for_state`, `_optional_text`, `_topology_revision`,
+`EventSink`, and `Physics3DObservationBridge`.
+
+The class combines viewer-event formatting/delivery, Lab run identity fallback
+and stop lifecycle, and optional calls into historical Lab observation helpers
+for raw body-pose, joint-kinematics, physiology and affordance inputs. The
+module has no Biopeia Lab Physics3D caller or target viewer/event sink. Current
+Lab exposes only a read-only committed-Observation consumer at
+`src/lab/observation_consumer.py`. TARGET Embodiment defines owner-side
+`BodyPoseSample` and adopted `BodyPoseObservationProjection` in
+`src/embodiment/observation.py`; Observation maps an approved Embodiment
+projection in `src/observation/embodiment.py`. Those require owner state and
+causal-step correlation; they are not equivalent to accepting arbitrary raw
+Physics3D payloads from this legacy adapter. Embodiment's
+`src/embodiment/physics3d/observation_contract.py` declares coordinate
+conventions, not publication authority or a viewer bridge. Therefore drop the
+legacy adapter, direct sink/event shapes, and implicit publication path as
+TARGET code; no source implementation or compatibility API transfers. Any
+future runtime visualization or publication must be target-authored under the
+relevant owner/World boundary and an authorized Observation contract. The
+historical source is preserved read-only. This code disposition makes no
+physical, scientific-validity, results, or equivalence claim and does not
+dispose of scientific artifacts. It does not block the bounded Lab utility
+extraction.
 
 ### Historical Lab ObservationBus disposition (Lab #231)
 
