@@ -27,9 +27,9 @@ def test_historical_outcome_metrics_are_dropped_as_target_code() -> None:
     assert "No scientific-validity, outcome validity" in rationale
     assert not (ROOT / "src/lab/modeling/outcome_metrics.py").exists()
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 57, "REWRITE": 3, "DROP": 938, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 56, "REWRITE": 3, "DROP": 939, "DEFER": 166}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 57 |" in migration
-    assert "`DROP` | 938 |" in migration
+    assert "`SPLIT` | 56 |" in migration
+    assert "`DROP` | 939 |" in migration
     assert "### Historical private-model outcome metrics (Lab #223)" in migration

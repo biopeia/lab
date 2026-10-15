@@ -38,11 +38,11 @@ def test_body_schema_alias_is_bounded_defer_linked_to_underlying_schema() -> Non
 
     schema = rows[SCHEMA_PATH]
     assert schema["source_blob_at_pinned_commit"] == SCHEMA_BLOB
-    assert schema["disposition"] == "SPLIT"
-    assert "Observation / Lab" == schema["target_owner"]
+    assert schema["disposition"] == "DROP"
+    assert schema["target_owner"] == "No TARGET schema owner for this legacy projection"
 
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 57, "REWRITE": 3, "DROP": 938, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 56, "REWRITE": 3, "DROP": 939, "DEFER": 166}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory body-schema alias (Lab #251; underlying schema tracked by #264)" in migration
     assert ALIAS_BLOB in migration
