@@ -27,9 +27,9 @@ def test_historical_modeling_study_orchestration_is_dropped_as_target_code() -> 
     assert "No scientific validity, efficacy, interpretation" in rationale
     assert not (ROOT / "src/lab/modeling/study.py").exists()
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 43, "REWRITE": 3, "DROP": 948, "DEFER": 170}
+    assert counts == {"MOVE": 8, "SPLIT": 42, "REWRITE": 3, "DROP": 948, "DEFER": 171}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 43 |" in migration
+    assert "`SPLIT` | 42 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "### Historical private-model and temporal study orchestration (Lab #225)" in migration

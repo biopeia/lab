@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 43 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 42 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 170 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 171 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1454,6 +1454,10 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 ### Historical Observatory capture-manifest disposition (Lab #257)
 
 Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/manifest.py`, blob `e002f1a246b40317d9feea99083666b1e85fe143` (mode `100644`, 6,374 bytes; SHA-256 `0e26e07b05736f63e847865b66c82a8c251c8717920bffcf712b9f7f164105cc`). Verified symbols: `_file_sha256;_git_commit_sha;CaptureManifest;create_capture_manifest;write_capture_manifest;verify_capture_manifest`. It hashes checkpoint/topology files and records identity/run/sequence/tick/revision/config/timestamp/consistency metadata in an atomically written manifest. No authorized TARGET capture schema, field authority, custody/retention policy or path was identified. `DEFER` pending Lab owner decision on custody/admissibility/retention and competent Organism/World field authority; Observation must define any passive projection boundary. Linked but distinct unresolved custody work: Lab #242 and #256. Closure requires explicit owner-authorized `DROP` or a target-authored contract naming field authority, schema/version, consistency semantics, custody/retention and storage path. This is outside the bounded runtime-transfer profile; no artifact/source is copied or deleted and no scientific validity/equivalence/admission is inferred.
+
+### Historical Observatory manifest-test disposition (Lab #281)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/tests/test_manifest.py`, blob `22763bb6941654000d1bc7cf0941a6f7c71d5736` (mode `100644`, 8,115 bytes); verified class `ManifestTests`. Three tests exercise legacy capture-manifest writing and detection of checkpoint/topology digest mismatches; one checks a legacy heartbeat record against the historical instance schema; one checks the legacy canonical-organism adapter's identity/config/checkpoint round-trip. The manifest checks remain unresolved under #257 because no authorized TARGET capture-manifest contract, field authority, custody/retention policy or path exists. The heartbeat/schema check remains unresolved under #260, Observation #38 and Lab #266 because no TARGET instance registry/heartbeat contract/path is authorized. The adapter round-trip test covers only the legacy composition adapter already dispositioned `DROP`, not a TARGET Organism contract, and is not an independent retained TARGET responsibility. The file therefore does not establish a concrete split among TARGET owners; bounded `DEFER` is more accurate while the manifest and registry contracts remain undecided. Lab is accountable for evidence custody/admissibility/retention, domain owners for their represented fields, and Observation for any passive projection boundary. Closure trigger: competent owners record explicit `DROP` for these unresolved responsibilities, or author TARGET contracts naming field authority, schema/version, privacy, custody/retention and paths; then reconcile this row and create separately scoped TARGET tests only where justified. This does not block the bounded runtime-transfer profile. No source/state is copied or deleted, and no scientific validity/equivalence/admission or checkpoint compatibility is inferred.
 
 ### Historical Observatory journal disposition (Lab #256)
 

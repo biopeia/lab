@@ -36,7 +36,7 @@ def test_historical_development_history_reader_is_dropped_only() -> None:
     assert "No scientific result" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 43, "REWRITE": 3, "DROP": 948, "DEFER": 170}
+    assert counts == {"MOVE": 8, "SPLIT": 42, "REWRITE": 3, "DROP": 948, "DEFER": 171}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
