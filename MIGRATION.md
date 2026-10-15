@@ -397,10 +397,36 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 104 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 103 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 900 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 901 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical habitat population and lineage authority disposition (Lab #317)
+
+At source baseline `80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/reproduction/authority.py` is blob
+`090a4ea9da61f6e36ddf504b931ed1609a73e388` (8,155 bytes; path commit
+`2caa8efa8a40a34e3b53045ca19416a3f6659126`). Its `BirthRecord`, `DeathRecord`,
+and `HabitatBirthAuthority` implement one in-memory historical aggregate for
+habitat capacity admission, identity allocation, live/dead membership, parent
+and generation lineage, legacy Body-death observation, and checkpoint state.
+
+| Responsibility | Current TARGET evidence | Disposition |
+| --- | --- | --- |
+| Identity and offspring lineage | Organism `src/organism/identity.py` accepts a caller-supplied UUID; it has no offspring identity or lineage operation. Organism #49 remains open on reproduction/inheritance contracts. | No equivalent authority or destination identified. |
+| Habitat population capacity and membership | World `src/world/durable_runtime.py` records explicit active-presence and causal-owner transitions with trigger provenance. It does not own biological population capacity or parentage. **World presence lifecycle is not a biological birth/death authority.** | Do not reassign this responsibility to World by name or analogy. |
+| Birth/death records and checkpointed authority state | No matching Environment contract or TARGET Lab reproduction package/consumer was found in the reviewed target revisions. | No component of this historical authority API or its source-coupled tests is retained as TARGET code. |
+
+**Disposition: DROP as TARGET code.** This is a bounded migration decision, not
+a claim that reproduction, lineage, habitat capacity, or birth/death
+coordination is unnecessary, impossible, scientifically invalid, or
+permanently prohibited. Any future capability requires newly specified,
+owner-approved TARGET contracts. Historical implementation and tests remain
+read-only evidence of historical software behavior, not proof of scientific
+validity or TARGET equivalence. The separate Lab #318 runtime disposition and
+Organism #49 remain independent records; this decision does not close either
+question. Historical study/protocol/results continue under Lab #45 governance.
 
 ### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)
 

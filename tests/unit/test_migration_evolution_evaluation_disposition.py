@@ -36,15 +36,15 @@ def test_historical_evolution_evaluation_row_matches_bounded_drop() -> None:
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 104,
+        "SPLIT": 103,
         "REWRITE": 2,
-        "DROP": 900,
+        "DROP": 901,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 104 |" in migration
-    assert "`DROP` | 900 |" in migration
+    assert "`SPLIT` | 103 |" in migration
+    assert "`DROP` | 901 |" in migration
     assert "No currently authorized TARGET study/method" in migration
     assert "does not assess scientific validity, utility or equivalence" in migration
