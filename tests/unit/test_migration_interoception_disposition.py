@@ -83,9 +83,13 @@ def test_physics3d_apparatus_symbols_have_explicit_owner_or_drop_dispositions() 
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     rationale = row["rationale_and_caveat"]
-    assert "Historical Physics3D apparatus wrapper dispositions" in migration
-    assert "not migrated implementations or semantic equivalence" in migration
-    assert SOURCE_COMMIT in migration
+    section_start = migration.index("### Historical Physics3D apparatus wrapper dispositions")
+    section_end = migration.find("\n### ", section_start + 1)
+    section = migration[section_start : section_end if section_end >= 0 else len(migration)]
+    assert "not migrated implementations or semantic equivalence" in section
+    for symbol in symbols:
+        assert section.count(f"`{symbol}`") == 1, f"missing or duplicate documentation row for {symbol}"
+    assert SOURCE_COMMIT in section
     assert APPARATUS_BLOB in migration
     assert "Other source symbols in this mixed file are not disposed" not in rationale
     assert "Exact symbol-level dispositions for every source symbol" in rationale
