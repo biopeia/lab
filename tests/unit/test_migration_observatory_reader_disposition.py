@@ -37,9 +37,9 @@ def test_legacy_observatory_reader_is_dropped_with_pinned_provenance() -> None:
     assert not (ROOT / "src/lab/observation/observatory.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 47, "REWRITE": 3, "DROP": 946, "DEFER": 168}
+    assert counts == {"MOVE": 8, "SPLIT": 46, "REWRITE": 3, "DROP": 947, "DEFER": 168}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical Observatory read adapter disposition (Lab #238)" in migration
-    assert "`DROP` | 946 |" in migration
+    assert "`DROP` | 947 |" in migration
