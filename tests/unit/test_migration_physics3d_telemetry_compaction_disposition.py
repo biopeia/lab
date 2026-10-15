@@ -30,7 +30,7 @@ def test_compaction_is_deferred_pending_cross_domain_telemetry_contract() -> Non
     for evidence in (COMMIT, SHA256, "#311", "#312", "#313", "custody", "integrity"):
         assert evidence in row["rationale_and_caveat"]
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 20, "REWRITE": 3, "DROP": 950, "DEFER": 191}
+    assert counts == {"MOVE": 8, "SPLIT": 19, "REWRITE": 3, "DROP": 950, "DEFER": 192}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert BLOB in migration and SHA256 in migration
     assert "### Historical Physics3D telemetry compaction utility disposition (Lab #308)" in migration

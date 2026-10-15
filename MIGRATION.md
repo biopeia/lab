@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 20 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 19 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 191 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 192 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2143,4 +2143,29 @@ Related reviews [Lab #311](https://github.com/biopeia/lab/issues/311), [#312]
 (https://github.com/biopeia/lab/issues/313) remain prerequisites. This bounded
 defer does not block unrelated migration rows. No code/record/object/result was
 copied, deleted or executed; no durability, integrity, evidence-admissibility,
+scientific-validity or equivalence claim is made.
+
+### Historical Physics3D event-stream codec disposition (Lab #309)
+
+The pinned `lab/src/lab/physics3d/telemetry/events.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`492c9c89f424d9efe6260624fdc4a77577cd67bb`, mode `100644`, 7,369 bytes;
+SHA-256 `23787065c17982ae21452e2b9058668c349a7c8fd41e291531c7c6f16adc53c7`)
+defines one writer/reader/file-iterator codec for snapshots, resets, ephemeral
+events and cumulative appends, driven by historical `EVENT_RULES` temporal classes.
+The source groups this wire/storage behavior around channel lifetimes; it does not
+constitute separate target runtimes for each producer domain.
+
+Disposition is bounded `DEFER`: no approved TARGET event-stream wire/storage
+contract or concrete owner-consumer path was found in inspected Lab, World,
+Embodiment, Environment or Observation `main` revisions recorded in the #308
+review. Closure requires Lab's decision on diagnostic versus governed-evidence
+custody, retention and admission, plus producer-owner acceptance of channel schemas,
+ordering/reset/temporal semantics, reader failure behavior and concrete consumers.
+Telemetry schema review [Lab #312](https://github.com/biopeia/lab/issues/312) is a
+prerequisite; related reader and structural reviews are [#311]
+(https://github.com/biopeia/lab/issues/311) and [#313]
+(https://github.com/biopeia/lab/issues/313). The defer is limited to this codec and
+does not block unrelated migration rows. No code/stream/result/evidence was copied,
+deleted or executed; no completeness, integrity/durability, evidence-admissibility,
 scientific-validity or equivalence claim is made.

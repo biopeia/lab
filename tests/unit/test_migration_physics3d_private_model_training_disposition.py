@@ -24,7 +24,7 @@ def test_private_model_training_service_is_deferred_without_target_contract() ->
     for evidence in (SOURCE_COMMIT, "do not establish a Biopeia target contract", "Closure trigger", "Lab must define custody/admissibility", "no learning efficacy"):
         assert evidence in row["rationale_and_caveat"]
     counts = Counter(entry["disposition"] for entry in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 20, "REWRITE": 3, "DROP": 950, "DEFER": 191}
+    assert counts == {"MOVE": 8, "SPLIT": 19, "REWRITE": 3, "DROP": 950, "DEFER": 192}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Physics3D private-model training service disposition (Lab #302)" in migration
     assert SOURCE_BLOB in migration
