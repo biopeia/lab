@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 17 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 16 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 194 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 195 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2218,3 +2218,25 @@ verification and error handling. Related issues remain individually open: schema
 does not block unrelated migration rows. No code/telemetry/result/evidence was
 copied, deleted or executed; no completeness, integrity/durability,
 evidence-admissibility, scientific-validity or equivalence claim is made.
+
+### Historical Physics3D telemetry layout schema disposition (Lab #312)
+
+The pinned `lab/src/lab/physics3d/telemetry/schema.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`a683b08f6a7e859cd015be90fb9b1ac688d398ee`, mode `100644`, 9,250 bytes;
+SHA-256 `b18b29e807517d702395985899030abb2f529da81422b3125279260575eed2cc`)
+defines one v4.1 layout contract that partitions paths into dense, structural,
+event and static channels, leaves unclassified paths in fallback, and reassembles
+state. Its path taxonomy spans concepts represented by multiple domain owners.
+
+Disposition is bounded `DEFER`: no approved TARGET telemetry schema, channel
+taxonomy or consumer contract was found in inspected target main revisions. Closure
+requires Lab's custody/retention/admission decision, producer-owner authorization of
+field/channel meaning, temporal classes and versioning, and consumer acceptance of
+reassembly/fallback rules. Related reader/codecs are #309–#311; structural/tool/gate
+reviews remain separate in [#313](https://github.com/biopeia/lab/issues/313), [#314]
+(https://github.com/biopeia/lab/issues/314) and [#315]
+(https://github.com/biopeia/lab/issues/315). This defer covers only this legacy
+layout and does not block unrelated migration rows. No code/telemetry/result/evidence
+was copied, deleted or executed; no scientific validity, evidence admissibility,
+completeness, integrity/durability or equivalence claim is made.
