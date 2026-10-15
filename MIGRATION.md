@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 80 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 79 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 923 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 924 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Lab ObservationBus disposition (Lab #231)
@@ -1281,3 +1281,9 @@ Re-evaluate when Observation #38 and the competent Observation/Lab owners record
 | Source path | Disposition | Current target responsibility references | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observation/contracts.py` | REWRITE the inherited frame/constants; drop its historical `observed_frame` event shape and any compatibility/wire promise | `repos/observation/src/observation/semantic.py` owns semantic claim primitives, not a composed frame; no target composition/delivery owner or envelope path is approved. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `14dd5186a187820d679d88b542c639cf84b57adc` (2,822 bytes), symbols `PRESENTATION_PROJECTION`, `COMPLETED_FRAME_CONTRACT`, `OBSERVATION_IDENTITY_CONTRACT`, `ObservedFrame`. Source docs describe an observer-only rendered-tick presentation frame; source `physics3d.py` composes body, cognition, vitals, mind and identity from multiple authorities and emits an `observed_frame` event. Current Observation `MIGRATION.md` at `repos/observation@2f4751f5` classifies the copied frame/constants as a REWRITE candidate: it says the Lab-composed frame is a delivery/composition artifact, not one semantic claim. The existing `observation/src/observation/contracts.py` is documented as transitional, not a stable target schema. A future composition/delivery design must choose its owner and envelope separately. This migration disposition makes no scientific-validity, custody, admission, or equivalence claim. |
+
+### Historical Observation delta transport disposition (Lab #234)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/delta.py` | DROP as historical Lab JSON patch/anchor transport implementation | None. `repos/observation/src/observation/plane.py` streams semantic messages with explicit rebasing; it is not a replacement for this JSON delta format. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `b4573fd49979fd8eee088f3dfa98fe5b0f147c44` (9,259 bytes). The module canonicalizes JSON for hashes, computes patches, maintains per-channel revisions and periodic anchors, and encodes/decodes `observer-live-delta-v1`. The pinned source uses it in the Lab ObservationBus and browser stream patcher; tests establish only that historical transport's round-trip and rejection behavior. Current target search found no implementation or consumer of this wire protocol. Any future transport compression must be designed separately under an authorized delivery contract. This excludes the protocol from migration input, not deletes protected source; no semantic, scientific or equivalence claim is made. |
