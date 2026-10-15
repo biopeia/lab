@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 16 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 15 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 195 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 196 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2240,3 +2240,24 @@ reviews remain separate in [#313](https://github.com/biopeia/lab/issues/313), [#
 layout and does not block unrelated migration rows. No code/telemetry/result/evidence
 was copied, deleted or executed; no scientific validity, evidence admissibility,
 completeness, integrity/durability or equivalence claim is made.
+
+### Historical Physics3D structural telemetry codec disposition (Lab #313)
+
+The pinned `lab/src/lab/physics3d/telemetry/structural.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`e2ad894ae01cfbe1d5246040c0716cef25f7dd90`, mode `100644`, 3,995 bytes;
+SHA-256 `196075f5cfe6fcc298c9b6e05e799fc7f8b4a4de76998541c61bac1a46c5895f`)
+encodes nested mappings/lists and identity-keyed lists into a reversible telemetry
+AST. Candidate identifiers span multiple domain concepts, but the module is one
+generic structural codec rather than separate target runtime behavior.
+
+Disposition is bounded `DEFER`: no approved TARGET structural telemetry AST/schema
+or consumer contract was found. Closure requires Lab's diagnostic/evidence
+custody-retention-admission decision, producer-owner authorization of represented
+entity IDs, edge identity and ordering semantics, and consumer acceptance of AST
+tags/error behavior. Related schema [#312](https://github.com/biopeia/lab/issues/312),
+codecs #309–#311, and tool/gate reviews #314/#315 remain distinct. This defer is
+limited to this codec and does not block unrelated migration rows. No
+code/telemetry/result/evidence was copied, deleted or executed; no identity validity,
+structural completeness, integrity/durability, evidence-admissibility,
+scientific-validity or equivalence claim is made.
