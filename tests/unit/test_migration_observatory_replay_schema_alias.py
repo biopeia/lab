@@ -46,10 +46,10 @@ def test_replay_schema_alias_drop_does_not_disposition_underlying_schema() -> No
     assert schema["target_owner"] == "No TARGET owner for historical replay envelope"
 
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 52, "REWRITE": 3, "DROP": 941, "DEFER": 168}
+    assert counts == {"MOVE": 8, "SPLIT": 51, "REWRITE": 3, "DROP": 942, "DEFER": 168}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert ALIAS_BLOB in migration
     assert SCHEMA_BLOB in migration
     assert "### Historical Observatory replay schema alias (Lab #261; sibling tracked by #267)" in migration
-    assert "| `SPLIT` | 52 |" in migration
-    assert "| `DROP` | 941 |" in migration
+    assert "| `SPLIT` | 51 |" in migration
+    assert "| `DROP` | 942 |" in migration

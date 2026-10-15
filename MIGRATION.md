@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 52 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 51 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 941 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 942 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -569,6 +569,12 @@ Keep this alias as `DEFER`, linked to Observation #38. The Lab #255 coordinator 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/schemas/topology.schema.json` | DEFER as unapproved historical cognition-topology schema | Organism owns private cognition; no TARGET topology projection/checkpoint schema authorized. Dependencies: Organism #169, Organism #45, Observation #38. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `6525f49ddf3271b0ff6f8fde7fe516da791f9059`, mode `100644`, 1,669 bytes; SHA-256 `4c735bd03d4a0f46306441a68ff4e0abcdbdbf86da50fdfd08d4005e56254441`. The structural-only schema serializes genome/kernel identity, topology revision, node kinds/bias/tau and typed edges while excluding weights, eligibility and readouts. Its fields still describe private cognitive structure; this does not establish a scientific interpretation. ADR-0095 assigns private cognition to Organism and bars semantic inspection except via an explicit owner contract. No Biopeia consumer or approved projection/persistence contract was identified. DEFER until the Organism owner decides whether any bounded projection may be published (Organism #169); if intended only for private persistence, resolve checkpoint completeness first (Organism #45). Observation #38 tracks the broader producer inventory. Closure trigger: owner-recorded identity, provenance, revision and privacy semantics. Lab then drops this historical wire schema absent an accepted contract or raises a separate target-authored schema issue. This does not block bounded Lab runtime migration (no TARGET consumer/package dependency). No schema copy or scientific validity/equivalence/admission/future-need claim; source remains read-only. |
+
+### Historical Observatory server (Lab #271)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/server.py` | DROP as TARGET implementation | No TARGET server/application implementation destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `4f656e71647dfa05a10eb9e017f573d1fc5506cf`, mode `100644`, 10,054 bytes; SHA-256 `34686bbad323801893321c95cdd00f3168db1c010bde2104ab996cc6c9865058`. Verified symbols `_valid_instance_id`, `_Handler`, `ObservatoryServer`, `main`. This loopback-only read-only HTTP/SSE server serves legacy Observatory files, static assets, historical fleet/instance streams, optional World state/events and a semantic-observation wire endpoint; it provides presentation/transport, not scientific evidence custody or semantic authority. Its pinned source tests exercise route/server implementation behavior only, not scientific validity. Current Biopeia Lab has no target Observatory/server/application consumer, and target Observation owns a passive semantic contract rather than this HTTP service. Drop this implementation as TARGET migration input only; any future Lab presentation/transport must be separately specified and newly authored against owner-authorized contracts. This does not rule out future UI/transport needs, dispose historical evidence, or claim scientific validity/equivalence/admission; source remains read-only. |
 
 ### Historical Observatory cognition-state schema (Lab #265)
 
