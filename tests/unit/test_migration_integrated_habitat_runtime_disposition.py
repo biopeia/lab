@@ -38,10 +38,10 @@ def test_integrated_habitat_runtime_is_dropped_as_target_implementation() -> Non
     assert not (ROOT / "src/lab/integration/integrated_habitat.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 32, "REWRITE": 3, "DROP": 949, "DEFER": 180}
+    assert counts == {"MOVE": 8, "SPLIT": 31, "REWRITE": 3, "DROP": 949, "DEFER": 181}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 32 |" in migration
+    assert "`SPLIT` | 31 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "The historical study/protocol/results and source artifacts are separate" in migration
