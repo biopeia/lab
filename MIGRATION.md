@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 71 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 70 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 929 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 930 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 161 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1388,3 +1388,7 @@ Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`
 ### Historical Symbiont affordance adapter disposition (Lab #245)
 
 Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/symbiont_affordance.py`, blob `5e37fbd287cb4c72199d00bf2541d5e0b6580025` (3,752 bytes; mode `100644`). Its sole exported function wraps the historical `AffordanceObservation` as a Symbiont-authority `SemanticObservation`, derives lineage from affordance/effect/prediction/evidence/context/embodiment references, and optionally adds Lab run context. Current Organism owns independently authored action-affordance primitives in `repos/organism/src/organism/agency/affordance.py`, but this does not establish the historical adapter, claim-family semantics, or behavioral equivalence. Searches of current Observation and Lab source/tests found no consumer of this helper or approved target affordance claim adapter. Classify the historical adapter as `DROP` from migration input; any future claim projection requires owner-approved TARGET contract and a separately authored adapter. This does not question scientific validity, admit evidence, assign authority, or assert future need is absent. Historical source remains read-only.
+
+### Historical Observation wire serializer disposition (Lab #246)
+
+Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/wire.py`, blob `160df024ef608db2ee97603e8d4a326c53718fae` (4,895 bytes; mode `100644`). It serializes the legacy `SemanticObservation` and `PlaneMessage` into `observation-semantic-wire-v1`, including identity, lineage, context and value fields. TARGET Observation `src/observation/http_bridge.py` is a local-only read-only bridge restricted to two approved families and defines its own allowlisted encoding; it is not this general wire schema or an equivalent path. No current Lab consumer or approved target wire contract for the historical payload was found. Classify the serializer/schema as `DROP` from migration input; any future wire/API requires a separately approved target contract. This does not assign semantic authority or make evidence/scientific/equivalence claims; historical source remains read-only.
