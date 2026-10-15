@@ -35,10 +35,10 @@ def test_historical_kernel_pareto_helper_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/kernel_characterization/pareto.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 88, "REWRITE": 2, "DROP": 916, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 87, "REWRITE": 2, "DROP": 917, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 88 |" in migration
-    assert "`DROP` | 916 |" in migration
+    assert "`SPLIT` | 87 |" in migration
+    assert "`DROP` | 917 |" in migration
     assert "### Historical kernel-characterization Pareto helper" in migration
