@@ -37,10 +37,10 @@ def test_historical_inference_gateway_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/gateway.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 26, "REWRITE": 3, "DROP": 949, "DEFER": 186}
+    assert counts == {"MOVE": 8, "SPLIT": 25, "REWRITE": 3, "DROP": 949, "DEFER": 187}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 26 |" in migration
+    assert "`SPLIT` | 25 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "### Historical private-model inference gateway (Lab #222)" in migration
