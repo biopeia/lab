@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 49 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 48 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 944 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 78 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 945 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 79 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1082,6 +1082,12 @@ The inventory row preserves the pinned path/blob and records this decision. No r
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_adapter.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `b4a586f647bb22a6169863bbbe56312b4203ed5f`, mode `100644`, 22,130 bytes. Verified symbols `_minimal_genome_payload`, `AdapterTests`, `_test_generative_projection_fixture`, `test_projects_generative_cognition_as_separate_ephemeral_layer`. The suite imports the legacy Observatory adapter and checks historical snapshot fields, replay serialization, schema shapes, and synthetic bounded cognition/generative projection fixtures. Assertions on contamination counters concern constructed objects and implementation output; they are not observed biological outcomes or scientific evidence. No Biopeia TARGET consumer or authorized contract adopts these legacy test oracles, and the tested adapter/schemas are separately inventoried. Exclude this implementation-coupled source test from TARGET tests; retain historical source read-only. Future tests must target owner-approved contracts. This does not dispose of scientific assets/results or establish validity, equivalence, evidence admission, or future need. |
+
+### Historical Observatory adversarial hardening tests (Lab #275)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_adversarial_hardening.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `00262cc40b18a8de57910e192d799f0063b21a07`, mode `100644`, 4,748 bytes; verified symbols `ROOT`, `_next_sse_payload`, `ObservatoryAdversarialHardeningTests`. The tests exercise legacy schema validation, malformed registry records, heartbeat timestamp parsing, run rollover and the historical HTTP/SSE server using synthetic temporary records. These are implementation-coupled software/security assertions, not a target API contract or scientific evidence. No Biopeia target Observatory server/registry consumer adopts these behaviors. Exclude only this historical test from TARGET tests; preserve its source read-only. Any future security requirements must be specified and tested against their owning TARGET contract; this disposition does not say safeguards are unnecessary. No evidence/assets are dispositioned and no scientific validity/equivalence/admission claim is made. |
 
 ### Historical reproduction package facade
 

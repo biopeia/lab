@@ -21,5 +21,5 @@ def test_historical_cognition_schema_has_bounded_drop_disposition() -> None:
     assert COMMIT in row["rationale_and_caveat"]
     assert "not a target semantic contract or scientific result" in row["rationale_and_caveat"]
     counts = Counter(r["disposition"] for r in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 49, "REWRITE": 3, "DROP": 944, "DEFER": 168}
+    assert counts == {"MOVE": 8, "SPLIT": 48, "REWRITE": 3, "DROP": 945, "DEFER": 168}
     assert "### Historical Observatory cognition-state schema (Lab #265)" in (ROOT / "MIGRATION.md").read_text()
