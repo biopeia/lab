@@ -41,7 +41,7 @@ def test_physics3d_world_observation_adapter_is_dropped_as_target_code() -> None
         assert evidence in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 82, "REWRITE": 2, "DROP": 922, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 81, "REWRITE": 2, "DROP": 923, "DEFER": 160}
     assert not (ROOT / "src/lab/physics3d/world_observation.py").exists()
 
 
@@ -49,6 +49,6 @@ def test_world_observation_disposition_is_recorded_in_migration_ledger() -> None
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical PhysicsWorldObserver adapter disposition (Lab #316)" in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 82 |" in migration
-    assert "`DROP` | 922 |" in migration
+    assert "`SPLIT` | 81 |" in migration
+    assert "`DROP` | 923 |" in migration
     assert "This disposition does not rule out a separately designed TARGET physical-observation composition." in migration
