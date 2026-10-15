@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 23 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 22 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 189 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 190 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2066,3 +2066,29 @@ Closure requires those decisions plus a concrete target path, or owner-authorize
 `DROP`. This does not block bounded runtime transfer. No worker/writer was run,
 no records were copied, and no durability, evidence-admissibility, scientific
 validity or equivalence claim is made.
+
+
+### Historical Physics3D binary telemetry codec disposition (Lab #306)
+
+The pinned `lab/src/lab/physics3d/telemetry/binary.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`74372cbf18081db4fc96295122c415ca53c5bb03`, mode `100644`, 43,726 bytes)
+contains the 34 top-level symbols listed in the canonical inventory. It combines
+unsigned/signed varints, string/value and record encoding, record hashing,
+template compression, frame schema, dense, path-registry, delta, event and static
+writers/readers, plus tick buckets. These are interdependent formats within the
+legacy telemetry API, not separate TARGET domain owners or independent reusable
+formats.
+
+Disposition is bounded `DEFER`: there is no target consumer or accepted binary
+wire/schema contract, version/migration policy, producer/reader pair, or
+Integrity/durability guarantee for these byte encodings. Lab must decide whether
+any stream contains governed scientific evidence and define custody, retention
+and admission; Lab and producer owners must establish the record contract before
+a target codec path can be authorized. The linked schema review [Lab #312]
+(https://github.com/biopeia/lab/issues/312) and neighboring telemetry rows must
+be reconciled before reconsideration. Closure requires a target-owned schema and
+consumer contract with a concrete path, or an owner-authorized `DROP` plus
+evidence disposition. This does not block bounded runtime transfer. No codec or
+stream was executed/copied, and no compatibility, integrity, durability,
+evidence admissibility, scientific validity or equivalence is claimed.
