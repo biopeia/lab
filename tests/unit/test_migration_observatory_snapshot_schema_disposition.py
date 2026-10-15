@@ -44,13 +44,13 @@ def test_historical_observatory_snapshot_schemas_are_dropped_as_target() -> None
         assert "source remains read-only" in rationale
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 7, "SPLIT": 75, "REWRITE": 3, "DROP": 927, "DEFER": 160}
+    assert counts == {"MOVE": 7, "SPLIT": 74, "REWRITE": 3, "DROP": 927, "DEFER": 161}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory snapshot schemas" in migration
     assert SOURCE_BLOB in migration
     assert SOURCE_SHA256 in migration
     bt = chr(96)
-    assert f"{bt}SPLIT{bt} | 75 |" in migration
+    assert f"{bt}SPLIT{bt} | 74 |" in migration
     assert f"{bt}DROP{bt} | 927 |" in migration
     assert "does not claim future Observation semantic-family schemas are unnecessary" in migration
