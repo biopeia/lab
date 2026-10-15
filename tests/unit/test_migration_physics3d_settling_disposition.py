@@ -30,5 +30,5 @@ def test_physics3d_settling_disposition_records_missing_authority_and_counts() -
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Physics3D passive settling disposition (Lab #304)" in migration
     assert "does not block target runtime extraction" in migration
-    assert "| `DEFER` | 194 |" in migration
+    assert "| `DEFER` | 195 |" in migration
 
