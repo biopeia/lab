@@ -25,7 +25,7 @@ def test_historical_signal_knowledge_schema_has_bounded_defer() -> None:
     assert "does not block the bounded Lab runtime migration" in rationale
     assert "No source deletion" in rationale
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 25, "REWRITE": 3, "DROP": 949, "DEFER": 187}
+    assert counts == {"MOVE": 8, "SPLIT": 24, "REWRITE": 3, "DROP": 949, "DEFER": 188}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory signal-knowledge schema (Lab #268)" in migration
-    assert "| `SPLIT` | 25 |" in migration and "| `DEFER` | 187 |" in migration
+    assert "| `SPLIT` | 24 |" in migration and "| `DEFER` | 188 |" in migration
