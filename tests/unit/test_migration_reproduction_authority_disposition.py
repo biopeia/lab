@@ -34,11 +34,11 @@ def test_historical_population_authority_is_dropped_not_reassigned() -> None:
     assert "does not claim reproduction" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 85, "REWRITE": 2, "DROP": 919, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 84, "REWRITE": 2, "DROP": 920, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical habitat population and lineage authority disposition (Lab #317)" in migration
     assert SOURCE_BLOB in migration
     assert "World presence lifecycle is not a biological birth/death authority" in migration
-    assert "`SPLIT` | 85 |" in migration
-    assert "`DROP` | 919 |" in migration
+    assert "`SPLIT` | 84 |" in migration
+    assert "`DROP` | 920 |" in migration

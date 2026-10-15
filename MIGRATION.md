@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 85 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 84 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 919 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 920 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -693,6 +693,23 @@ tracked consumer was found in the bounded current Biopeia repository search.
 protocols, corpora, results, and evidence remain separately preserved and
 governed. No study/evaluation was executed. No scientific validity, efficacy,
 interpretation, evidence admission, equivalence, or future-need claim is made.
+
+### Historical temporal challenger evaluation (Lab #226)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/temporal_evaluation.py` is blob
+`40cee786463b5161ba397686eebb357833b31137` (3,433 bytes). It fits the historical
+decayed variable-order Markov challenger on encoded training sequences, then
+computes held-out next-token loss, accuracy, and resource summaries without
+updating learned counts with test tokens. Pinned callers are historical
+private-model/temporal learning studies and tests; no current TARGET consumer
+or temporal-challenger evaluation contract was found in the bounded repository
+search.
+
+**Disposition: DROP this historical evaluation code as TARGET code.** This
+does not dispose of protocols, corpora, results, or evidence. No study or
+evaluation was run. No metric/scientific validity, evidence admission,
+equivalence, or future-need claim is made.
 
 ### Historical private-model inference gateway (Lab #222)
 
