@@ -30,7 +30,7 @@ def test_historical_world_scene_protocol_is_dropped() -> None:
     assert "not this Lab viewer schema" in row["rationale_and_caveat"]
     assert "No evidence admission" in row["rationale_and_caveat"]
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 62, "REWRITE": 3, "DROP": 934, "DEFER": 165}
+    assert counts == {"MOVE": 8, "SPLIT": 61, "REWRITE": 3, "DROP": 935, "DEFER": 165}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical World scene presentation disposition (Lab #247)" in migration
