@@ -34,7 +34,7 @@ def test_physics3d_engine_is_deferred_pending_target_runtime_contracts() -> None
     assert "does not block the separately bounded runtime-transfer profile" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 27, "REWRITE": 3, "DROP": 949, "DEFER": 185}
+    assert counts == {"MOVE": 8, "SPLIT": 26, "REWRITE": 3, "DROP": 949, "DEFER": 186}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
