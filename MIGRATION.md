@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 94 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 93 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 910 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 911 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -643,6 +643,22 @@ validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
 method-equivalence, or future-need claim is made.
+
+### Historical variable-order Markov challenger (Lab #217)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/context_tree.py` is blob
+`6ee1533579f2d588b6a4422c3bd007a2f45c18ac` (5,859 bytes). It defines
+`DecayedVariableOrderMarkov`: a discrete next-symbol challenger with decayed,
+smoothed context counts, bounded context length, and resource accounting. The
+pinned source callers are offline Lab temporal evaluation and private-model
+controls/study code; this is not Organism runtime state or behavior. The Biopeia
+Lab TARGET has no corresponding module or tracked consumer.
+
+**Disposition: DROP this historical helper as TARGET code.** This does not
+remove or classify its protocols, study results, or evidence; those remain
+preserved and governed separately. No study was run. No scientific validity,
+efficacy, method-equivalence, result-admission, or future-need claim is made.
 
 ### Historical modeling package facade
 
