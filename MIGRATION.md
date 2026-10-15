@@ -82,12 +82,12 @@ The pinned mixed adapter composes several concerns. The ledger remains `SPLIT` b
 | --- | --- | --- |
 | `_running_version` | DROP as TARGET helper | No Lab target consumer or owner contract. |
 | `physics3d_sensory_system` | DROP as TARGET Lab wrapper | No TARGET path for this helper; this does not prohibit future sensory capability. |
-| `physics3d_cognition` | Organism reference: `src/organism/cognition/birth.py::load_base_cognition` | Independent Organism birth API; not transferred from Lab. |
-| `physics3d_actuator_surface` | Organism reference: `src/organism/actuation/surface.py::derive_actuator_constitution` | Independent Organism-owned actuator surface; not transferred from Lab. |
+| `physics3d_cognition` | DROP historical Lab wrapper; Organism capability reference: `src/organism/cognition/birth.py::load_base_cognition` | The reference identifies an independently owned API, not a retained Lab wrapper, migrated implementation, or equivalence claim. |
+| `physics3d_actuator_surface` | DROP historical Lab wrapper; Organism capability reference: `src/organism/actuation/surface.py::derive_actuator_constitution` | The reference identifies an independently owned API, not a retained Lab wrapper, migrated implementation, or equivalence claim. |
 | `OpaqueBodyInteroception` | DROP as TARGET code | No approved TARGET contract or current Lab consumer; see bounded interoception disposition above. |
 | `PhysicsDiscoveryProvider`, `PhysicsReadingProvider` | DROP as TARGET Lab adapters | No current TARGET Lab adapter path; no compatibility surface is retained. |
 | `actuator_to_effector_map` | DROP as TARGET implementation | Historical positional mapping conflicts with stable-identity binding; see its specific rationale below. |
-| `actuator_exclusion_groups` | Organism reference: `src/organism/actuation/sensorimotor.py::CompetenceDevelopmentEngine.exclusive_actuator_groups` | Distinct owner contract. No claim of semantic or behavioral equivalence with the historical projection. |
+| `actuator_exclusion_groups` | DROP historical Lab projection; Organism capability reference: `src/organism/actuation/sensorimotor.py::CompetenceDevelopmentEngine.exclusive_actuator_groups` | Distinct owner contract. No claim of semantic or behavioral equivalence with the historical projection; the reference does not retain the Lab projection. |
 | `body_schema_summary` | DROP as TARGET evaluator helper | No TARGET path or production consumer established. |
 
 All references were checked against Organism `7b9f738efdcd8cc27efe99c201ce3d88e487fcb2`, Embodiment `5a23e1fbeaa31109647aec4d4dc36eddbe0a6321`, Modality `93a4c3a4ea71dcf65269ce730aab736238fd3ea7`, and Lab base `35759fc2794cd0944fe3d77a07925cef8f3f937e`. Historical provenance remains `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `8de1f29fe87321fcab0cb051e79fadcf0f833cd6`. This is a migration inventory disposition only: no code transfer, compatibility, scientific validation, evidence admission, or permanent capability prohibition is implied.
