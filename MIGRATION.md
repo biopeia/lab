@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 99 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 98 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 905 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 906 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -548,6 +548,25 @@ disposes only this code row; it does not disposition the separately inventoried
 runner, protocols, studies, or results, and makes no scientific-validity,
 result-admission, method-equivalence, or future-need claim. Historical source
 remains read-only.
+
+### Historical kernel-characterization protocol data (Lab #212)
+
+At pinned historical source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/kernel_characterization/protocols.py` is blob
+`1d056c3cb86d36c0b9e36fcee507fb9da3671992` (727 bytes). The module defines
+ten fixed seeds, a `Phase` value type, seven named phase durations, and a helper
+that substitutes a positive uniform duration. The only tracked call sites at
+the pinned source revision are in the historical `kernel_characterization`
+runner, where those values structure a synthetic capacity probe. The source
+contains no Organism state/behavior and no distinct responsibility assigned to
+multiple TARGET owners. Biopeia Lab has no corresponding TARGET module or
+tracked consumer.
+
+**Disposition: DROP this historical code row from TARGET.** This does not delete
+or disposition the historical source, protocol/results, or associated evidence;
+they remain preserved under their separate governance and custody paths. It is
+not a scientific-validity, result-admission, method-equivalence, or future-need
+claim. No experiment was run and no protocol was changed.
 
 ### Historical modeling package facade
 
