@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 102 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 101 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 902 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 903 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -517,6 +517,37 @@ domain. Protocol/result disposition remains separate under Lab #45.
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/kernel_characterization/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `072aea65d990b64db4936ead4e0fb0861cb46ca1` (343 bytes). The initializer contains a docstring and re-exports `BASELINE_KERNEL` and `KernelVariant` from the separately inventoried historical `config` module; it defines no independent behavior. The Biopeia Lab TARGET tree has no `kernel_characterization` package or tracked source/test consumer at candidate main `fcf678d85241842a7811e02c3e1b0d37b8895ade`. Drop this package facade only; the sibling config and characterization/study modules remain separate inventory items and are not classified here. This does not claim the historical method is scientifically invalid or future Lab analysis unnecessary. Do not retain the old import surface for compatibility. Historical source remains read-only. |
+
+### Historical kernel-characterization config disposition (Lab #209)
+
+At pinned historical source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/kernel_characterization/config.py` is blob
+`011e47d5527d3cc0844d97b187a047fd533356da` (4,182 bytes; path commit
+`13720935595fedabec2c376dc933629b0deae5aa`). Its three recorded symbols are
+`BASELINE_KERNEL`, `KernelVariant`, and `complete_kernel`. The baseline
+instantiates the historical `KernelLimits`; the variant creates a
+study-specific copy changing selected resource limits; `complete_kernel`
+serializes all fields for the historical run manifest. The historical runner
+and its source-coupled tests are the only tracked callers at the pinned source.
+
+Biopeia Organism at `b674450dd6678d7a0a00a41591648511814709ba` already owns
+`KernelLimits` at `src/organism/cognition/limits.py`. Its contract is an
+Organism runtime ceiling type, and it differs from the older historical
+parameter set; that relationship does not make the Lab experiment wrapper an
+Organism API. Lab at `e45f94473f2ee49d9097a4fa817671a72fce2cb0` has no TARGET
+`kernel_characterization` package or tracked consumer of these symbols.
+
+**Disposition: DROP the entire historical config module as TARGET code, not
+SPLIT.** The source row has one actual responsibility: experiment-local
+configuration and serialization for the historical characterization runner.
+`KernelLimits` is an input owned by the historical Organism layer and already
+has a distinct TARGET owner; this file does not implement that limit contract.
+No target Lab experiment configuration/consumer is present to retain, and the
+old variant/manifest API is not carried forward by analogy. This decision
+disposes only this code row; it does not disposition the separately inventoried
+runner, protocols, studies, or results, and makes no scientific-validity,
+result-admission, method-equivalence, or future-need claim. Historical source
+remains read-only.
 
 ### Historical modeling package facade
 
