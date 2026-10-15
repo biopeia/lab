@@ -36,6 +36,9 @@ def test_replay_schema_alias_drop_does_not_disposition_underlying_schema() -> No
     assert "#267" in rationale
     assert "UC-0001" in rationale
     assert "No scientific validity or equivalence claim" in rationale
+    assert "adds no independent schema/API/behavior/contract" in rationale
+    assert "no TARGET import/consumer of the alias was identified" in rationale
+    assert "Lab #267 remains independent and unresolved" in rationale
 
     schema = rows[SCHEMA_PATH]
     assert schema["source_blob_at_pinned_commit"] == SCHEMA_BLOB
