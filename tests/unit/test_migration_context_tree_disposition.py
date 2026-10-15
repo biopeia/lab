@@ -35,10 +35,10 @@ def test_historical_variable_order_challenger_is_dropped_as_target_code() -> Non
     assert not (ROOT / "src/lab/modeling/context_tree.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 58, "REWRITE": 3, "DROP": 937, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 57, "REWRITE": 3, "DROP": 938, "DEFER": 166}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 58 |" in migration
-    assert "`DROP` | 937 |" in migration
+    assert "`SPLIT` | 57 |" in migration
+    assert "`DROP` | 938 |" in migration
     assert "### Historical variable-order Markov challenger (Lab #217)" in migration
