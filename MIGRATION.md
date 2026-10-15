@@ -397,10 +397,36 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 78 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 77 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 925 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 926 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical Observatory read adapter disposition (Lab #238)
+
+At source baseline `80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/observation/observatory.py` is blob
+`47c42c8ffa09828989342f7b7f95d6382aefe66c` (mode `100644`, 7,710 bytes).
+The inventory's seven recorded symbols were checked against the pinned file:
+`observatory_package_root`, `valid_instance_id`, `_read_json_object`,
+`_registry_api`, `parse_journal_line`, `read_journal`, and `ObservatorySource`.
+
+The module is a read-only adapter to the historical Lab Observatory package:
+it resolves that package, reads its registry and topology/manifests, filters
+registry records by legacy liveness rules, incrementally parses old NDJSON or
+gzip run journals, and reads run summaries. It does not implement a generic
+Observation consumer contract or scientific evidence admission. Current Lab
+has no consumer of this API. Observation #38's product direction makes Lab a
+read-only consumer of owner-authorized Observation data and keeps Lab's
+scientific evidence custody distinct; #38 does not authorize preserving this
+historical filesystem API, schemas, or ingestion path. Therefore the source
+adapter and its legacy interface are `DROP` as TARGET code, with no target
+path. A future Lab reader, if needed, must be newly designed against an
+approved Observation contract. DROP applies only to the pinned implementation;
+the historical source remains read-only and no scientific artifact, validity,
+or equivalence is dispositioned here. This row is non-blocking to the bounded
+Lab utility extraction, while its disposition is recorded for the complete
+source inventory.
 
 ### Historical Lab ObservationBus disposition (Lab #231)
 

@@ -36,10 +36,10 @@ def test_historical_private_model_factory_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/factory.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 78, "REWRITE": 3, "DROP": 925, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 77, "REWRITE": 3, "DROP": 926, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 78 |" in migration
-    assert "`DROP` | 925 |" in migration
+    assert "`SPLIT` | 77 |" in migration
+    assert "`DROP` | 926 |" in migration
     assert "### Historical private-model factory and adoption orchestration (Lab #221)" in migration
