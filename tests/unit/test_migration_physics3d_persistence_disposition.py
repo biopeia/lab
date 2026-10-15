@@ -33,7 +33,7 @@ def test_persistence_facade_is_split_by_owner_and_unmatched_helpers_are_excluded
     for evidence in (SOURCE_COMMIT, "no single authorized TARGET bundle", "Lab evidence custody alone", "No source files or artifacts are copied or deleted"):
         assert evidence in rationale
     counts = Counter(entry["disposition"] for entry in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 18, "REWRITE": 3, "DROP": 950, "DEFER": 193}
+    assert counts == {"MOVE": 8, "SPLIT": 17, "REWRITE": 3, "DROP": 950, "DEFER": 194}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Physics3D persistence facade disposition (Lab #301)" in migration
     assert SOURCE_BLOB in migration

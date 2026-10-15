@@ -25,7 +25,7 @@ def test_event_stream_codec_is_deferred_for_target_contract_and_custody() -> Non
     for evidence in (COMMIT, SHA256, "#311", "#312", "#313", "custody", "temporal"):
         assert evidence in row["rationale_and_caveat"]
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 18, "REWRITE": 3, "DROP": 950, "DEFER": 193}
+    assert counts == {"MOVE": 8, "SPLIT": 17, "REWRITE": 3, "DROP": 950, "DEFER": 194}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert BLOB in migration and SHA256 in migration
     assert "### Historical Physics3D event-stream codec disposition (Lab #309)" in migration

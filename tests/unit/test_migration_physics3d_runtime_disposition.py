@@ -45,5 +45,5 @@ def test_physics3d_runtime_disposition_records_boundaries_and_counts() -> None:
     assert "Historical Physics3D runtime disposition (Lab #303)" in migration
     assert "no source implementation is approved to move" in migration
     assert "no autonomy, scientific" in migration
-    assert "| `SPLIT` | 18 |" in migration
+    assert "| `SPLIT` | 17 |" in migration
 

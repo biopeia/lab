@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 18 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 17 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 193 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 194 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2192,3 +2192,29 @@ prerequisite; related reader and structural reviews are [#311]
 does not block unrelated migration rows. No code/stream/result/evidence was copied,
 deleted or executed; no completeness, integrity/durability, evidence-admissibility,
 scientific-validity or equivalence claim is made.
+
+### Historical Physics3D telemetry reader disposition (Lab #311)
+
+The pinned `lab/src/lab/physics3d/telemetry/reader.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`c9dbc43f6d7b4670d866b62fcde893073d6dd9a0`, mode `100644`, 2,406 bytes;
+SHA-256 `e429820a08f8ed02e173248182ed32c145d4b9fff61bd708cf7eb3195b0c30b2`)
+defines a protocol plus discovery/opening for historical v4.1 run directories,
+delegating to `TelemetryV41Reader`. Parent-directory discovery selects the
+reverse-sorted first child run, which needs a deliberate target selection contract.
+This is one version-detection/reader interface, not separate domain runtime code.
+
+Disposition is bounded `DEFER`: no approved TARGET telemetry reader/schema contract
+or evidence consumer path was found in inspected Lab, World, Embodiment, Environment
+or Observation `main` revisions. Closure requires Lab's decision on telemetry
+custody, retention and admission; producer-owner definitions of accepted schemas,
+versions and state/summary/event semantics; and Lab decisions for run selection,
+verification and error handling. Related issues remain individually open: schema
+[#312](https://github.com/biopeia/lab/issues/312), structural validation [#313]
+(https://github.com/biopeia/lab/issues/313), tools [#314]
+(https://github.com/biopeia/lab/issues/314), v4.1 gate [#315]
+(https://github.com/biopeia/lab/issues/315), and writer lifecycle [#305]
+(https://github.com/biopeia/lab/issues/305). This defer is limited to the reader and
+does not block unrelated migration rows. No code/telemetry/result/evidence was
+copied, deleted or executed; no completeness, integrity/durability,
+evidence-admissibility, scientific-validity or equivalence claim is made.
