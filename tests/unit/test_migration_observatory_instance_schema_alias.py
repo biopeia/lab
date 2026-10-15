@@ -27,13 +27,14 @@ def test_instance_schema_alias_is_bounded_defer_linked_to_sibling_issue() -> Non
     assert alias["bytes"] == "28"
     assert alias["top_level_python_symbols"] == ""
     assert alias["disposition"] == "DEFER"
-    assert "Lab #266" in alias["target_owner"]
-    assert "#266" in alias["target_path_or_status"]
+    assert "Lab #255 coordinator" in alias["target_owner"]
+    assert "Observation #38" in alias["target_owner"]
+    assert "Lab #266" in alias["target_path_or_status"]
     assert "schemas/instance.schema.json" in alias["rationale_and_caveat"]
     assert SOURCE_COMMIT in alias["rationale_and_caveat"]
     assert "competent-owner disposition" in alias["rationale_and_caveat"]
-    assert "outside the authorized bounded runtime-transfer slice" in alias["rationale_and_caveat"]
-    assert "blocks declaring Lab #78/#45 disposition work complete" in alias["rationale_and_caveat"]
+    assert "outside the bounded runtime-transfer profile" in alias["rationale_and_caveat"]
+    assert "unresolved #78/#45 worklist" in alias["rationale_and_caveat"]
 
     assert not (ROOT / "src/lab/observatory/instance.schema.json").exists()
     assert not (ROOT / "src/lab/observatory/schemas/instance.schema.json").exists()
@@ -51,8 +52,10 @@ def test_instance_schema_alias_is_bounded_defer_linked_to_sibling_issue() -> Non
     assert counts == {"MOVE": 6, "SPLIT": 105, "REWRITE": 2, "DROP": 899, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
-    assert "### Observatory instance schema path alias (Lab #255; linked to #266)" in migration
-    assert "alias remains `DEFER` pending #266" in migration
+    assert "### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)" in migration
+    assert "Keep this alias as `DEFER`, linked to Observation #38" in migration
     assert "classify this alias as DROP" in migration
     assert "scientific validity/equivalence/admission" in migration.lower()
-    assert "after #266 records and integrates a competent-owner disposition" in migration
+    assert "Lab #266 recorded that schema as a bounded `DEFER`" in migration
+    assert "competent Observation/Lab owners record whether" in migration
+    assert "linked to Observation #38" in migration
