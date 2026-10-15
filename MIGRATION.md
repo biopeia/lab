@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 21 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 20 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 190 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 191 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2113,3 +2113,34 @@ benchmark/gate behavior. Those belong to separate tool and v4.1 inventory rows
 evidence-custody/claim review. No CLI or gate was run, no code/evidence was
 copied/deleted, and no acceptance, scientific validity, admissibility or
 equivalence claim is made.
+
+
+### Historical Physics3D telemetry compaction utility disposition (Lab #308)
+
+The pinned `lab/src/lab/physics3d/telemetry/compaction.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`dfe2e3b51c140fc85f51be74da4b257b5ae874e5`, mode `100644`, 11,044 bytes;
+SHA-256 `fc61dbe77c5ec023488e5748a5d436ff14ccaacc84f1aa474debd88a36b04d4b`)
+defines canonical JSON/hash helpers, JSON-pointer operations, a content-addressed
+object store, a compaction policy, and deterministic JSON-tree differ/patcher. Its
+default references explicitly span observer semantics, cognitive topology, body
+schema, self-model and motor primitives. This is one generic storage/patch utility
+with cross-domain state paths, not evidence of four independent target runtimes.
+
+Disposition is bounded `DEFER`, not `SPLIT`: no approved TARGET telemetry
+compaction/reference schema, owner-specific contract, or concrete consumer path was
+found in inspected Lab, World, Embodiment, Environment, or Observation `main`
+revisions (respectively `51b554baf835819a42448ad1926c3b1e5be272b6`,
+`a7c8099cf6ede9cfdb8f6cf7eaefb2eab8dc9bad`,
+`d73315d87bbb3f2eea14e8c33812b37b59a5d72f`,
+`d09e45c40633c9b2bf927c7aec3f6326318c2ea8`, and
+`a8b43af65b79ca4e2455bfc1ff1b55faf3d4d353`). The closure trigger is a Lab
+decision on diagnostic output versus governed evidence (custody, retention,
+validation/admission), plus producer-owner acceptance of a telemetry schema,
+reference resolution and patch/integrity/failure contract with concrete consumers.
+Related reviews [Lab #311](https://github.com/biopeia/lab/issues/311), [#312]
+(https://github.com/biopeia/lab/issues/312), and [#313]
+(https://github.com/biopeia/lab/issues/313) remain prerequisites. This bounded
+defer does not block unrelated migration rows. No code/record/object/result was
+copied, deleted or executed; no durability, integrity, evidence-admissibility,
+scientific-validity or equivalence claim is made.
