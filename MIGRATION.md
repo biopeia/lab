@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 50 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 49 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 943 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 944 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 78 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1076,6 +1076,12 @@ The inventory row preserves the pinned path/blob and records this decision. No r
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_schema_validate.py` | DROP as TARGET test | No TARGET test destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d6754edd98b6e26315ee2f95d13d7e4038642bba` (mode `100644`, 3,912 bytes). `SchemaValidateConditionalTests` checks the historical Observatory JSON-schema helper's `if/then/else`, `allOf`, `anyOf` and `not` behavior; `SignalKnowledgeSchemaTests` checks required/identity/unexpected-field structure in the historical `signal_knowledge.schema.json`. The inspected Biopeia TARGET repositories establish no matching schema/test contract or destination. These are structural test assertions, not scientific evidence. Exclude this historical test file from TARGET tests while preserving its source and provenance read-only. This does not claim future schema validation, signal-knowledge representation or Observation publication is unnecessary or scientifically invalid. |
+
+### Historical Observatory adapter tests (Lab #274)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_adapter.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `b4a586f647bb22a6169863bbbe56312b4203ed5f`, mode `100644`, 22,130 bytes. Verified symbols `_minimal_genome_payload`, `AdapterTests`, `_test_generative_projection_fixture`, `test_projects_generative_cognition_as_separate_ephemeral_layer`. The suite imports the legacy Observatory adapter and checks historical snapshot fields, replay serialization, schema shapes, and synthetic bounded cognition/generative projection fixtures. Assertions on contamination counters concern constructed objects and implementation output; they are not observed biological outcomes or scientific evidence. No Biopeia TARGET consumer or authorized contract adopts these legacy test oracles, and the tested adapter/schemas are separately inventoried. Exclude this implementation-coupled source test from TARGET tests; retain historical source read-only. Future tests must target owner-approved contracts. This does not dispose of scientific assets/results or establish validity, equivalence, evidence admission, or future need. |
 
 ### Historical reproduction package facade
 
