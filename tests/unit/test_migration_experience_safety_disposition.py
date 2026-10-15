@@ -32,9 +32,9 @@ def test_experience_safety_implementation_is_dropped_with_bounded_rationale() ->
     assert not (ROOT / "src/lab/experience/safety.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 23, "REWRITE": 3, "DROP": 949, "DEFER": 189}
+    assert counts == {"MOVE": 8, "SPLIT": 22, "REWRITE": 3, "DROP": 949, "DEFER": 190}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 23 |" in migration
+    assert "`SPLIT` | 22 |" in migration
     assert "`DROP` | 949 |" in migration
