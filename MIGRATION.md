@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 90 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 89 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 914 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 915 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -643,6 +643,23 @@ validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
 method-equivalence, or future-need claim is made.
+
+### Historical private-model factory and adoption orchestration (Lab #221)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/factory.py` is blob
+`7fce0166b3659fefadbae72e7a83752f6a43d4d7` (8,645 bytes). It orchestrates
+private-model training/adaptation, artifact storage, held-out evaluation, and
+adoption/activation through the historical `ModeledOrganismRuntime` contract.
+Pinned consumers are Lab learning studies and CLI apparatus. Biopeia Lab TARGET
+has no equivalent factory; current Organism TARGET has no corresponding runtime
+adoption/promotion contract or direct consumer.
+
+**Disposition: DROP this historical orchestration code as TARGET code.** This
+is not a statement that model training, adaptation, or organism-owned learning
+is unnecessary; no code, model, protocol, result, or evidence is transferred or
+disposed of. No training/evaluation/adoption/promotion was run. No scientific
+validity, autonomy, method-equivalence, or result-admission claim is made.
 
 ### Historical private-model evaluation and promotion (Lab #220)
 
