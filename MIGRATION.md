@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 34 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 33 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 179 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1738,3 +1738,10 @@ target-authored contracts naming field authority, schema, privacy/provenance
 boundary and test paths, then reconcile this row. It does not block bounded
 runtime transfer. No code/data is copied or deleted and no scientific validity,
 schema equivalence, privacy sufficiency or evidence-admission claim is made.
+
+
+### Historical Lab Physics3D CLI disposition (Lab #293)
+
+The pinned `lab/src/lab/physics3d/cli.py` (`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `e0e4a390f25db1b6f6bfe807222b3153b5eb3d6e`, 7,508 bytes, SHA-256 `8381814f73e3b0bc67a9d1b688a4ef4371b73561d966cc31ea30221b9e14ab67`) contains top-level symbols `run_replay;main`. It is an argparse wrapper for launching the historical physics runtime or loading telemetry into the private Lab Mission Control viewer. Its options couple world execution parameters, Environment recipes, Embodiment state, Lab persistence/telemetry, host model servicing and the legacy viewer; it defines no domain semantics itself.
+
+Disposition is `DROP` as TARGET code: no target-owned command, replay viewer, wire contract or direct consumer of this historical Lab module is authorized. This drops only this CLI/UI and its compatibility surface, not the domain-owned capabilities represented by its options. Future target commands must be separately justified and composed against accepted owner contracts. No source code, runtime, telemetry or viewer contract is transferred/deleted; no physical/cognitive/scientific validity, simulation equivalence, evidence admissibility or general lack-of-future-utility claim is made.

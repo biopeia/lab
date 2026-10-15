@@ -37,10 +37,10 @@ def test_historical_candidate_evaluation_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/evaluation.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 34, "REWRITE": 3, "DROP": 948, "DEFER": 179}
+    assert counts == {"MOVE": 8, "SPLIT": 33, "REWRITE": 3, "DROP": 949, "DEFER": 179}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 34 |" in migration
-    assert "`DROP` | 948 |" in migration
+    assert "`SPLIT` | 33 |" in migration
+    assert "`DROP` | 949 |" in migration
     assert "### Historical private-model evaluation and promotion (Lab #220)" in migration
