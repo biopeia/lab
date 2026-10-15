@@ -39,10 +39,10 @@ def test_physics3d_observation_bridge_is_dropped_with_provenance() -> None:
     assert not (ROOT / "src/lab/observation/physics3d.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 70, "REWRITE": 3, "DROP": 930, "DEFER": 161}
+    assert counts == {"MOVE": 8, "SPLIT": 69, "REWRITE": 3, "DROP": 931, "DEFER": 161}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical Physics3D observation bridge disposition (Lab #239)" in migration
     assert "`src/embodiment/observation.py`" in migration
-    assert "`DROP` | 930 |" in migration
+    assert "`DROP` | 931 |" in migration
