@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 24 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 23 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 188 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 189 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2041,3 +2041,28 @@ an explicit owner-authorized `DROP` with custody disposition. This bounded sourc
 review is not a runtime requirement and does not block target runtime extraction.
 No source code was copied, no settling experiment was run, and no convergence,
 scientific validity, evidence admissibility, or equivalence is claimed.
+
+
+### Historical Physics3D asynchronous telemetry worker disposition (Lab #305)
+
+The pinned `lab/src/lab/physics3d/telemetry/async_worker.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`1284969522e713685e7cfac58e165d35f1059627`, mode `100644`, 3,223 bytes)
+contains only `AsyncTelemetryWorker`. It wraps an opaque writer with a bounded FIFO,
+serializes append calls on a non-daemon thread, forwards writer metadata, and
+provides flush/close/error propagation.
+
+Disposition is bounded `DEFER`: this module is infrastructure for a legacy
+Physics3D telemetry writer, not itself a telemetry schema or domain runtime. No
+TARGET writer, async durability/lifecycle contract, producer-consumer interface,
+or Lab evidence-custody/admission policy is established for this worker. Lab must
+decide whether the resulting records are diagnostic apparatus output or
+governed scientific evidence, including custody, retention, failure semantics
+and admissibility; producer owners must accept any record contract. The schema
+review in [Lab #312](https://github.com/biopeia/lab/issues/312) is a prerequisite,
+with reader/record rows [#311](https://github.com/biopeia/lab/issues/311) and
+[#313](https://github.com/biopeia/lab/issues/313) requiring reconciliation.
+Closure requires those decisions plus a concrete target path, or owner-authorized
+`DROP`. This does not block bounded runtime transfer. No worker/writer was run,
+no records were copied, and no durability, evidence-admissibility, scientific
+validity or equivalence claim is made.
