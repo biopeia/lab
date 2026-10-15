@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 82 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 81 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 922 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 923 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Lab ObservationBus disposition (Lab #231)
@@ -1269,3 +1269,9 @@ This classification is not a review or admission of the studies/results whose ro
 At source baseline `80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/schemas/instance.schema.json` is blob `7a2d29bb3dc576c2b984d85bbcfc8746fc7adb44` (946 bytes). It describes instance/run/process/display identity, start and heartbeat timestamps, topology revision, and organism identity. The source inventory records this row as `DEFER`, not `SPLIT`: the `Observation / Lab` hint does not establish a competent TARGET owner, contract, or path. Observation #38 remains open with design/owner decisions unresolved.
 
 Re-evaluate when Observation #38 and the competent Observation/Lab owners record whether this record has a TARGET responsibility and its owner/path, or explicitly determine DROP. Until then, preserve provenance and do not copy a schema or infer scientific validity/equivalence. This bounded ledger defer does not block the bounded runtime-transfer profile, but remains open and prevents declaring Lab #78/#45 source-disposition work complete. The sibling path alias remains separately deferred under the linked #255/#266 record.
+
+### Historical Observation cadence helper disposition (Lab #232)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/cadence.py` | DROP as a historical Lab runtime scheduling helper; no target cadence scheduler is authorized | No target counterpart. World owns causal-cycle stepping and Embodiment owns physical transitions, but neither currently defines a cross-domain execution-rate policy. | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `d1b3d23389c659142570b1360b89301be61786a0` (2,133 bytes), symbol `ExecutionRates`. It validates physics/cognition rates and computes substeps plus observation/render sampling cadence. In the pinned source, only `lab/src/lab/app/physics3d/runs.py` and `lab/src/lab/physics3d/engine.py` consume it; its unit test is source characterization, not target evidence. No target package currently implements or imports this policy. A future cadence need would require a separate design defining clock authority and cross-domain coupling. This disposition is not a scientific conclusion, a ban on future functionality, or deletion of protected historical source. |
