@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 10
+    assert len(units) == 11
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     visual_audit = by_id.pop("learning.visual-predictor-audit")
@@ -272,6 +272,30 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "software.dirty=true" in temporal_result["known_limitations_and_rationale"]
     assert "NOT_ADMITTED" in temporal_result["known_limitations_and_rationale"]
     assert "scientific validity" in temporal_crosswalk["basis"]
+
+    continuous_temporal = by_id.pop("learning.continuous-temporal-challenge")
+    assert continuous_temporal["study_protocol_disposition"] == "DEFER"
+    assert continuous_temporal["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#148" in continuous_temporal["owner_basis"]
+    assert "Closure trigger:" in continuous_temporal["TARGET_action"]
+    assert "No authorized TARGET question/consumer" in continuous_temporal[
+        "source_evidence_basis"
+    ]
+    assert "no claim of scientific validity" in continuous_temporal["limitations_and_nonclaims"]
+    for source_ref in (
+        continuous_temporal["implementation_path_and_blob"],
+        continuous_temporal["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+
+    continuous_temporal_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.continuous-temporal-challenge"
+    )
+    assert continuous_temporal_crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#148" in continuous_temporal_crosswalk["basis"]
 
     tool_body = by_id.pop("embodiment.tool-body-distinction")
     assert tool_body["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
