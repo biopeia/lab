@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 19 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 18 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 950 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 192 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 193 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -2166,6 +2166,29 @@ Telemetry schema review [Lab #312](https://github.com/biopeia/lab/issues/312) is
 prerequisite; related reader and structural reviews are [#311]
 (https://github.com/biopeia/lab/issues/311) and [#313]
 (https://github.com/biopeia/lab/issues/313). The defer is limited to this codec and
+does not block unrelated migration rows. No code/stream/result/evidence was copied,
+deleted or executed; no completeness, integrity/durability, evidence-admissibility,
+scientific-validity or equivalence claim is made.
+
+### Historical Physics3D numeric-frame codec disposition (Lab #310)
+
+The pinned `lab/src/lab/physics3d/telemetry/numeric.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`a43ee4d66749543e32b1f0999b513a08522a65fb`, mode `100644`, 11,631 bytes;
+SHA-256 `bab887e1f75ef52fa9debffbc603ec30d3f27da3bbf5c08b624869a363684069`)
+defines one codec that flattens nested values into shape templates and scalar
+vectors, deduplicates channel schemas, and writes full/sparse/copy frames. This is
+wire/storage representation, not distinct domain behavior per producer.
+
+Disposition is bounded `DEFER`: no approved TARGET numeric-frame schema/registry or
+consumer contract was found in inspected target repositories. Closure requires Lab's
+decision on diagnostic versus governed-evidence custody, retention and admission,
+plus producer-owner acceptance of channel shape/version semantics, sparse base/reset
+rules, schema identity/integrity, reader failure behavior and concrete consumers.
+Telemetry schema review [Lab #312](https://github.com/biopeia/lab/issues/312) is a
+prerequisite; related reader and structural reviews are [#311]
+(https://github.com/biopeia/lab/issues/311) and [#313]
+(https://github.com/biopeia/lab/issues/313). This defer is limited to this codec and
 does not block unrelated migration rows. No code/stream/result/evidence was copied,
 deleted or executed; no completeness, integrity/durability, evidence-admissibility,
 scientific-validity or equivalence claim is made.
