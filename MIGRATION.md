@@ -1916,3 +1916,33 @@ equivalence rows. The historical no-feedback constraint is preserved, not
 permission to invent target mapping. This does not block bounded runtime
 transfer. No labels/source are copied/deleted; no sensory meaning, autonomy,
 scientific validity, admissibility or equivalence claim is made.
+
+
+### Historical Physics3D persistence facade disposition (Lab #301)
+
+The pinned `lab/src/lab/physics3d/persistence.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`2658c40c11d52a162d573d5b7bd4c319bae0f665`, mode `100644`, 23,500 bytes)
+is a mixed persistence facade: it assembles a portable `.symbiont` ZIP and
+manifest, includes/extracts private model artifacts, synchronizes Workbench
+`metadata.json`, wraps raw runtime/body JSON, and writes/reads passive
+Physics3D telemetry. The exact top-level symbol list is retained in the source
+inventory and checked against this pinned blob.
+
+Disposition is `SPLIT` because owner-scoped checkpoint responsibilities are
+distinct: Organism's opaque private checkpoint boundary is
+`repos/organism/src/organism/checkpoint.py`; Embodiment's body/metabolic state
+contract is `repos/embodiment/src/embodiment/checkpoint.py`; World stores exact
+owner-produced bytes without interpreting them at
+`repos/world/src/world/owner_checkpoint_store.py`. These are current target
+contracts, not evidence that the historical facade or wire formats were
+transferred. The historical portable ZIP/manifest, model-artifact package and
+restore behavior, Workbench metadata sync, raw JSON wrappers, and telemetry
+writer/reader convenience API are not retained as compatibility behavior: no
+owner-approved TARGET bundle/telemetry schema, producer-consumer contract, or
+evidence-custody/restore policy is established for them. Lab's evidence-custody
+role alone does not authorize scientific admission or migration. A future
+requirement needs the accountable owners to approve schema, producers and
+consumers, custody, retention, and restore policy before reconsideration. No
+source or artifacts were copied or deleted; no durability equivalence,
+scientific admission, validity, or runtime-restoration claim is made.
