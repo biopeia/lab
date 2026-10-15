@@ -36,10 +36,10 @@ def test_historical_adversarial_hardening_test_is_dropped_as_target_code() -> No
     assert not (ROOT / "src/lab/observatory/tests/test_adversarial_hardening.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 31, "REWRITE": 3, "DROP": 949, "DEFER": 181}
+    assert counts == {"MOVE": 8, "SPLIT": 30, "REWRITE": 3, "DROP": 949, "DEFER": 182}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 31 |" in migration
+    assert "`SPLIT` | 30 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "### Historical Observatory adversarial hardening tests (Lab #275)" in migration

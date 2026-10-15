@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 31 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 30 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 181 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 182 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -960,6 +960,28 @@ not dispose of source corpora, protocols, study results, or evidence; these
 remain separately preserved and governed. No study was run. No scientific or
 outcome validity, result-admission, method-equivalence, or future-need claim is
 made.
+
+### Historical Physics3D physical-effects disposition (Lab #296)
+
+The pinned `lab/src/lab/physics3d/effects.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`843f12def33ae4aecc19afe36b2d8c10b1539d8d`, mode `100644`, 10,891 bytes)
+parses observer-side physical payloads and computes kinematic deltas, rotations,
+contact measures, path efficiency, mechanical work and metabolic cost. Its own
+module contract excludes reward, utility, goals, action preference and runtime
+feedback. It is a coupled metric contract, and the historical owner hint does
+not establish several target authorities; correct `SPLIT` to bounded `DEFER`.
+
+No accepted TARGET physical-state schema/path or World/Embodiment contract for
+field identity, units, work/cost provenance or metric interpretation is
+established. Lab has not established whether outputs are diagnostics or study
+evidence, nor custodian/retention/admissibility policy. World must define
+physical-state/kinematic semantics; Embodiment must decide body-specific
+payload semantics; Lab must determine output status and custody. Closure
+requires those contracts, metric provenance/units and a consumer/path, or
+explicit owner-authorized DROP of portions. No code/data is copied or deleted;
+no metric correctness, physical validity, competence, efficacy or evidence
+admissibility is claimed. This does not block bounded runtime transfer.
 
 ### Historical variable-order Markov challenger (Lab #217)
 
