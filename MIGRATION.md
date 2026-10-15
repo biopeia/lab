@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 64 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 63 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 934 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 163 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 164 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1372,6 +1372,11 @@ At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52
 The alias is `DEFER`, linked to #265, until the competent Organism/Observation owners disposition the underlying schema and its TARGET responsibility or explicitly DROP it. Closure trigger: record the schema owner/path or explicit DROP, then reconcile the alias. This bounded defer does not block runtime transfer. Source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
 
 
+
+
+### Historical Observatory journal disposition (Lab #256)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/journal.py`, blob `bad69fb063b32a949ae50b765672b69f8f61dffa` (mode `100644`, 3,957 bytes); verified symbol `Journal`. It appends per-run snapshot envelopes to NDJSON, rotates segments, triggers the derived summary separately dispositioned `DROP` in Lab #254, and gzips closed segments while unlinking the uncompressed paths. `DEFER` pending the Lab owner's explicit decision whether this historical stream is evidence requiring custody/retention or an obsolete Observatory cache, and the Observation owner's boundary decision if semantic projection is proposed. No TARGET journal schema, retention policy, or authorized path exists in the evidence reviewed. Lab #242 is a related but distinct unresolved archive-custody question, not a substitute contract. Closure requires an explicit owner-authorized `DROP` or a target-authored custody/retention contract with schema/path. This defer is outside the bounded runtime-transfer profile; no source/data is copied or deleted and no scientific validity/equivalence/admission is asserted.
 
 ### Historical Observatory history-summary disposition (Lab #254)
 
