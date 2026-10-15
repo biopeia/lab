@@ -397,10 +397,16 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 83 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 82 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 921 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 922 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
+
+### Historical Cognitive Atlas v2 disposition (Lab #228)
+
+| Source path | Disposition | Target mapping | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/atlas.py` | DROP as TARGET implementation and schema | None authorized | Pinned `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `c75dfca22bfb153f759c04bb8fdfd730fc5f67b9` (38,627 bytes). The source builds a Cognitive Atlas v2 graph/metrics projection from private cognition, motor, agency, embodiment, prediction and knowledge structures. Observation `src/observation/semantic.py` defines a transport-independent semantic claim model; it is not this atlas schema or compatible graph projection. Observation `src/observation/projection.py` is explicitly a transitional runtime-telemetry view, not a stable semantic-family contract. Neither is a target mapping for this source schema, and no approved target contract or consumer establishes a retained responsibility. No source code, compatibility API or source tests are transferred. Future need must be specified and authored against an approved target contract. No claim of scientific validity, efficacy, evidence admission or permanent capability prohibition is made. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
 
