@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 68 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 67 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 932 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 161 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 162 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1356,6 +1356,13 @@ This classification is not a review or admission of the studies/results whose ro
 At source baseline `80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/schemas/instance.schema.json` is blob `7a2d29bb3dc576c2b984d85bbcfc8746fc7adb44` (946 bytes). It describes instance/run/process/display identity, start and heartbeat timestamps, topology revision, and organism identity. The source inventory records this row as `DEFER`, not `SPLIT`: the `Observation / Lab` hint does not establish a competent TARGET owner, contract, or path. Observation #38 remains open with design/owner decisions unresolved.
 
 Re-evaluate when Observation #38 and the competent Observation/Lab owners record whether this record has a TARGET responsibility and its owner/path, or explicitly determine DROP. Until then, preserve provenance and do not copy a schema or infer scientific validity/equivalence. This bounded ledger defer does not block the bounded runtime-transfer profile, but remains open and prevents declaring Lab #78/#45 source-disposition work complete. The sibling path alias remains separately deferred under the linked #255/#266 record.
+
+
+### Observatory body-schema alias (Lab #251; underlying schema tracked by #264)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/body_schema.schema.json` is a 31-byte symlink (blob `a8aac03965d0416b6e8849db4c582638cbfe6c2f`, mode `120000`) to `schemas/body_schema.schema.json`. Its target is schema blob `4f393ed9161c3ba8e9672dc78edbb1bef9cd516d`; the substantive schema is separately inventoried and reviewed in open Lab #264. The schema describes bounded organism-owned self-knowledge but provides no evidence of a target owner-authored schema or contract path.
+
+The alias is `DEFER`, not an independent `SPLIT` or final `DROP`: the underlying schema decision belongs with the competent Organism/Observation owners and is linked through #264. Closure trigger: #264 records an owner-authored target owner/path or explicit `DROP`, then reconcile this duplicate historical alias. This bounded defer does not block runtime transfer. The pinned source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
 
 ### Historical Observation cadence helper disposition (Lab #232)
 
