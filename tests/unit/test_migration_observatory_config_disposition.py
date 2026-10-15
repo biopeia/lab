@@ -42,10 +42,10 @@ def test_observatory_config_is_dropped_as_historical_runtime_configuration() -> 
     assert "No scientific validity/equivalence/admission claim" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 57, "REWRITE": 3, "DROP": 938, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 56, "REWRITE": 3, "DROP": 939, "DEFER": 166}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory operational configuration (Lab #253)" in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 57 |" in migration
-    assert "`DROP` | 938 |" in migration
+    assert "`SPLIT` | 56 |" in migration
+    assert "`DROP` | 939 |" in migration
     assert "`DEFER` | 166 |" in migration

@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 57 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 56 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 938 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 939 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 166 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1004,6 +1004,12 @@ The issue-recorded symbols are individually dispositioned as follows; each DROP 
 
 The inventory row preserves the pinned path/blob and records this decision. No runtime code, source test suite, scientific result, or compatibility layer is copied. This is a migration classification only, not scientific review or admission.
 
+
+### Historical Observatory body self-knowledge schema (Lab #264)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/body_schema.schema.json` | DROP as TARGET schema artifact | No TARGET schema path or compatibility contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4f393ed9161c3ba8e9672dc78edbb1bef9cd516d`, mode `100644`, 4,195 bytes; SHA-256 `d111d1bafaee791e9688f2a6a0e6aefb67a8775a09b1aec797f15b1cca498738`. This closed JSON Schema describes a historical Observatory projection of bounded body self-knowledge, including sensory/cognitive-region parts, confidence and state classes, dependencies, and global state. It is not an authoritative Embodiment physical-body schema. Current Embodiment BodyPose and Observation adapters describe distinct physical claims; no TARGET contract for this legacy self-model representation was identified. Drop this schema format only; do not infer that body self-knowledge or future target projections are unnecessary or invalid. No source is deleted and no scientific validity/equivalence/evidence-admission claim is made. Historical source remains read-only. |
 
 ### Historical Observatory snapshot schemas
 
