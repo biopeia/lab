@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 59 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 58 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 936 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 937 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 166 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1016,6 +1016,12 @@ The inventory row preserves the pinned path/blob and records this decision. No r
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/__init__.py` | DROP as TARGET code/test | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `4e1fc67df6cac9182eac14d80d7c79420feb5709` (38 bytes). This file contains only the docstring `Observatory test suite package.`; it defines no test, implementation, API, or scientific result. Biopeia's own Lab tests live in its TARGET test tree and do not consume this historical source test namespace. Drop this package marker only; this neither reuses the source test suite nor disposes of any separate scientific evidence. Historical source remains preserved read-only. |
+
+### Historical Observatory schema validator (Lab #262)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schema_validate.py` | DROP as TARGET implementation | No TARGET schema-validation helper path | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `762299aa594fc5209a0ca7b826340dc33f6f80b4` (mode `100644`, 8,048 bytes); verified symbols `_require;validate`. This custom helper validates the historical Observatory JSON schema subset and resolves local `$ref`; its module documentation expressly says it is a test helper, not runtime input sanitization. No Biopeia TARGET contract or consumer establishes this helper as an Observation or Lab responsibility or supplies a target path. Drop only this source implementation from TARGET migration. Its schemas are independently inventoried and not decided by this row; the historical validator tests are independently dispositioned under Lab #288. No source is deleted and no schema validity/equivalence, scientific validity, evidence-admission, or future-need claim is made. Historical source remains preserved read-only. |
 
 ### Historical Observatory schema-validation tests
 
