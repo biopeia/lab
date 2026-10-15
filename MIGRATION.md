@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 91 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 90 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 913 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 914 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -642,6 +642,22 @@ tracked consumer.
 validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
+method-equivalence, or future-need claim is made.
+
+### Historical private-model evaluation and promotion (Lab #220)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/evaluation.py` is blob
+`8860f21a4e9b76f324f60b07237229b646a64087` (5,285 bytes). It aggregates
+held-out outcome metrics and applies configurable candidate-promotion thresholds
+against trivial, recurrent, or cognitive references. Pinned callers are
+historical private-model factories and studies; Biopeia Lab TARGET has no current
+model-promotion consumer.
+
+**Disposition: DROP this historical evaluation/promotion implementation as TARGET
+code.** Its threshold values are not ratified scientific policy or evidence
+admission. No candidate was evaluated or promoted; no protocols, results, or
+evidence are disposed of. No validity, efficacy, result-admission,
 method-equivalence, or future-need claim is made.
 
 ### Historical private-model determinism setup (Lab #219)
