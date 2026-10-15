@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 55 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 54 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 940 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 941 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 166 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -551,6 +551,12 @@ Keep this alias as `DEFER`, linked to Observation #38. The Lab #255 coordinator 
 | --- | --- | --- | --- |
 | `lab/src/lab/world/cli_view.py` | DROP as TARGET implementation | No TARGET code destination | Pinned source commit `80d372a186513035f85a769db886e505cabba52d`; Git blob `0f0ed5fcb41253a05b37413de3f6cdd08f1297ab`, mode `100644`, 15,581 bytes. The module renders a read-only CLI view over historical `HexTopology`, `WorldState`, `WorldEnvironment`, `GroundTruth`, and private `population._rigs` state. These inputs and semantics are not Biopeia TARGET contracts, and no Lab TARGET consumer exists. Drop this implementation and its API rather than preserving a compatibility path. Any future visualization must be newly authored to consume passive Observation publications; this disposition does not claim that visualization is unnecessary. Historical source remains read-only. |
 
+
+### Historical Observatory replay schema (Lab #267)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/replay.schema.json` | DROP as TARGET schema artifact | No TARGET replay schema/compatibility contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d1f6f042b4ac49d70a8f4debf665ea4c68f72885`, mode `100644`, 479 bytes; SHA-256 `1e916b2f4fde95b4ac62e78d91537a5bad0617399e3674df540a9f609530aae5`. This schema defines a version-1 envelope of up to 10,000 legacy Observatory snapshots via local `$ref`. The legacy snapshot schema and publisher are separately inventoried/dispositioned; no TARGET replay schema, consumer, or compatibility contract is authorized. Drop this historical envelope format only; historical replay records/data are not dispositioned by implication, and future replay is not ruled out. No scientific validity/equivalence/evidence-admission claim is made; historical source remains read-only. |
 
 ### Historical Observatory cognition-state schema (Lab #265)
 

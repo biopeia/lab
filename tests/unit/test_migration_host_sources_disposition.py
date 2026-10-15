@@ -33,10 +33,10 @@ def test_legacy_host_source_adapter_is_dropped_without_target_destination() -> N
     assert "historical source remains read-only" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 55, "REWRITE": 3, "DROP": 940, "DEFER": 166}
+    assert counts == {"MOVE": 8, "SPLIT": 54, "REWRITE": 3, "DROP": 941, "DEFER": 166}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 55 |" in migration
-    assert "`DROP` | 940 |" in migration
+    assert "`SPLIT` | 54 |" in migration
+    assert "`DROP` | 941 |" in migration
     assert not (ROOT / "src/lab/integration/organism/host_sources.py").exists()
