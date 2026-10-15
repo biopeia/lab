@@ -35,10 +35,10 @@ def test_historical_kernel_characterization_facade_is_dropped_only() -> None:
     assert not (ROOT / "src/lab/kernel_characterization").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 61, "REWRITE": 3, "DROP": 935, "DEFER": 165}
+    assert counts == {"MOVE": 8, "SPLIT": 60, "REWRITE": 3, "DROP": 936, "DEFER": 165}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 61 |" in migration
-    assert "`DROP` | 935 |" in migration
+    assert "`SPLIT` | 60 |" in migration
+    assert "`DROP` | 936 |" in migration
     assert "### Historical kernel-characterization package facade" in migration
