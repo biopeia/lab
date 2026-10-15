@@ -35,10 +35,10 @@ def test_integration_package_facade_is_dropped_separately_from_runtime() -> None
     assert not (ROOT / "src/lab/integration/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 41, "REWRITE": 3, "DROP": 948, "DEFER": 172}
+    assert counts == {"MOVE": 8, "SPLIT": 40, "REWRITE": 3, "DROP": 948, "DEFER": 173}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 41 |" in migration
+    assert "`SPLIT` | 40 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "facade-only record does not itself disposition the implementation module" in migration

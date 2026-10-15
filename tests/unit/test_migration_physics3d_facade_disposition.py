@@ -38,10 +38,10 @@ def test_historical_physics3d_facade_is_dropped_without_disposing_siblings() -> 
     assert runtime_row["disposition"] == "SPLIT"
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 41, "REWRITE": 3, "DROP": 948, "DEFER": 172}
+    assert counts == {"MOVE": 8, "SPLIT": 40, "REWRITE": 3, "DROP": 948, "DEFER": 173}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 41 |" in migration
+    assert "`SPLIT` | 40 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "### Historical Physics3D package facade" in migration

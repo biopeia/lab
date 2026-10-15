@@ -38,9 +38,9 @@ def test_signal_knowledge_symlink_is_dropped_without_dispositioning_target_schem
         "Organism semantic owner; Lab custody only for separately dispositioned scientific evidence"
     )
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 41, "REWRITE": 3, "DROP": 948, "DEFER": 172}
+    assert counts == {"MOVE": 8, "SPLIT": 40, "REWRITE": 3, "DROP": 948, "DEFER": 173}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory signal-knowledge schema alias (Lab #272)" in migration
     assert ALIAS_BLOB in migration and SCHEMA_BLOB in migration and TARGET_SHA256 in migration
-    assert "| `SPLIT` | 41 |" in migration and "| `DROP` | 948 |" in migration
+    assert "| `SPLIT` | 40 |" in migration and "| `DROP` | 948 |" in migration

@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 41 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 40 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 172 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 173 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1570,3 +1570,26 @@ contract naming schema, authority and path, followed by row reconciliation.
 This is outside the bounded runtime-transfer causal-cycle profile. No source
 code is copied or removed, and no scientific validity, equivalence, identity
 compatibility or evidence admission is inferred.
+
+
+### Historical Observatory publisher-test disposition (Lab #283)
+
+The pinned `lab/src/lab/observatory/tests/test_publisher.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`dd8a8891c32669072d04cc367db21ebe8751208b`) has five tests for the historical
+publisher implementation: stdout JSON-line output, `JournalSink` delegation and
+summary finalization, whole-file replay export, and identical-envelope fan-out.
+The publisher itself is `DROP` under Lab #259, but the JournalSink assertions
+intersect possible evidence custody/retention, still `DEFER` under Lab #256.
+Observation #38 leaves archive, identity/delivery/completeness, retention and
+API decisions unresolved; Docs #173 is readiness documentation, not
+implementation authorization. The file does not split into authorized target
+test paths, so it remains bounded `DEFER`, not `SPLIT` or `DROP`. Lab is
+accountable for custody; Observation owns only any approved passive
+projection. Closure requires an explicit owner-authorized `DROP` for the
+journal responsibility or a target-authored publication/journal contract naming
+semantics, authority, custody/retention and path, after which target-native tests
+may be separately justified. No publisher, replay, persistence or scientific
+behavior is implemented or inferred from the historical assertions. This does
+not block the bounded runtime-transfer profile and makes no scientific validity,
+equivalence, replay-compatibility or evidence-admission claim.
