@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 100 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 99 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 904 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 905 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -942,6 +942,14 @@ The source repository remains read-only. The mixed `apparatus.py` row remains `S
 This record does not transfer or admit any historical study, protocol, result, or
 scientific claim. It addresses this source file only; neighboring
 kernel-characterization modules remain independently dispositioned.
+
+### Historical kernel-characterization Pareto helper
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/kernel_characterization/pareto.py` | DROP as TARGET implementation | No TARGET code destination | Pinned source repository `alessbarb/symbiont-lab` at `80d372a186513035f85a769db886e505cabba52d`; source blob `e1dd23edf35487cf59df5642a549742387f80421`, mode `100644`, 1,365 bytes; symbols `_numeric`, `pareto_frontier`. The helper filters rows marked failed and computes a two-objective non-dominated set over a caller-selected benefit and cost, then sorts by `max_nodes`. At the pinned source revision its tracked call sites are in `kernel_characterization/runner.py`. Biopeia Lab has no corresponding TARGET implementation or tracked consumer. DROP applies to this historical helper as migration input; it does not claim the algorithm or any historical result is scientifically invalid, nor that future Lab analysis is unnecessary. A concrete future use requires a new Lab-owned design; no compatibility API is retained. Historical source remains read-only and preserved. |
+
+This classification is not a review or admission of the studies/results whose rows may have been summarized by the historical runner.
 
 
 ### Historical Observatory architecture inventory
