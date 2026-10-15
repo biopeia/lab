@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 32 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 31 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 180 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 181 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1772,3 +1772,25 @@ report schema/path, or explicit owner-authorized `DROP`, followed by row
 reconciliation. This tooling is outside and does not block bounded runtime
 transfer. No model/scientific validity, simulation equivalence or evidence
 admissibility claim is made; no source/report/code is copied or deleted.
+
+### Historical Physics3D effective-model audit CLI disposition (Lab #295)
+
+The pinned `lab/src/lab/physics3d/effective_model_audit_cli.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`79efc42e6ab1d42f7aa12de8066b712d0e5dbcc7`, mode `100644`, 5,247 bytes)
+composes Embodiment body apparatus and Environment recipes into compiled
+scenarios, invokes the coupled analyzer in Lab #294, and emits a deterministic
+hashed JSON audit suite. The CLI's mismatch exit code is a software gate, not
+scientific acceptance. It defines no independent target responsibility, so the
+prior `SPLIT` classification was corrected to bounded `DEFER` alongside #294.
+
+No target-owned suite/report contract, field authority, protocol, report
+consumer, evidence custodian/retention/admissibility policy, or authorized
+destination is established. Embodiment, Environment and World owners must
+decide field assertions and ownership; Lab must decide whether output is
+evidence or diagnostics and define custody/report policy. Closure requires
+those decisions and an authorized suite schema/path, or explicit owner-approved
+`DROP`, then reconciliation of this CLI and #294 together. This is outside the
+bounded runtime-transfer profile and does not block it. No code, scenarios, or
+reports are copied/deleted; no validity, equivalence, or admissibility claim is
+made.

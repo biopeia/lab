@@ -36,10 +36,10 @@ def test_historical_body_schema_adapter_test_is_dropped_as_target_code() -> None
     assert not (ROOT / "src/lab/observatory/tests/test_body_schema_adapter.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 32, "REWRITE": 3, "DROP": 949, "DEFER": 180}
+    assert counts == {"MOVE": 8, "SPLIT": 31, "REWRITE": 3, "DROP": 949, "DEFER": 181}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 32 |" in migration
+    assert "`SPLIT` | 31 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "### Historical Observatory body-schema adapter test (Lab #276)" in migration
