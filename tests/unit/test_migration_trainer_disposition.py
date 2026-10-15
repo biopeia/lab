@@ -28,9 +28,9 @@ def test_historical_private_model_trainer_is_dropped_as_target_code() -> None:
     assert "No scientific validity, learning efficacy" in rationale
     assert not (ROOT / "src/lab/modeling/trainer.py").exists()
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 73, "REWRITE": 3, "DROP": 927, "DEFER": 161}
+    assert counts == {"MOVE": 8, "SPLIT": 72, "REWRITE": 3, "DROP": 928, "DEFER": 161}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 73 |" in migration
-    assert "`DROP` | 927 |" in migration
+    assert "`SPLIT` | 72 |" in migration
+    assert "`DROP` | 928 |" in migration
     assert "### Historical private-model training and adaptation (Lab #227)" in migration
