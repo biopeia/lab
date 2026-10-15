@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 96 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 95 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 908 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 909 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -606,6 +606,25 @@ does not reassign or transfer the authority module, architecture/model artifacts
 studies, or evidence; those remain separately governed and preserved. No model
 was trained or evaluated. This is not a scientific-validity, result-admission,
 method-equivalence, or future-need claim.
+
+
+### Historical private-model artifact/store implementation (Lab #215)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/artifacts.py` is blob
+`0f5330bee027421e7a58dc204c7e66dfee8babb3` (8,025 bytes). It defines a
+manifest-validated artifact wrapper and a content-addressed file store for model
+weights and manifest metadata. It depends on the separately inventoried
+`symbiont.modeling.authority` contract and historical durable-write helper.
+Pinned callers are the historical Lab model factory/gateway/trainer, private-model
+training apparatus, observed-resident CLI, and source-coupled tests. Biopeia Lab
+has no corresponding TARGET module or tracked consumer.
+
+**Disposition: DROP this historical Lab implementation as TARGET code.** This
+does not delete, transfer, admit, or reclassify model files, manifests, source,
+or evidence; their custody/authority remains separately governed. No training
+or artifact review occurred. This is not a scientific-validity, method-equivalence,
+or future-need claim.
 
 ### Historical modeling package facade
 
