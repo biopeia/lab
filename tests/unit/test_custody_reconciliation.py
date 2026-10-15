@@ -484,8 +484,11 @@ def test_hidden_common_cause_method_is_new_target_work_not_a_legacy_port() -> No
     assert "nor authorizes any execution" in disposition["TARGET_action"]
     assert "not acceptance of the protocol" in disposition["TARGET_action"]
     assert (
-        "**Status: PROPOSED. Reviewed by the owner-designated Advisor and by an "
-        "independent fresh-context reviewer; not accepted, not executed.**"
+        "**Status: PROPOSED. Reviewed by the owner-designated Advisor. A "
+        "fresh-context reviewer reviewed an earlier candidate (`abe1f93`); the "
+        "subsequent changes at merged HEAD "
+        "`948f35b0a05e73d038cb9b7c03d7bb920572e36d` were not re-reviewed. The "
+        "final revision has no independent review; not accepted, not executed.**"
     ) in proposal
     assert "this is not an independent review in the sense of the review policy" in proposal
     assert "| Lab owner scientific acceptance | lab#59 | PENDING |" in proposal
