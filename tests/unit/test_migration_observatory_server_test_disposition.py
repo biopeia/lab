@@ -38,9 +38,9 @@ def test_historical_server_tests_are_bounded_defer() -> None:
     assert "no scientific validity" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 19, "REWRITE": 3, "DROP": 950, "DEFER": 192}
+    assert counts == {"MOVE": 8, "SPLIT": 18, "REWRITE": 3, "DROP": 950, "DEFER": 193}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Observatory server-test disposition (Lab #289)" in migration
     assert BLOB in migration and SHA256 in migration
-    assert "`SPLIT` | 19 |" in migration
-    assert "`DEFER` | 192 |" in migration
+    assert "`SPLIT` | 18 |" in migration
+    assert "`DEFER` | 193 |" in migration

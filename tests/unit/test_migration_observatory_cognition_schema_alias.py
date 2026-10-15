@@ -40,9 +40,9 @@ def test_cognition_schema_alias_is_bounded_defer_linked_to_schema_review() -> No
     assert schema["disposition"] == "DROP"
 
     counts = Counter(row["disposition"] for row in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 19, "REWRITE": 3, "DROP": 950, "DEFER": 192}
+    assert counts == {"MOVE": 8, "SPLIT": 18, "REWRITE": 3, "DROP": 950, "DEFER": 193}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory cognition-state schema alias (Lab #252; underlying schema tracked by #265)" in migration
     assert ALIAS_BLOB in migration
     assert SCHEMA_BLOB in migration
-    assert "`DEFER` | 192 |" in migration
+    assert "`DEFER` | 193 |" in migration

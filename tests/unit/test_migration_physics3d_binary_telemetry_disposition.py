@@ -32,6 +32,6 @@ def test_physics3d_binary_telemetry_disposition_records_limits_and_counts() -> N
     assert "Historical Physics3D binary telemetry codec disposition (Lab #306)" in migration
     assert "no target consumer or accepted binary" in migration
     assert "no compatibility, integrity, durability" in migration
-    assert "| `SPLIT` | 19 |" in migration
-    assert "| `DEFER` | 192 |" in migration
+    assert "| `SPLIT` | 18 |" in migration
+    assert "| `DEFER` | 193 |" in migration
 
