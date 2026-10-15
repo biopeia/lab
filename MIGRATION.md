@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 28 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 27 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 184 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 185 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1866,3 +1866,29 @@ and comparison protocol, evidence policy/path, or explicit owner-authorized
 the bounded runtime-transfer profile. No snapshot is executed, source/output
 is not copied/deleted, and no equivalence, determinism, validity or evidence
 admission claim is made.
+
+### Historical Physics3D causal-equivalence suite disposition (Lab #299)
+
+The pinned `lab/src/lab/physics3d/equivalence_suite.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`1442fc941c416fbd2e7d8d00a4d11432ccff3b7f`, mode `100644`, 11,255 bytes)
+validates snapshot manifests, executes baseline/candidate runs twice per
+scenario, classifies assessability/failure, checks training-event coverage and
+compares deterministic state digests. A PASS is bounded to that snapshot and
+configuration; READY only means input capture/validation, not scientific
+approval.
+
+Disposition is bounded `DEFER`, not `SPLIT`: this is one coupled evaluation
+protocol/tool, and multiple comparison dimensions do not establish multiple
+TARGET owners. It depends on primitive #298, engine #297 and snapshot archive
+retention. No target snapshot/run/equivalence contract, protocol/scope,
+thresholds, baseline/candidate authorization, custodian, raw-result
+retention/admissibility or target consumer/path is established. Lab must define
+protocol authority and evidence custody; World/Embodiment the compared
+causal/physical semantics; Environment participates only if scenario scope
+requires it. Closure needs authorized contracts/protocol/run authorization,
+thresholds/coverage and evidence policy/path, or owner-authorized DROP with
+result-custody decisions, followed by related-row reconciliation. This is
+outside bounded runtime transfer. No experiment/snapshot is executed, no
+code/data copied/deleted, and no equivalence, efficacy, determinism or
+admissibility claim is made.

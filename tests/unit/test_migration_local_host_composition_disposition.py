@@ -41,10 +41,10 @@ def test_legacy_local_host_composition_is_dropped_without_target_destination() -
     assert "Historical source remains read-only" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 28, "REWRITE": 3, "DROP": 949, "DEFER": 184}
+    assert counts == {"MOVE": 8, "SPLIT": 27, "REWRITE": 3, "DROP": 949, "DEFER": 185}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 28 |" in migration
+    assert "`SPLIT` | 27 |" in migration
     assert "`DROP` | 949 |" in migration
     assert not (ROOT / "src/lab/integration/organism/local_host.py").exists()
