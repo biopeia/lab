@@ -30,11 +30,11 @@ def test_historical_observation_cadence_helper_is_dropped_only() -> None:
     assert "scientific claim" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
+    assert counts == {"MOVE": 8, "SPLIT": 32, "REWRITE": 3, "DROP": 949, "DEFER": 180}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "### Historical Observation cadence helper disposition (Lab #232)" in migration
-    assert "`SPLIT` | 35 |" in migration
-    assert "`DROP` | 948 |" in migration
+    assert "`SPLIT` | 32 |" in migration
+    assert "`DROP` | 949 |" in migration
     assert "clock authority" in migration

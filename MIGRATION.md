@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 35 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 32 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 178 | Open disposition, not final. Must be revisited before migration completion. |
+| `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DEFER` | 180 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1713,3 +1713,62 @@ requires competent owners to decide explicit `DROP` or approve a target-authored
 contract/path and justified native tests, then reconcile both rows. Outside
 bounded runtime transfer; historical source remains read-only and no scientific
 validity, mutation equivalence, learning or evidence-admission claim is made.
+
+
+### Historical Observatory snapshot-version test disposition (Lab #290)
+
+The pinned `lab/src/lab/observatory/tests/test_snapshot_versions.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`04f44728649cce6ae9e245e189b95beaf8bf0d48`) has twelve test methods. They
+characterize the legacy Observatory v1-v3 wire-snapshot validator: body and
+cognition combinations, sensory phenotype, bounded population telemetry,
+observer-provenance placement, private-field redaction, and malformed field
+rejection. This is one coupled historical snapshot contract, not separate
+TARGET contracts and not scientific evidence.
+
+Disposition is bounded `DEFER`, not `SPLIT`: no target-owned composite wire
+snapshot or authorized target test path is established. The historical adapter
+and schema are separately `DROP` as TARGET artifacts; those drops do not settle
+whether separately authorized semantic projections or evidence custody are
+needed. Observation #38 remains unresolved; Organism and Embodiment own their
+represented state semantics, while Lab's custody role applies only if a
+distinct evidence responsibility is authorized. Closure requires competent
+owners to choose explicit `DROP` for historical-only assertions or define
+target-authored contracts naming field authority, schema, privacy/provenance
+boundary and test paths, then reconcile this row. It does not block bounded
+runtime transfer. No code/data is copied or deleted and no scientific validity,
+schema equivalence, privacy sufficiency or evidence-admission claim is made.
+
+
+### Historical Lab Physics3D CLI disposition (Lab #293)
+
+The pinned `lab/src/lab/physics3d/cli.py` (`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `e0e4a390f25db1b6f6bfe807222b3153b5eb3d6e`, 7,508 bytes, SHA-256 `8381814f73e3b0bc67a9d1b688a4ef4371b73561d966cc31ea30221b9e14ab67`) contains top-level symbols `run_replay;main`. It is an argparse wrapper for launching the historical physics runtime or loading telemetry into the private Lab Mission Control viewer. Its options couple world execution parameters, Environment recipes, Embodiment state, Lab persistence/telemetry, host model servicing and the legacy viewer; it defines no domain semantics itself.
+
+Disposition is `DROP` as TARGET code: no target-owned command, replay viewer, wire contract or direct consumer of this historical Lab module is authorized. This drops only this CLI/UI and its compatibility surface, not the domain-owned capabilities represented by its options. Future target commands must be separately justified and composed against accepted owner contracts. No source code, runtime, telemetry or viewer contract is transferred/deleted; no physical/cognitive/scientific validity, simulation equivalence, evidence admissibility or general lack-of-future-utility claim is made.
+
+
+### Historical Physics3D effective-model audit disposition (Lab #294)
+
+The pinned `lab/src/lab/physics3d/effective_model_audit.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`33d20da18a82ea2d1e5013619eae606a8c30509f`, mode `100644`, 21,990 bytes) is
+a read-only analyzer comparing declared Physics3D scene/joint/segment/material/
+resource/environment/vision values with compiled MuJoCo state. It classifies
+findings and emits a deterministic, hashed JSON report. It is one coupled
+diagnostic/evidence artifact, not independent TARGET contracts or scientific
+validation.
+
+Disposition is bounded `DEFER`, not `SPLIT` or `DROP`: no target-owned report
+schema, field authority, validation protocol, evidence custodian/retention
+policy, direct report consumer or implementation path is authorized. The source
+test row is independently `DROP` as an implementation-coupled test; that does
+not decide the analyzer's possible diagnostic/evidence role. Lab #330 tracks
+request/authority boundaries but does not authorize this tool. Embodiment,
+Environment and World owners must decide which compiled-vs-declared relations
+are requirements and own each field; Lab must decide whether reports constitute
+scientific evidence requiring provenance/custody/retention/admissibility or are
+unretained diagnostics. Closure requires those decisions and an authorized
+report schema/path, or explicit owner-authorized `DROP`, followed by row
+reconciliation. This tooling is outside and does not block bounded runtime
+transfer. No model/scientific validity, simulation equivalence or evidence
+admissibility claim is made; no source/report/code is copied or deleted.

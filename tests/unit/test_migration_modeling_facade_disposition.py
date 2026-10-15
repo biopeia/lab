@@ -55,10 +55,10 @@ def test_historical_modeling_facade_is_dropped_without_disposing_other_modules()
     assert all(module_rows[name]["disposition"] == "DROP" for name in REEXPORTED_MODULES)
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
+    assert counts == {"MOVE": 8, "SPLIT": 32, "REWRITE": 3, "DROP": 949, "DEFER": 180}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 35 |" in migration
-    assert "`DROP` | 948 |" in migration
+    assert "`SPLIT` | 32 |" in migration
+    assert "`DROP` | 949 |" in migration
     assert "### Historical modeling package facade" in migration

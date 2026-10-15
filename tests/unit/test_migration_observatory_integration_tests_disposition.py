@@ -38,9 +38,9 @@ def test_observatory_integration_test_row_is_bounded_defer() -> None:
     assert "no scientific validity" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
+    assert counts == {"MOVE": 8, "SPLIT": 32, "REWRITE": 3, "DROP": 949, "DEFER": 180}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Observatory integration-test disposition (Lab #282)" in migration
     assert BLOB in migration
-    assert "`SPLIT` | 35 |" in migration
-    assert "`DEFER` | 178 |" in migration
+    assert "`SPLIT` | 32 |" in migration
+    assert "`DEFER` | 180 |" in migration
