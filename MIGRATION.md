@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 47 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 46 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 946 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 80 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 947 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 168 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1523,3 +1523,10 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_body_schema_adapter.py` | DROP as TARGET test | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `66c27df821f6ee57d7ea5e51b175381c56a575ec`, mode `100644`, 6,494 bytes. Verified symbols: `result`, `sense_part`, `region_part`, `body_schema_v1`, `body_schema_v2`, `BodySchemaAdapterTests`. Every assertion exercises the legacy `project_tick` adapter and its projection of v1/v2 body self-knowledge into Observatory snapshot v3, including synthetic cognitive-region fixtures and fail-closed redaction of private fields. TARGET Observation/Lab contracts do not adopt this snapshot API; the underlying schema was separately classified in Lab #264 and its alias remains tracked by #251. Exclude this implementation-coupled test from TARGET tests only. It is not a target schema/API contract or scientific result; this does not imply future body self-knowledge observation or safeguards are unnecessary and makes no scientific validity, equivalence or evidence-admission claim. Historical source remains read-only. |
+
+
+### Historical Observatory contract test suite (Lab #277)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/tests/test_contract.py` | DROP as TARGET tests | No TARGET test destination | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `21d05a8ad1bd5fc0b9e341838e4d3caa55f602a7`, mode `100644`, 9,307 bytes. Verified symbols: `ROOT`, `_read_js_bundle`, `ObservatoryContractTests`, `ObserverProvenanceContractTests`, `SensoryWorldMapContractTests`. The assertions inspect legacy snapshot/body/cognition/topology/instance/replay JSON schemas, frontend module contents, historical resident CLI behavior, and optional sensory snapshot fields for replay compatibility. These are source-contract checks for the historical Observatory API/UI/CLI, not independent TARGET contracts or scientific evidence. Corresponding schema decisions remain separately classified, including unresolved DEFER entries; this DROP does not resolve or override them. No authorized TARGET destination adopts this snapshot, frontend, or CLI contract. Future requirements and tests must be target-authored against accepted owner contracts. Do not infer that boundedness, privacy, provenance, replay compatibility, sensory projection, or future safeguards are unnecessary. Historical source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made. |
