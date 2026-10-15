@@ -36,7 +36,7 @@ def test_effective_model_audit_is_bounded_defer() -> None:
     assert "no model correctness" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 28, "REWRITE": 3, "DROP": 949, "DEFER": 184}
+    assert counts == {"MOVE": 8, "SPLIT": 27, "REWRITE": 3, "DROP": 949, "DEFER": 185}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
