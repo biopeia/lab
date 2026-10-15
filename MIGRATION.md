@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 84 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 83 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 920 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 921 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -710,6 +710,22 @@ search.
 does not dispose of protocols, corpora, results, or evidence. No study or
 evaluation was run. No metric/scientific validity, evidence admission,
 equivalence, or future-need claim is made.
+
+### Historical private-model training and adaptation (Lab #227)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/trainer.py` is blob
+`e4625c42267ab794a5bbc7f952ae0cb97a4d644c` (20,490 bytes). It defines optional
+PyTorch training configuration/results/probes, batching and evaluation,
+checkpoint serialization and parent-state/vocabulary adaptation, and private
+next-token model training/adaptation loops. Historical consumers are Lab
+factory/study orchestration; no matching trainer or private-model consumer was
+found in the bounded current Biopeia TARGET search.
+
+**Disposition: DROP this historical trainer implementation as TARGET code.**
+This does not dispose of model artifacts, protocols, corpora, results, or
+evidence. No training/adaptation was run. No scientific validity, efficacy,
+evidence admission, equivalence, or future-need claim is made.
 
 ### Historical private-model inference gateway (Lab #222)
 
