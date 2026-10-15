@@ -26,7 +26,7 @@ def test_historical_contract_matrix_has_bounded_drop_disposition() -> None:
     assert "not itself a schema or executable consumer contract" in rationale
     assert "separately inventoried schemas" in rationale
     counts = Counter(r["disposition"] for r in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196}
+    assert counts == {"MOVE": 8, "SPLIT": 14, "REWRITE": 3, "DROP": 950, "DEFER": 197}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory compatibility matrix (Lab #263)" in migration
     assert BLOB in migration

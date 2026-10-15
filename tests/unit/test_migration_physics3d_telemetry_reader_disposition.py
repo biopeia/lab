@@ -23,7 +23,7 @@ def test_legacy_reader_is_deferred_for_schema_custody_and_selection_contract() -
     for evidence in (COMMIT, SHA256, "#312", "#313", "#314", "#315", "#305", "custody"):
         assert evidence in row["rationale_and_caveat"]
     assert Counter(r["disposition"] for r in rows) == {
-        "MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196
+        "MOVE": 8, "SPLIT": 14, "REWRITE": 3, "DROP": 950, "DEFER": 197
     }
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert BLOB in migration and SHA256 in migration

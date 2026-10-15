@@ -34,9 +34,9 @@ def test_historical_remove_node_schema_assertion_is_bounded_defer() -> None:
     assert "no scientific validity" in rationale
 
     counts = Counter(item["disposition"] for item in rows.values())
-    assert counts == {"MOVE": 8, "SPLIT": 15, "REWRITE": 3, "DROP": 950, "DEFER": 196}
+    assert counts == {"MOVE": 8, "SPLIT": 14, "REWRITE": 3, "DROP": 950, "DEFER": 197}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical reversible-structure contract test disposition (Lab #286)" in migration
     assert BLOB in migration
-    assert "`SPLIT` | 15 |" in migration
-    assert "`DEFER` | 196 |" in migration
+    assert "`SPLIT` | 14 |" in migration
+    assert "`DEFER` | 197 |" in migration

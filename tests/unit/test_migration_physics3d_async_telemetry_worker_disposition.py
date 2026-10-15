@@ -29,6 +29,6 @@ def test_async_telemetry_worker_records_custody_boundary_and_counts() -> None:
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "Historical Physics3D asynchronous telemetry worker disposition (Lab #305)" in migration
     assert "no durability, evidence-admissibility" in migration
-    assert "| `SPLIT` | 15 |" in migration
-    assert "| `DEFER` | 196 |" in migration
+    assert "| `SPLIT` | 14 |" in migration
+    assert "| `DEFER` | 197 |" in migration
 
