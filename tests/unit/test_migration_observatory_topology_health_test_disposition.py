@@ -37,10 +37,10 @@ def test_historical_topology_health_test_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/observatory/tests/test_topology_health_contract.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 36, "REWRITE": 3, "DROP": 948, "DEFER": 177}
+    assert counts == {"MOVE": 8, "SPLIT": 35, "REWRITE": 3, "DROP": 948, "DEFER": 178}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 36 |" in migration
+    assert "`SPLIT` | 35 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "### Historical Observatory topology-health contract test" in migration
