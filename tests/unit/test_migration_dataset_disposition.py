@@ -37,10 +37,10 @@ def test_historical_dataset_encoding_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/dataset.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 67, "REWRITE": 3, "DROP": 932, "DEFER": 162}
+    assert counts == {"MOVE": 8, "SPLIT": 66, "REWRITE": 3, "DROP": 932, "DEFER": 163}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 67 |" in migration
+    assert "`SPLIT` | 66 |" in migration
     assert "`DROP` | 932 |" in migration
     assert "### Historical private-model corpus encoding (Lab #218)" in migration

@@ -124,9 +124,9 @@ def test_historical_interoception_assertions_are_dropped_without_target_tests() 
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "`SPLIT` | 67 |" in migration
+    assert "`SPLIT` | 66 |" in migration
     assert "`DROP` | 932 |" in migration
-    assert "`DEFER` | 162 |" in migration
+    assert "`DEFER` | 163 |" in migration
     assert "test_contract.py` is `DROP` as a whole" in migration
     assert "DROP as TARGET code" in migration
     assert "DROP as TARGET tests" in migration
