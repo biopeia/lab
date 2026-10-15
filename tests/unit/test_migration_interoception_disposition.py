@@ -27,7 +27,7 @@ def test_historical_interoception_symbol_is_dropped_without_target_mapping() -> 
     source_symbol = "OpaqueBodyInteroception"
 
     assert row["source_blob_at_pinned_commit"] == APPARATUS_BLOB
-    assert row["disposition"] == "SPLIT"  # the source file contains other symbols
+    assert row["disposition"] == "SPLIT"  # mixed owners remain independently assigned
     assert source_symbol in symbols
     assert "DROP: lab/src/lab/integration/physics3d/apparatus.py::OpaqueBodyInteroception" in row["target_path_or_status"]
     assert "no TARGET path" in row["target_path_or_status"]
@@ -41,6 +41,46 @@ def test_historical_interoception_symbol_is_dropped_without_target_mapping() -> 
         source_symbol in path.read_text(encoding="utf-8")
         for path in (ROOT / "src").rglob("*.py")
     )
+
+
+
+def test_physics3d_apparatus_symbols_have_explicit_owner_or_drop_dispositions() -> None:
+    row = read_inventory()["lab/src/lab/integration/physics3d/apparatus.py"]
+    status = row["target_path_or_status"]
+    symbols = set(row["top_level_python_symbols"].split(";"))
+
+    dropped = {
+        "_running_version",
+        "physics3d_sensory_system",
+        "OpaqueBodyInteroception",
+        "PhysicsDiscoveryProvider",
+        "PhysicsReadingProvider",
+        "actuator_to_effector_map",
+        "body_schema_summary",
+    }
+    references = {
+        "physics3d_cognition": "src/organism/cognition/birth.py::load_base_cognition",
+        "physics3d_actuator_surface": "src/organism/actuation/surface.py::derive_actuator_constitution",
+        "actuator_exclusion_groups": (
+            "src/organism/actuation/sensorimotor.py::"
+            "CompetenceDevelopmentEngine.exclusive_actuator_groups"
+        ),
+    }
+
+    assert row["source_blob_at_pinned_commit"] == APPARATUS_BLOB
+    assert row["disposition"] == "SPLIT"
+    assert dropped | set(references) == symbols
+    for symbol in dropped:
+        assert symbol in status
+    assert "no TARGET Lab adapter path" in status
+    for symbol, target in references.items():
+        assert symbol in status
+        assert target in status
+    migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
+    assert "Historical Physics3D apparatus wrapper dispositions" in migration
+    assert "not migrated implementations or semantic equivalence" in migration
+    assert SOURCE_COMMIT in migration
+    assert APPARATUS_BLOB in migration
 
 
 def test_historical_interoception_assertions_are_dropped_without_target_tests() -> None:
