@@ -39,11 +39,11 @@ def test_historical_kernel_config_is_dropped_as_one_lab_responsibility() -> None
         assert evidence in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 72, "REWRITE": 3, "DROP": 928, "DEFER": 161}
+    assert counts == {"MOVE": 8, "SPLIT": 71, "REWRITE": 3, "DROP": 929, "DEFER": 161}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical kernel-characterization config disposition (Lab #209)" in migration
     assert SOURCE_BLOB in migration
     assert "**Disposition: DROP the entire historical config module as TARGET code, not" in migration
-    assert "`SPLIT` | 72 |" in migration
-    assert "`DROP` | 928 |" in migration
+    assert "`SPLIT` | 71 |" in migration
+    assert "`DROP` | 929 |" in migration
