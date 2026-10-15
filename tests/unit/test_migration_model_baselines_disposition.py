@@ -38,10 +38,10 @@ def test_historical_private_model_baselines_are_dropped_as_target_code() -> None
     assert not (ROOT / "src/lab/modeling/baselines.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 66, "REWRITE": 3, "DROP": 932, "DEFER": 163}
+    assert counts == {"MOVE": 8, "SPLIT": 65, "REWRITE": 3, "DROP": 933, "DEFER": 163}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 66 |" in migration
-    assert "`DROP` | 932 |" in migration
+    assert "`SPLIT` | 65 |" in migration
+    assert "`DROP` | 933 |" in migration
     assert "### Historical private-model baseline metrics (Lab #216)" in migration

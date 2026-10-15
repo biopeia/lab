@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 66 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 65 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 932 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 933 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 163 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1370,6 +1370,13 @@ The alias is `DEFER`, not an independent `SPLIT` or final `DROP`: the underlying
 At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/cognition_state.schema.json` is a 35-byte symlink (blob `b22e40673ee98ac2d9c12039b685cc2aeb5ca16e`, mode `120000`) to `schemas/cognition_state.schema.json`. The target schema is blob `4a64ef2467617deb58e466602319c0cc5939cb71`, separately inventoried and under review in open Lab #265. It describes per-tick cognition telemetry including evidence-gated stranded-concept and shadow-prediction metrics, explicitly not raw weights. Its historical description does not create a TARGET contract or identify a competent owner/path.
 
 The alias is `DEFER`, linked to #265, until the competent Organism/Observation owners disposition the underlying schema and its TARGET responsibility or explicitly DROP it. Closure trigger: record the schema owner/path or explicit DROP, then reconcile the alias. This bounded defer does not block runtime transfer. Source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
+
+
+### Historical Observatory operational configuration (Lab #253)
+
+The pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/config.py` (blob `3400ea0a13552fd3d62cd2bc5178daada89792f8`, mode `100644`, 1,334 bytes), defines the legacy state directory, loopback server host/port, SSE polling, heartbeat/staleness, and limits tied to the historical tick and body schemas. Pinned callers are the old Observatory `server.py` and `adapter.py`; the adapter is separately dispositioned as DROP in Lab #250. The target Observation repository defines passive semantic observation, not an Observatory server, filesystem, streaming, heartbeat, or this schema-bound ingestion API. Lab has no target Observatory runtime consumer.
+
+Disposition: `DROP` as TARGET operational configuration. Do not carry the old values into TARGET by analogy. Any future presentation or transport requirements need an owner-authored contract and independently justified bounds. This does not claim future UI/transport is unnecessary or make scientific validity, equivalence, or evidence-admission claims; historical source remains read-only.
 
 ### Historical Observation cadence helper disposition (Lab #232)
 
