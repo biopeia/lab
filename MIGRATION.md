@@ -396,8 +396,8 @@ manifest disposition counts are:
 
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
-| `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 76 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `MOVE` | 7 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
+| `SPLIT` | 75 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 927 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
@@ -427,6 +427,10 @@ the historical source remains read-only and no scientific artifact, validity,
 or equivalence is dispositioned here. This row is non-blocking to the bounded
 Lab utility extraction, while its disposition is recorded for the complete
 source inventory.
+
+### Historical Observation plane disposition (Lab #240)
+
+The pinned source is `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/plane.py`, blob `a971a49857a562021da909a00a4efd53a0f7e637` (10,805 bytes, mode `100644`). Verified top-level symbols: `ObservationKey;PlaneMessage;PlaneRebaseRequired;PlaneStreamSubscription;observation_key;ObservationPlane`. The row is classified `MOVE` to the concrete semantic coordination owner `repos/observation/src/observation/plane.py::ObservationPlane`: bounded in-memory current-state materialization, fan-out, replay and rebase are generic Observation responsibilities. Lab consumers associate/consume owner plane messages; this source module itself does not define Lab-specific evidence custody or admission, so the former `SPLIT` classification overstated its responsibility split. The TARGET implementation adds value-shape validation and defensive snapshots and has evolved APIs; this ownership disposition makes no source-code, behavioral, scientific, or equivalence claim. The pinned historical file remains read-only. Existing TARGET clients (for example Lab `src/lab/observation_consumer.py` and World `src/world/observation_publication.py`) are integration context, not evidence of historical behavior equivalence.
 
 ### Historical Physics3D observation bridge disposition (Lab #239)
 
