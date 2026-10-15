@@ -38,17 +38,17 @@ def test_historical_mutation_implementation_is_dropped_without_dropping_protocol
     counts = Counter(item["disposition"] for item in rows)
     assert counts == {
         "MOVE": 8,
-        "SPLIT": 56,
+        "SPLIT": 55,
         "REWRITE": 3,
-        "DROP": 939,
+        "DROP": 940,
         "DEFER": 166,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_COMMIT in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 56 |" in migration
-    assert "`DROP` | 939 |" in migration
+    assert "`SPLIT` | 55 |" in migration
+    assert "`DROP` | 940 |" in migration
     assert "Historical genome mutation and developmental-budget intervention" in migration
     assert "Related historical protocols/results remain under their independent Lab #45" in migration
     assert not (ROOT / "src/lab/evolution/mutation.py").exists()
