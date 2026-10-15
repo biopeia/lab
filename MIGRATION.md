@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 37 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 36 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 176 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 177 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1636,6 +1636,35 @@ row. Outside bounded runtime transfer; the tests are software characterization,
 not science. No source/runtime is copied/changed and no scientific validity,
 schema equivalence, newborn-cognition equivalence or evidence-admission claim
 is made.
+
+
+### Historical Observatory runtime-projection E2E test disposition (Lab #287)
+
+The pinned `lab/src/lab/observatory/tests/test_runtime_projection_e2e.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`30fb83886faf6ef06a59787643ca01376f634259`, SHA-256
+`e7c8ed732f708bfa0fd5dbfabc9815cda83e8192a185ee962f2245b1a6a75d59`) has eight
+test functions. They characterize one legacy Observatory v1-v3 composite
+snapshot interface: runtime tick projection/schema validation; social relation
+and resource fields; degradation counters; observer provenance exclusion from
+organism data; embodiment projection/redaction; and fail-closed schema-version
+fallback. This is not eight independent TARGET contracts. The historical
+adapter and snapshot schema are already `DROP` as TARGET artifacts; this test
+file therefore does not split into authorized TARGET test destinations.
+
+Disposition is bounded `DEFER`, not `SPLIT`: the assertions span owner-meaningful
+data, but no target-owned composite snapshot/test path or independently approved
+field contracts authorize migration of this coupled historical test. Observation
+#38 leaves the observational ingestion/provenance/retention design unresolved;
+Organism, Embodiment and other represented state owners must separately
+authorize any outward semantic projections. Lab remains accountable only for
+its distinct, governed scientific evidence custody. Closure requires those
+competent owners to record explicit `DROP` for historical-only assertions or
+approve target-authored contracts naming each semantic owner, schema/path,
+privacy/provenance limits and separately justified target-native tests; then
+reconcile this row. This does not block bounded runtime transfer. No code or
+data is copied/deleted, and no scientific validity, equivalence, causality,
+evidence admission or future-need claim is made.
 
 
 ### Historical reversible-structure contract test disposition (Lab #286)
