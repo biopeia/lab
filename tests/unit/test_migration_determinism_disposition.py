@@ -37,10 +37,10 @@ def test_historical_training_determinism_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/determinism.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 64, "REWRITE": 3, "DROP": 934, "DEFER": 163}
+    assert counts == {"MOVE": 8, "SPLIT": 63, "REWRITE": 3, "DROP": 934, "DEFER": 164}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 64 |" in migration
+    assert "`SPLIT` | 63 |" in migration
     assert "`DROP` | 934 |" in migration
     assert "### Historical private-model determinism setup (Lab #219)" in migration
