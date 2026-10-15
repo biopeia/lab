@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 54 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 53 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 941 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 166 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 167 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -557,6 +557,12 @@ Keep this alias as `DEFER`, linked to Observation #38. The Lab #255 coordinator 
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/schemas/replay.schema.json` | DROP as TARGET schema artifact | No TARGET replay schema/compatibility contract | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`; blob `d1f6f042b4ac49d70a8f4debf665ea4c68f72885`, mode `100644`, 479 bytes; SHA-256 `1e916b2f4fde95b4ac62e78d91537a5bad0617399e3674df540a9f609530aae5`. This schema defines a version-1 envelope of up to 10,000 legacy Observatory snapshots via local `$ref`. The legacy snapshot schema and publisher are separately inventoried/dispositioned; no TARGET replay schema, consumer, or compatibility contract is authorized. Drop this historical envelope format only; historical replay records/data are not dispositioned by implication, and future replay is not ruled out. No scientific validity/equivalence/evidence-admission claim is made; historical source remains read-only. |
+
+### Historical Observatory signal-knowledge schema (Lab #268)
+
+| Source path | Disposition | Target path | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observatory/schemas/signal_knowledge.schema.json` | DEFER as an unapproved historical wire schema | No TARGET signal-knowledge schema/path authorized; Organism owns any internal semantic state, while Lab custody applies only to separately dispositioned evidence artifacts | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `fe960b2b38ef3655a5aff6867b81a46fbf380a9e`, mode `100644`, 4,079 bytes; SHA-256 `100195ff2df5d7feb4e86eead7482858b5a1b2a88956e28efaa825ca67fe2c9d`. This schema describes a historical Observatory array of bounded per-signal claim summaries, including identity, claim kind/status, evidence/validation counters, performance/loss classes, epochs and age classes; its shape does not establish claim truth or scientific validity. Biopeia Organism migration already defers signal identity/knowledge components until a perception-source contract defines identity, provenance and epistemic basis. Keep this whole wire schema deferred rather than infer `SPLIT` from its historical location or field names. Closure trigger: Organism owner records the signal identity/source/provenance/epistemic contract and the publication/privacy disposition in Organism #169; Organism #45 tracks incomplete cognitive-checkpoint scope if any state is persisted. Lab then reclassifies this row: DROP the legacy wire artifact absent an accepted contract, or open a separate issue for a fresh target-authored schema under its authorized owner. This row does not block the bounded Lab runtime migration because no TARGET consumer/package dependency is identified. Historical source remains read-only; no schema is copied, no scientific validity/equivalence/admission or future-need claim is made. |
 
 ### Historical Observatory cognition-state schema (Lab #265)
 
