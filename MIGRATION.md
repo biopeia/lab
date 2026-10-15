@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 62 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 61 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 934 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 935 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 165 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1374,6 +1374,11 @@ The alias is `DEFER`, linked to #265, until the competent Organism/Observation o
 
 
 
+
+
+### Historical Observatory observer-provenance translator disposition (Lab #258)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/provenance.py`, blob `d928fa835da90a21d06c02976794b3b3396bccc7` (mode `100644`, 5,400 bytes). Verified symbols: `_descriptor;build_observer_provenance`. It maps opaque runtime capability readings into bounded human-observer rows (signal ID, label/category, scaled value/unit, quality); its source docstring explicitly states those labels do not enter the tick result, checkpoint state, cognition or learning. No TARGET descriptor schema, owner-authored contract, consumer or path was identified. The pinned apparatus translator is `DROP` from migration input. This does not assert future human observability is unnecessary or validate the labels as scientific constructs; any future viewer requires a target-authored contract and review by owners of the underlying fields. No scientific validity/equivalence/admission is inferred and the historical source remains read-only.
 
 ### Historical Observatory capture-manifest disposition (Lab #257)
 

@@ -34,10 +34,10 @@ def test_experience_package_facade_is_dropped_without_dispositioning_modules() -
     assert not (ROOT / "src/lab/experience/__init__.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 62, "REWRITE": 3, "DROP": 934, "DEFER": 165}
+    assert counts == {"MOVE": 8, "SPLIT": 61, "REWRITE": 3, "DROP": 935, "DEFER": 165}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 62 |" in migration
-    assert "`DROP` | 934 |" in migration
+    assert "`SPLIT` | 61 |" in migration
+    assert "`DROP` | 935 |" in migration
     assert "does not disposition the underlying modules" in migration
