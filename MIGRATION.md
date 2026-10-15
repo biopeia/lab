@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 67 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 66 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 932 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 162 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 163 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1363,6 +1363,13 @@ Re-evaluate when Observation #38 and the competent Observation/Lab owners record
 At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/body_schema.schema.json` is a 31-byte symlink (blob `a8aac03965d0416b6e8849db4c582638cbfe6c2f`, mode `120000`) to `schemas/body_schema.schema.json`. Its target is schema blob `4f393ed9161c3ba8e9672dc78edbb1bef9cd516d`; the substantive schema is separately inventoried and reviewed in open Lab #264. The schema describes bounded organism-owned self-knowledge but provides no evidence of a target owner-authored schema or contract path.
 
 The alias is `DEFER`, not an independent `SPLIT` or final `DROP`: the underlying schema decision belongs with the competent Organism/Observation owners and is linked through #264. Closure trigger: #264 records an owner-authored target owner/path or explicit `DROP`, then reconcile this duplicate historical alias. This bounded defer does not block runtime transfer. The pinned source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
+
+
+### Observatory cognition-state schema alias (Lab #252; underlying schema tracked by #265)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/cognition_state.schema.json` is a 35-byte symlink (blob `b22e40673ee98ac2d9c12039b685cc2aeb5ca16e`, mode `120000`) to `schemas/cognition_state.schema.json`. The target schema is blob `4a64ef2467617deb58e466602319c0cc5939cb71`, separately inventoried and under review in open Lab #265. It describes per-tick cognition telemetry including evidence-gated stranded-concept and shadow-prediction metrics, explicitly not raw weights. Its historical description does not create a TARGET contract or identify a competent owner/path.
+
+The alias is `DEFER`, linked to #265, until the competent Organism/Observation owners disposition the underlying schema and its TARGET responsibility or explicitly DROP it. Closure trigger: record the schema owner/path or explicit DROP, then reconcile the alias. This bounded defer does not block runtime transfer. Source remains read-only; no scientific validity, equivalence, or evidence-admission claim is made.
 
 ### Historical Observation cadence helper disposition (Lab #232)
 
