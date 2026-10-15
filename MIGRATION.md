@@ -402,6 +402,12 @@ manifest disposition counts are:
 | `DROP` | 922 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
+### Historical modeled body physiology observation adapter disposition (Lab #229)
+
+| Source path | Disposition | Current target responsibility references | Provenance / limits |
+| --- | --- | --- | --- |
+| `lab/src/lab/observation/body_physiology.py` | SPLIT; do not transfer the historical adapter or schema | Embodiment `repos/embodiment/src/embodiment/physiology.py` owns `LivingBodyState` and `PhysiologyController`; Observation `repos/observation/src/observation/semantic.py` owns generic transport-independent semantic observation/claim types; Lab `repos/lab/src/lab/observation_consumer.py` consumes the plane | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob `a2f3bc375850779d9d07bfe768c056f106d3ec83` (2,950 bytes). `body_physiology_observation` wraps a source `BodyPhysiologySample` as a semantic observation, with an Embodiment-authority body-physiology family, modeled-state epistemic kind, body identity, body-local age, and optional Lab-run context. The referenced current target paths establish separate responsibility boundaries only: no target `BodyPhysiologySample` or body-physiology projection contract was found, so they do not authorize an adapter or source API compatibility. Keep historical adapter/schema out of transfer; any specific physiology claim family/projection requires an owner-authored contract and review. No scientific validity, measurement status, evidence admission, or equivalence claim is made. |
+
 ### Historical Cognitive Atlas v2 disposition (Lab #228)
 
 | Source path | Disposition | Target mapping | Provenance / limits |
