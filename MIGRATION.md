@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 61 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 60 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 935 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 936 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 165 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1375,6 +1375,11 @@ The alias is `DEFER`, linked to #265, until the competent Organism/Observation o
 
 
 
+
+
+### Historical Observatory publisher disposition (Lab #259)
+
+Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observatory/publisher.py`, blob `16860fd39c55472f7b6f8f8df26a170ca1e91f4f` (mode `100644`, 2,100 bytes). Verified symbols: `Sink;StdoutSink;JournalSink;ReplayRecorder;SnapshotPublisher`. It fans legacy Observatory envelopes to stdout/journal and buffers snapshots for whole-file replay export through the legacy adapter. Current World publishes owner-authorized semantic observations after causal commit into Observation; this is a different contract, not evidence of replacement/equivalence. With no authorized TARGET legacy-envelope sink/replay contract or consumer identified, this pinned fan-out is `DROP` from migration input. Journal data custody remains a separate unresolved question under Lab #256. This does not claim future human transports/replay are unnecessary; no source/runtime behavior, scientific validity, equivalence, or admission is inferred.
 
 ### Historical Observatory observer-provenance translator disposition (Lab #258)
 

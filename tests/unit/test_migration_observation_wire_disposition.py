@@ -30,7 +30,7 @@ def test_legacy_observation_wire_contract_is_dropped() -> None:
     assert "not this broad wire schema" in row["rationale_and_caveat"]
     assert "No semantic authority" in row["rationale_and_caveat"]
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 61, "REWRITE": 3, "DROP": 935, "DEFER": 165}
+    assert counts == {"MOVE": 8, "SPLIT": 60, "REWRITE": 3, "DROP": 936, "DEFER": 165}
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical Observation wire serializer disposition (Lab #246)" in migration
