@@ -40,14 +40,14 @@ def test_historical_evaluation_package_row_matches_disposition_record() -> None:
     counts = Counter(row["disposition"] for row in rows)
     assert counts == {
         "MOVE": 8,
-        "SPLIT": 38,
+        "SPLIT": 37,
         "REWRITE": 3,
         "DROP": 948,
-        "DEFER": 175,
+        "DEFER": 176,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 38 |" in migration
+    assert "`SPLIT` | 37 |" in migration
     assert "`DROP` | 948 |" in migration
     assert "underlying historical module is" in migration and "separately dispositioned below" in migration

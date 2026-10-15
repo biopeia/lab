@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 38 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 37 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 175 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 176 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1636,3 +1636,20 @@ row. Outside bounded runtime transfer; the tests are software characterization,
 not science. No source/runtime is copied/changed and no scientific validity,
 schema equivalence, newborn-cognition equivalence or evidence-admission claim
 is made.
+
+
+### Historical reversible-structure contract test disposition (Lab #286)
+
+The pinned `lab/src/lab/observatory/tests/test_reversible_structure_contract.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`d80f10280f219d428f5619d02f2776bb44b8fcbd`) has one assertion: the historical
+`cognition_state.schema.json` enum includes `remove_node`. It does not execute a
+mutation, establish runtime acceptance, or demonstrate learning/reversible
+plasticity. The schema alias and underlying contract remain `DEFER`, with Lab
+#265 tracking owner review. Organism owns cognitive graph/mutation semantics;
+Observation owns only any approved passive projection. No TARGET cognition-state
+schema/test path or owner-approved mutation contract is established. Closure
+requires competent owners to decide explicit `DROP` or approve a target-authored
+contract/path and justified native tests, then reconcile both rows. Outside
+bounded runtime transfer; historical source remains read-only and no scientific
+validity, mutation equivalence, learning or evidence-admission claim is made.
