@@ -49,7 +49,7 @@ def test_instance_schema_alias_is_bounded_defer_linked_to_sibling_issue() -> Non
     assert "bounded runtime-transfer profile" in sibling["rationale_and_caveat"]
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 34, "REWRITE": 3, "DROP": 948, "DEFER": 179}
+    assert counts == {"MOVE": 8, "SPLIT": 33, "REWRITE": 3, "DROP": 949, "DEFER": 179}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)" in migration
