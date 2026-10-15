@@ -40,10 +40,10 @@ def test_semantic_model_moves_as_capability_primitives_to_observation() -> None:
     assert not (ROOT / "src/lab/observation/semantic.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 40, "REWRITE": 3, "DROP": 948, "DEFER": 173}
+    assert counts == {"MOVE": 8, "SPLIT": 39, "REWRITE": 3, "DROP": 948, "DEFER": 174}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "Historical semantic model disposition (Lab #243)" in migration
     assert "`MOVE` | 8 |" in migration
-    assert "`SPLIT` | 40 |" in migration
+    assert "`SPLIT` | 39 |" in migration

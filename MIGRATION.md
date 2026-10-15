@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 40 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 39 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 173 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 174 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1593,3 +1593,24 @@ may be separately justified. No publisher, replay, persistence or scientific
 behavior is implemented or inferred from the historical assertions. This does
 not block the bounded runtime-transfer profile and makes no scientific validity,
 equivalence, replay-compatibility or evidence-admission claim.
+
+
+### Historical Observatory registry-test disposition (Lab #284)
+
+The pinned `lab/src/lab/observatory/tests/test_registry.py` file
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`11b7d3d51f701b0c8fa31ae28ab7042ab9809c0b`) contains five tests for the legacy
+registry: path-derived hashed instance IDs, fresh run IDs, atomic heartbeat
+write/read including topology revision, malformed-record skipping, and
+alive/stale/expired classification. These characterize the single historical
+registry contract and do not establish separately authorized Observation/Lab
+test paths. The implementation remains bounded `DEFER` under Lab #260, the
+instance schema under Lab #266, and Observation #38; current instance-ID
+projections do not authorize a durable registry, heartbeat or liveness service.
+The `Observation / Lab` hint is not an owner decision, nor does Lab's evidence
+custody responsibility authorize process identity semantics. Closure requires
+competent Observation/Lab and represented-field owners to decide explicit
+`DROP` or name the TARGET responsibility, contract/schema and path, then
+reconcile both implementation and test rows. Outside bounded runtime transfer;
+no source or state is copied/deleted and no scientific validity, identity
+equivalence, privacy sufficiency or evidence-admission claim is made.
