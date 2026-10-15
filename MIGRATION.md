@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 42 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 41 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 948 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 171 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 172 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1549,3 +1549,24 @@ Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
 | Source path | Disposition | Target path | Provenance / limits |
 | --- | --- | --- | --- |
 | `lab/src/lab/observatory/tests/test_evidence_endpoints.py` | DEFER (bounded) | No authorized TARGET endpoint/response contract | Pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`; blob `2029ddd95201008a1e16c237411b835fa0e11d31`, mode `100644`, 4,461 bytes; verified class `EvidenceEndpointTests`. The three tests exercise legacy HTTP projection of selected manifest provenance/digest fields while omitting private paths/config, history-summary selection via current registry run, and rejection of malformed instance IDs. No TARGET endpoint contract/service is authorized. Manifest custody/field authority remains DEFER under Lab #257; registry identity/current-run semantics remain DEFER under Lab #260 and Observation #38/Lab #266; journal/history custody remains DEFER under Lab #256. The historical summary generator is independently DROP under #254 and server implementation DROP under #271; those classifications do not settle whether any owner-authorized endpoint or evidence index is needed. Lab #278 coordinator tracks closure; Lab evidence-custody owner and competent Lab/Observation/domain owners must determine DROP or specify a new target-authored contract with field authority, source/run identity, privacy, schema, custody/retention, storage path and owner. Observation owner must separately resolve source/lake boundaries under #38. Closure trigger: record those decisions, then replace this bounded DEFER with explicit DROP or open a linked implementation/test Issue against accepted contract. This does not block bounded runtime transfer because no TARGET consumer/API dependency is identified. No source/tests/data are copied or deleted; no scientific validity, equivalence, evidence admission, or future-need claim is made. |
+
+
+### Historical Observatory integration-test disposition (Lab #282)
+
+The pinned historical file `lab/src/lab/observatory/tests/test_observatory_integration.py`
+(at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`3581df581e56afc91f490d707975c01707b62ca9`) contains two integration tests
+for the legacy resident/instance registry: independent residents receive
+distinct `instance_id` and `run_id`; restarting the same state file preserves
+`instance_id` and starts a new `run_id`. This does not establish target registry
+semantics. The inventory row is **DEFER**, not `SPLIT`: no target-authored
+registry/restart contract or test path is authorized, and the behaviors are
+coupled in one historical composition test. Lab #260/#266 and Observation #38
+leave identity authority and the registry/projection/evidence-custody boundary
+unresolved. Lab remains accountable for custody; Observation and the competent
+Organism/World owners decide their respective field and projection contracts.
+Closure requires an explicit owner-authorized `DROP` or an approved target
+contract naming schema, authority and path, followed by row reconciliation.
+This is outside the bounded runtime-transfer causal-cycle profile. No source
+code is copied or removed, and no scientific validity, equivalence, identity
+compatibility or evidence admission is inferred.
