@@ -35,10 +35,10 @@ def test_historical_model_artifact_store_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/modeling/artifacts.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 90, "REWRITE": 2, "DROP": 914, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 89, "REWRITE": 2, "DROP": 915, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 90 |" in migration
-    assert "`DROP` | 914 |" in migration
+    assert "`SPLIT` | 89 |" in migration
+    assert "`DROP` | 915 |" in migration
     assert "### Historical private-model artifact/store implementation (Lab #215)" in migration
