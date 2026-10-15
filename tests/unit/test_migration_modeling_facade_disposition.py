@@ -12,7 +12,6 @@ SOURCE_PATH = "lab/src/lab/modeling/__init__.py"
 SOURCE_BLOB = "3bf74d0ff1633c094853d49a1d5dcc637cbec7dc"
 TARGET_MAIN = "d58ff1fdeb6e4450a72d264fca4251311b2a0bdd"
 REEXPORTED_MODULES = {
-    "temporal_evaluation.py",
     "trainer.py",
 }
 
@@ -45,14 +44,14 @@ def test_historical_modeling_facade_is_dropped_without_disposing_other_modules()
         and path != SOURCE_PATH
     }
     assert REEXPORTED_MODULES <= module_rows.keys()
-    # Architecture, artifacts, baseline helpers, dataset encoder, determinism setup, evaluation/promotion, factory orchestration, and inference gateway remain SPLIT; temporal challenger and study orchestration are separately DROP-dispositioned; remaining facade re-exports remain open.
+    # Architecture, artifacts, baseline helpers, dataset encoder, determinism setup, evaluation/promotion, factory orchestration, and inference gateway remain SPLIT; temporal challenger/evaluation and study orchestration are separately DROP-dispositioned; remaining facade re-exports remain open.
     assert all(module_rows[name]["disposition"] == "SPLIT" for name in REEXPORTED_MODULES)
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 85, "REWRITE": 2, "DROP": 919, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 84, "REWRITE": 2, "DROP": 920, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 85 |" in migration
-    assert "`DROP` | 919 |" in migration
+    assert "`SPLIT` | 84 |" in migration
+    assert "`DROP` | 920 |" in migration
     assert "### Historical modeling package facade" in migration

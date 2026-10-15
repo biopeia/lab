@@ -38,11 +38,11 @@ def test_historical_schema_validation_test_has_bounded_drop_disposition() -> Non
     assert "does not claim future schema validation" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 85, "REWRITE": 2, "DROP": 919, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 84, "REWRITE": 2, "DROP": 920, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory schema-validation tests" in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 85 |" in migration
-    assert "`DROP` | 919 |" in migration
+    assert "`SPLIT` | 84 |" in migration
+    assert "`DROP` | 920 |" in migration
     assert "This does not claim future schema validation" in migration

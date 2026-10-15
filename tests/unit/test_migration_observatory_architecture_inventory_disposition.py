@@ -37,13 +37,13 @@ def test_historical_observatory_architecture_inventory_is_dropped_as_target() ->
     assert "this does not claim that future visualization or Observation documentation is unnecessary" in rationale
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 6, "SPLIT": 85, "REWRITE": 2, "DROP": 919, "DEFER": 160}
+    assert counts == {"MOVE": 6, "SPLIT": 84, "REWRITE": 2, "DROP": 920, "DEFER": 160}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory architecture inventory" in migration
     assert SOURCE_BLOB in migration
-    assert "| `SPLIT` | 85 |" in migration
-    assert "| `DROP` | 919 |" in migration
+    assert "| `SPLIT` | 84 |" in migration
+    assert "| `DROP` | 920 |" in migration
 
 
 def test_historical_observatory_readme_is_dropped_as_target_documentation() -> None:
@@ -77,5 +77,5 @@ def test_historical_observatory_readme_is_dropped_as_target_documentation() -> N
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical Observatory user and operator README" in migration
     assert "f4e3c4710ac5bc14f612c82a1c7ade809df8ee3c" in migration
-    assert "| `SPLIT` | 85 |" in migration
-    assert "| `DROP` | 919 |" in migration
+    assert "| `SPLIT` | 84 |" in migration
+    assert "| `DROP` | 920 |" in migration
