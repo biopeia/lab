@@ -35,10 +35,10 @@ def test_canonical_organism_factory_is_dropped_as_legacy_target_code() -> None:
     assert not (ROOT / "src/lab/integration/organism/canonical.py").exists()
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 30, "REWRITE": 3, "DROP": 949, "DEFER": 182}
+    assert counts == {"MOVE": 8, "SPLIT": 29, "REWRITE": 3, "DROP": 949, "DEFER": 183}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 30 |" in migration
+    assert "`SPLIT` | 29 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "### Historical canonical Organism factory and restore adapter" in migration

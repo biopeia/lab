@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 30 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 29 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 182 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 183 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1815,4 +1815,30 @@ those decisions and an authorized suite schema/path, or explicit owner-approved
 `DROP`, then reconciliation of this CLI and #294 together. This is outside the
 bounded runtime-transfer profile and does not block it. No code, scenarios, or
 reports are copied/deleted; no validity, equivalence, or admissibility claim is
+made.
+
+### Historical Physics3D engine disposition (Lab #297)
+
+The pinned `lab/src/lab/physics3d/engine.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`f98aca80171e64485e39631a89ec3e56c5c7f349`, mode `100644`, 44,487 bytes)
+implements a monolithic cross-domain execution loop: it schedules physics,
+cognition, observation and rendering; constructs/restores the Embodiment
+runtime; persists organism and body checkpoints; applies Lab guard/termination
+callbacks; and manages telemetry, provenance and monitoring. The previous
+`SPLIT` classification is not substantiated merely by these dependencies: no
+accepted multi-owner TARGET runtime contract or concrete target implementation
+path authorizes this source as a transfer candidate. Its classification is
+corrected to bounded `DEFER`, not `DROP`.
+
+World must define causal participant/commit orchestration; Embodiment the body
+runtime and checkpoint contract; Environment its lifecycle; Lab its experiment
+policy, telemetry/evidence custody and adapter scope. The exact owner-approved
+runtime design, lifecycle/identity/checkpoint/provenance policies, and concrete
+consumer/path are absent. Closure requires these contracts/path, or explicit
+owner-authorized `DROP` of this historical engine, followed by reconciliation
+of dependent runtime/CLI rows. This core runtime is not treated as disposable
+because it is historical, and this bounded ledger defer does not block the
+separately defined runtime-transfer profile. No code/state is copied/deleted;
+no scientific validity, equivalence, autonomy or evidence-admission claim is
 made.

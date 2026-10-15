@@ -33,12 +33,12 @@ def test_clonal_budding_runtime_is_dropped_as_historical_composite() -> None:
     assert "no claim that reproduction is unnecessary" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 30, "REWRITE": 3, "DROP": 949, "DEFER": 182}
+    assert counts == {"MOVE": 8, "SPLIT": 29, "REWRITE": 3, "DROP": 949, "DEFER": 183}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### Historical clonal-budding runtime disposition (Lab #318)" in migration
     assert SOURCE_BLOB in migration
     assert "no target offspring initializer/path is established" in migration
     assert "not scientific validation or evidence of target equivalence" in migration
-    assert "`SPLIT` | 30 |" in migration
+    assert "`SPLIT` | 29 |" in migration
     assert "`DROP` | 949 |" in migration
