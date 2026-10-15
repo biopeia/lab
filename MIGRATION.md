@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 88 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 87 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 916 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 917 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -643,6 +643,22 @@ validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
 method-equivalence, or future-need claim is made.
+
+### Historical private-model outcome metrics (Lab #223)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/outcome_metrics.py` is blob
+`6540b1d7ac18e3220ba5580184cfeacc259c9e4d` (2,300 bytes). It computes held-out
+cross-entropy, accuracy, and count over explicitly indexed outcome-token
+positions in the historical `EncodedSplit` representation. Pinned callers are
+private-model evaluation/factory/training and learning-study code; Biopeia Lab
+TARGET has no corresponding modeling package or tracked consumer.
+
+**Disposition: DROP this historical helper code as TARGET code.** This is not
+an assessment of metric validity, study outcomes, or scientific evidence; those
+remain separately preserved and governed. No candidate evaluation or study was
+run. No scientific-validity, outcome validity, admission, method-equivalence,
+or future-need claim is made.
 
 ### Historical private-model inference gateway (Lab #222)
 
