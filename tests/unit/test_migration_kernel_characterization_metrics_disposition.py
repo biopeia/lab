@@ -35,10 +35,10 @@ def test_historical_kernel_metrics_helper_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/kernel_characterization/metrics.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 29, "REWRITE": 3, "DROP": 949, "DEFER": 183}
+    assert counts == {"MOVE": 8, "SPLIT": 28, "REWRITE": 3, "DROP": 949, "DEFER": 184}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 29 |" in migration
+    assert "`SPLIT` | 28 |" in migration
     assert "`DROP` | 949 |" in migration
     assert "### Historical kernel-characterization run-summary helper" in migration
