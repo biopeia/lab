@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 26 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 25 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 186 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 187 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1946,3 +1946,32 @@ requirement needs the accountable owners to approve schema, producers and
 consumers, custody, retention, and restore policy before reconsideration. No
 source or artifacts were copied or deleted; no durability equivalence,
 scientific admission, validity, or runtime-restoration claim is made.
+
+
+### Historical Physics3D private-model training service disposition (Lab #302)
+
+The pinned `lab/src/lab/physics3d/private_model_training.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`46a90fb74edc7fad2055686cfb03a5d6be4e343e`, mode `100644`, 29,865 bytes)
+is one host-side service: it accepts organism-authored training requests and
+corpora, trains private models in a worker, stores model/tokenizer artifacts,
+computes candidate/baseline and optional paired-reference metrics, attaches
+inference and applies a source promotion decision. Its source-level ownership
+claims do not establish a Biopeia target contract. The listed symbols were
+verified against the pinned source and are recorded in the inventory.
+
+Disposition is bounded `DEFER`, not `SPLIT`: current TARGET source has no
+private-model `TrainingRequest`, corpus, registry, bridge or training-service
+contract or consumer, so there is no concrete retained target path. The source
+owner hint `World / Embodiment / Environment / Lab` is not evidence of target
+ownership. Organism must decide whether this capability is required at all; if
+retained, it needs target-native request/corpus/artifact/registry/compute and
+promotion contracts, a concrete implementation owner/path, and restore/security
+boundaries. Lab must decide custody/admissibility before paired evaluation
+records can be treated as evidence. Closure trigger: a linked Organism-owner
+decision to retain or DROP; if retained, a separate target contract and
+implementation issue plus Lab custody decision. This does not block bounded
+Lab runtime migration because there is no current target consumer/package
+dependency. No training job was run; no source or artifact was transferred or
+deleted, and no learning efficacy, scientific validity, promotion
+appropriateness, durability or equivalence claim is made.

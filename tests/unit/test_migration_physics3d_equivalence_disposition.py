@@ -30,7 +30,7 @@ def test_equivalence_tool_is_deferred_to_contract_and_evidence_policy() -> None:
     assert "No authorized TARGET snapshot-equivalence contract" in row["target_path_or_status"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 26, "REWRITE": 3, "DROP": 949, "DEFER": 186}
+    assert counts == {"MOVE": 8, "SPLIT": 25, "REWRITE": 3, "DROP": 949, "DEFER": 187}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
