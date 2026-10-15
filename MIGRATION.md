@@ -397,10 +397,10 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 27 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 26 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
 | `DROP` | 949 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 81 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
-| `DEFER` | 185 | Open disposition, not final. Must be revisited before migration completion. |
+| `DEFER` | 186 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
 
@@ -1892,3 +1892,27 @@ result-custody decisions, followed by related-row reconciliation. This is
 outside bounded runtime transfer. No experiment/snapshot is executed, no
 code/data copied/deleted, and no equivalence, efficacy, determinism or
 admissibility claim is made.
+
+### Historical Physics3D observer-semantics disposition (Lab #300)
+
+The pinned `lab/src/lab/physics3d/observer_semantics.py`
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`ea458b9ffba761a94426c436ed347f947c282ba0`, mode `100644`, 7,776 bytes)
+maps opaque receptor/action/actuator identifiers to evaluator-side physical
+labels, categories, joint/direction metadata and mapping status. Its contract
+says these labels are ground truth for evaluation only and never enter organism
+discovery, sensory, cognition, BodySchema or actuation inputs; action mapping is
+observational only.
+
+Disposition is bounded `DEFER`, not `SPLIT`: this is one observer projection
+that consumes physical metadata and opaque refs, but no target evaluator
+projection schema, owner contract, consumer/path or evidence-custody policy is
+authorized. Embodiment must define stable physical/joint/actuator metadata;
+Observation any projection/publication semantics; Lab whether this is diagnostic
+or scientific evidence and its custody/retention/admissibility. Closure requires
+a target-owned projection contract/path and owner review plus Lab custody policy,
+or explicit owner-authorized `DROP`, then reconciliation of related observer and
+equivalence rows. The historical no-feedback constraint is preserved, not
+permission to invent target mapping. This does not block bounded runtime
+transfer. No labels/source are copied/deleted; no sensory meaning, autonomy,
+scientific validity, admissibility or equivalence claim is made.
