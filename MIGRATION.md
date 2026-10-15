@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 93 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 92 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 911 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 912 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical habitat population and lineage authority disposition (Lab #317)
@@ -643,6 +643,22 @@ validation, rejection, or replacement of the baseline methods, and does not
 dispose of protocols, study results, or evidence; those remain separately
 preserved and governed. No study was run. No scientific-validity, result-admission,
 method-equivalence, or future-need claim is made.
+
+### Historical private-model corpus encoding (Lab #218)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`,
+`lab/src/lab/modeling/dataset.py` is blob
+`365fa2e2feec1187616c6616704593ba2d287ecb` (5,348 bytes). It defines encoded
+split/corpus containers and converts historical training corpora into token-id
+sequences while preserving causal outcome-target positions. Pinned callers are
+private-model training/evaluation and learning-study code; Biopeia Lab TARGET
+has no corresponding modeling package or tracked consumer.
+
+**Disposition: DROP this historical encoding helper as TARGET code.** This does
+not dispose of source corpora, protocols, study results, or evidence; these
+remain separately preserved and governed. No study was run. No scientific or
+outcome validity, result-admission, method-equivalence, or future-need claim is
+made.
 
 ### Historical variable-order Markov challenger (Lab #217)
 
