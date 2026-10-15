@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 6 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 105 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 104 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 2 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 899 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 900 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 160 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Observatory instance schema path alias (Lab #255; linked to Observation #38 and Lab #266)
@@ -549,6 +549,21 @@ domain. Protocol/result disposition remains separate under Lab #45.
 ### Historical reproduction package facade
 
 | `lab/src/lab/reproduction/__init__.py` | DROP as TARGET code | No TARGET code destination | Pinned source SHA `80d372a186513035f85a769db886e505cabba52d`, blob `302e1d96cd93da7dc7baaf3ff63c387bd9015d76` (313 bytes). The file only re-exports `BirthRecord`, `DeathRecord`, `HabitatBirthAuthority`, and `materialize_clonal_bud` from separately inventoried `authority.py` and `runtime.py`; it has no independent behavior. Drop this package facade only. The sibling modules remain independent inventory items and are not dispositioned here. No historical package import path is retained for compatibility. This does not make a claim about scientific validity, future reproductive capability, method equivalence or evidence admission; the historical source remains read-only. |
+
+### Historical clonal-budding runtime disposition (Lab #318)
+
+At pinned source `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/reproduction/runtime.py` is blob `1f24d3c045f971f4e69c4df019da7da1b581aa72` (path commit `200e0e259a25c6acad7b4fa2d79a27c78500e0e8`, 6,956 bytes). The two inventoried symbols are `materialize_clonal_bud` and `_birth_surfaces_available`.
+
+The code is a cross-boundary historical adapter, not separable Lab-only apparatus: it reads private Organism genome, reproductive-readiness, metabolism, physiology and runtime fields; asks `HabitatBirthAuthority` for a birth record; constructs a body state, metabolism and base cognitive graph; calls the Lab canonical organism factory; charges parental energy; and may join the child to social habitat. Its preflight checks historical habitat capacity. These operations together encode a reproduction transition and assumptions about who owns readiness, identity, somatic state, initialization, and habitat authority. The function depends on a private legacy runtime surface and cannot be retained as a Biopeia target operation merely by redirecting the factory call.
+
+| Source responsibility | Current target evidence | Disposition |
+| --- | --- | --- |
+| Reproductive readiness, inherited genome and offspring transition | Organism #49 remains open and records that the target genetics data has no reproduction producer/consumer; no target operation is authorized by this disposition. | DROP this historical implementation; future work requires its own Organism-owned contract/design. |
+| Habitat birth record and capacity authority | Separately inventoried in Lab #317, which remains open; this issue does not settle its disposition. | No part of this runtime row is retained as a target authority. |
+| Child body/metabolism/cognition setup and parent energy debit | Historical code directly accesses private legacy runtime and composes several domain states; no target offspring initializer/path is established by this issue. | DROP the composite and source-coupled tests from target migration; no equivalent behavior is claimed. |
+| Lab composition of the above | No current target contract/path for this legacy reproduction adapter. | No target code destination; do not preserve a compatibility API. |
+
+This is a code-migration disposition only. Historical tests that call `materialize_clonal_bud` are evidence that the historical code is exercised by its test suite, not scientific validation or evidence of target equivalence. No claim is made that reproduction is unnecessary, impossible, scientifically invalid, or permanently prohibited. The pinned source remains read-only; historical protocols/results remain independently governed and are not dispositioned here. See the exact row in `migration/source-inventory-80d372a.tsv` and the related open issues [Lab #317](https://github.com/biopeia/lab/issues/317) and [Organism #49](https://github.com/biopeia/organism/issues/49).
 
 ### Historical Lab World aggregate facade
 
