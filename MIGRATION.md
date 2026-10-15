@@ -1975,3 +1975,41 @@ Lab runtime migration because there is no current target consumer/package
 dependency. No training job was run; no source or artifact was transferred or
 deleted, and no learning efficacy, scientific validity, promotion
 appropriateness, durability or equivalence claim is made.
+
+
+### Historical Physics3D runtime disposition (Lab #303)
+
+The pinned `lab/src/lab/physics3d/runtime.py` source
+(`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, blob
+`d2a70e298d05547c1aadb75195ab6c0f17496a43`, mode `100644`, 112,656 bytes)
+contains the recorded symbols `LONGITUDINAL_CONTRACT`,
+`metabolic_cost_from_actuator_work`, `WORLD_BODY_ID`,
+`PhysicsServerDisconnected`, `Tick3D`, and `Physics3DEmbodimentRuntime`. The
+class spans construction/settling, physical and owner checkpoint payloads,
+passive physical/world/telemetry projections, cognition/action payloads,
+actuation, and a long-running `step` implementation.
+
+Disposition is `SPLIT`: the monolithic historical host runtime combines
+responsibilities now represented by distinct target components: Organism action
+execution (`organism/src/organism/actuation/system.py`); World coordination and
+MuJoCo numerical stepping (`world/src/world/causal_cycle.py`,
+`world/src/world/adapters/mujoco.py`); Embodiment physical-state adoption and
+owner checkpoint (`embodiment/src/embodiment/physics3d/physical_transition.py`,
+`embodiment/src/embodiment/checkpoint.py`); Environment physical geometry
+(`environment/src/environment/physical.py`); and passive body projections
+(`observation/src/observation/embodiment.py`). These are current target components
+at the reviewed revisions: Organism `d8ed534d48188fb2f629faaa8dd85b95063a0c2d`,
+World `a7c8099cf6ede9cfdb8f6cf7eaefb2eab8dc9bad`, Embodiment
+`d73315d87bbb3f2eea14e8c33812b37b59a5d72f`, Environment
+`d09e45c40633c9b2bf927c7aec3f6326318c2ea8`, and Observation
+`a8b43af65b79ca4e2455bfc1ff1b55faf3d4d353`. These are current target
+components, not evidence that source code was transferred or that behavior is
+equivalent.
+
+This does not migrate the old host service, lifecycle, `Tick3D` wire/telemetry
+shape, diagnostic/evaluation metrics, predictor/cognition payloads, or the
+source's cross-domain step ordering. No target contract in this bounded review
+authorizes those behaviors; they remain excluded pending their respective owner
+contracts and any required Lab evidence-custody decision. No legacy runtime was
+executed, no code/data was copied or deleted, and no autonomy, scientific
+validity, numerical equivalence, or evidence admissibility is claimed.
