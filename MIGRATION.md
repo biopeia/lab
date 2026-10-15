@@ -397,9 +397,9 @@ manifest disposition counts are:
 | Disposition | Files | Interpretation in this snapshot |
 | --- | ---: | --- |
 | `MOVE` | 8 | Three already-extracted utility modules and their three focused test files; this records existing target state, not a new transfer in this change. |
-| `SPLIT` | 72 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
+| `SPLIT` | 71 | Mixed responsibility or authority; target owner(s) are named, but unresolved target path means no source implementation is approved to move. |
 | `REWRITE` | 3 | Target package/document root is independently authored; old package roots are not compatibility surfaces. |
-| `DROP` | 928 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
+| `DROP` | 929 | Excluded from Biopeia migration input; **not** deletion of the protected historical source. This includes 77 source test-tree files excluded as TARGET test/code, subject to separate evidence admission where warranted. Future functionality, if required, must be newly justified and target-authored. |
 | `DEFER` | 161 | Open disposition, not final. Must be revisited before migration completion. |
 
 ### Historical Observatory read adapter disposition (Lab #238)
@@ -1384,3 +1384,7 @@ Re-evaluate when Observation #38 and the competent Observation/Lab owners record
 ### Historical subsystem status disposition (Lab #244)
 
 Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/subsystem_status.py`, blob `c20ec51d7c3cd37eb498f1b43d773ed2f30c61f8` (2,087 bytes; mode `100644`). The verified module defines five lifecycle string constants, `LIFECYCLES`, and `generative_status`, which reads Lab runtime internals to report operational readiness/work state. This is not an Observation semantic projection or evidence-custody implementation. Observation migration records the helper as DROP: subsystem operational readiness is not source-state availability or an Observation semantic family; any Lab UI status is separately authored by Lab. No TARGET code owner/path or consumer justifies migration of this helper. DROP excludes only the historical implementation from TARGET migration input; it does not establish scientific invalidity, behavior equivalence, or lack of future need. Historical source remains read-only.
+
+### Historical Symbiont affordance adapter disposition (Lab #245)
+
+Pinned source: `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`, `lab/src/lab/observation/symbiont_affordance.py`, blob `5e37fbd287cb4c72199d00bf2541d5e0b6580025` (3,752 bytes; mode `100644`). Its sole exported function wraps the historical `AffordanceObservation` as a Symbiont-authority `SemanticObservation`, derives lineage from affordance/effect/prediction/evidence/context/embodiment references, and optionally adds Lab run context. Current Organism owns independently authored action-affordance primitives in `repos/organism/src/organism/agency/affordance.py`, but this does not establish the historical adapter, claim-family semantics, or behavioral equivalence. Searches of current Observation and Lab source/tests found no consumer of this helper or approved target affordance claim adapter. Classify the historical adapter as `DROP` from migration input; any future claim projection requires owner-approved TARGET contract and a separately authored adapter. This does not question scientific validity, admit evidence, assign authority, or assert future need is absent. Historical source remains read-only.

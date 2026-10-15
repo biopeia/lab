@@ -40,10 +40,10 @@ def test_historical_kernel_runner_is_dropped_as_target_code() -> None:
     assert not (ROOT / "src/lab/kernel_characterization/runner.py").exists()
 
     counts = Counter(row["disposition"] for row in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 72, "REWRITE": 3, "DROP": 928, "DEFER": 161}
+    assert counts == {"MOVE": 8, "SPLIT": 71, "REWRITE": 3, "DROP": 929, "DEFER": 161}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 72 |" in migration
-    assert "`DROP` | 928 |" in migration
+    assert "`SPLIT` | 71 |" in migration
+    assert "`DROP` | 929 |" in migration
     assert "### Historical kernel-characterization study runner (Lab #213)" in migration

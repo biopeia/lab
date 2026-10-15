@@ -37,11 +37,11 @@ def test_historical_observation_delta_transport_is_dropped() -> None:
     assert "does not delete protected source" in row["rationale_and_caveat"]
 
     counts = Counter(item["disposition"] for item in rows)
-    assert counts == {"MOVE": 8, "SPLIT": 72, "REWRITE": 3, "DROP": 928, "DEFER": 161}
+    assert counts == {"MOVE": 8, "SPLIT": 71, "REWRITE": 3, "DROP": 929, "DEFER": 161}
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_BLOB in migration
     assert "### Historical Observation delta transport disposition (Lab #234)" in migration
-    assert "`SPLIT` | 72 |" in migration
-    assert "`DROP` | 928 |" in migration
+    assert "`SPLIT` | 71 |" in migration
+    assert "`DROP` | 929 |" in migration
     assert "not a replacement for this JSON delta format" in migration
