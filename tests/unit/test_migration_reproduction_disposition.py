@@ -33,17 +33,17 @@ def test_historical_reproduction_implementation_is_dropped_not_migrated() -> Non
     counts = Counter(item["disposition"] for item in rows)
     assert counts == {
         "MOVE": 6,
-        "SPLIT": 103,
+        "SPLIT": 102,
         "REWRITE": 2,
-        "DROP": 901,
+        "DROP": 902,
         "DEFER": 160,
     }
 
     migration = (ROOT / "MIGRATION.md").read_text(encoding="utf-8")
     assert SOURCE_COMMIT in migration
     assert SOURCE_BLOB in migration
-    assert "`SPLIT` | 103 |" in migration
-    assert "`DROP` | 901 |" in migration
+    assert "`SPLIT` | 102 |" in migration
+    assert "`DROP` | 902 |" in migration
     assert "Historical offspring-package implementation" in migration
     assert "protocol/result artifacts remain separately governed by Lab #45" in migration
     assert not (ROOT / "src/lab/evolution/reproduction.py").exists()
