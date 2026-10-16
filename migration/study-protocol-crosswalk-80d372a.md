@@ -43,13 +43,13 @@ dispositions and limitations.
 The 76 registered IDs are candidate units, not 76 proven independent studies.
 The companion
 [`study-disposition-register-80d372a.tsv`](study-disposition-register-80d372a.tsv)
-records thirteen unit-level outcomes: nine `HISTORICAL_PROTOCOL` units
+records fourteen unit-level outcomes: nine `HISTORICAL_PROTOCOL` units
 (`continuity.recurrent-restoration`, `embodiment.causal-revision-sequence`,
 `world.genesis-viability-characterization`, `embodiment.heredity-leakage-challenge`,
 `learning.visual-predictor-audit`, `embodiment.label-invariance`,
 `embodiment.somatic-correlation-trap`, `embodiment.temporal-causality-challenge`, and
 `embodiment.tool-body-distinction`) and one `REIMPLEMENT_METHOD` question
-(`embodiment.hidden-common-cause`) whose new protocol design is separately tracked, plus three bounded `DEFER` units: `learning.continuous-temporal-challenge` under Lab #148, `embodiment.yoked-external-causation` under Lab #121, and `learning.agency-acquisition-ablation` under Lab #123. The other 63 candidate IDs remain without a per-protocol disposition record and retain their candidate `DEFER` state. The bounded DEFER is not a scientific disposition: its closure trigger is the Lab owner’s recorded decision on an authorized TARGET consumer/question and any newly specified method. Historical implementations and
+(`embodiment.hidden-common-cause`) whose new protocol design is separately tracked, plus four bounded `DEFER` units: `learning.continuous-temporal-challenge` under Lab #148, `embodiment.yoked-external-causation` under Lab #121, `learning.agency-acquisition-ablation` under Lab #123, and `learning.agency-consolidated-causal-intervention` under Lab #133. For #133, the pinned protocol directory contains the manifest and README only; the README combines protocol design with reported gate-reachability diagnostics (5/10 and 7/10 openings) without a separate pinned diagnostic artifact or run identity. This bounded DEFER does not treat those figures as validated results or admit them as scientific evidence; the current Lab callable and direct-call tests do not themselves settle whether an authorized TARGET question requires this method. Its closure trigger is the Lab owner’s recorded TARGET consumer/question disposition and resolution of the README diagnostic provenance/role in the custody ledger. The other 62 candidate IDs remain without a per-protocol disposition record and retain their candidate `DEFER` state. Historical implementations and
 source tests for these resolved units are `DROP` as TARGET code/tests; these
 classifications do not copy, move, or delete historical source bytes or artifact
 records. The genesis-viability unit's linked result has an unresolved
