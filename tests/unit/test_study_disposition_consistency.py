@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 15
+    assert len(units) == 16
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -270,6 +270,27 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert embodied_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #134" in embodied_crosswalk["basis"]
+
+    executive_bridge = by_id.pop("learning.agency-executive-bridge-ablation")
+    assert executive_bridge["study_protocol_disposition"] == "DEFER"
+    assert executive_bridge["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#135" in executive_bridge["owner_basis"]
+    assert "Closure trigger:" in executive_bridge["TARGET_action"]
+    assert "No run/result artifact" in executive_bridge["experiment_artifacts_and_digests"]
+    assert "No claim of scientific validity" in executive_bridge["limitations_and_nonclaims"]
+    for source_ref in (
+        *executive_bridge["protocol_paths_and_blobs"].split(";"),
+        executive_bridge["implementation_path_and_blob"],
+        executive_bridge["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    executive_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-executive-bridge-ablation"
+    )
+    assert executive_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #135" in executive_crosswalk["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
