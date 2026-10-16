@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 34
+    assert len(units) == 37
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -335,6 +335,32 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert membership_t_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#130" in membership_t_alias["basis"]
     assert "manifest-specific alias" in membership_t_alias["resolution_method"]
+    # FP-1 is a family-level row plus individually owner-dispositioned arms.
+    for arm, issue, manifest_blob in (
+        ("m", 156, "f9b76e34c13fc660f63dd1216191a50892e8743f"),
+        ("r", 157, "22112aeb27c58f48b44775265f9481cf4c18a5a5"),
+        ("t", 158, "3a04f0acc9cf0fdd9385c190872c8abe2098979d"),
+    ):
+        unit_id = f"learning.footprint-precision-fp1-{arm}"
+        unit = by_id.pop(unit_id)
+        assert unit["study_protocol_disposition"] == "DEFER"
+        assert unit["source_implementation_TARGET_disposition"] == "DEFER"
+        assert manifest_blob in unit["protocol_paths_and_blobs"]
+        assert f"biopeia/lab#{issue}" in unit["owner_basis"]
+        assert "Closure trigger:" in unit["TARGET_action"]
+        assert "no execution/result artifact" in unit["experiment_artifacts_and_digests"]
+        for source_ref in (
+            *unit["protocol_paths_and_blobs"].split(";"),
+            unit["implementation_path_and_blob"],
+            unit["source_test_path_and_blob"],
+        ):
+            path, expected_blob = source_ref.split("@", maxsplit=1)
+            assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+        alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == unit_id)
+        assert alias["candidate_disposition"] == "DEFER"
+        assert f"biopeia/lab#{issue}" in alias["resolution_method"]
+        assert "manifest-specific alias" in alias["resolution_method"]
+
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
