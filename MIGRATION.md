@@ -2456,3 +2456,10 @@ estimand, protocol, organism-owned signal, and evidence criteria. Earlier issue
 comments that stated no result existed were corrected to account for this
 separate report. This is migration classification only, not scientific
 acceptance, validity, reproducibility, or experiment authorization.
+
+
+### Historical replay-pressure-curve disposition (Lab #186)
+
+The exact `learning.replay-pressure-curve` manifest is pinned at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. Its protocol directory contains README/TOML only, but a separate L7.4 report exists at `lab/research/learning/2026-09-l7.4-replay-pressure-result.md` (blob `7fc7d0cf93479e4194540b1c437caeff1f6cc555`; SHA-256 `103abf93106570a52bbc4c5b739701d254cf82b166b9130eae42fc90d9d24322`). The report states run `20260921T230220Z-learning-replay-pressure-curve-206a7b4-e02f`, software SHA `206a7b430817c0940029adc47aeac43e9be8c5cb`, version `0.80.16`, Python `3.12.3`, and `dirty=false`; it reports 3/3 seeds meeting the monotonic held-out-loss criterion. These are archived report assertions, not independently reproduced results. Producer identity and raw receipts/bundle are absent. Custody is `SCIENTIFIC_EVIDENCE`, `NOT_SCIENTIFICALLY_VALIDATED`, and `NOT_ADMITTED`. The linked tests check registry identity and implementation mechanics only, not protocol execution or outcomes.
+
+Disposition is an Owner-authorized bounded `DEFER` for this exact manifest. It does not establish dose response, monotonicity, saturation, scientific validity, reproducibility, efficacy, equivalence, transferability, admission, or current TARGET need. No study, code/test port, historical pressure threshold, replay policy, organism-side stopping rule, or evidence admission is authorized. Reopen only for an authorized current TARGET question and a Biopeia-native estimand, protocol, and evidence criteria.
