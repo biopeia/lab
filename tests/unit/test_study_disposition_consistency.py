@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 27
+    assert len(units) == 28
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -221,6 +221,29 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     ):
         path, expected_blob = source_ref.split("@", maxsplit=1)
         assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    binding_history = by_id.pop(
+        "learning.agency-acquisition-reuse-closure-binding-history"
+    )
+    assert binding_history["study_protocol_disposition"] == "DEFER"
+    assert binding_history["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#124" in binding_history["owner_basis"]
+    assert "other eight candidate manifests" in binding_history["TARGET_action"]
+    assert "NOT_ESTABLISHED" in binding_history["real_run_identity"]
+    assert "not independently validated" in binding_history["limitations_and_nonclaims"]
+    for source_ref in (
+        *binding_history["protocol_paths_and_blobs"].split(";"),
+        binding_history["implementation_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    binding_history_alias = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-binding-history"
+    )
+    assert binding_history_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#124" in binding_history_alias["basis"]
+    assert "manifest-specific alias" in binding_history_alias["resolution_method"]
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
