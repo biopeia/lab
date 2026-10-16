@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 60
+    assert len(units) == 61
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -603,7 +603,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 60
+    assert len(units) == 61
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -617,7 +617,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 60
+    assert len(units) == 61
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 60
+    assert len(units) == 61
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 60
+    assert len(units) == 61
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1275,6 +1275,11 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "biopeia/lab#169" in depth_calibration["owner_basis"]
     assert "NOT_ESTABLISHED" in depth_calibration["real_run_identity"]
     model_correction = by_id.pop("learning.generative-cognition-model-correction")
+    planning_utility = by_id.pop("learning.generative-cognition-planning-utility")
+    assert planning_utility["study_protocol_disposition"] == "DEFER"
+    assert planning_utility["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#171" in planning_utility["owner_basis"]
+    assert "NOT_ESTABLISHED" in planning_utility["real_run_identity"]
     assert model_correction["study_protocol_disposition"] == "DEFER"
     assert model_correction["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#170" in model_correction["owner_basis"]
@@ -1387,6 +1392,20 @@ def test_generative_depth_calibration_has_exact_manifest_defer() -> None:
     assert "authorized current TARGET" in disposition["TARGET_action"]
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#169" in crosswalk["basis"]
+
+
+def test_generative_planning_utility_has_exact_manifest_defer() -> None:
+    unit_id = "learning.generative-cognition-planning-utility"
+    disposition = next(row for row in read_tsv("study-disposition-register-80d372a.tsv") if row["unit_id"] == unit_id)
+    crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == unit_id)
+    assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
+    assert "experiment.toml@fb4ddc8dc6a7e24ca4882c36d28a8438cf7ffc05" in disposition["protocol_paths_and_blobs"]
+    assert "README.md@639544aa2b6761d4b055b27bd6dd54271d8e35f7" in disposition["protocol_paths_and_blobs"]
+    assert "no execution/result artifact" in disposition["experiment_artifacts_and_digests"]
+    assert "biopeia/lab#171" in disposition["owner_basis"]
+    assert crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#171" in crosswalk["basis"]
 
 
 def test_generative_model_correction_has_exact_manifest_defer() -> None:
