@@ -263,6 +263,8 @@ def test_cumulative_culture_has_bounded_issue_disposition() -> None:
 
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#151" in crosswalk["basis"]
+    assert "no run/result artifact" in crosswalk["basis"]
+    assert "do not port" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
     assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
