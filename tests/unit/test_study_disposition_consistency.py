@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 19
+    assert len(units) == 20
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -354,6 +354,27 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert intentional_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #138" in intentional_crosswalk["basis"]
+
+    autonomous = by_id.pop("learning.autonomous-cultural-agency")
+    assert autonomous["study_protocol_disposition"] == "DEFER"
+    assert autonomous["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#139" in autonomous["owner_basis"]
+    assert "audit-reported" in autonomous["source_evidence_basis"]
+    assert "No explicit run ID" in autonomous["real_run_identity"]
+    assert "NOT_ADMITTED" in autonomous["custody_ledger_state"]
+    for source_ref in (
+        *autonomous["protocol_paths_and_blobs"].split(";"),
+        autonomous["implementation_path_and_blob"],
+        autonomous["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    autonomous_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.autonomous-cultural-agency"
+    )
+    assert autonomous_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #139" in autonomous_crosswalk["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
