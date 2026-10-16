@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 30
+    assert len(units) == 31
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -288,6 +288,28 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert factorized_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#126" in factorized_alias["basis"]
     assert "manifest-specific alias" in factorized_alias["resolution_method"]
+    membership_bh = by_id.pop(
+        "learning.agency-acquisition-reuse-closure-membership-bh"
+    )
+    assert membership_bh["study_protocol_disposition"] == "DEFER"
+    assert "dc9ecfe25f7ac442629f0ed256cc83053891a151" in membership_bh[
+        "protocol_paths_and_blobs"
+    ]
+    assert "03db814778ce0d53bcce82dccd6166dc60a4739d" in membership_bh[
+        "protocol_paths_and_blobs"
+    ]
+    assert "no result/run artifact" in membership_bh["experiment_artifacts_and_digests"]
+    assert "biopeia/lab#127" in membership_bh["owner_basis"]
+    assert "Closure trigger:" in membership_bh["TARGET_action"]
+    assert "no experiment was run" in membership_bh["limitations_and_nonclaims"]
+    membership_bh_alias = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-membership-bh"
+    )
+    assert membership_bh_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#127" in membership_bh_alias["basis"]
+    assert "manifest-specific alias" in membership_bh_alias["resolution_method"]
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
