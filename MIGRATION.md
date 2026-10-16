@@ -2334,3 +2334,10 @@ authorized current TARGET question/consumer with an accepted estimand and newly
 specified Biopeia-native method, protocol and evidence criteria. This is migration
 classification, not scientific acceptance, validity, reproducibility or experiment
 authorization.
+
+
+### Historical Generative Cognition model-correction disposition (Lab #170)
+
+The exact manifest `lab/experiments/learning/generative-cognition-model-correction/experiment.toml` (blob `88625378421a0ae53e08c7e47ab66047dd087085`) and README (blob `e9f576683d04d8f55bfcd7494ae3d89eb9eb3b20`) are pinned at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. The directory contains only those files; the three-seed GC-E6/GC-E7 gate describes a contradiction, explicit model-adapter hook, and later prediction. The README excludes claims of broad intelligence, external-world utility, or autonomous model learning. These are protocol properties, not observed outcomes; no run/result artifact is present.
+
+Disposition is bounded `DEFER` for current TARGET applicability. Preserve provenance; do not port source code/tests, execute the assay, adopt its gate criteria as TARGET requirements, or admit results as evidence. Reopen only for an authorized current TARGET question/consumer with an accepted estimand and newly specified Biopeia-native method, protocol, and evidence criteria. This is migration classification only, not scientific acceptance, validity, reproducibility, or experiment authorization.
