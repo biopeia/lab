@@ -126,7 +126,7 @@ The following exact `main` revisions were read for this refresh on 2026-10-16. T
 
 | Repository | Revision inspected |
 |---|---|
-| Lab | `95e298633eb1af5d28c29fba5993526975537d9d` |
+| Lab | `a057307a6cc49a6dc086f87e11246f13b9376ae1` |
 | Observation | `2c506900aa5ad0864eef7f0ce0ed70d7e8e4ea07` |
 | World | `2432ea86cb2959b114c9cda0345ff66438f81f1a` |
 | Environment | `4eb1f8c3393a7cdbabcfaf35b8630aaf57de20c1` |
