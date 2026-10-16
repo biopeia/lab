@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 42
+    assert len(units) == 43
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -407,7 +407,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 42
+    assert len(units) == 43
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
