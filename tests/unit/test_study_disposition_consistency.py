@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 14
+    assert len(units) == 15
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -249,6 +249,28 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert consolidated_crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#133" in consolidated_crosswalk["basis"]
+    embodied_intervention = by_id.pop("learning.agency-embodied-causal-intervention")
+    assert embodied_intervention["study_protocol_disposition"] == "DEFER"
+    assert embodied_intervention["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#134" in embodied_intervention["owner_basis"]
+    assert "Closure trigger:" in embodied_intervention["TARGET_action"]
+    assert "no run identifier or execution artifact" in embodied_intervention["real_run_identity"]
+    assert "No claim of scientific validity" in embodied_intervention["limitations_and_nonclaims"]
+    for source_ref in (
+        *embodied_intervention["protocol_paths_and_blobs"].split(";"),
+        embodied_intervention["implementation_path_and_blob"],
+        embodied_intervention["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    embodied_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-embodied-causal-intervention"
+    )
+    assert embodied_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #134" in embodied_crosswalk["basis"]
+
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert visual_audit["source_implementation_TARGET_disposition"] == "DROP"
