@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 79
+    assert len(units) == 80
     fairness = next(unit for unit in units if unit["unit_id"] == "learning.structural-producer-fairness")
     assert fairness["study_protocol_disposition"] == "DEFER"
     assert fairness["source_implementation_TARGET_disposition"] == "DROP"
@@ -354,6 +354,12 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert generalization["source_implementation_TARGET_disposition"] == "DROP"
     assert "biopeia/lab#189" in generalization["owner_basis"]
     assert "No result/run artifact" in generalization["experiment_artifacts_and_digests"]
+    characterization = next(unit for unit in units if unit["unit_id"] == "learning.structured-communication-characterization")
+    assert characterization["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert characterization["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#190" in characterization["owner_basis"]
+    assert "2ffbd811d626aebe233974af16600b26c9f3c2ed" in characterization["experiment_artifacts_and_digests"]
+    assert "NOT_ADMITTED" in characterization["limitations_and_nonclaims"]
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -618,7 +624,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 79
+    assert len(units) == 80
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -632,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 79
+    assert len(units) == 80
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -653,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 79
+    assert len(units) == 80
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -674,7 +680,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 79
+    assert len(units) == 80
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1439,6 +1445,10 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     generalization = by_id.pop("learning.structured-causal-generalization")
     assert generalization["study_protocol_disposition"] == "DEFER"
     assert "biopeia/lab#189" in generalization["owner_basis"]
+    characterization = by_id.pop("learning.structured-communication-characterization")
+    assert characterization["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "productive_generalization_observed=false" in characterization["source_evidence_basis"]
+    assert "NOT_ADMITTED" in characterization["limitations_and_nonclaims"]
     for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
         assert unit["source_implementation_TARGET_disposition"] == "DROP"
