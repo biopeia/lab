@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 49
+    assert len(units) == 50
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -376,6 +376,29 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert membership_tm_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#131" in membership_tm_alias["basis"]
     assert "manifest-specific alias" in membership_tm_alias["resolution_method"]
+    agency_closure = by_id.pop("learning.agency-acquisition-reuse-closure")
+    assert agency_closure["study_protocol_disposition"] == "DEFER"
+    assert agency_closure["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "92e26a2181b1cc99fa8f16f51fad67b1b931fb8c" in agency_closure["protocol_paths_and_blobs"]
+    assert "8ba1043e5784c2e97df2dfc515617cc4f0b0277f" in agency_closure["protocol_paths_and_blobs"]
+    assert "biopeia/lab#132" in agency_closure["owner_basis"]
+    assert "Closure trigger:" in agency_closure["TARGET_action"]
+    assert "no run/result artifact" in agency_closure["experiment_artifacts_and_digests"]
+    for source_ref in (
+        *agency_closure["protocol_paths_and_blobs"].split(";"),
+        agency_closure["implementation_path_and_blob"],
+        agency_closure["source_test_path_and_blob"].split(" ", maxsplit=1)[0],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    agency_closure_alias = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-acquisition-reuse-closure"
+    )
+    assert agency_closure_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#132" in agency_closure_alias["basis"]
+    assert "nine distinct manifests" in agency_closure_alias["basis"]
     # FP-1 is a family-level row plus individually owner-dispositioned arms.
     for arm, issue, manifest_blob in (
         ("m", 156, "f9b76e34c13fc660f63dd1216191a50892e8743f"),
@@ -448,7 +471,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 49
+    assert len(units) == 50
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -462,7 +485,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 49
+    assert len(units) == 50
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -483,7 +506,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 49
+    assert len(units) == 50
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -504,7 +527,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 49
+    assert len(units) == 50
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
