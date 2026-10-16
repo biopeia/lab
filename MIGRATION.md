@@ -2293,3 +2293,24 @@ acceptance, validity, reproducibility or experiment authorization. No result/run
 artifact is established. The unit register and crosswalk retain the exact manifest
 identity; #166 decision gap is resolved, while scientific applicability remains
 deferred.
+
+
+### Historical Generative Cognition Consolidation Gates disposition (Lab #167)
+
+The exact manifest `lab/experiments/learning/generative-cognition-consolidation-gates/experiment.toml`
+(blob `98d5e49d108a6b0eba2c3f1db8eb69e6d96768ef`) and README (blob
+`a48ca568a1b03a5339f4eb774c73a50058ce1514`) are pinned at
+`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. The protocol
+directory contains only those two files; it declares three seeds and success criteria
+for structural admission/provenance guards, while the README explicitly limits the
+claim to those signals rather than truth or usefulness of mutation. These are protocol
+properties, not observed outcomes; no run/result artifact is present. A bounded literal
+search of current Lab `src/` and `tests/` found no consumer of this exact protocol,
+without ruling out future authorized TARGET need.
+
+Disposition is bounded `DEFER` for current TARGET applicability. Preserve provenance;
+do not port historical implementation/tests, execute the assay, adopt its gate criteria
+as TARGET requirements, or admit results as evidence. Reopen only for an authorized
+TARGET question/consumer with an accepted estimand and newly specified Biopeia-native
+method, protocol and evidence criteria. This is migration classification only, not
+scientific acceptance, validation or experiment authorization.
