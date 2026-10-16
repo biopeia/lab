@@ -214,6 +214,7 @@ def test_continuous_temporal_controls_has_bounded_issue_disposition() -> None:
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#149" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
     assert "experiment.toml@52fe0da29c26373f8bee2322adc69798469a6e63" in disposition[
         "protocol_paths_and_blobs"
@@ -238,6 +239,7 @@ def test_cultural_foundation_has_bounded_issue_disposition() -> None:
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#150" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
     assert "experiment.toml@a705f1a7cbd8022f620d910f463ba3d733bb0bfd" in disposition[
         "protocol_paths_and_blobs"
@@ -247,6 +249,47 @@ def test_cultural_foundation_has_bounded_issue_disposition() -> None:
     assert "biopeia/lab#150" in disposition["owner_basis"]
 
 
+def test_cumulative_culture_has_bounded_issue_disposition() -> None:
+    crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.cumulative-culture"
+    )
+    disposition = next(
+        row
+        for row in read_tsv("study-disposition-register-80d372a.tsv")
+        if row["unit_id"] == "learning.cumulative-culture"
+    )
+
+    assert crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#151" in crosswalk["basis"]
+    assert "no run/result artifact" in crosswalk["basis"]
+    assert "do not port" in crosswalk["basis"]
+    assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
+    assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
+    assert "experiment.toml@d29c42a6b2da9070d4ee49d4e3c6fd933d143935" in disposition[
+        "protocol_paths_and_blobs"
+    ]
+    assert "README.md@8ef3630a9a5d2025d249bae8b571cc35f75cf50e" in disposition[
+        "protocol_paths_and_blobs"
+    ]
+    assert "NOT_ESTABLISHED" in disposition["real_run_identity"]
+    assert "Do not port" in disposition["TARGET_action"]
+    assert "biopeia/lab#151" in disposition["owner_basis"]
+    source = {
+        row["source_path"]: row
+        for row in read_tsv("source-inventory-80d372a.tsv")
+    }
+    for source_ref in (
+        *disposition["protocol_paths_and_blobs"].split(";"),
+        disposition["implementation_path_and_blob"],
+        disposition["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+
+
 def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     source = {
         row["source_path"]: row
@@ -254,7 +297,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 53
+    assert len(units) == 54
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -519,7 +562,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 53
+    assert len(units) == 54
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -533,7 +576,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 53
+    assert len(units) == 54
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -554,7 +597,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 53
+    assert len(units) == 54
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -575,7 +618,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 53
+    assert len(units) == 54
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1140,6 +1183,19 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         *cultural_foundation["protocol_paths_and_blobs"].split(";"),
         cultural_foundation["implementation_path_and_blob"],
         cultural_foundation["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+
+    cumulative_culture = by_id.pop("learning.cumulative-culture")
+    assert cumulative_culture["study_protocol_disposition"] == "DEFER"
+    assert cumulative_culture["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#151" in cumulative_culture["owner_basis"]
+    assert "NOT_ESTABLISHED" in cumulative_culture["real_run_identity"]
+    for source_ref in (
+        *cumulative_culture["protocol_paths_and_blobs"].split(";"),
+        cumulative_culture["implementation_path_and_blob"],
+        cumulative_culture["source_test_path_and_blob"],
     ):
         path, expected_blob = source_ref.split("@", maxsplit=1)
         assert source[path]["source_blob_at_pinned_commit"] == expected_blob
