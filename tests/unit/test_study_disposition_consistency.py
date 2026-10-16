@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 33
+    assert len(units) == 34
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -326,6 +326,15 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     membership_m_alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-membership-m")
     assert membership_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#129" in membership_m_alias["basis"]
+    membership_t = by_id.pop("learning.agency-acquisition-reuse-closure-membership-t")
+    assert membership_t["study_protocol_disposition"] == "DEFER"
+    assert "413ba899365605c8b083e0c68200c3231d2586a8" in membership_t["protocol_paths_and_blobs"]
+    assert "f75255c3b3ee54bc9bcf65dc154921ee0d60d895" in membership_t["protocol_paths_and_blobs"]
+    assert "biopeia/lab#130" in membership_t["owner_basis"]
+    membership_t_alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-membership-t")
+    assert membership_t_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#130" in membership_t_alias["basis"]
+    assert "manifest-specific alias" in membership_t_alias["resolution_method"]
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
