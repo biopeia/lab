@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 66
+    assert len(units) == 67
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -603,7 +603,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 66
+    assert len(units) == 67
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -617,7 +617,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 66
+    assert len(units) == 67
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 66
+    assert len(units) == 67
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 66
+    assert len(units) == 67
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1141,6 +1141,15 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert grounding_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
     assert "biopeia/lab#154" in grounding_crosswalk["basis"]
+
+    internal_learning_progress = by_id.pop("learning.internal-learning-progress")
+    assert internal_learning_progress["study_protocol_disposition"] == "DEFER"
+    assert internal_learning_progress["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#177" in internal_learning_progress["owner_basis"]
+    assert "NOT_ESTABLISHED" in internal_learning_progress["real_run_identity"]
+    internal_crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.internal-learning-progress")
+    assert internal_crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#177" in internal_crosswalk["basis"]
 
     independent_grounding = by_id.pop("learning.independent-symbol-grounding")
     assert independent_grounding["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
