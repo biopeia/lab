@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 39
+    assert len(units) == 41
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -360,6 +360,39 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         assert alias["candidate_disposition"] == "DEFER"
         assert f"biopeia/lab#{issue}" in alias["resolution_method"]
         assert "manifest-specific alias" in alias["resolution_method"]
+
+    footprint_fp0 = by_id.pop("learning.footprint-precision-fp0")
+    assert footprint_fp0["study_protocol_disposition"] == "DEFER"
+    assert footprint_fp0["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "711727e5dc63bfb45a62828a77db3bb88862c64f" in footprint_fp0["protocol_paths_and_blobs"]
+    assert "90f2cb64b9c442d79475251f62eef1f623edb2c5" in footprint_fp0["protocol_paths_and_blobs"]
+    assert "biopeia/lab#166" in footprint_fp0["owner_basis"]
+    assert "Closure trigger:" in footprint_fp0["TARGET_action"]
+    assert "no execution/result artifact" in footprint_fp0["experiment_artifacts_and_digests"]
+    footprint_alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.footprint-precision-fp0")
+    assert footprint_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#166" in footprint_alias["resolution_method"]
+    assert "manifest-specific alias" in footprint_alias["resolution_method"]
+
+    generative_gates = by_id.pop("learning.generative-cognition-consolidation-gates")
+    assert generative_gates["study_protocol_disposition"] == "DEFER"
+    assert generative_gates["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "98d5e49d108a6b0eba2c3f1db8eb69e6d96768ef" in generative_gates["protocol_paths_and_blobs"]
+    assert "a48ca568a1b03a5339f4eb774c73a50058ce1514" in generative_gates["protocol_paths_and_blobs"]
+    assert "biopeia/lab#167" in generative_gates["owner_basis"]
+    assert "Closure trigger:" in generative_gates["TARGET_action"]
+    assert "no execution/result artifact" in generative_gates["experiment_artifacts_and_digests"]
+    for source_ref in (
+        *generative_gates["protocol_paths_and_blobs"].split(";"),
+        generative_gates["implementation_path_and_blob"],
+        generative_gates["source_test_path_and_blob"].split(" ", maxsplit=1)[0],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    generative_alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.generative-cognition-consolidation-gates")
+    assert generative_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#167" in generative_alias["resolution_method"]
+    assert "biopeia/lab#167" in generative_alias["basis"]
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
