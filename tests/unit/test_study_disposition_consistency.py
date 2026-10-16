@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 37
+    assert len(units) == 39
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -827,6 +827,33 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         "test_e1_yoked_external_causation_is_deterministic_and_bounded"
         in yoked_crosswalk["study_test_path_candidates"]
     )
+
+    emergent_grounding = by_id.pop("learning.emergent-symbol-grounding")
+    assert emergent_grounding["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert emergent_grounding["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#154" in emergent_grounding["owner_basis"]
+    assert "archival/unverified and not admitted" in emergent_grounding["owner_basis"]
+    assert "a880b008470a8823447b3b7177b8315310f8c3467bb125fbe9ff9ecb67577e3f" in emergent_grounding["experiment_artifacts_and_digests"]
+    assert "no run_id" in emergent_grounding["real_run_identity"]
+    grounding_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.emergent-symbol-grounding"
+    )
+    assert grounding_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "biopeia/lab#154" in grounding_crosswalk["basis"]
+
+    episodic_utility = by_id.pop("learning.episodic-memory-utility")
+    assert episodic_utility["study_protocol_disposition"] == "DEFER"
+    assert episodic_utility["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#155" in episodic_utility["owner_basis"]
+    assert "no execution/result artifact" in episodic_utility["experiment_artifacts_and_digests"].lower()
+    assert "current TARGET relevance remains unconfirmed" in episodic_utility["owner_basis"]
+    episodic_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.episodic-memory-utility"
+    )
+    assert episodic_crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#155" in episodic_crosswalk["basis"]
 
     for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
