@@ -444,6 +444,27 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
     assert len(units) == 45
+    fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
+    assert fp3_bh["study_protocol_disposition"] == "DEFER"
+    assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "b80a5108ba8aabced1ad9fc478dd40c3d85c3ae1" in fp3_bh["protocol_paths_and_blobs"]
+    assert "biopeia/lab#163" in fp3_bh["owner_basis"]
+    assert "no execution/result artifact" in fp3_bh["experiment_artifacts_and_digests"]
+    for source_ref in (
+        *fp3_bh["protocol_paths_and_blobs"].split(";"),
+        fp3_bh["implementation_path_and_blob"],
+        fp3_bh["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    fp3_bh_alias = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.footprint-precision-fp3-bh"
+    )
+    assert fp3_bh_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
+    assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
+    assert len(units) == 42
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
