@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 41
+    assert len(units) == 42
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -340,6 +340,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         ("m", 156, "f9b76e34c13fc660f63dd1216191a50892e8743f"),
         ("r", 157, "22112aeb27c58f48b44775265f9481cf4c18a5a5"),
         ("t", 158, "3a04f0acc9cf0fdd9385c190872c8abe2098979d"),
+        ("tm", 159, "c846f15b49e2cf055bfa01eb5c29af3d19533915"),
     ):
         unit_id = f"learning.footprint-precision-fp1-{arm}"
         unit = by_id.pop(unit_id)
