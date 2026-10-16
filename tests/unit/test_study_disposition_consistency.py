@@ -1361,9 +1361,13 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert private_learnability["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#182" in private_learnability["owner_basis"]
     assert "NOT_ESTABLISHED" in private_learnability["real_run_identity"]
+    assert "test_private_model_learnability.py@9100fba97e542ac381ff53a83a66dd4a284e7b6d" in private_learnability["source_test_path_and_blob"]
+    assert "not outcome evidence" in private_learnability["source_evidence_basis"]
     learnability_crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.private-model-learnability")
     assert learnability_crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#182" in learnability_crosswalk["basis"]
+    assert learnability_crosswalk["study_test_path_candidates"] == "lab/tests/integration/test_private_model_learnability.py"
+    assert "not outcome evidence" in learnability_crosswalk["basis"]
     private_controls = by_id.pop("learning.private-model-controls")
     assert private_controls["study_protocol_disposition"] == "DEFER"
     assert private_controls["source_implementation_TARGET_disposition"] == "DEFER"
