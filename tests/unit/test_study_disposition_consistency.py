@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 71
+    assert len(units) == 72
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -603,7 +603,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 71
+    assert len(units) == 72
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -617,7 +617,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 71
+    assert len(units) == 72
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 71
+    assert len(units) == 72
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 71
+    assert len(units) == 72
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1356,6 +1356,18 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert model_correction["study_protocol_disposition"] == "DEFER"
     assert model_correction["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#170" in model_correction["owner_basis"]
+    private_learnability = by_id.pop("learning.private-model-learnability")
+    assert private_learnability["study_protocol_disposition"] == "DEFER"
+    assert private_learnability["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#182" in private_learnability["owner_basis"]
+    assert "NOT_ESTABLISHED" in private_learnability["real_run_identity"]
+    assert "test_private_model_learnability.py@9100fba97e542ac381ff53a83a66dd4a284e7b6d" in private_learnability["source_test_path_and_blob"]
+    assert "not outcome evidence" in private_learnability["source_evidence_basis"]
+    learnability_crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.private-model-learnability")
+    assert learnability_crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#182" in learnability_crosswalk["basis"]
+    assert learnability_crosswalk["study_test_path_candidates"] == "lab/tests/integration/test_private_model_learnability.py"
+    assert "not outcome evidence" in learnability_crosswalk["basis"]
     private_controls = by_id.pop("learning.private-model-controls")
     assert private_controls["study_protocol_disposition"] == "DEFER"
     assert private_controls["source_implementation_TARGET_disposition"] == "DEFER"
