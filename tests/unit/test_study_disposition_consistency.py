@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 91
+    assert len(units) == 92
     fairness = next(unit for unit in units if unit["unit_id"] == "learning.structural-producer-fairness")
     assert fairness["study_protocol_disposition"] == "DEFER"
     assert fairness["source_implementation_TARGET_disposition"] == "DROP"
@@ -624,7 +624,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 91
+    assert len(units) == 92
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 91
+    assert len(units) == 92
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 91
+    assert len(units) == 92
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -680,7 +680,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 91
+    assert len(units) == 92
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1565,6 +1565,12 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert identity_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
     assert "biopeia/lab#198" in identity_crosswalk["basis"]
 
+    sensory_duplication = by_id.pop("perception.sensory-duplication-divergence")
+    assert sensory_duplication["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert sensory_duplication["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#203" in sensory_duplication["owner_basis"]
+    assert "NOT_ADMITTED" in sensory_duplication["limitations_and_nonclaims"]
+
     sensory_ablation = by_id.pop("perception.sensory-ablation")
     assert sensory_ablation["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert sensory_ablation["source_implementation_TARGET_disposition"] == "DEFER"
@@ -1944,3 +1950,13 @@ def test_sensory_ablation_result_is_archival_not_causal_evidence() -> None:
     crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == unit)
     assert crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
     assert "independent reproduction" in crosswalk["basis"]
+
+
+def test_sensory_duplication_divergence_is_preserved_without_evolutionary_claim() -> None:
+    unit = "perception.sensory-duplication-divergence"
+    row = next(row for row in read_tsv("study-disposition-register-80d372a.tsv") if row["unit_id"] == unit)
+    assert row["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "two variants" in row["source_evidence_basis"]
+    assert "NOT_ADMITTED" in row["limitations_and_nonclaims"]
+    crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == unit)
+    assert crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
