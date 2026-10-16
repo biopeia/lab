@@ -2271,3 +2271,25 @@ The pinned telemetry/tools.py row is DEFER. Source commit 80d372a186513035f85a76
 ### Historical Physics3D telemetry v4.1 writer and verifier disposition (Lab #315)
 
 The pinned telemetry/v41.py row is DEFER. Source commit 80d372a186513035f85a769db886e505cabba52d, blob 4dc2d12f30448d58071799bc8f4b2ad90727bbe0, SHA-256 dc957b1d2564b8cf44cfdc4efa44272607c841b79cd648a2d9a194bfb424f73d. This module implements a legacy v4.1 envelope/schema, synchronous and asynchronous writers, reader/loaders, stream hashing/offsets and checkpoint verification. These coupled operations define a storage/wire and verification contract, not numerical authority. No approved TARGET wire/schema contract, telemetry evidence custody/retention/admission policy, producer-approved field/event semantics, or consumer integrity/checkpoint acceptance contract was found. Lab must decide diagnostic versus governed-evidence custody; producer owners authorize represented state/events; World defines any consumption boundary. Related telemetry issues #309–#314 remain separate. Closure requires owner decisions and a TARGET contract, or explicit DROP of unsupported legacy encoding while preserving source provenance/custody. This bounded defer does not block unrelated rows. No code, data, result, or evidence is copied/deleted/executed; legacy verification is not evidence of integrity, completeness, durability, scientific validity, admissibility, or equivalence.
+
+
+### Historical Footprint Precision FP-0 disposition (Lab #166)
+
+The exact manifest `lab/experiments/learning/footprint-precision/experiment.toml`
+(blob `711727e5dc63bfb45a62828a77db3bb88862c64f`) and README (blob
+`90f2cb64b9c442d79475251f62eef1f623edb2c5`) are pinned at
+`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. The directory
+contains only those protocol files; its ten seeds, synthetic E8 body, evaluator-only
+ground truth and H1/H2/H3 selection rule describe a protocol, not observed outcomes.
+The README says nothing is adopted. No exact-manifest consumer was found in the bounded
+current Lab `src/` and `tests/` search; this does not rule out future authorized need.
+
+Disposition is bounded `DEFER` for current TARGET applicability. Preserve provenance;
+do not port code/tests, execute the historical protocol, adopt its selection rule or
+thresholds as TARGET requirements, or admit results as evidence. Reopen only for an
+authorized TARGET question/consumer with a specified estimand, Biopeia-native method,
+protocol and evidence criteria. This is migration classification, not scientific
+acceptance, validity, reproducibility or experiment authorization. No result/run
+artifact is established. The unit register and crosswalk retain the exact manifest
+identity; #166 decision gap is resolved, while scientific applicability remains
+deferred.
