@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 83
+    assert len(units) == 84
     fairness = next(unit for unit in units if unit["unit_id"] == "learning.structural-producer-fairness")
     assert fairness["study_protocol_disposition"] == "DEFER"
     assert fairness["source_implementation_TARGET_disposition"] == "DROP"
@@ -624,7 +624,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 83
+    assert len(units) == 84
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 83
+    assert len(units) == 84
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 83
+    assert len(units) == 84
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -680,7 +680,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 83
+    assert len(units) == 84
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1504,6 +1504,26 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert visual_d1_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#193" in visual_d1_alias["basis"]
+
+    population_comm = by_id.pop("observability.population-communication")
+    assert population_comm["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
+    assert population_comm["source_implementation_TARGET_disposition"] == "DROP"
+    assert "biopeia/lab#194" in population_comm["owner_basis"]
+    assert "c2bf9cb777016bb2a70fc4327173f15fe819d608e102ca1672a0041d71689d29" in population_comm["experiment_artifacts_and_digests"]
+    assert "NOT_ADMITTED" in population_comm["custody_ledger_state"]
+    for source_ref in (
+        *population_comm["protocol_paths_and_blobs"].split(";"),
+        population_comm["implementation_path_and_blob"],
+        population_comm["source_test_path_and_blob"].split(" (")[0],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    population_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "observability.population-communication"
+    )
+    assert population_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
+    assert "biopeia/lab#194" in population_crosswalk["basis"]
 
     characterization = by_id.pop("learning.structured-communication-characterization")
     assert characterization["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
