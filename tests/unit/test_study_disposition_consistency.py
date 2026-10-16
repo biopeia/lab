@@ -214,6 +214,7 @@ def test_continuous_temporal_controls_has_bounded_issue_disposition() -> None:
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#149" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
     assert "experiment.toml@52fe0da29c26373f8bee2322adc69798469a6e63" in disposition[
         "protocol_paths_and_blobs"
@@ -238,6 +239,7 @@ def test_cultural_foundation_has_bounded_issue_disposition() -> None:
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#150" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
     assert "experiment.toml@a705f1a7cbd8022f620d910f463ba3d733bb0bfd" in disposition[
         "protocol_paths_and_blobs"
@@ -262,6 +264,7 @@ def test_cumulative_culture_has_bounded_issue_disposition() -> None:
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#151" in crosswalk["basis"]
     assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
     assert disposition["source_commit"] == "80d372a186513035f85a769db886e505cabba52d"
     assert "experiment.toml@d29c42a6b2da9070d4ee49d4e3c6fd933d143935" in disposition[
         "protocol_paths_and_blobs"
