@@ -1166,6 +1166,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert predictive_discovery["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert predictive_discovery["source_implementation_TARGET_disposition"] == "DROP"
     assert "biopeia/lab#178" in predictive_discovery["owner_basis"]
+    assert "comment #6223818659" in predictive_discovery["owner_basis"]
     assert "all_gates_pass=true" in predictive_discovery["source_evidence_basis"]
     assert "fa127d703b3fea5f3b0c31095076c22d3488467d" in predictive_discovery["experiment_artifacts_and_digests"]
     assert "NOT_ESTABLISHED" in predictive_discovery["real_run_identity"]
@@ -1176,6 +1177,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert predictive_crosswalk["candidate_disposition"] == "HISTORICAL_PROTOCOL"
     assert "biopeia/lab#178" in predictive_crosswalk["basis"]
+    assert "comment #6223818659" in predictive_crosswalk["basis"]
     assert "not autonomously wired to an input edge" in predictive_crosswalk["basis"]
 
     episodic_utility = by_id.pop("learning.episodic-memory-utility")
