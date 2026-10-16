@@ -421,7 +421,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 42
+    assert len(units) == 43
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
