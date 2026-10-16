@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 13
+    assert len(units) == 14
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -221,6 +221,34 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     ):
         path, expected_blob = source_ref.split("@", maxsplit=1)
         assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    consolidated_intervention = by_id.pop(
+        "learning.agency-consolidated-causal-intervention"
+    )
+    assert consolidated_intervention["study_protocol_disposition"] == "DEFER"
+    assert consolidated_intervention["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#133" in consolidated_intervention["owner_basis"]
+    assert "Closure trigger:" in consolidated_intervention["TARGET_action"]
+    assert "README mixes preregistration and reported diagnostic figures" in (
+        consolidated_intervention["source_evidence_basis"]
+    )
+    assert "5/10 and 7/10" in consolidated_intervention["real_run_identity"]
+    assert "No claim of scientific validity" in consolidated_intervention[
+        "limitations_and_nonclaims"
+    ]
+    for source_ref in (
+        *consolidated_intervention["protocol_paths_and_blobs"].split(";"),
+        consolidated_intervention["implementation_path_and_blob"],
+        consolidated_intervention["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    consolidated_crosswalk = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-consolidated-causal-intervention"
+    )
+    assert consolidated_crosswalk["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#133" in consolidated_crosswalk["basis"]
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
     assert visual_audit["source_implementation_TARGET_disposition"] == "DROP"
