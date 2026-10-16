@@ -394,6 +394,20 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert generative_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#167" in generative_alias["resolution_method"]
     assert "biopeia/lab#167" in generative_alias["basis"]
+    fp2_bh = by_id.pop("learning.footprint-precision-fp2-bh")
+    assert fp2_bh["study_protocol_disposition"] == "DEFER"
+    assert fp2_bh["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "b46ff4d09033862aa8309d3f49e23fc785270111" in fp2_bh["protocol_paths_and_blobs"]
+    assert "biopeia/lab#160" in fp2_bh["owner_basis"]
+    assert "no execution/result artifact" in fp2_bh["experiment_artifacts_and_digests"]
+    for source_ref in (*fp2_bh["protocol_paths_and_blobs"].split(";"), fp2_bh["implementation_path_and_blob"], fp2_bh["source_test_path_and_blob"]):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    fp2_bh_alias = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.footprint-precision-fp2-bh")
+    assert fp2_bh_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
+    assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
+    assert len(units) == 42
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"

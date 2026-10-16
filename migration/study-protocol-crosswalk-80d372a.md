@@ -84,3 +84,4 @@ row-specific pending exceptions. This study crosswalk does not alter those
 artifact-level custody dispositions.
 
 For Lab #159, the exact FP1-TM manifest is recorded as a bounded owner-authorized `DEFER` in the register and as a manifest-specific crosswalk alias. Its pinned directory contains README and TOML only, not execution/results; no experiment, code port, threshold reuse, or evidence admission is authorized. TARGET applicability remains open.
+For Lab #160, the exact FP2-BH manifest is recorded as a bounded owner-authorized `DEFER` in the register and as a manifest-specific crosswalk alias. Its pinned directory contains README and TOML only, not execution/results; no experiment, code port, threshold reuse, or evidence admission is authorized. TARGET applicability remains open.
