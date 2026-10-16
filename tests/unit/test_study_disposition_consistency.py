@@ -1167,6 +1167,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert predictive_discovery["source_implementation_TARGET_disposition"] == "DROP"
     assert "biopeia/lab#178" in predictive_discovery["owner_basis"]
     assert "all_gates_pass=true" in predictive_discovery["source_evidence_basis"]
+    assert "fa127d703b3fea5f3b0c31095076c22d3488467d" in predictive_discovery["experiment_artifacts_and_digests"]
     assert "NOT_ESTABLISHED" in predictive_discovery["real_run_identity"]
     assert "not evidence-admitted" in predictive_discovery["limitations_and_nonclaims"]
     predictive_crosswalk = next(
