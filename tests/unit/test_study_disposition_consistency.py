@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 29
+    assert len(units) == 30
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -267,6 +267,27 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert chance_corrected_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#125" in chance_corrected_alias["basis"]
     assert "manifest-specific alias" in chance_corrected_alias["resolution_method"]
+    factorized = by_id.pop("learning.agency-acquisition-reuse-closure-factorized")
+    assert factorized["study_protocol_disposition"] == "DEFER"
+    assert factorized["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#126" in factorized["owner_basis"]
+    assert "other eight manifests" in factorized["TARGET_action"]
+    assert "NOT_ESTABLISHED" in factorized["real_run_identity"]
+    assert "no physical-body test result" in factorized["limitations_and_nonclaims"]
+    for source_ref in (
+        *factorized["protocol_paths_and_blobs"].split(";"),
+        factorized["implementation_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    factorized_alias = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-factorized"
+    )
+    assert factorized_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#126" in factorized_alias["basis"]
+    assert "manifest-specific alias" in factorized_alias["resolution_method"]
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
