@@ -208,6 +208,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
 
     assert len(units) == 45
     assert len(units) == 45
+    assert len(units) == 43
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -464,7 +465,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 42
+    assert len(units) == 43
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
