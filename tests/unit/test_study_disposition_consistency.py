@@ -301,6 +301,15 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "03db814778ce0d53bcce82dccd6166dc60a4739d" in membership_bh[
         "protocol_paths_and_blobs"
     ]
+    assert "agency-acquisition-reuse-closure-membership-bh/README.md" in membership_bh[
+        "protocol_paths_and_blobs"
+    ]
+    assert "agency-acquisition-reuse-closure-membership-bh/experiment.toml" in membership_bh[
+        "protocol_paths_and_blobs"
+    ]
+    assert "agency-acquisition-reuse-closure-factorized/" not in membership_bh[
+        "protocol_paths_and_blobs"
+    ]
     assert "no result/run artifact" in membership_bh["experiment_artifacts_and_digests"]
     assert "biopeia/lab#127" in membership_bh["owner_basis"]
     assert "Closure trigger:" in membership_bh["TARGET_action"]
@@ -313,6 +322,12 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert membership_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#127" in membership_bh_alias["basis"]
     assert "manifest-specific alias" in membership_bh_alias["resolution_method"]
+    assert "agency-acquisition-reuse-closure-membership-bh/experiment.toml" in membership_bh_alias[
+        "experiment_spec_path_candidates"
+    ]
+    assert "agency-acquisition-reuse-closure-factorized/" not in membership_bh_alias[
+        "experiment_spec_path_candidates"
+    ]
     membership_bhb = by_id.pop("learning.agency-acquisition-reuse-closure-membership-bhb")
     assert membership_bhb["study_protocol_disposition"] == "DEFER"
     assert "0e2aac6eed147f6e264dcabef72dd81b465d0172" in membership_bhb["protocol_paths_and_blobs"]
