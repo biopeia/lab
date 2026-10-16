@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 21
+    assert len(units) == 22
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -396,6 +396,31 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert replay_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #140" in replay_crosswalk["basis"]
+
+    binding_hist = by_id.pop("learning.binding-degradation-hist")
+    assert binding_hist["study_protocol_disposition"] == "DEFER"
+    assert binding_hist["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#141" in binding_hist["owner_basis"]
+    assert "0/79" in binding_hist["source_evidence_basis"]
+    assert "not implemented" in binding_hist["source_evidence_basis"]
+    assert "NOT_ADMITTED" in binding_hist["custody_ledger_state"]
+    for source_ref in (
+        *binding_hist["protocol_paths_and_blobs"].split(";"),
+        binding_hist["implementation_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    hist_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.binding-degradation-hist"
+    )
+    assert hist_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #141" in hist_crosswalk["basis"]
+    grouped_binding = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.binding-degradation"
+    )
+    assert "distinct HIST and OFF arm manifests" in grouped_binding["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
