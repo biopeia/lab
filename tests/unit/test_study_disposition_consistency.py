@@ -1362,7 +1362,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "biopeia/lab#183" in regime_symmetric["owner_basis"]
     assert "NOT_ESTABLISHED" in regime_symmetric["real_run_identity"]
     assert "test_private_model_regime_shift_protocol.py@7afb947c044b8141981c8430d974ac6c6bb483c3" in regime_symmetric["source_test_path_and_blob"]
-    assert "not outcome evidence" in regime_symmetric["limitations_and_nonclaims"]
+    assert "do not measure outcomes" in regime_symmetric["limitations_and_nonclaims"]
     regime_crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.private-model-regime-symmetric")
     assert regime_crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#183" in regime_crosswalk["basis"]
