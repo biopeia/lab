@@ -88,7 +88,7 @@ The following are source observations at the evidence pins in §9, not an approv
 
 | Existing path | What is present | What it does not establish |
 |---|---|---|
-| `Lab.InterventionRequest` and `apply_material_transfer` | **Current status at the §9 Lab revision:** the operation fails closed with `MaterialTransferAuthorizationUnsupported` before inspecting owner state, writing checkpoints, or entering World; no verified authorization source is configured. At the historical pre-#344 implementation inspected for this proposal, one specific scalar transfer kept `intervention_id`, `intervention_action_id`, `transition_id`, and optional `run_id` distinct and called owner/World checkpoint paths. That historical path treated operator identity as caller-declared, not authentication. | Current executable material transfer, general Lab-to-domain dispatch, an authentication/authorization contract, or a universal owner-validation interface. The historical path is not a supported executable template; the precise domain-owner adoption boundary remains operation-specific and unresolved. |
+| `Lab.InterventionRequest` and `apply_material_transfer` | **Current status at the §9 Lab revision:** the operation fails closed with `MaterialTransferAuthorizationUnsupported` before inspecting owner state, writing checkpoints, or entering World; no verified authorization source is configured. At the historical pre-#344 implementation baseline `biopeia/lab@7b827a4d0dbbe4ac1e170896de37311cac7ef7d1` (the base of PR #344; see §9), one specific scalar transfer kept `intervention_id`, `intervention_action_id`, `transition_id`, and optional `run_id` distinct and called owner/World checkpoint paths. That historical path treated operator identity as caller-declared, not authentication. | Current executable material transfer, general Lab-to-domain dispatch, an authentication/authorization contract, or a universal owner-validation interface. The historical path is not a supported executable template; the precise domain-owner adoption boundary remains operation-specific and unresolved. |
 | `ExperimentIntent` in Lab PR #329 at reviewed HEAD `97960bc5d643cedcfd6f18c7d55079b8be74487f` | A descriptive, non-executing intent prototype; independent review bounded its identifiers and requester field as caller-declared values. | Authentication, authorization, target-owner acceptance, dispatch, durable provenance, or experiment execution. |
 | World durable causal runtime | Coordinates causal cuts, participant/checkpoint references, commit, and recovery under World contracts. | Target-domain semantic ownership or automatic permission to execute a Lab request. |
 | Observation in-process publication | Passive bounded publication/projection surfaces and post-commit integration evidence exist. | Durable searchable history, browser access, a command path, or authorization. |
@@ -133,6 +133,8 @@ The following exact `main` revisions were read for this refresh on 2026-10-16. T
 | Embodiment | `5019b94fc79ae5672eeee09ba308e382860af931` |
 | Modality | `62af4aba07146d5dfdc978af07bb72111112d873` |
 | Organism | `01c788b5844c7dc05b05160392fa9d860eb6fdd3` |
+
+Historical comparator for the pre-#344 statement in §6: Lab `7b827a4d0dbbe4ac1e170896de37311cac7ef7d1` (the base revision of PR #344). This is a historical source pin, not current capability or an implementation lockfile.
 
 The cross-domain pins are an inspection baseline, not a compatible-release set or an implementation lockfile. Revalidate them before any later implementation.
 
