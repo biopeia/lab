@@ -2314,3 +2314,23 @@ as TARGET requirements, or admit results as evidence. Reopen only for an authori
 TARGET question/consumer with an accepted estimand and newly specified Biopeia-native
 method, protocol and evidence criteria. This is migration classification only, not
 scientific acceptance, validation or experiment authorization.
+
+### Historical Generative Cognition depth-calibration disposition (Lab #169)
+
+The exact manifest `lab/experiments/learning/generative-cognition-depth-calibration/experiment.toml`
+(blob `4494f110256173e860313180ee58de4b15cbce17`) and README (blob
+`cacec9d7ac80cd540e8ee73f461f66ea836d686a`) are pinned at
+`alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. The directory
+contains only those protocol files; it declares three seeds and compares opaque
+rollout depths 1, 2 and 4 for GC-E8/GC-E9. The README disclaims a universal calibration
+curve and external-world generalization. These are protocol properties, not observed
+outcomes; no run/result artifact is present. A bounded current Lab `src/` and `tests/`
+search found no exact-manifest consumer, without ruling out future authorized need.
+
+Disposition is bounded `DEFER` for current TARGET applicability. Preserve provenance;
+do not port implementation/tests, execute the assay, adopt historical depth/gate
+criteria as TARGET requirements, or admit results as evidence. Reopen only for an
+authorized current TARGET question/consumer with an accepted estimand and newly
+specified Biopeia-native method, protocol and evidence criteria. This is migration
+classification, not scientific acceptance, validity, reproducibility or experiment
+authorization.
