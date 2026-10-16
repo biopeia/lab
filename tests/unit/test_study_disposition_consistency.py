@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 20
+    assert len(units) == 21
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -375,6 +375,27 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert autonomous_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #139" in autonomous_crosswalk["basis"]
+
+    replay_stopping = by_id.pop("learning.autonomous-replay-stopping")
+    assert replay_stopping["study_protocol_disposition"] == "DEFER"
+    assert replay_stopping["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#140" in replay_stopping["owner_basis"]
+    assert "no result/run artifact" in replay_stopping["experiment_artifacts_and_digests"]
+    assert "NOT_ESTABLISHED" in replay_stopping["real_run_identity"]
+    assert "NOT_ADMITTED" in replay_stopping["custody_ledger_state"]
+    for source_ref in (
+        *replay_stopping["protocol_paths_and_blobs"].split(";"),
+        replay_stopping["implementation_path_and_blob"],
+        replay_stopping["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    replay_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.autonomous-replay-stopping"
+    )
+    assert replay_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #140" in replay_crosswalk["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
