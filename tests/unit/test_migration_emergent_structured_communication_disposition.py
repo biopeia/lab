@@ -23,7 +23,7 @@ def test_emergent_structured_communication_has_bounded_manifest_disposition() ->
     assert "not admitted" in row["limitations_and_nonclaims"]
     assert "biopeia/lab#153" in row["owner_basis"]
     assert Counter(item["study_protocol_disposition"] for item in rows) == {
-        "DEFER": 68, "HISTORICAL_PROTOCOL": 18, "REIMPLEMENT_METHOD": 1
+        "DEFER": 68, "HISTORICAL_PROTOCOL": 19, "REIMPLEMENT_METHOD": 1
     }
     with (ROOT / "migration/study-protocol-crosswalk-80d372a.tsv").open(encoding="utf-8", newline="") as stream:
         crosswalk = list(csv.DictReader(stream, delimiter="\t"))
@@ -33,5 +33,5 @@ def test_emergent_structured_communication_has_bounded_manifest_disposition() ->
     assert "biopeia/lab#153" in unit[0]["basis"]
     assert "no run_id" in unit[0]["basis"]
     doc = (ROOT / "migration/study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
-    assert "87 manifest-level decisions" in doc
+    assert "88 manifest-level decisions" in doc
     assert "For #153" in doc
