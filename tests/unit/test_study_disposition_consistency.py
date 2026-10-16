@@ -206,7 +206,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 44
+    assert len(units) == 45
+    assert len(units) == 45
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -407,7 +408,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 44
+    assert len(units) == 45
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -421,7 +422,28 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 44
+    assert len(units) == 45
+    fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
+    assert fp2_r["study_protocol_disposition"] == "DEFER"
+    assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "0ae00533489a8ef3c5f347b7b5829fcb89cc5b8b" in fp2_r["protocol_paths_and_blobs"]
+    assert "biopeia/lab#162" in fp2_r["owner_basis"]
+    assert "no execution/result artifact" in fp2_r["experiment_artifacts_and_digests"]
+    for source_ref in (
+        *fp2_r["protocol_paths_and_blobs"].split(";"),
+        fp2_r["implementation_path_and_blob"],
+        fp2_r["source_test_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    fp2_r_alias = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.footprint-precision-fp2-r"
+    )
+    assert fp2_r_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
+    assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
+    assert len(units) == 45
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
