@@ -338,7 +338,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 75
+    assert len(units) == 76
     crosswalk = (MIGRATION / "study-protocol-crosswalk-80d372a.md").read_text(encoding="utf-8")
     assert crosswalk.count("manifest-level decisions**:") == 1
     assert f"records **{len(units)} manifest-level decisions**:" in crosswalk
@@ -603,7 +603,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#160" in fp2_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_bh_alias["resolution_method"]
-    assert len(units) == 75
+    assert len(units) == 76
     fp2_m = by_id.pop("learning.footprint-precision-fp2-m")
     assert fp2_m["study_protocol_disposition"] == "DEFER"
     assert fp2_m["source_implementation_TARGET_disposition"] == "DEFER"
@@ -617,7 +617,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_m_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#161" in fp2_m_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_m_alias["resolution_method"]
-    assert len(units) == 75
+    assert len(units) == 76
     fp2_r = by_id.pop("learning.footprint-precision-fp2-r")
     assert fp2_r["study_protocol_disposition"] == "DEFER"
     assert fp2_r["source_implementation_TARGET_disposition"] == "DEFER"
@@ -638,7 +638,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp2_r_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#162" in fp2_r_alias["resolution_method"]
     assert "manifest-specific alias" in fp2_r_alias["resolution_method"]
-    assert len(units) == 75
+    assert len(units) == 76
     fp3_bh = by_id.pop("learning.footprint-precision-fp3-bh")
     assert fp3_bh["study_protocol_disposition"] == "DEFER"
     assert fp3_bh["source_implementation_TARGET_disposition"] == "DEFER"
@@ -659,7 +659,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert fp3_bh_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#163" in fp3_bh_alias["resolution_method"]
     assert "manifest-specific alias" in fp3_bh_alias["resolution_method"]
-    assert len(units) == 75
+    assert len(units) == 76
 
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
@@ -1411,6 +1411,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     replay_efficiency = by_id.pop("learning.replay-efficiency")
     assert replay_efficiency["study_protocol_disposition"] == "DEFER"
     assert "biopeia/lab#185" in replay_efficiency["owner_basis"]
+    replay_pressure = by_id.pop("learning.replay-pressure-curve")
+    assert replay_pressure["study_protocol_disposition"] == "DEFER"
+    assert "biopeia/lab#186" in replay_pressure["owner_basis"]
     for unit in by_id.values():
         assert unit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
         assert unit["source_implementation_TARGET_disposition"] == "DROP"
@@ -1634,3 +1637,25 @@ def test_replay_efficiency_owner_defer_preserves_report_without_admission() -> N
     crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.replay-efficiency")
     assert crosswalk["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#185" in crosswalk["basis"]
+
+
+def test_replay_pressure_curve_owner_defer_preserves_report_without_admission() -> None:
+    units = read_tsv("study-disposition-register-80d372a.tsv")
+    disposition = next(row for row in units if row["unit_id"] == "learning.replay-pressure-curve")
+    assert disposition["study_protocol_disposition"] == "DEFER"
+    assert disposition["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#186" in disposition["owner_basis"]
+    assert "20260921T230220Z-learning-replay-pressure-curve-206a7b4-e02f" in disposition["real_run_identity"]
+    assert "206a7b430817c0940029adc47aeac43e9be8c5cb" in disposition["real_run_identity"]
+    assert "3/3" in disposition["source_evidence_basis"]
+    assert "NOT_ADMITTED" in disposition["limitations_and_nonclaims"]
+    assert "7fc7d0cf93479e4194540b1c437caeff1f6cc555" in disposition["experiment_artifacts_and_digests"]
+    evidence = next(row for row in read_tsv("study-evidence-map-80d372a.tsv") if row["record_key"] == "learning.replay-pressure-curve")
+    assert "20260921T230220Z-learning-replay-pressure-curve-206a7b4-e02f" in evidence["protocol_or_run_identity_evidence"]
+    assert "NOT_ADMITTED" in evidence["artifact_custody_refs"]
+    assert "REGISTRY_LOOKUP_AND_PROTOCOL_MECHANICS" == evidence["test_link_status"]
+    assert "test_pressure_requests_keep_everything_except_replay_budget" in evidence["test_symbol_refs"]
+    crosswalk = next(row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv") if row["protocol_id"] == "learning.replay-pressure-curve")
+    assert crosswalk["candidate_disposition"] == "DEFER"
+    assert "test_replay_pressure_curve.py" in crosswalk["study_test_path_candidates"]
+    assert "biopeia/lab#186" in crosswalk["basis"]
