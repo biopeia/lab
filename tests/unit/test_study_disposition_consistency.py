@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 22
+    assert len(units) == 23
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -421,6 +421,19 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         if row["protocol_id"] == "learning.binding-degradation"
     )
     assert "distinct HIST and OFF arm manifests" in grouped_binding["basis"]
+
+    binding_off = by_id.pop("learning.binding-degradation-off")
+    assert binding_off["study_protocol_disposition"] == "DEFER"
+    assert "biopeia/lab#142" in binding_off["owner_basis"]
+    assert "0/197" in binding_off["source_evidence_basis"]
+    assert "true detections 0/79 is not applicable" in binding_off["source_evidence_basis"]
+    assert "NOT_ADMITTED" in binding_off["custody_ledger_state"]
+    off_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.binding-degradation-off"
+    )
+    assert off_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #142" in off_crosswalk["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
