@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 28
+    assert len(units) == 29
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -244,6 +244,29 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert binding_history_alias["candidate_disposition"] == "DEFER"
     assert "biopeia/lab#124" in binding_history_alias["basis"]
     assert "manifest-specific alias" in binding_history_alias["resolution_method"]
+    chance_corrected = by_id.pop(
+        "learning.agency-acquisition-reuse-closure-chance-corrected"
+    )
+    assert chance_corrected["study_protocol_disposition"] == "DEFER"
+    assert chance_corrected["source_implementation_TARGET_disposition"] == "DEFER"
+    assert "biopeia/lab#125" in chance_corrected["owner_basis"]
+    assert "other eight candidate manifests" in chance_corrected["TARGET_action"]
+    assert "NOT_ESTABLISHED" in chance_corrected["real_run_identity"]
+    assert "No experiment was executed" in chance_corrected["limitations_and_nonclaims"]
+    for source_ref in (
+        *chance_corrected["protocol_paths_and_blobs"].split(";"),
+        chance_corrected["implementation_path_and_blob"],
+    ):
+        path, expected_blob = source_ref.split("@", maxsplit=1)
+        assert source[path]["source_blob_at_pinned_commit"] == expected_blob
+    chance_corrected_alias = next(
+        row
+        for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.agency-acquisition-reuse-closure-chance-corrected"
+    )
+    assert chance_corrected_alias["candidate_disposition"] == "DEFER"
+    assert "biopeia/lab#125" in chance_corrected_alias["basis"]
+    assert "manifest-specific alias" in chance_corrected_alias["resolution_method"]
     consolidated_intervention = by_id.pop(
         "learning.agency-consolidated-causal-intervention"
     )
