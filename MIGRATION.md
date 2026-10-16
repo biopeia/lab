@@ -2429,3 +2429,30 @@ Disposition is bounded `DEFER` for this exact manifest. Preserve provenance; do 
 The exact manifest `lab/experiments/learning/private-model-utility/experiment.toml` (blob `e83e8f0c7328f5d963429e48f4ab6f4afe9d086c`) and README (blob `3411cd24ed7c3d32fbc23e1cff183a1ab6b39656`) are pinned at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. The directory contains only those protocol files and no run/results artifact. It proposes randomly initialized private GRU/causal-Transformer training on opaque experience, with held-out next-token loss compared to trivial baselines across three seeds. The success and promotion criteria are plans, not outcomes or Biopeia policy. Its linked unit test calls the study implementation with mocked model-family results to verify seed handling/aggregation and promotion fields; it does not perform training or establish scientific outcomes. A bounded current Lab `src/` and `tests/` search found no exact TARGET consumer.
 
 Disposition is bounded `DEFER` for this exact manifest. Preserve provenance; do not port implementation/tests, execute the study, choose a model family, change training budget or promotion policy, adopt historical thresholds as TARGET requirements, or admit results. Reopen only for an authorized current TARGET question/consumer requiring this study and a newly defined Biopeia-native estimand, protocol, and evidence criteria. This is migration classification only, not scientific acceptance, validity, reproducibility, or experiment authorization.
+
+
+### Historical replay-efficiency disposition (Lab #185)
+
+The exact `learning.replay-efficiency` manifest and implementation are pinned
+at `alessbarb/symbiont-lab@80d372a186513035f85a769db886e505cabba52d`. A
+historical result report exists outside the protocol directory at
+`lab/research/learning/2026-09-l7.5-replay-efficiency-result.md` (blob
+`b5166649a4d0e61896d98ffbc6b023123f54f1f2`; SHA-256
+`a98abdd7d71f68baade860d9c9d65066653d84dcd61875b46e46577a74525feb`). It
+states run `20260921T230526Z-learning-replay-efficiency-fd9292c-8c5b`,
+software SHA `fd9292c6776df0448c0336f85f09adb0253736a8`, and
+`dirty=false`; it reports 1/3 seeds meeting its strict diminishing-return
+criterion. This is an archived report, not an independently reproduced result:
+the producer is unknown and raw run receipts/bundles are absent. Its custody is
+`SCIENTIFIC_EVIDENCE`, `NOT_SCIENTIFICALLY_VALIDATED`, and `NOT_ADMITTED`.
+The linked unit tests verify registry identity and helper arithmetic on
+synthetic values, not replay training or the reported outcomes.
+
+Disposition is an Owner-authorized bounded `DEFER` for the exact manifest.
+No historical algorithm, stopping rule, threshold, evaluator-to-organism
+feedback signal, experiment, or evidence admission is authorized. Reopen only
+for an authorized current TARGET question/consumer and a Biopeia-native
+estimand, protocol, organism-owned signal, and evidence criteria. Earlier issue
+comments that stated no result existed were corrected to account for this
+separate report. This is migration classification only, not scientific
+acceptance, validity, reproducibility, or experiment authorization.
