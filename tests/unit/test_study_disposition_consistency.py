@@ -206,7 +206,7 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     }
     units = read_tsv("study-disposition-register-80d372a.tsv")
 
-    assert len(units) == 26
+    assert len(units) == 27
     by_id = {unit["unit_id"]: unit for unit in units}
     assert len(by_id) == len(units)
     agency_ablation = by_id.pop("learning.agency-acquisition-ablation")
@@ -471,6 +471,18 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert counterfactual_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #145" in counterfactual_crosswalk["basis"]
+
+    ecology = by_id.pop("learning.cognitive-ecology-embodiment")
+    assert ecology["study_protocol_disposition"] == "DEFER"
+    assert "biopeia/lab#146" in ecology["owner_basis"]
+    assert "WORKING_ARTIFACT" in ecology["source_evidence_basis"]
+    assert "NOT_ADMITTED" in ecology["custody_ledger_state"]
+    ecology_crosswalk = next(
+        row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
+        if row["protocol_id"] == "learning.cognitive-ecology-embodiment"
+    )
+    assert ecology_crosswalk["candidate_disposition"] == "DEFER"
+    assert "Lab #146" in ecology_crosswalk["basis"]
 
     visual_audit = by_id.pop("learning.visual-predictor-audit")
     assert visual_audit["study_protocol_disposition"] == "HISTORICAL_PROTOCOL"
