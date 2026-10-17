@@ -759,7 +759,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert "Lab #135" in executive_crosswalk["basis"]
     assert "no currently authorized TARGET question requires this method" in executive_crosswalk["basis"]
     assert "future authorized question" in executive_crosswalk["basis"]
+    assert "Owner-accepted PROTOCOL custody" in executive_crosswalk["basis"]
     assert "Closure trigger" not in executive_crosswalk["basis"]
+    assert "README.md and experiment.toml remain PROTOCOL custody" in executive_bridge["custody_ledger_state"]
 
     high_dimensional = by_id.pop("learning.agency-high-dimensional-acquisition")
     assert high_dimensional["study_protocol_disposition"] == "DEFER"
