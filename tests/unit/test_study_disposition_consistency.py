@@ -767,7 +767,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert high_dimensional["study_protocol_disposition"] == "DEFER"
     assert high_dimensional["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#136" in high_dimensional["owner_basis"]
-    assert "Closure trigger:" in high_dimensional["TARGET_action"]
+    assert "no currently authorized TARGET question requires this exact E8 method" in high_dimensional["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in high_dimensional["TARGET_action"]
     assert "38429ca2cbb17a4137ca378fc01136f3af1a00d3" in high_dimensional["real_run_identity"]
     assert "not treated as validated findings or admitted scientific evidence" in high_dimensional["limitations_and_nonclaims"]
     for source_ref in (
@@ -783,6 +784,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert high_dimensional_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #136" in high_dimensional_crosswalk["basis"]
+    assert "does not authorize this exact E8 replication" in high_dimensional_crosswalk["basis"]
+    assert "README custody remains separately DEFER" in high_dimensional_crosswalk["basis"]
+    assert "Closure trigger" not in high_dimensional_crosswalk["basis"]
 
     intent_persistence = by_id.pop("learning.agency-intent-persistence")
     assert intent_persistence["study_protocol_disposition"] == "DEFER"
