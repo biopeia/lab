@@ -867,6 +867,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert binding_hist["study_protocol_disposition"] == "DEFER"
     assert binding_hist["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#141" in binding_hist["owner_basis"]
+    assert "no present authorized TARGET question requires this method" in binding_hist["owner_basis"]
+    assert "Report/custody provenance remains unresolved" in binding_hist["owner_basis"]
+    assert "Reopen only if an authorized TARGET question requires a new Biopeia-native method" in binding_hist["TARGET_action"]
     assert "0/79" in binding_hist["source_evidence_basis"]
     assert "not implemented" in binding_hist["source_evidence_basis"]
     assert "NOT_ADMITTED" in binding_hist["custody_ledger_state"]
@@ -882,6 +885,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert hist_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #141" in hist_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this arm" in hist_crosswalk["basis"]
+    assert "provenance/custody remains unresolved" in hist_crosswalk["basis"]
+    assert "Owner TARGET applicability remains undecided" not in hist_crosswalk["basis"]
     grouped_binding = next(
         row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
         if row["protocol_id"] == "learning.binding-degradation"
