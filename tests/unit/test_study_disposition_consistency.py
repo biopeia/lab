@@ -876,6 +876,10 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert replay_stopping["study_protocol_disposition"] == "DEFER"
     assert replay_stopping["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#140" in replay_stopping["owner_basis"]
+    assert "no current authorized TARGET question requires this method" in replay_stopping["owner_basis"]
+    assert "independent-review closure gate" in replay_stopping["owner_basis"]
+    assert "Reopen only if the authorized TARGET program adds a question" in replay_stopping["TARGET_action"]
+    assert "applicability remains undecided" not in replay_stopping["source_evidence_basis"]
     assert "no result/run artifact" in replay_stopping["experiment_artifacts_and_digests"]
     assert "NOT_ESTABLISHED" in replay_stopping["real_run_identity"]
     assert "NOT_ADMITTED" in replay_stopping["custody_ledger_state"]
@@ -892,6 +896,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert replay_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #140" in replay_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this exact arm" in replay_crosswalk["basis"]
+    assert "applicability remains undecided" not in replay_crosswalk["basis"]
+    assert "independent-review closure gate is separate" in replay_crosswalk["basis"]
 
     binding_hist = by_id.pop("learning.binding-degradation-hist")
     assert binding_hist["study_protocol_disposition"] == "DEFER"
