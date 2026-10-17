@@ -1,0 +1,11 @@
+{
+  "scenario": "E2_VARIABLE_FIELD",
+  "description": "10 cycles active stimulation -> 10 cycles extinction",
+  "weight_initial": 0.2,
+  "weight_after_stimulation_tick10": 0.21866080153786474,
+  "weight_delta_stimulation": 0.01866080153786473,
+  "weight_after_extinction_tick20": 0.21866080153786474,
+  "weight_delta_extinction": 0.0,
+  "weight_retention_ratio": 1.0,
+  "completed_cycles_total": 20
+}

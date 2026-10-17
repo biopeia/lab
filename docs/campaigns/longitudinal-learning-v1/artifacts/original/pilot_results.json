@@ -1,0 +1,98 @@
+{
+  "pilot_id": "PILOT-FACTORIAL-20261017",
+  "status": "COMPLETED",
+  "groups": [
+    {
+      "group": "G1_CONTROL_INERT",
+      "plasticity": false,
+      "somatic": false,
+      "completed_cycles": 20,
+      "last_cut_tick": 20,
+      "initial_weight": 0.2,
+      "final_weight": 0.2,
+      "weight_delta": 0.0,
+      "experience_records_count": 20,
+      "frame_history_count": 0,
+      "primitives_discovered": 0,
+      "horizon_counts": {
+        "1": 0,
+        "4": 0,
+        "16": 0,
+        "64": 0
+      }
+    },
+    {
+      "group": "G2_CONTROL_SOMATIC",
+      "plasticity": false,
+      "somatic": true,
+      "completed_cycles": 20,
+      "last_cut_tick": 20,
+      "initial_weight": 0.2,
+      "final_weight": 0.2,
+      "weight_delta": 0.0,
+      "experience_records_count": 20,
+      "frame_history_count": 20,
+      "primitives_discovered": 1,
+      "horizon_counts": {
+        "1": 19,
+        "4": 16,
+        "16": 4,
+        "64": 0
+      }
+    },
+    {
+      "group": "G3_CONTROL_PLASTIC",
+      "plasticity": true,
+      "somatic": false,
+      "completed_cycles": 20,
+      "last_cut_tick": 20,
+      "initial_weight": 0.2,
+      "final_weight": 0.23887215644250145,
+      "weight_delta": 0.03887215644250144,
+      "experience_records_count": 20,
+      "frame_history_count": 0,
+      "primitives_discovered": 0,
+      "horizon_counts": {
+        "1": 0,
+        "4": 0,
+        "16": 0,
+        "64": 0
+      }
+    },
+    {
+      "group": "G4_EXPERIMENTAL_FULL",
+      "plasticity": true,
+      "somatic": true,
+      "completed_cycles": 20,
+      "last_cut_tick": 20,
+      "initial_weight": 0.2,
+      "final_weight": 0.23887215644250145,
+      "weight_delta": 0.03887215644250144,
+      "experience_records_count": 20,
+      "frame_history_count": 20,
+      "primitives_discovered": 1,
+      "horizon_counts": {
+        "1": 19,
+        "4": 16,
+        "16": 4,
+        "64": 0
+      }
+    },
+    {
+      "group": "G4_RESTORED",
+      "interruption_tick": 10,
+      "completed_cycles": 20,
+      "last_cut_tick": 20,
+      "final_weight": 0.23887215644250145,
+      "experience_records_count": 20,
+      "frame_history_count": 20,
+      "primitives_discovered": 1,
+      "horizon_counts": {
+        "1": 19,
+        "4": 16,
+        "16": 4,
+        "64": 0
+      }
+    }
+  ]
+}

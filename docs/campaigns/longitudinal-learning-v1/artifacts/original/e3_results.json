@@ -1,0 +1,32 @@
+{
+  "scenario": "E3_BODILY_PERTURBATION",
+  "standard": {
+    "name": "standard_mechanics",
+    "motor_scale": 0.5,
+    "completed_cycles": 15,
+    "mean_joint_speed_rad_per_s": 1.2765212905656773,
+    "max_joint_displacement_rad": 0.1914781935848516,
+    "primitives_discovered": 1,
+    "horizon_counts": {
+      "1": 14,
+      "4": 11,
+      "16": 0,
+      "64": 0
+    }
+  },
+  "perturbed": {
+    "name": "damped_mechanics",
+    "motor_scale": 0.2,
+    "completed_cycles": 15,
+    "mean_joint_speed_rad_per_s": 0.5634688937275002,
+    "max_joint_displacement_rad": 0.08452033405912503,
+    "primitives_discovered": 1,
+    "horizon_counts": {
+      "1": 14,
+      "4": 11,
+      "16": 0,
+      "64": 0
+    }
+  },
+  "speed_reduction_ratio": 0.4414097108226097
+}
