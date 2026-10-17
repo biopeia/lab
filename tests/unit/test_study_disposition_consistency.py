@@ -820,6 +820,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert autonomous["study_protocol_disposition"] == "DEFER"
     assert autonomous["source_implementation_TARGET_disposition"] == "DROP"
     assert "biopeia/lab#139" in autonomous["owner_basis"]
+    assert "no current authorized TARGET question requires this cultural-agency policy" in autonomous["owner_basis"]
+    assert "external-review gate" in autonomous["owner_basis"]
+    assert "applicability remains undecided" not in autonomous["source_evidence_basis"]
     assert "audit-reported" in autonomous["source_evidence_basis"]
     assert "No explicit run ID" in autonomous["real_run_identity"]
     assert "NOT_ADMITTED" in autonomous["custody_ledger_state"]
@@ -836,6 +839,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert autonomous_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #139" in autonomous_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this policy" in autonomous_crosswalk["basis"]
+    assert "Independent-review closure gate remains separate" in autonomous_crosswalk["basis"]
 
     replay_stopping = by_id.pop("learning.autonomous-replay-stopping")
     assert replay_stopping["study_protocol_disposition"] == "DEFER"
