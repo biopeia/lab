@@ -799,7 +799,11 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert intentional_causal["study_protocol_disposition"] == "DEFER"
     assert intentional_causal["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#138" in intentional_causal["owner_basis"]
-    assert "Closure trigger:" in intentional_causal["TARGET_action"]
+    assert "current authorized research does not require this historical E5 four-arm question" in intentional_causal["owner_basis"]
+    assert "external-review closure gate" in intentional_causal["owner_basis"]
+    assert "applicability remains undecided" not in intentional_causal["source_evidence_basis"]
+    assert "Closure trigger:" not in intentional_causal["TARGET_action"]
+    assert "Reopen only if an authorized TARGET question requires it" in intentional_causal["TARGET_action"]
     assert "No run/result artifact" in intentional_causal["experiment_artifacts_and_digests"]
     assert "No claim of scientific validity" in intentional_causal["limitations_and_nonclaims"]
     for source_ref in (
@@ -814,6 +818,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         if row["protocol_id"] == "learning.agency-intentional-causal-advantage"
     )
     assert intentional_crosswalk["candidate_disposition"] == "DEFER"
+    assert "current authorized research does not require this exact E5 four-arm question" in intentional_crosswalk["basis"]
+    assert "Independent-review closure gate remains separate" in intentional_crosswalk["basis"]
     assert "Lab #138" in intentional_crosswalk["basis"]
 
     autonomous = by_id.pop("learning.autonomous-cultural-agency")
