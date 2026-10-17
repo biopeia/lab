@@ -178,3 +178,5 @@ For Lab #205, `perception.sensory-regime-reversal` is Owner-authorized `HISTORIC
 
 
 For Lab #206, `perception.temporal-scale-specialisation` is Owner-authorized `HISTORICAL_PROTOCOL` for preservation only. The archived JSON declares positive specialization gains for both temporal scales across seeds 101/127/149, but lacks sufficient execution provenance for independent reproduction and is not admitted. It does not establish biological specialization, learning, causality, generalization, reproducibility or TARGET applicability. No execution, port, threshold reuse or evidence admission is authorized.
+
+For Lab #140, `learning.autonomous-replay-stopping` remains a bounded `DEFER`: on 2026-10-16 the Lab Owner determined no current authorized TARGET question requires this exact arm or its legacy thresholds. The pinned protocol has no run/result artifact, and request-construction tests are not outcome evidence. Reopen only if an authorized TARGET question requires a new Biopeia-native method. This applicability decision does not satisfy the separate independent-review gate for closing #140; no experiment, port, threshold reuse or evidence admission is authorized.
