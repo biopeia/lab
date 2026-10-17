@@ -792,7 +792,12 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert intent_persistence["study_protocol_disposition"] == "DEFER"
     assert intent_persistence["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#137" in intent_persistence["owner_basis"]
-    assert "Closure trigger:" in intent_persistence["TARGET_action"]
+    assert "no current authorized TARGET question requires this method" in intent_persistence["source_evidence_basis"]
+    assert "no currently authorized TARGET question requires this method" in intent_persistence["owner_basis"]
+    assert "applicability remains undecided" not in intent_persistence["source_evidence_basis"]
+    assert "missing TARGET applicability decision" not in intent_persistence["owner_basis"]
+    assert "no current authorized TARGET question requires this method" in intent_persistence["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in intent_persistence["TARGET_action"]
     assert "No run/result artifact" in intent_persistence["experiment_artifacts_and_digests"]
     assert "No claim of scientific validity" in intent_persistence["limitations_and_nonclaims"]
     for source_ref in (
@@ -808,6 +813,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert intent_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #137" in intent_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this method" in intent_crosswalk["basis"]
+    assert "future authorized question" in intent_crosswalk["basis"]
+    assert "Closure trigger" not in intent_crosswalk["basis"]
 
     intentional_causal = by_id.pop("learning.agency-intentional-causal-advantage")
     assert intentional_causal["study_protocol_disposition"] == "DEFER"
