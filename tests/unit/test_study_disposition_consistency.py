@@ -714,7 +714,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert embodied_intervention["study_protocol_disposition"] == "DEFER"
     assert embodied_intervention["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#134" in embodied_intervention["owner_basis"]
-    assert "Closure trigger:" in embodied_intervention["TARGET_action"]
+    assert "No current authorized TARGET consumer/question requires this method" in embodied_intervention["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in embodied_intervention["TARGET_action"]
     assert "no run identifier or execution artifact" in embodied_intervention["real_run_identity"]
     assert "No claim of scientific validity" in embodied_intervention["limitations_and_nonclaims"]
     for source_ref in (
@@ -731,12 +732,16 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert embodied_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #134" in embodied_crosswalk["basis"]
+    assert "no currently authorized TARGET question requires" in embodied_crosswalk["basis"]
+    assert "future authorized TARGET question" in embodied_crosswalk["basis"]
+    assert "Closure trigger: Lab owner records TARGET need" not in embodied_crosswalk["basis"]
 
     executive_bridge = by_id.pop("learning.agency-executive-bridge-ablation")
     assert executive_bridge["study_protocol_disposition"] == "DEFER"
     assert executive_bridge["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#135" in executive_bridge["owner_basis"]
-    assert "Closure trigger:" in executive_bridge["TARGET_action"]
+    assert "No currently authorized TARGET question requires this exact method" in executive_bridge["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in executive_bridge["TARGET_action"]
     assert "No run/result artifact" in executive_bridge["experiment_artifacts_and_digests"]
     assert "No claim of scientific validity" in executive_bridge["limitations_and_nonclaims"]
     for source_ref in (
@@ -752,12 +757,18 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert executive_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #135" in executive_crosswalk["basis"]
+    assert "no currently authorized TARGET question requires this method" in executive_crosswalk["basis"]
+    assert "future authorized question" in executive_crosswalk["basis"]
+    assert "Owner-accepted PROTOCOL custody" in executive_crosswalk["basis"]
+    assert "Closure trigger" not in executive_crosswalk["basis"]
+    assert "README.md and experiment.toml remain PROTOCOL custody" in executive_bridge["custody_ledger_state"]
 
     high_dimensional = by_id.pop("learning.agency-high-dimensional-acquisition")
     assert high_dimensional["study_protocol_disposition"] == "DEFER"
     assert high_dimensional["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#136" in high_dimensional["owner_basis"]
-    assert "Closure trigger:" in high_dimensional["TARGET_action"]
+    assert "no currently authorized TARGET question requires this exact E8 method" in high_dimensional["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in high_dimensional["TARGET_action"]
     assert "38429ca2cbb17a4137ca378fc01136f3af1a00d3" in high_dimensional["real_run_identity"]
     assert "not treated as validated findings or admitted scientific evidence" in high_dimensional["limitations_and_nonclaims"]
     for source_ref in (
@@ -773,12 +784,20 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert high_dimensional_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #136" in high_dimensional_crosswalk["basis"]
+    assert "does not authorize this exact E8 replication" in high_dimensional_crosswalk["basis"]
+    assert "README custody remains separately DEFER" in high_dimensional_crosswalk["basis"]
+    assert "Closure trigger" not in high_dimensional_crosswalk["basis"]
 
     intent_persistence = by_id.pop("learning.agency-intent-persistence")
     assert intent_persistence["study_protocol_disposition"] == "DEFER"
     assert intent_persistence["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#137" in intent_persistence["owner_basis"]
-    assert "Closure trigger:" in intent_persistence["TARGET_action"]
+    assert "no current authorized TARGET question requires this method" in intent_persistence["source_evidence_basis"]
+    assert "no currently authorized TARGET question requires this method" in intent_persistence["owner_basis"]
+    assert "applicability remains undecided" not in intent_persistence["source_evidence_basis"]
+    assert "missing TARGET applicability decision" not in intent_persistence["owner_basis"]
+    assert "no current authorized TARGET question requires this method" in intent_persistence["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in intent_persistence["TARGET_action"]
     assert "No run/result artifact" in intent_persistence["experiment_artifacts_and_digests"]
     assert "No claim of scientific validity" in intent_persistence["limitations_and_nonclaims"]
     for source_ref in (
@@ -794,12 +813,20 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert intent_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #137" in intent_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this method" in intent_crosswalk["basis"]
+    assert "future authorized question" in intent_crosswalk["basis"]
+    assert "Closure trigger" not in intent_crosswalk["basis"]
 
     intentional_causal = by_id.pop("learning.agency-intentional-causal-advantage")
     assert intentional_causal["study_protocol_disposition"] == "DEFER"
     assert intentional_causal["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#138" in intentional_causal["owner_basis"]
-    assert "Closure trigger:" in intentional_causal["TARGET_action"]
+    assert "no current authorized TARGET question requires adopting this historical E5 method" in intentional_causal["owner_basis"]
+    assert "not a conclusion that the question is scientifically irrelevant" in intentional_causal["owner_basis"]
+    assert "external-review closure gate" in intentional_causal["owner_basis"]
+    assert "applicability remains undecided" not in intentional_causal["source_evidence_basis"]
+    assert "Closure trigger:" not in intentional_causal["TARGET_action"]
+    assert "Reopen only if an authorized TARGET question requires it" in intentional_causal["TARGET_action"]
     assert "No run/result artifact" in intentional_causal["experiment_artifacts_and_digests"]
     assert "No claim of scientific validity" in intentional_causal["limitations_and_nonclaims"]
     for source_ref in (
@@ -814,6 +841,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
         if row["protocol_id"] == "learning.agency-intentional-causal-advantage"
     )
     assert intentional_crosswalk["candidate_disposition"] == "DEFER"
+    assert "no current authorized TARGET question requires adopting this historical E5 method" in intentional_crosswalk["basis"]
+    assert "not a conclusion that the question is scientifically irrelevant" in intentional_crosswalk["basis"]
+    assert "Independent-review closure gate remains separate" in intentional_crosswalk["basis"]
     assert "Lab #138" in intentional_crosswalk["basis"]
 
     autonomous = by_id.pop("learning.autonomous-cultural-agency")
@@ -867,6 +897,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert binding_hist["study_protocol_disposition"] == "DEFER"
     assert binding_hist["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#141" in binding_hist["owner_basis"]
+    assert "no present authorized TARGET question requires this method" in binding_hist["owner_basis"]
+    assert "Report/custody provenance remains unresolved" in binding_hist["owner_basis"]
+    assert "Reopen only if an authorized TARGET question requires a new Biopeia-native method" in binding_hist["TARGET_action"]
     assert "0/79" in binding_hist["source_evidence_basis"]
     assert "not implemented" in binding_hist["source_evidence_basis"]
     assert "NOT_ADMITTED" in binding_hist["custody_ledger_state"]
@@ -882,6 +915,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert hist_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #141" in hist_crosswalk["basis"]
+    assert "no current authorized TARGET question requires this arm" in hist_crosswalk["basis"]
+    assert "provenance/custody remains unresolved" in hist_crosswalk["basis"]
+    assert "Owner TARGET applicability remains undecided" not in hist_crosswalk["basis"]
     grouped_binding = next(
         row for row in read_tsv("study-protocol-crosswalk-80d372a.tsv")
         if row["protocol_id"] == "learning.binding-degradation"
