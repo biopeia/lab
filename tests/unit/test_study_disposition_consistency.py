@@ -714,7 +714,8 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert embodied_intervention["study_protocol_disposition"] == "DEFER"
     assert embodied_intervention["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#134" in embodied_intervention["owner_basis"]
-    assert "Closure trigger:" in embodied_intervention["TARGET_action"]
+    assert "No current authorized TARGET consumer/question requires this method" in embodied_intervention["TARGET_action"]
+    assert "Reconsider only if a future authorized TARGET question" in embodied_intervention["TARGET_action"]
     assert "no run identifier or execution artifact" in embodied_intervention["real_run_identity"]
     assert "No claim of scientific validity" in embodied_intervention["limitations_and_nonclaims"]
     for source_ref in (
@@ -731,6 +732,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert embodied_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #134" in embodied_crosswalk["basis"]
+    assert "no currently authorized TARGET question requires" in embodied_crosswalk["basis"]
+    assert "future authorized TARGET question" in embodied_crosswalk["basis"]
+    assert "Closure trigger: Lab owner records TARGET need" not in embodied_crosswalk["basis"]
 
     executive_bridge = by_id.pop("learning.agency-executive-bridge-ablation")
     assert executive_bridge["study_protocol_disposition"] == "DEFER"
