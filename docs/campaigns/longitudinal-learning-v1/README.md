@@ -21,7 +21,7 @@ their own independent review before merge.
 | Item | Value |
 |---|---|
 | File | `docs/protocols/protocol-lab-longitudinal-learning-v1.md` (added by lab#561) |
-| Commit | `e91c5ba9e9d4526c4a6b251371f253d6dfc6686c`, the only commit of lab#561 |
+| Commit | `e91c5ba9e9d4526c4a6b251371f253d6dfc6686c`, the commit in lab#561 that adds the protocol |
 | SHA-256 | `e6b088a04ae3228d39da377438cfcb67d0de35891f6250f9a92db5e2250a14d2`, 9,495 bytes, byte-identical to the original file |
 | Original last written | 2026-10-16T23:22:45Z (01:22:45 +02:00) |
 
@@ -58,8 +58,10 @@ protocol file itself is not modified.
 May be stated (preserved data, this variant only):
 
 - the weight change under the scheduled update, and its absence without it;
-- the factors as executed did not interact: identical weights in G3 and G4,
-  identical competence statistics in G2 and G4;
+- in the recorded metrics of this single deterministic configuration, the
+  final weights are identical in G3 and G4 and the competence statistics are
+  identical in G2 and G4. This is an observation about these metrics in this
+  run, not a general conclusion about how the factors interact;
 - weight unchanged across the E2 extinction phase;
 - the summarised end state of G4 equal after an in-process restore at cut 10
   (see [dossier-rectification.md](dossier-rectification.md) for exactly what
