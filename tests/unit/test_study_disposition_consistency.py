@@ -732,6 +732,9 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     )
     assert embodied_crosswalk["candidate_disposition"] == "DEFER"
     assert "Lab #134" in embodied_crosswalk["basis"]
+    assert "no currently authorized TARGET question requires" in embodied_crosswalk["basis"]
+    assert "future authorized TARGET question" in embodied_crosswalk["basis"]
+    assert "Closure trigger: Lab owner records TARGET need" not in embodied_crosswalk["basis"]
 
     executive_bridge = by_id.pop("learning.agency-executive-bridge-ablation")
     assert executive_bridge["study_protocol_disposition"] == "DEFER"
