@@ -792,6 +792,10 @@ def test_resolved_study_implementations_and_tests_are_dropped() -> None:
     assert intent_persistence["study_protocol_disposition"] == "DEFER"
     assert intent_persistence["source_implementation_TARGET_disposition"] == "DEFER"
     assert "biopeia/lab#137" in intent_persistence["owner_basis"]
+    assert "no current authorized TARGET question requires this method" in intent_persistence["source_evidence_basis"]
+    assert "no currently authorized TARGET question requires this method" in intent_persistence["owner_basis"]
+    assert "applicability remains undecided" not in intent_persistence["source_evidence_basis"]
+    assert "missing TARGET applicability decision" not in intent_persistence["owner_basis"]
     assert "no current authorized TARGET question requires this method" in intent_persistence["TARGET_action"]
     assert "Reconsider only if a future authorized TARGET question" in intent_persistence["TARGET_action"]
     assert "No run/result artifact" in intent_persistence["experiment_artifacts_and_digests"]
