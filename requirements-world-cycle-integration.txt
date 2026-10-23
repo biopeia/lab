@@ -1,5 +1,5 @@
 pytest>=9.1.1
-mujoco==3.15.0
+mujoco==3.16.0
 organism @ git+https://github.com/biopeia/organism.git@0ddadac6d51ab39aeee909cb423a911b069b11dc
 embodiment @ git+https://github.com/biopeia/embodiment.git@56e9a34a6a778a298493dabca9d15b0912066803
 environment @ git+https://github.com/biopeia/environment.git@d1dc309636fc66471e755d1f691826ebf8c552fe
