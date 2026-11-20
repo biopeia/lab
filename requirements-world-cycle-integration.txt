@@ -1,4 +1,4 @@
-pytest>=9.1.1
+pytest>=9.2.0
 mujoco==3.15.0
 organism @ git+https://github.com/biopeia/organism.git@0ddadac6d51ab39aeee909cb423a911b069b11dc
 embodiment @ git+https://github.com/biopeia/embodiment.git@56e9a34a6a778a298493dabca9d15b0912066803
