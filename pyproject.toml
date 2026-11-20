@@ -11,9 +11,9 @@ requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=9.1.1"]
+dev = ["pytest>=9.2.0"]
 integration = [
-    "pytest>=9.1.1",
+    "pytest>=9.2.0",
     "pytest-cov>=7.1.0",
     "embodiment @ git+https://github.com/biopeia/embodiment.git@c456401e9517bbb1fec02d84cbac7e94fddf9d68 ; python_version >= '3.12'",
     "environment @ git+https://github.com/biopeia/environment.git@0ce1a4e3f4dd12529639f032929b8e09df4ce7d7 ; python_version >= '3.12'",
